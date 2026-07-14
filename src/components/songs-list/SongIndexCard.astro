@@ -1,0 +1,125 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file SongIndexCard.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Song presentation card.
+ */
+
+import { Icon } from 'astro-icon/components';
+
+import type { ISongsIndexEntry } from '#types/song';
+
+interface Props extends ISongsIndexEntry {
+  index: number;
+}
+
+const props = Astro.props;
+
+const typeToIcon: Record<string, string> = {
+  acoustic: 'game-icons:guitar-head',
+  electric: 'game-icons:guitar-bass-head',
+};
+---
+
+<div 
+  class="grid grid-cols-[27px_90px_1fr_auto] sm:grid-cols-[27px_100px_1fr_auto] items-center gap-1 p-1.5 sm:p-2 border border-solid cursor-pointer transition-colors duration-200 bg-black/15 border-neon-purple hover:bg-black/40"
+>
+  <!-- Song Number -->
+  <span class="font-bold text-center text-gold self-center">
+    {props.index}.
+  </span>
+
+  <!-- Song Cover Wrap -->
+  <div class="relative justify-self-center w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] rounded-[10px] overflow-hidden group">
+    <!-- Responsive Image Srcset -->
+    <img
+      src={`${import.meta.env.BASE_URL}songs/${props.directory}/cover-192x192.webp`}
+      srcset={`
+        ${import.meta.env.BASE_URL}songs/${props.directory}/cover-64x64.webp 64w,
+        ${import.meta.env.BASE_URL}songs/${props.directory}/cover-128x128.webp 128w,
+        ${import.meta.env.BASE_URL}songs/${props.directory}/cover-192x192.webp 192w
+      `}
+      sizes="(max-width: 640px) 60px, 70px"
+      loading="lazy"
+      alt={`${props.title} cover`}
+      class="w-full h-full object-cover rounded-[10px] border-3 border-solid border-magenta"
+    />
+
+    <!-- Hover Play Overlay -->
+    <div class="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      <div class="flex items-center justify-center w-[30px] h-[30px] rounded-full bg-purple-600">
+        <!-- Play Triangle -->
+        <span class="ml-[2px] w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-brand-gold"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Song Metadata Details -->
+  <div class="pt-1.5 min-w-0">
+    <!-- Title -->
+    <h1 class="text-base sm:text-lg font-bold leading-tight truncate mb-[3px] sm:mb-[5px] text-magenta">
+      {props.title}
+    </h1>
+
+    <!-- Artists list -->
+    <h2 class="text-sm sm:text-md italic font-bold leading-tight truncate mb-[3px] sm:mb-[5px] text-magenta">
+      {props.artists.join(', ')}
+    </h2>
+
+    <!-- Instrument Type Icons -->
+    <div class="flex gap-2 text-gold">
+      {props.type.map((instrument) => (
+        <div class="relative group/tooltip cursor-help">
+          <!-- Dynamic rendering of Game Icons -->
+          <Icon name={typeToIcon[instrument] || 'game-icons:guitar'} class="w-4 h-4" />
+          
+          <!-- Dynamic Native Hover Tooltip -->
+          <span class="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 px-2 py-1 text-xs rounded bg-gray-900 text-white opacity-0 pointer-events-none group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap z-30">
+            {instrument}
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Action Interactions (Favorite & Guitar Pick) -->
+  <div class="flex items-center gap-1 sm:gap-2 pr-1 sm:pr-2">
+    <!-- Favorite Toggle Button -->
+    <button 
+      class="z-10 p-1.5 transition-transform hover:scale-110 active:scale-95 text-gold" 
+      aria-label="Toggle Favorite"
+    >
+      <Icon name="material-symbols:favorite-outline" class="w-5 h-5" />
+    </button>
+
+    <!-- Guitar Pick / Popover Trigger -->
+    <div class="relative group/popover z-20">
+      <button 
+        class="p-1.5 transition-transform hover:scale-110 active:scale-95 text-gold" 
+        aria-label="View song chords"
+      >
+        <Icon name="tabler:guitar-pick-filled" class="w-5 h-5" />
+      </button>
+
+      <!-- Hover / Click CSS Popover -->
+      <div class="absolute right-0 bottom-full mb-2 hidden group-hover/popover:block w-48 p-3 rounded-md shadow-xl border border-solid border-brand-gold bg-[#181426] text-white">
+        <!-- Popover Arrow pointer -->
+        <div class="absolute top-full right-3 -mt-1.5 w-3 h-3 rotate-45 border-r border-b border-solid border-brand-gold bg-[#181426]"></div>
+        
+        <div class="flex gap-1.5 flex-wrap">
+          {props.chordIDs.map((chordId) => (
+            <span class="text-xs px-2 py-1 border border-solid border-magenta bg-[#181426] text-gold rounded font-mono">
+              {chordId}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

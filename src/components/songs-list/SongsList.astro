@@ -1,0 +1,44 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file SongList.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description List all available songs.
+ */
+
+import SongIndexCard from '#components/songs-list/SongIndexCard.astro';
+
+import type { ISongsIndexEntry } from '#types/song';
+import songsIndexData from '#public/songs/index.json';
+const songsIndex = (songsIndexData as { index: ISongsIndexEntry[] }).index;
+---
+
+<!-- TODO: move songs-list-container to a layout -->
+<div id='songs-list-container' class='bg-deep-charcoal flex justify-center'>
+  <div id='songs-list' class='w-xl bg-deep-purple rounded-xl pl-3 pr-3 pt-5'>
+    {
+      songsIndex.map((song, index) => (
+        <SongIndexCard
+          index={index + 1}
+          title={song.title}
+          artists={song.artists}
+          directory={song.directory}
+          type={song.type}
+          chordIDs={song.chordIDs}
+        />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  div#songs-list-container {
+    width: 100dvw;
+    min-height: 100dvh;
+  }
+</style>

@@ -1,0 +1,22 @@
+/*
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file MainLayout.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description App layout. 
+*/
+
+@import 'tailwindcss';
+
+@theme {
+  --color-deep-charcoal: #1a1a1a;
+  --color-deep-purple: #181426;
+  --color-neon-purple: #6b46c0;
+  --color-gold: #e1b55c;
+  --color-magenta: #947ff9;
+  --color-hover-black: rgba(0, 0, 0, 0.4);
+}

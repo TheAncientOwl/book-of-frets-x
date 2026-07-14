@@ -1,0 +1,22 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file index.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description App entry point.
+ */
+
+import '#styles/global.css';
+
+import SongsList from '../components/songs-list/SongsList.astro';
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout>
+  <SongsList />
+</MainLayout>
