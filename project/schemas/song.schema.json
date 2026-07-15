@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Song Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "default": "2.0.0"
+    },
+    "contributors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "title": {
+      "type": "string"
+    },
+    "artists": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "type": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["acoustic", "electric"]
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "capo": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "chordIDs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "strumms": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["D", "U", "-", "Dx", "Ux", "X", "De", "Ue", "|"]
+        },
+        "minItems": 1
+      }
+    },
+    "sections": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "times": { "type": "number", "default": 1, "minimum": 1 },
+          "entries": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "renderer": { "type": "string", "enum": ["chords-v1"] },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "times": { "type": "number", "default": 1 },
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "pattern": "^[0-9]+(?: [A-Za-z0-9#/()_+-|]+ [0-9]+)+$"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": ["renderer", "data"]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "renderer": { "type": "string", "enum": ["chords-v2"] },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "oneOf": [
+                          {
+                            "pattern": "^x\\d+(?: [A-Za-z0-9#/()_+-|!]+ [0-9]+)+$"
+                          },
+                          {
+                            "pattern": "^>\\s*(?:\\d+\\s*)+$"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["renderer", "data"]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "renderer": { "type": "string", "enum": ["chords-v3"] },
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "times": {
+                          "type": "number",
+                          "default": 1
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "oneOf": [
+                                {
+                                  "pattern": "^x\\d+(?: [A-Za-z0-9#/()_+-|!]+ [0-9]+)+$"
+                                },
+                                {
+                                  "pattern": "^>\\s*(?:\\d+\\s*)+$"
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "required": ["times", "items"]
+                    }
+                  },
+                  "required": ["renderer", "data"]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "renderer": { "type": "string", "enum": ["gtab-v1"] },
+                    "data": { "type": "string" }
+                  },
+                  "required": ["renderer", "data"]
+                }
+              ]
+            }
+          }
+        },
+        "required": ["name", "times", "entries"]
+      }
+    },
+    "order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "lyrics": {
+      "type": "boolean",
+      "default": false
+    },
+    "res": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "alias": {
+            "type": "string",
+            "pattern": ".+"
+          },
+          "author": {
+            "type": "string",
+            "pattern": ".+"
+          },
+          "link": {
+            "type": "string",
+            "anyOf": [{ "format": "uri" }, { "pattern": "^\\{book-of-frets-x\\}#/.*" }]
+          }
+        },
+        "required": ["alias", "author", "link"]
+      }
+    }
+  },
+  "required": [
+    "version",
+    "contributors",
+    "title",
+    "artists",
+    "type",
+    "notes",
+    "capo",
+    "chordIDs",
+    "strumms",
+    "sections",
+    "order",
+    "lyrics",
+    "res"
+  ]
+}

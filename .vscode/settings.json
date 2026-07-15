@@ -1,4 +1,31 @@
 {
+  "json.schemas": [
+    {
+      "fileMatch": ["public/songs/*/config.json"],
+      "url": "./project/schemas/song.schema.json"
+    },
+    {
+      "fileMatch": ["public/songs/*/lyrics.json"],
+      "url": "./project/schemas/lyrics.schema.json"
+    },
+    {
+      "fileMatch": ["public/songs/index.json"],
+      "url": "./project/schemas/songs-index.schema.json"
+    },
+    {
+      "fileMatch": ["public/chords/index.json"],
+      "url": "./project/schemas/chords-index.schema.json"
+    },
+    {
+      "fileMatch": ["public/themes/index.json"],
+      "url": "./project/schemas/themes-index.schema.json"
+    },
+    {
+      "fileMatch": ["public/themes/*/*.json", "src/store/theme/default.json"],
+      "url": "./project/schemas/theme.schema.json"
+    }
+  ],
+
   "files.associations": {
     "*.css": "tailwindcss"
   }
