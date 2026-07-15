@@ -7,7 +7,7 @@
  *
  * @file SongIndexCard.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description Song presentation card.
  */
 
@@ -28,7 +28,8 @@ const typeToIcon: Record<string, string> = {
 };
 ---
 
-<div 
+<div
+    id={props.directory}
     data-song-card
     data-title={props.title.toLowerCase()}
     data-artists={props.artists.map(artist=>artist.toLowerCase())}
@@ -102,10 +103,16 @@ const typeToIcon: Record<string, string> = {
   <div class="flex items-center gap-1 sm:gap-2 pr-1 sm:pr-2">
     <!-- Favorite Toggle Button -->
     <button 
-      class="z-10 p-1.5 transition-transform hover:scale-110 active:scale-95 text-gold" 
-      aria-label="Toggle Favorite"
+        data-favorite-btn
+        class="z-10 p-1.5 transition-transform hover:scale-110 active:scale-95 text-gold cursor-pointer" 
+        aria-label="Toggle Favorite"
     >
-      <Icon name="material-symbols:favorite-outline" class="w-5 h-5" />
+      <span class="favorite-empty">
+        <Icon name="material-symbols:favorite-outline" class="w-5 h-5" />
+      </span>
+      <span class="favorite-filled hidden">
+        <Icon name="material-symbols:favorite" class="w-5 h-5" />
+      </span>
     </button>
 
     <!-- Guitar Pick / Popover Trigger -->

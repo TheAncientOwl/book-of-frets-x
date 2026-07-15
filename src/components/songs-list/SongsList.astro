@@ -7,7 +7,7 @@
  *
  * @file SongList.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description List all available songs.
  */
 
@@ -37,6 +37,7 @@ const AboveTheFoldCount = 12;
 <script>
   const songCards = document.querySelectorAll('[data-song-card]');
 
+  // <Handle-Search>
   document.addEventListener('search-change', (event: any) => {
     const query = event.detail.query.trim().toLowerCase();
 
@@ -52,4 +53,77 @@ const AboveTheFoldCount = 12;
       }
     });
   });
+  // </Handle-Search>
+
+  // <Handle-Favorites-On-Page-Load>
+  const STORAGE_KEY = 'book-of-frets-favorites';
+
+  const getStoredFavorites = (): Record<string, boolean> => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored) : {};
+    } catch {
+      return {};
+    }
+  };
+
+  const saveStoredFavorites = (favorites: Record<string, boolean>) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
+  };
+
+  const favorites = getStoredFavorites();
+
+  songCards.forEach(card => {
+    const htmlCard = card as HTMLElement;
+    const songId = htmlCard.id;
+
+    if (favorites[songId]) {
+      htmlCard.setAttribute('data-favorited', 'true');
+
+      const emptyIcon = htmlCard.querySelector('.favorite-empty');
+      const filledIcon = htmlCard.querySelector('.favorite-filled');
+      emptyIcon?.classList.add('hidden');
+      filledIcon?.classList.remove('hidden');
+    }
+  });
+  // </Handle-Favorites-On-Page-Load>
+
+  // <Handle-Favorites-Toggle>
+  const favoriteButtons = document.querySelectorAll('[data-favorite-btn]');
+
+  favoriteButtons.forEach(btn => {
+    btn.addEventListener('click', event => {
+      event.stopPropagation();
+
+      const buttonElement = btn as HTMLButtonElement;
+      const card = buttonElement.closest('[data-song-card]') as HTMLElement;
+      if (!card) return;
+
+      const songId = card.id;
+      const isFavorited = card.getAttribute('data-favorited') === 'true';
+      const nextState = !isFavorited;
+
+      card.setAttribute('data-favorited', String(nextState));
+
+      const emptyIcon = buttonElement.querySelector('.favorite-empty');
+      const filledIcon = buttonElement.querySelector('.favorite-filled');
+
+      if (nextState) {
+        emptyIcon?.classList.add('hidden');
+        filledIcon?.classList.remove('hidden');
+      } else {
+        emptyIcon?.classList.remove('hidden');
+        filledIcon?.classList.add('hidden');
+      }
+
+      const currentFavorites = getStoredFavorites();
+      if (nextState) {
+        currentFavorites[songId] = true;
+      } else {
+        delete currentFavorites[songId];
+      }
+      saveStoredFavorites(currentFavorites);
+    });
+  });
+  // </Handle-Favorites-Toggle>
 </script>
