@@ -7,16 +7,37 @@
  *
  * @file index.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description App entry point.
  */
 
 import '#styles/global.css';
 
-import SongsList from '../components/songs-list/SongsList.astro';
-import IndexLayout from '../layouts/IndexLayout.astro';
+import SongsList from '#components/songs-list/SongsList.astro';
+import SongsListLayout from '#layouts/SongsListLayout.astro';
+import SearchBar from '#components/common/SearchBar.astro';
 ---
 
-<IndexLayout>
-  <SongsList />
-</IndexLayout>
+<SongsListLayout>
+  <div
+    id='songs-list-container'
+    class='bg-deep-charcoal w-dvw h-dvh overflow-hidden flex justify-center items-center'
+  >
+    <div
+      class='w-xl h-[100dvh]
+        max-sm:w-dvw
+        rounded-xl max-sm:rounded-none
+        flex flex-col gap-4 justify-center items-center
+        bg-deep-purple
+        p-[1em] max-sm:pt-[1em] max-sm:px-0 max-sm:pb-[0.2em]'
+    >
+      <div class='w-90 flex-none'>
+        <SearchBar placeholder='Search song / artist / type...' />
+      </div>
+
+      <div class='flex-1 w-full overflow-y-auto min-h-0 pr-1'>
+        <SongsList />
+      </div>
+    </div>
+  </div>
+</SongsListLayout>

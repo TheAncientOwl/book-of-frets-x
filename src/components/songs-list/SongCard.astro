@@ -7,7 +7,7 @@
  *
  * @file SongIndexCard.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Song presentation card.
  */
 
@@ -29,7 +29,15 @@ const typeToIcon: Record<string, string> = {
 ---
 
 <div 
-  class="grid grid-cols-[27px_90px_1fr_auto] sm:grid-cols-[27px_100px_1fr_auto] items-center gap-1 p-1.5 sm:p-2 border border-solid cursor-pointer transition-colors duration-200 bg-black/15 border-neon-purple hover:bg-black/40"
+    data-song-card
+    data-title={props.title.toLowerCase()}
+    data-artists={props.artists.map(artist=>artist.toLowerCase())}
+    data-types={props.type.map(type=>type.toLocaleLowerCase())}
+    class="grid grid-cols-[27px_90px_1fr_auto] sm:grid-cols-[27px_100px_1fr_auto] items-center gap-1 
+        p-1.5 sm:p-2 border border-solid
+        w-full
+        cursor-pointer transition-colors duration-200
+        bg-black/15 border-neon-purple hover:bg-black/40"
 >
   <!-- Song Number -->
   <span class="font-bold text-center text-gold self-center">
@@ -70,7 +78,7 @@ const typeToIcon: Record<string, string> = {
     </h1>
 
     <!-- Artists list -->
-    <h2 class="text-sm sm:text-md italic font-bold leading-tight truncate mb-[3px] sm:mb-[5px] text-magenta">
+    <h2 class="text-md sm:text-md italic leading-tight truncate mb-[3px] sm:mb-[5px] text-magenta">
       {props.artists.join(', ')}
     </h2>
 

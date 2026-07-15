@@ -7,7 +7,7 @@
  *
  * @file SongList.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description List all available songs.
  */
 
@@ -20,28 +20,36 @@ const songsIndex = (songsIndexData as { index: ISongsIndexEntry[] }).index;
 const AboveTheFoldCount = 12;
 ---
 
-<!-- TODO: move songs-list-container to a layout -->
-<div id='songs-list-container' class='bg-deep-charcoal flex justify-center'>
-  <div id='songs-list' class='w-xl bg-deep-purple rounded-xl pl-3 pr-3 pt-5'>
-    {
-      songsIndex.map((song, index) => (
-        <SongCard
-          index={index + 1}
-          preload={index + 1 <= AboveTheFoldCount}
-          title={song.title}
-          artists={song.artists}
-          directory={song.directory}
-          type={song.type}
-          chordIDs={song.chordIDs}
-        />
-      ))
-    }
-  </div>
-</div>
+{
+  songsIndex.map((song, index) => (
+    <SongCard
+      index={index + 1}
+      preload={index + 1 <= AboveTheFoldCount}
+      title={song.title}
+      artists={song.artists}
+      directory={song.directory}
+      type={song.type}
+      chordIDs={song.chordIDs}
+    />
+  ))
+}
 
-<style>
-  div#songs-list-container {
-    width: 100dvw;
-    min-height: 100dvh;
-  }
-</style>
+<script>
+  const songCards = document.querySelectorAll('[data-song-card]');
+
+  document.addEventListener('search-change', (event: any) => {
+    const query = event.detail.query.trim().toLowerCase();
+
+    songCards.forEach(card => {
+      const htmlCard = card as HTMLElement;
+      const title = htmlCard.dataset.title || '';
+      const artists = htmlCard.dataset.artists || '';
+
+      if (!query || title.includes(query) || artists.includes(query)) {
+        htmlCard.style.display = '';
+      } else {
+        htmlCard.style.display = 'none';
+      }
+    });
+  });
+</script>
