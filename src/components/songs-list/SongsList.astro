@@ -7,7 +7,7 @@
  *
  * @file SongList.astro
  * @author Alexandru Delegeanu
- * @version 1.3
+ * @version 1.4
  * @description List all available songs.
  */
 
@@ -45,8 +45,9 @@ const AboveTheFoldCount = 12;
       const htmlCard = card as HTMLElement;
       const title = htmlCard.dataset.title || '';
       const artists = htmlCard.dataset.artists || '';
+      const types = htmlCard.dataset.types || '';
 
-      if (!query || title.includes(query) || artists.includes(query)) {
+      if (!query || title.includes(query) || artists.includes(query) || types.includes(query)) {
         htmlCard.style.display = '';
       } else {
         htmlCard.style.display = 'none';
