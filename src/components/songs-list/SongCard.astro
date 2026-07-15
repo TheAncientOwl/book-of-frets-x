@@ -7,7 +7,7 @@
  *
  * @file SongIndexCard.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Song presentation card.
  */
 
@@ -17,6 +17,7 @@ import type { ISongsIndexEntry } from '#types/song';
 
 interface Props extends ISongsIndexEntry {
   index: number;
+  preload: boolean;
 }
 
 const props = Astro.props;
@@ -46,7 +47,8 @@ const typeToIcon: Record<string, string> = {
         ${import.meta.env.BASE_URL}songs/${props.directory}/cover-192x192.webp 192w
       `}
       sizes="(max-width: 640px) 60px, 70px"
-      loading="lazy"
+      fetchpriority={props.preload ? 'high':'auto'}
+      loading={props.preload?'eager':'lazy'}
       alt={`${props.title} cover`}
       class="w-full h-full object-cover rounded-[10px] border-3 border-solid border-magenta"
     />
