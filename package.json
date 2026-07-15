@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "astro build && npx gh-pages -d dist --dotfiles --nojekyll"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@iconify-json/game-icons": "^1.2.4",
     "@iconify-json/material-symbols": "^1.2.84",
-    "@iconify-json/tabler": "^1.2.35"
+    "@iconify-json/tabler": "^1.2.35",
+    "gh-pages": "^6.3.0"
   }
 }
