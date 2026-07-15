@@ -1,0 +1,25 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file Song.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Song renderer
+ */
+
+import type { TSong } from '#types/song';
+
+interface Props extends TSong {
+  directory: string;
+}
+
+const props = Astro.props;
+---
+
+<div class='bg-deep-charcoal text-magenta'>
+  {JSON.stringify(props)}
+</div>

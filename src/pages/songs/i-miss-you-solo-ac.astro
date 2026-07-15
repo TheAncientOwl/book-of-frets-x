@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file i-miss-you-solo-ac.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description I Miss You (Solo Acoustic) song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/i-miss-you-solo-ac/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='i-miss-you-solo-ac'>
+  <Song directory='i-miss-you-solo-ac' {...config} />
+</SongLayout>

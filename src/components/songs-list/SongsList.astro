@@ -7,15 +7,15 @@
  *
  * @file SongList.astro
  * @author Alexandru Delegeanu
- * @version 1.4
+ * @version 1.5
  * @description List all available songs.
  */
 
 import SongCard from '#components/songs-list/SongCard.astro';
 
-import type { ISongsIndexEntry } from '#types/song';
+import type { TSongsIndexEntry } from '#types/song';
 import songsIndexData from '#public/songs/index.json';
-const songsIndex = (songsIndexData as { index: ISongsIndexEntry[] }).index;
+const songsIndex = (songsIndexData as { index: TSongsIndexEntry[] }).index;
 
 const AboveTheFoldCount = 12;
 ---

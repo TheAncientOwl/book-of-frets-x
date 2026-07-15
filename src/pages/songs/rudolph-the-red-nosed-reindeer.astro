@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file rudolph-the-red-nosed-reindeer.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Rudolph The Red Nosed Reindeer song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/rudolph-the-red-nosed-reindeer/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='rudolph-the-red-nosed-reindeer'>
+  <Song directory='rudolph-the-red-nosed-reindeer' {...config} />
+</SongLayout>

@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file seven-nation-army-1string.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Seven Nation Army | 1 String song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/seven-nation-army-1string/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='seven-nation-army-1string'>
+  <Song directory='seven-nation-army-1string' {...config} />
+</SongLayout>

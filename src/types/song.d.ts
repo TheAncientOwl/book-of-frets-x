@@ -10,11 +10,77 @@
  * @description Song types for json mapping.
  */
 
-export interface ISongsIndexEntry {
+export type TStrummingMove = '-' | 'D' | 'U' | 'Dx' | 'Ux' | 'X' | 'De' | 'Dx';
+
+export type TStrummingPattern = TStrummingMove[];
+
+export type TAlignType = 'center' | 'flex-start' | 'flex-end';
+
+export type TStrummingChordsItem = string[][];
+
+export type TChordsV1SectionEntry = {
+  times: number;
+  items: TStrummingChordsItem[];
+};
+export type TChordsV1SectionData = TChordsV1SectionEntry[];
+
+export type TGTabV1SectionData = string;
+
+export type TChordsV2SectionEntry = string[];
+export type TChordsV2SectionData = TChordsV2SectionEntry;
+
+export type TChordsV3SectionEntry = {
+  times: number;
+  items: TChordsV2SectionData[];
+};
+export type TChordsV3SectionData = TChordsV3SectionEntry;
+
+export type TSongSectionEntryRendererType = 'chords-v1' | 'chords-v2' | 'chords-v3' | 'gtab-v1';
+export type TSongSectionEntryData =
+  | TChordsV1SectionData
+  | TGTabV1SectionData
+  | TChordsV2SectionData
+  | TChordsV3SectionData;
+
+export type TSongSectionEntry = {
+  renderer: TSongSectionEntryRendererType;
+  data: TSongSectionEntryData;
+};
+
+export type TSongSection = {
+  name: string;
+  times: number;
+  entries: TSongSectionEntry[];
+};
+
+export type TResource = {
+  alias: string;
+  author: string;
+  link: string;
+};
+
+export type TSong = {
+  title: string;
+  artists: string[];
+  capo: number;
+  chordIDs: string[];
+  strumms: TStrummingPattern[];
+  sections: Record<string, TSongSection>;
+  order: string[];
+  lyrics: boolean;
+  res: TResource[];
+  type: string[];
+  contributors: string[];
+  notes: string[];
+};
+
+export type TSongSectionLyrics = string[];
+
+export type TSongsIndexEntry = {
   title: string;
   artists: string[];
   directory: string;
   chordIDs: string[];
   type: string[];
   index?: number;
-}
+};

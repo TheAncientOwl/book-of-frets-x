@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file wake-me-up.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Wake Me Up song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/wake-me-up/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='wake-me-up'>
+  <Song directory='wake-me-up' {...config} />
+</SongLayout>

@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file birds-of-a-feather-easy.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Birds Of A Feather (Easy) song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/birds-of-a-feather-easy/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='birds-of-a-feather-easy'>
+  <Song directory='birds-of-a-feather-easy' {...config} />
+</SongLayout>

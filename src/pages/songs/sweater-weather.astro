@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file sweater-weather.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Sweater Weather song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/sweater-weather/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='sweater-weather'>
+  <Song directory='sweater-weather' {...config} />
+</SongLayout>

@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file the-times-they-are-a-changin.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description The Times They Are A Changin' song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/the-times-they-are-a-changin/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='the-times-they-are-a-changin'>
+  <Song directory='the-times-they-are-a-changin' {...config} />
+</SongLayout>

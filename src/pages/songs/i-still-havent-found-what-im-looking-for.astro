@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file i-still-havent-found-what-im-looking-for.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description I Still Haven't Found What I'm Looking For (Strummed) song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/i-still-havent-found-what-im-looking-for/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='i-still-havent-found-what-im-looking-for'>
+  <Song directory='i-still-havent-found-what-im-looking-for' {...config} />
+</SongLayout>

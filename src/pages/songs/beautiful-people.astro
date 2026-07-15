@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file beautiful-people.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Beautiful People song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/beautiful-people/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='beautiful-people'>
+  <Song directory='beautiful-people' {...config} />
+</SongLayout>

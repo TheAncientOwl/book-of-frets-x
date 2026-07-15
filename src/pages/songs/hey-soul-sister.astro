@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file hey-soul-sister.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Hey, Soul Sister song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/hey-soul-sister/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='hey-soul-sister'>
+  <Song directory='hey-soul-sister' {...config} />
+</SongLayout>
