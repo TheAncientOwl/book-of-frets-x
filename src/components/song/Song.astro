@@ -7,7 +7,7 @@
  *
  * @file Song.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Song renderer
  */
 
@@ -20,6 +20,6 @@ interface Props extends TSong {
 const props = Astro.props;
 ---
 
-<div class='bg-deep-charcoal text-magenta'>
+<div class='bg-deep-charcoal text-magenta w-dvw h-dvh'>
   {JSON.stringify(props)}
 </div>

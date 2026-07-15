@@ -7,7 +7,7 @@
  *
  * @file SongIndexCard.astro
  * @author Alexandru Delegeanu
- * @version 1.4
+ * @version 1.5
  * @description Song presentation card.
  */
 
@@ -27,7 +27,7 @@ const typeToIcon: Record<string, string> = {
   electric: 'game-icons:guitar-bass-head',
 };
 
-const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}.html`;
+const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`;
 ---
 
 <a
