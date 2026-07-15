@@ -7,7 +7,7 @@
  *
  * @file SongList.astro
  * @author Alexandru Delegeanu
- * @version 1.5
+ * @version 1.6
  * @description List all available songs.
  */
 
@@ -94,6 +94,7 @@ const AboveTheFoldCount = 12;
 
   favoriteButtons.forEach(btn => {
     btn.addEventListener('click', event => {
+      event.preventDefault();
       event.stopPropagation();
 
       const buttonElement = btn as HTMLButtonElement;
