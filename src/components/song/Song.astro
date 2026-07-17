@@ -13,6 +13,12 @@
 
 import type { TSong } from '#types/song';
 
+import SongHeader from './Header.astro';
+// import SongNotes from './Notes.astro';
+// import SongChordsList from './ChordsList.astro';
+// import SongSections from './Sections/SongSections.astro';
+// import SongResources from './SongResources.astro';
+
 interface Props extends TSong {
   directory: string;
 }
@@ -20,6 +26,49 @@ interface Props extends TSong {
 const props = Astro.props;
 ---
 
-<div class='bg-deep-charcoal text-magenta w-dvw h-dvh'>
-  {JSON.stringify(props)}
+<div
+  class='w-full h-full overflow-y-auto bg-deep-charcoal p-2 md:p-4
+            flex flex-col justify-center items-center'
+>
+  <div class='rounded-xl bg-deep-purple p-4 min-h-dvh w-full max-w-5xl'>
+    <SongHeader
+      directory={props.directory}
+      title={props.title}
+      artists={props.artists}
+      capo={props.capo}
+      type={props.type}
+      contributors={props.contributors}
+      lyrics={props.lyrics}
+      lyricsShown={false}
+      res={props.res}
+    />
+
+    <!--
+    <SongNotes
+      notes={props.notes}
+    />
+    -->
+
+    <!--
+    <SongChordsList
+      chordIDs={props.chordIDs}
+    />
+    -->
+
+    <!--
+    <SongSections
+      sections={props.sections}
+      order={props.order}
+      strumms={props.strumms}
+      showLyrics={false}
+      lyrics={[]}
+    />
+    -->
+  </div>
+
+  <!--
+  <SongResources
+    res={props.res}
+  />
+  -->
 </div>

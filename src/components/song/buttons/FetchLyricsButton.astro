@@ -1,0 +1,94 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                     *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file FetchLyricsButton.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Fetch song lyrics button.
+ */
+
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  available: boolean;
+  lyricsShown: boolean;
+  id?: string;
+}
+
+const { available, lyricsShown, id = 'header-lyrics-btn' } = Astro.props;
+---
+
+<!-- Tooltip Wrapper -->
+<div class='relative group/lyrics-btn inline-block'>
+  <!-- The Native Button Element -->
+  <button
+    id={id}
+    disabled={!available}
+    class={`flex gap-[3px] items-center justify-center w-8 h-8 rounded-md border border-solid transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 hover:bg-black
+      ${lyricsShown ? 'border-magenta text-magenta' : 'border-gold text-gold'}`}
+    aria-label='show-lyrics-button'
+    data-available={available ? 'true' : 'false'}
+    data-shown={lyricsShown ? 'true' : 'false'}
+  >
+    <!-- MDLyrics Fallback: Utilizing a matching Material Symbols Icon -->
+    <Icon
+      id='lyrics-btn-icon'
+      name='material-symbols:lyrics-outline'
+      class={`w-[18px] h-[18px] transition-colors duration-200 
+        ${lyricsShown ? 'text-magenta' : 'text-gold'}`}
+    />
+  </button>
+
+  <!-- Clean Tailwind CSS Hover Tooltip Canvas -->
+  <div
+    class='absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2.5 py-1.5 text-xs rounded-lg border border-solid bg-[#181426] border-gold text-gold opacity-0 pointer-events-none group-hover/lyrics-btn:opacity-100 transition-opacity whitespace-nowrap z-40 text-center shadow-xl'
+  >
+    {
+      available ? (
+        <span id='lyrics-tooltip-text'>{lyricsShown ? 'Hide Lyrics' : 'Show Lyrics'}</span>
+      ) : (
+        <div>
+          Lyrics not available for this song... :( <br />
+          <span class='text-magenta font-semibold'>Feel free to contribute :D</span>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<script>
+  // Handle client-side interactivity and live attribute updates if matching button elements exist
+  const lyricsBtn = document.getElementById('header-lyrics-btn') as HTMLButtonElement | null;
+  const icon = document.getElementById('lyrics-btn-icon');
+  const tooltipText = document.getElementById('lyrics-tooltip-text');
+
+  if (lyricsBtn && lyricsBtn.getAttribute('data-available') === 'true') {
+    // Listen for state shifts dispatched through global context window
+    window.addEventListener('toggle-lyrics', () => {
+      const isCurrentlyShown = lyricsBtn.getAttribute('data-shown') === 'true';
+      const nextState = !isCurrentlyShown;
+
+      // Mutate local dataset state attributes
+      lyricsBtn.setAttribute('data-shown', nextState ? 'true' : 'false');
+
+      // Swap explicit styling configurations dynamically
+      if (nextState) {
+        lyricsBtn.classList.remove('border-gold', 'text-gold');
+        lyricsBtn.classList.add('border-magenta', 'text-magenta');
+        icon?.classList.remove('text-gold');
+        icon?.classList.add('text-magenta');
+        if (tooltipText) tooltipText.textContent = 'Hide Lyrics';
+      } else {
+        lyricsBtn.classList.remove('border-magenta', 'text-magenta');
+        lyricsBtn.classList.add('border-gold', 'text-gold');
+        icon?.classList.remove('text-magenta');
+        icon?.classList.add('text-gold');
+        if (tooltipText) tooltipText.textContent = 'Show Lyrics';
+      }
+    });
+  }
+</script>

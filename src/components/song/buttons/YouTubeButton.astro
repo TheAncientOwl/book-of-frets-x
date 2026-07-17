@@ -1,0 +1,41 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                     *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file YoutubeButton.astro
+ * @author Alexandru Delegeanu
+ * @version 1.4
+ * @description Open YouTube link button with wrap-safe downward alignment.
+ */
+
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  tooltipText: string;
+  link: string;
+}
+
+const { tooltipText, link } = Astro.props;
+---
+
+<div class='relative group/yt-btn inline-block'>
+  <a
+    href={link}
+    target='_blank'
+    rel='noopener noreferrer'
+    class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-gold text-gold transition-colors duration-200 hover:bg-black'
+    aria-label='open-youtube-button'
+  >
+    <Icon name='fa6-brands:youtube' class='w-[16px] h-[16px] text-gold' />
+  </a>
+
+  <!-- Safe wrapping container: pinned to the right edge, expanding left with a set max-width -->
+  <div
+    class='absolute right-0 top-full mt-2 w-max max-w-[240px] px-2.5 py-1.5 text-xs rounded-lg border border-solid border-gold bg-[#181426] text-gold opacity-0 pointer-events-none group-hover/yt-btn:opacity-100 transition-opacity whitespace-normal z-40 shadow-xl text-center leading-relaxed'
+  >
+    {tooltipText}
+  </div>
+</div>

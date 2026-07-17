@@ -1,0 +1,53 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                     *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file OpenPDFButton.astro
+ * @author Alexandru Delegeanu
+ * @version 1.4
+ * @description Open PDF link button with safe downward left-aligned tooltip.
+ */
+
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  directory: string;
+}
+
+const { directory } = Astro.props;
+---
+
+<div class='relative group/pdf-btn inline-block'>
+  <button
+    id='open-pdf-btn'
+    data-directory={directory}
+    class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-gold text-gold transition-colors duration-200 cursor-pointer hover:bg-black'
+    aria-label='open-pdf-button'
+  >
+    <Icon name='fa6-solid:file-pdf' class='w-[16px] h-[16px] text-gold' />
+  </button>
+
+  <!-- Projecting downwards and expanding rightward toward the center layout track -->
+  <div
+    class='absolute left-0 top-full mt-2 px-2.5 py-1.5 text-xs rounded-lg border border-solid border-gold bg-[#181426] text-gold opacity-0 pointer-events-none group-hover/pdf-btn:opacity-100 transition-opacity whitespace-nowrap z-40 shadow-xl text-center'
+  >
+    Open PDF
+  </div>
+</div>
+
+<script>
+  const pdfBtn = document.getElementById('open-pdf-btn');
+
+  pdfBtn?.addEventListener('click', () => {
+    const directory = pdfBtn.getAttribute('data-directory');
+    if (!directory) return;
+
+    const themeId = (window as any).__BOOK_OF_FRETS_THEME_ID__ || 'dark';
+    const baseUrl = import.meta.env.BASE_URL;
+
+    window.open(`${baseUrl}songs/${directory}/pdf/${directory}.${themeId}.pdf`, '_blank');
+  });
+</script>

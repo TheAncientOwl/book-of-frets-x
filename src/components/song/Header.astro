@@ -1,0 +1,236 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file Header.astro
+ * @author Alexandru Delegeanu
+ * @version 1.1
+ * @description Song Header component with tight hover scopes and global toast listeners.
+ */
+
+import { Icon } from 'astro-icon/components';
+import OpenPDFButton from '#components/song/buttons/OpenPDFButton.astro';
+import FetchLyricsButton from '#components/song/buttons/FetchLyricsButton.astro';
+import YouTubeButton from '#components/song/buttons/YouTubeButton.astro';
+
+interface Resource {
+  alias: string;
+  author: string;
+  link: string;
+}
+
+interface Props {
+  title: string;
+  artists: string[];
+  capo: number;
+  type: string[];
+  contributors: string[];
+  lyrics: boolean;
+  res: Resource[];
+  directory: string;
+  lyricsShown: boolean;
+}
+
+const props = Astro.props;
+
+const typeToIcon: Record<string, string> = {
+  acoustic: 'game-icons:guitar-head',
+  electric: 'game-icons:guitar-bass-head',
+};
+---
+
+<!-- Global notification toast layer -->
+<div
+  id='global-toast-container'
+  class='fixed top-4 left-1/2 -translate-x-1/2 z-[200] flex flex-col gap-2 w-full max-w-sm px-4 pointer-events-none'
+>
+</div>
+
+<div class='flex flex-col items-center mb-2.5 w-full'>
+  <!-- Core Layout Interactive Wrapper -->
+  <div class='relative w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] mb-1.5 mt-4'>
+    <!-- Interactive Album Cover Box (Hover target isolated here) -->
+    <div class='relative w-full h-full group/header'>
+      <!-- Album Art Cover Frame -->
+      <div
+        class='w-full h-full rounded-[10px] bg-black/20 overflow-hidden border-2 border-solid border-neon-purple'
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}songs/${props.directory}/cover-1192x192.webp`}
+          srcset={`
+            ${import.meta.env.BASE_URL}songs/${props.directory}/cover-64x64.webp 64w,
+            ${import.meta.env.BASE_URL}songs/${props.directory}/cover-128x128.webp 128w,
+            ${import.meta.env.BASE_URL}songs/${props.directory}/cover-192x192.webp 192w
+          `}
+          sizes='(max-width: 640px) 70px, 80px'
+          alt={`${props.title} cover`}
+          class='w-full h-full object-cover transition-opacity duration-350 opacity-0'
+          onload="this.classList.remove('opacity-0')"
+        />
+      </div>
+
+      <!-- Click to Share Hover Overlay (Bound to image box only) -->
+      <button
+        id='share-song-btn'
+        class='absolute inset-0 rounded-[10px] bg-black/80 opacity-0 group-hover/header:opacity-100 transition-opacity duration-200 flex items-center justify-center cursor-pointer border border-solid border-neon-purple/50'
+        aria-label='Share Song Link'
+      >
+        <Icon name='lucide:share-2' class='w-[22px] h-[22px] text-gold' />
+      </button>
+    </div>
+
+    <!-- Capo Floating Circle Badge -->
+    <div
+      class='absolute right-0 top-0 z-10 translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[30px] h-[30px] rounded-full border border-solid border-neon-purple bg-[#181426] text-gold font-bold text-xs p-1'
+    >
+      <span class='text-xs leading-none'>C</span>
+      <span class='text-[10px] leading-none'>{props.capo}</span>
+    </div>
+
+    <!-- Right Flank Toolbar Tags (Instrument Types & Contributors Tooltips) -->
+    <div class='absolute -right-5 bottom-0 flex flex-col items-center gap-1 text-gold'>
+      {
+        props.type.map(instrument => (
+          <div class='relative group/tooltip cursor-help'>
+            <Icon name={typeToIcon[instrument] || 'game-icons:guitar'} class='w-4 h-4 text-gold' />
+            <span class='absolute left-1/2 -translate-x-1/2 bottom-full mb-1 px-2 py-1 text-xs rounded border border-solid border-neon-purple bg-[#181426] text-gold opacity-0 pointer-events-none group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap z-30'>
+              {instrument}
+            </span>
+          </div>
+        ))
+      }
+
+      <!-- Contributors Tooltip Tag -->
+      <div class='relative group/contrib-tooltip cursor-help'>
+        <Icon name='ph:finn-the-human-duotone' class='w-4 h-4 text-gold' />
+        <div
+          class='absolute left-1/2 -translate-x-1/2 bottom-full mb-1 p-2 text-xs rounded border border-solid border-magenta bg-[#181426] text-white opacity-0 pointer-events-none group-hover/contrib-tooltip:opacity-100 transition-opacity whitespace-nowrap z-30 flex items-center gap-1.5'
+        >
+          <Icon name='ph:finn-the-human-duotone' class='w-4 h-4 text-magenta' />
+          <strong class='text-magenta'>Contributors:</strong>
+          <span
+            >{
+              props.contributors.length === 0 ? 'No Contributors' : props.contributors.join(', ')
+            }</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Left Buttons Controls Wing -->
+    <div
+      class='flex flex-col items-center gap-2.5 absolute top-0 left-[7em] sm:left-[8em] h-full justify-center'
+    >
+      <OpenPDFButton directory={props.directory} />
+      <FetchLyricsButton
+        available={props.lyrics}
+        lyricsShown={props.lyricsShown}
+        id='header-lyrics-btn'
+      />
+    </div>
+
+    <!-- Right Buttons Controls Wing (YouTube References Link Maps) -->
+    <div
+      class='flex flex-col items-center gap-2.5 absolute top-0 right-[7em] sm:right-[8em] h-full justify-center'
+    >
+      {
+        props.res.map(resource => (
+          <YouTubeButton
+            link={resource.link}
+            tooltipText={`Open in Youtube ⇒ ${resource.alias} by ${resource.author}`}
+          />
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Meta Header Titles Text Blocks -->
+  <h1 class='text-xl sm:text-md font-bold text-center mt-2 mb-1.5 text-gold truncate max-w-[90vw]'>
+    {props.title}
+  </h1>
+  <h2
+    class='text-xs sm:text-sm font-medium italic text-center mb-1 text-gold/90 truncate max-w-[90vw]'
+  >
+    {props.artists.join(', ')}
+  </h2>
+</div>
+
+<script>
+  // --- Share Sheet Actions Handler ---
+  const shareBtn = document.getElementById('share-song-btn');
+
+  shareBtn?.addEventListener('click', async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(url);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = url;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+
+      window.dispatchEvent(
+        new CustomEvent('toast-notify', {
+          detail: { title: 'Link copied to clipboard', type: 'success' },
+        }),
+      );
+    } catch {
+      window.dispatchEvent(
+        new CustomEvent('toast-notify', {
+          detail: { title: 'Failed to copy link', type: 'error' },
+        }),
+      );
+    }
+  });
+
+  // --- Toggle Lyrics State Communication ---
+  const lyricsBtn = document.getElementById('header-lyrics-btn');
+  lyricsBtn?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('toggle-lyrics'));
+  });
+
+  // --- Global Toast Notification Listener UI Orchestration ---
+  const container = document.getElementById('global-toast-container');
+
+  window.addEventListener('toast-notify', ((
+    e: CustomEvent<{ title: string; type: 'success' | 'error' }>,
+  ) => {
+    if (!container) return;
+
+    const { title, type } = e.detail;
+    const toast = document.createElement('div');
+
+    toast.className = `flex items-center gap-2.5 p-3.5 rounded-lg border border-solid shadow-xl pointer-events-auto transition-all duration-300 transform translate-y-[-20px] opacity-0 text-sm font-medium
+      ${type === 'success' ? 'bg-[#181426] border-magenta text-gold' : 'bg-[#261414] border-red-500 text-red-200'}`;
+
+    toast.innerHTML = `
+      <span class="flex items-center justify-center w-5 h-5 ${type === 'success' ? 'text-magenta' : 'text-red-500'}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="${type === 'success' ? 'm9 12 2 2 4-4' : 'm15 9-6 6M9 9l6 6'}"/></svg>
+      </span>
+      <span class="flex-1">${title}</span>
+    `;
+
+    container.appendChild(toast);
+
+    requestAnimationFrame(() => {
+      toast.classList.remove('translate-y-[-20px]', 'opacity-0');
+    });
+
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'scale-95');
+      toast.addEventListener('transitionend', () => {
+        toast.remove();
+      });
+    }, 2500);
+  }) as EventListener);
+</script>

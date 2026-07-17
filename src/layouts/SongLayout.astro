@@ -16,6 +16,7 @@ interface Props {
 }
 
 const props = Astro.props;
+import AppMenu from '#components/common/AppMenu.astro';
 ---
 
 <!doctype html>
@@ -67,6 +68,7 @@ const props = Astro.props;
     <title>𝐁𝐨𝐨𝐤 𝐎𝐟 𝐅𝐫𝐞𝐭𝐬</title>
   </head>
   <body>
+    <AppMenu />
     <slot />
   </body>
 </html>
