@@ -7,7 +7,7 @@
  *
  * @file Song.astro
  * @author Alexandru Delegeanu
- * @version 1.4
+ * @version 1.5
  * @description Song renderer - Fixed layout overflow constraints
  */
 
@@ -27,7 +27,7 @@ const props = Astro.props;
 ---
 
 <div
-  class='w-full h-full overflow-y-auto bg-deep-charcoal p-2 md:p-4 flex flex-col items-center justify-start'
+  class='w-full min-h-dvh overflow-y-auto bg-deep-charcoal p-2 md:p-4 flex flex-col items-center justify-start'
 >
   <div
     class='rounded-xl bg-deep-purple p-4 min-h-dvh w-full max-w-5xl flex flex-col justify-between gap-6'
