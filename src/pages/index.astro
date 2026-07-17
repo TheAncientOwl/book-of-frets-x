@@ -16,9 +16,11 @@ import '#styles/global.css';
 import SongsList from '#components/songs-list/SongsList.astro';
 import SongsListLayout from '#layouts/SongsListLayout.astro';
 import SearchBar from '#components/common/SearchBar.astro';
+import AppMenu from '#components/common/AppMenu.astro';
 ---
 
 <SongsListLayout>
+  <AppMenu />
   <div
     id='songs-list-container'
     class='bg-deep-charcoal w-dvw h-dvh overflow-hidden flex justify-center items-center'
