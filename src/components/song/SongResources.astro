@@ -1,0 +1,101 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFrets 2026                      *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file SongResources.astro
+ * @author Alexandru Delegeanu
+ * @version 1.1
+ * @description Lazy-loaded song resources using client-side Intersection Observer.
+ */
+
+import SongResource from './SongResource.astro';
+import type { TSong } from '#types/song';
+
+interface Props {
+  res: TSong['res'];
+}
+
+const { res } = Astro.props;
+---
+
+<!-- Added data-resources attribute so our script block can target this instance safely -->
+<div class='mt-4 p-[1em_1.25em]' data-resources>
+  <!-- Section Heading with MdLibraryMusic Icons -->
+  <h1
+    class='text-xl font-bold mb-4 text-center flex items-center justify-center gap-[0.25em] text-gold'
+  >
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='w-6 h-6'>
+      <path
+        d='M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 5h-3v5.5c0 1.38-1.12 2.5-2.5 2.5S10 13.88 10 12.5s1.12-2.5 2.5-2.5c.57 0 1.08.19 1.5.51V5h4v2zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6z'
+      ></path>
+    </svg>
+    Resources
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='w-6 h-6'>
+      <path
+        d='M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 5h-3v5.5c0 1.38-1.12 2.5-2.5 2.5S10 13.88 10 12.5s1.12-2.5 2.5-2.5c.57 0 1.08.19 1.5.51V5h4v2zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6z'
+      ></path>
+    </svg>
+  </h1>
+
+  {res.length === 0 && <p class='text-center text-gold/60 italic'>Nothing here yet</p>}
+
+  {
+    res.length > 0 && (
+      /* 
+      We leave the list elements intact, but the iframes nested inside 
+      SongResource won't render src buffers until the parent class updates.
+    */
+      <ul class='flex flex-col gap-4 invisible-resources opacity-0 transition-opacity duration-500'>
+        {res.map((resource, index) => (
+          <>
+            <SongResource {...resource} />
+            {index < res.length - 1 && (
+              <li class='list-none'>
+                <hr class='my-4 border-t border-solid border-gold/10' />
+              </li>
+            )}
+          </>
+        ))}
+      </ul>
+    )
+  }
+</div>
+
+<script>
+  // Astro runs this block purely inside the browser client bundle
+  function initObserver() {
+    const containers = document.querySelectorAll('[data-resources]');
+
+    const observer = new IntersectionObserver(
+      (entries, self) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const list = entry.target.querySelector('ul');
+            if (list) {
+              // Fade in the layout smoothly
+              list.classList.remove('opacity-0');
+              list.classList.add('opacity-100');
+
+              // Find any inner lazy templates or videos to boot if needed
+              // (Our SongResource.astro uses native onload bindings, so they mount safely)
+            }
+            // Stop watching this specific container once handled
+            self.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: '300px', // Exact structural layout threshold match from your original React settings
+      },
+    );
+
+    containers.forEach(container => observer.observe(container));
+  }
+
+  // Handle SPA lifecycle changes or standard fresh entries cleanly
+  initObserver();
+  document.addEventListener('astro:after-swap', initObserver);
+</script>

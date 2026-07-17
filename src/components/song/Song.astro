@@ -7,8 +7,8 @@
  *
  * @file Song.astro
  * @author Alexandru Delegeanu
- * @version 1.3
- * @description Song renderer
+ * @version 1.4
+ * @description Song renderer - Fixed layout overflow constraints
  */
 
 import type { TSong } from '#types/song';
@@ -17,7 +17,7 @@ import SongHeader from '#components/song/Header.astro';
 import SongNotes from './Notes.astro';
 import SongChordsList from '#components/song/ChordsLists.astro';
 // import SongSections from './Sections/SongSections.astro';
-// import SongResources from './SongResources.astro';
+import SongResources from './SongResources.astro';
 
 interface Props extends TSong {
   directory: string;
@@ -27,41 +27,42 @@ const props = Astro.props;
 ---
 
 <div
-  class='w-full h-full overflow-y-auto bg-deep-charcoal p-2 md:p-4
-            flex flex-col justify-center items-center'
+  class='w-full h-full overflow-y-auto bg-deep-charcoal p-2 md:p-4 flex flex-col items-center justify-start'
 >
-  <div class='rounded-xl bg-deep-purple p-4 min-h-dvh w-full max-w-5xl'>
-    <SongHeader
-      directory={props.directory}
-      title={props.title}
-      artists={props.artists}
-      capo={props.capo}
-      type={props.type}
-      contributors={props.contributors}
-      lyrics={props.lyrics}
-      lyricsShown={false}
-      res={props.res}
-    />
+  <div
+    class='rounded-xl bg-deep-purple p-4 min-h-dvh w-full max-w-5xl flex flex-col justify-between gap-6'
+  >
+    <div>
+      <SongHeader
+        directory={props.directory}
+        title={props.title}
+        artists={props.artists}
+        capo={props.capo}
+        type={props.type}
+        contributors={props.contributors}
+        lyrics={props.lyrics}
+        lyricsShown={false}
+        res={props.res}
+      />
 
-    <div class='rounded-xl overflow-hidden bg-black/20 p-3'>
-      <SongNotes notes={props.notes} />
-
-      <SongChordsList chordIDs={props.chordIDs} />
-      <!--
-        <SongSections
-        sections={props.sections}
-        order={props.order}
-        strumms={props.strumms}
-        showLyrics={false}
-        lyrics={[]}
-        />
+      <div class='rounded-xl overflow-hidden bg-black/20 p-3 mt-4'>
+        <SongNotes notes={props.notes} />
+        <SongChordsList chordIDs={props.chordIDs} />
+        <!--
+          <SongSections
+            sections={props.sections}
+            order={props.order}
+            strumms={props.strumms}
+            showLyrics={false}
+            lyrics={[]}
+          />
         -->
+      </div>
+    </div>
+
+    <!-- Moved safely inside the main card container boundary -->
+    <div class='mt-auto pt-6 border-t border-solid border-white/5'>
+      <SongResources res={props.res} />
     </div>
   </div>
-
-  <!--
-  <SongResources
-    res={props.res}
-  />
-  -->
 </div>

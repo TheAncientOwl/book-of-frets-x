@@ -1,0 +1,88 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFrets 2026                      *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file SongResource.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Display song resource data.
+ */
+
+import type { TResource } from '#types/song';
+
+interface Props extends TResource {}
+
+const props = Astro.props;
+
+const getYouTubeVideoId = (url: string): string | null => {
+  try {
+    const parsedUrl = new URL(url);
+    if (
+      parsedUrl.hostname === 'www.youtube.com' ||
+      parsedUrl.hostname === 'youtube.com' ||
+      parsedUrl.hostname === 'm.youtube.com'
+    ) {
+      if (parsedUrl.pathname.startsWith('/shorts/')) {
+        return parsedUrl.pathname.split('/')[2];
+      }
+      return parsedUrl.searchParams.get('v');
+    }
+    if (parsedUrl.hostname === 'youtu.be') {
+      return parsedUrl.pathname.slice(1);
+    }
+    return null;
+  } catch {
+    return null;
+  }
+};
+
+const videoId = getYouTubeVideoId(props.link);
+const resolvedLink = props.link.replaceAll('{book-of-frets}', import.meta.env.BASE_URL);
+---
+
+<li class="list-none">
+  <div class="flex flex-col items-center text-center">
+    <!-- IoMdMusicalNote Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="w-5 h-5 text-gold">
+      <path d="M470.3 23c-11.5-5.6-25-3.2-34 5.9L242.7 222.5c-4.4 4.4-6.7 10.4-6.7 16.5V360.7c-13.9-9.5-32.1-15-52-15-46.4 0-84 28.7-84 64s37.6 64 84 64 84-28.7 84-64V273.4l184-184V180c0 13.3 10.7 24 24 24s24-10.7 24-24V48c0-10.6-5.6-20.4-14.7-25.1z" />
+    </svg>
+
+    <!-- Link -->
+    <a
+      href={resolvedLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="text-xs sm:text-sm text-gold hover:underline mt-1"
+    >
+      {props.alias}
+    </a>
+
+    <!-- Author block -->
+    {props.author !== '-' && (
+      <p class="italic text-center text-[13px] sm:text-sm text-gold/70 mt-0.5">
+        by {props.author}
+      </p>
+    )}
+
+    <!-- YouTube Responsive Embed Container -->
+    {videoId && (
+      <div class="w-full max-w-[400px] my-2 overflow-hidden rounded-[10px] bg-[#181426] border border-solid border-gold/10">
+        <div class="relative w-full aspect-video">
+          <!-- The native CSS-only approach replaces the hydration overhead of runtime skeleton state flags -->
+          <div class="absolute inset-0 animate-pulse bg-gold/5" id={`skeleton-${videoId}`}></div>
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+            title={props.alias}
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            onload={`document.getElementById('skeleton-${videoId}').remove()`}
+            class="absolute top-0 left-0 w-full h-full border-none z-10"
+          />
+        </div>
+      </div>
+    )}
+  </div>
+</li>
