@@ -7,7 +7,7 @@
  *
  * @file Header.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Song Header component with tight hover scopes and global toast listeners.
  */
 
@@ -151,9 +151,7 @@ const typeToIcon: Record<string, string> = {
   <h1 class='text-xl sm:text-md font-bold text-center mt-2 mb-1.5 text-gold truncate max-w-[90vw]'>
     {props.title}
   </h1>
-  <h2
-    class='text-xs sm:text-sm font-medium italic text-center mb-1 text-gold/90 truncate max-w-[90vw]'
-  >
+  <h2 class='text-l font-medium italic text-center mb-1 text-gold/90 truncate max-w-[90vw]'>
     {props.artists.join(', ')}
   </h2>
 </div>
