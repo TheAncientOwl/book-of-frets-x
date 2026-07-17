@@ -1,0 +1,140 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFrets 2026                      *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file Fret.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Render fret row based on given config.
+ */
+
+import { Icon } from 'astro-icon/components';
+import type { TGuitarString } from '#types/common';
+
+export const GuitarStrings: TGuitarString[] = ['E', 'A', 'D', 'G', 'B', 'e'] as const;
+const GuitarStringsWidths: string[] = ['3.3px', '3px', '2.8px', '2.3px', '1.8px', '1.5px'] as const;
+const THUMB_STRING_ID = 7;
+const MUTED_STRING_ID = -1;
+const DISTANCE_BETWEEN_CHORDS = 20;
+
+export type TIsOpenFret = [boolean, boolean, boolean, boolean, boolean, boolean];
+
+export type TBarreChordLine = {
+  begin: number;
+  span: number;
+  finger: number;
+};
+
+type TStringsToFingersMap = Map<TGuitarString, number>;
+
+const getBarreChordLine = (stringsToFingers: TStringsToFingersMap): TBarreChordLine | undefined => {
+  const barre: TBarreChordLine = { begin: -1, span: -1, finger: -1 };
+  let lastIdx = -1;
+
+  for (let stringIdx = 0; stringIdx < GuitarStrings.length; stringIdx++) {
+    const stringName = GuitarStrings[stringIdx];
+    const fingerId = stringsToFingers.get(stringName);
+
+    if (fingerId !== undefined && fingerId !== MUTED_STRING_ID) {
+      if (barre.begin === -1) {
+        barre.begin = stringIdx;
+        barre.finger = fingerId;
+        barre.span = 1;
+        lastIdx = stringIdx;
+      } else if (barre.finger === fingerId && lastIdx === stringIdx - 1) {
+        barre.span += 1;
+        lastIdx = stringIdx;
+      } else {
+        return undefined; // Cleanly returns undefined on broken barres
+      }
+    }
+  }
+
+  return barre.span > 1 ? barre : undefined;
+};
+
+type Props = {
+  stringsToFingers: TStringsToFingersMap;
+  isOpenFret?: TIsOpenFret;
+  showFinger?: boolean; // Managed via component props or Astro.locals from layout state
+};
+
+const { stringsToFingers, isOpenFret, showFinger = true } = Astro.props;
+
+const circleColorClass = showFinger ? 'bg-[#181426]' : 'bg-transparent';
+const barre = getBarreChordLine(stringsToFingers);
+---
+
+<div class='flex flex-row h-[5em] relative bg-black/40 w-full'>
+  <!-- Barre Chord Line Frame Indicator Overlay -->
+  {
+    barre && (
+      <div
+        class={`absolute top-1/2 font-bold h-[1.5em] -translate-y-1/2 z-10 rounded-full text-center flex items-center justify-center border border-solid border-neon-purple text-gold ${circleColorClass}`}
+        style={{
+          left: `${barre.begin * DISTANCE_BETWEEN_CHORDS - 7}%`,
+          width: `${barre.span * DISTANCE_BETWEEN_CHORDS * 0.95}%`,
+        }}
+      >
+        {barre.finger}
+      </div>
+    )
+  }
+
+  <!-- Render Strings Grid Track Container -->
+  {
+    GuitarStrings.map((string, stringIdx) => {
+      const finger = stringsToFingers.get(string);
+
+      const hasFinger = finger !== undefined && finger !== MUTED_STRING_ID;
+      const muted = finger === MUTED_STRING_ID;
+      const isOpen = isOpenFret && isOpenFret[stringIdx];
+
+      const leftPercent = stringIdx * DISTANCE_BETWEEN_CHORDS;
+
+      return (
+        <>
+          {/* Muted String Indicator Circle */}
+          {muted && (
+            <div
+              class='w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-red-500/50 bg-[#261414] text-red-400 absolute -top-[45%] -translate-x-1/2 p-[0.75em] z-[1] flex items-center justify-center'
+              style={{ left: `${leftPercent}%` }}
+            >
+              x
+            </div>
+          )}
+
+          {/* Open String Open Circle Marker */}
+          {isOpen && (
+            <div
+              class='w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-neon-purple text-gold absolute -top-[45%] -translate-x-1/2 p-[0.75em] z-[1] bg-transparent'
+              style={{ left: `${leftPercent}%` }}
+            />
+          )}
+
+          {/* Vertical Guitar String Line Segment */}
+          <div
+            class='h-full border-s border-solid border-gold/60'
+            style={{ borderLeftWidth: GuitarStringsWidths[stringIdx] }}
+          />
+
+          {/* Flexible Spacer Distribution */}
+          {stringIdx < GuitarStrings.length - 1 && <div class='flex-grow' />}
+
+          {/* Standard Note Finger Node Indicator */}
+          {!barre && hasFinger && (
+            <div
+              class={`w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-neon-purple text-gold absolute top-1/2 -translate-x-1/2 -translate-y-1/2 p-[0.75em] z-[100] flex items-center justify-center ${circleColorClass}`}
+              style={{ left: `${leftPercent}%` }}
+            >
+              {showFinger && <span>{finger === THUMB_STRING_ID ? 'T' : finger}</span>}
+            </div>
+          )}
+        </>
+      );
+    })
+  }
+</div>

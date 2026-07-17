@@ -1,0 +1,74 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFrets 2026                      *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file SongChordsList.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Song chords list component.
+ */
+
+import Chord from '#components/common/Chord.astro';
+
+interface Props {
+  chordIDs: string[];
+}
+
+const { chordIDs } = Astro.props;
+
+const shouldRender = chordIDs.length > 0 && !(chordIDs.length === 1 && chordIDs[0] === '-');
+
+import type { TChord } from '#types/chord';
+import chordsIndexData from '#public/chords/index.json';
+const chordsIndex = chordsIndexData.index as Record<string, any>;
+---
+
+{shouldRender && (
+  <details open class="group border-t border-solid border-gold w-full">
+    <!-- Accordion Button / Header -->
+    <summary class="flex justify-center items-center relative pt-2 pb-2 list-none cursor-pointer select-none bg-black/20">
+      <h3 class="text-center font-bold text-lg w-full text-gold">
+        Chords
+      </h3>
+      
+      <!-- Accordion Icon (Rotates when details element is open) -->
+      <span class="absolute right-[10px] text-gold transition-transform duration-200 group-open:rotate-180">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </span>
+    </summary>
+
+    <!-- Accordion Panel / Content -->
+    <div class="p-4 pt-0">
+      <ul class="flex gap-[0.5em] overflow-x-auto p-[1.1em_0em] sm:p-[1.1em_1em] scrollbar-thin">
+        {
+          chordIDs.map((chordID) => {
+            const config = chordsIndex[chordID];
+            if (!config) {
+              console.error(`Missing chord config for ID ${chordID}`);
+              return null;
+            }
+
+            return (
+              <li>
+                {/* Responsive font scaling replacement for containerProps array scale */}
+                <Chord {...config} class="text-[7px] sm:text-[8px]" />
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </details>
+)}
+
+<style>
+  /* Hide native summary marker arrow across browsers */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

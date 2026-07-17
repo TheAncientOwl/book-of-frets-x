@@ -7,15 +7,15 @@
  *
  * @file Song.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Song renderer
  */
 
 import type { TSong } from '#types/song';
 
-import SongHeader from './Header.astro';
+import SongHeader from '#components/song/Header.astro';
 // import SongNotes from './Notes.astro';
-// import SongChordsList from './ChordsList.astro';
+import SongChordsList from '#components/song/ChordsLists.astro';
 // import SongSections from './Sections/SongSections.astro';
 // import SongResources from './SongResources.astro';
 
@@ -44,26 +44,22 @@ const props = Astro.props;
     />
 
     <!--
-    <SongNotes
-      notes={props.notes}
-    />
-    -->
-
-    <!--
-    <SongChordsList
-      chordIDs={props.chordIDs}
-    />
-    -->
-
-    <!--
-    <SongSections
-      sections={props.sections}
-      order={props.order}
-      strumms={props.strumms}
-      showLyrics={false}
-      lyrics={[]}
-    />
-    -->
+        <SongNotes
+        notes={props.notes}
+        />
+        -->
+    <div class='rounded-xl overflow-hidden bg-black/20 p-3'>
+      <SongChordsList chordIDs={props.chordIDs} />
+      <!--
+        <SongSections
+        sections={props.sections}
+        order={props.order}
+        strumms={props.strumms}
+        showLyrics={false}
+        lyrics={[]}
+        />
+        -->
+    </div>
   </div>
 
   <!--

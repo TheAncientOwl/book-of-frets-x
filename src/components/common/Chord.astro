@@ -1,0 +1,87 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFrets 2026                      *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file Chord.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Render chord block based on given config.
+ */
+
+import Fret from './Fret.astro';
+import type { TIsOpenFret } from './Fret.astro';
+import type { TChord, TFret } from '#types/chord';
+import type { TGuitarString } from '#types/common';
+
+interface Props extends TChord {
+  class?: string;
+}
+
+const props = Astro.props;
+const className = props.class || '';
+
+const GuitarStrings: TGuitarString[] = ['E', 'A', 'D', 'G', 'B', 'e'] as const;
+
+const computeOpenFrets = (frets: TFret[]): TIsOpenFret => {
+  const out = [true, true, true, true, true, true] as TIsOpenFret;
+
+  GuitarStrings.forEach((stringName, stringIdx) => {
+    for (const fret of frets) {
+      if (fret[stringName] !== undefined) {
+        out[stringIdx] = false;
+        break;
+      }
+    }
+  });
+
+  return out;
+};
+
+// Explicit type casting handles the strict Map constructor iterable requirements cleanly
+const computedFretsData = props.frets.map(fret => {
+  return new Map<TGuitarString, number>(
+    Object.entries(fret).map(([key, value]) => [key as TGuitarString, value as number]),
+  );
+});
+---
+
+<div
+  class={`w-[13em] p-[1em] rounded-[1em] text-[12px] border border-solid flex flex-col items-center relative bg-medium-purple border-gold ${className}`}
+>
+  <!-- Heading / Title Layout -->
+  <div
+    class='relative flex justify-center items-center gap-[5px] text-[2.3em] font-bold text-center mb-1.5 text-gold flex-row'
+  >
+    <h2 class='text-magenta font-bold text-lg'>{props.name}</h2>
+
+    {
+      props.startFret && (
+        <div class='absolute top-0 right-0 translate-x-full text-sm w-4 h-4 text-[0.45em] font-bold border border-solid rounded-full flex items-center justify-center bg-[#181426] border-neon-purple text-gold'>
+          {props.startFret}
+        </div>
+      )
+    }
+  </div>
+
+  <!-- Frets Block Grid Container -->
+  <div class='w-[11em] mt-[1.5em]'>
+    <hr class='border-t border-solid border-gold/60' />
+
+    {
+      computedFretsData.map((stringToFingersMap, idx) => {
+        return (
+          <>
+            <Fret
+              stringsToFingers={stringToFingersMap}
+              isOpenFret={idx !== 0 ? undefined : computeOpenFrets(props.frets)}
+            />
+            {idx < props.frets.length && <hr class='border-t border-solid border-gold/60' />}
+          </>
+        );
+      })
+    }
+  </div>
+</div>

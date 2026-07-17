@@ -6,7 +6,7 @@
  *
  * @file MainLayout.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description App layout. 
 */
 
@@ -15,6 +15,7 @@
 @theme {
   --color-deep-charcoal: #1a1a1a;
   --color-deep-purple: #181426;
+  --color-medium-purple: #20213b;
   --color-neon-purple: #6b46c0;
   --color-gold: #e1b55c;
   --color-magenta: #947ff9;
