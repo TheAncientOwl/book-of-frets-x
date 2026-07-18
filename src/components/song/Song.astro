@@ -7,8 +7,8 @@
  *
  * @file Song.astro
  * @author Alexandru Delegeanu
- * @version 1.5
- * @description Song renderer - Fixed layout overflow constraints
+ * @version 1.6
+ * @description Song renderer.
  */
 
 import type { TSong } from '#types/song';
@@ -31,6 +31,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
 ---
 
 <div
+  id='song-viewport-container'
   class='w-full min-h-dvh overflow-y-auto bg-deep-charcoal p-2 md:p-4 flex flex-col items-center justify-start'
 >
   <div
@@ -71,9 +72,51 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
       </div>
     </div>
 
-    <!-- Moved safely inside the main card container boundary -->
-    <div class='mt-auto pt-6 border-t border-solid border-white/5'>
-      <SongResources res={props.res} />
+    <div
+      id='lazy-resources-wrapper'
+      class='mt-auto pt-6 border-t border-solid border-white/5 min-h-[200px]'
+    >
+      <template id='song-resources-template'>
+        <SongResources res={props.res} />
+      </template>
     </div>
   </div>
 </div>
+
+<script>
+  function setupLazyResources() {
+    const rootContainer = document.getElementById('song-viewport-container');
+    const wrapper = document.getElementById('lazy-resources-wrapper');
+    const template = document.getElementById(
+      'song-resources-template',
+    ) as HTMLTemplateElement | null;
+
+    if (!rootContainer || !wrapper || !template) return;
+
+    const observerOptions = {
+      root: rootContainer,
+      rootMargin: '300px 0px', // Start streaming the iframe packages slightly before reaching bottom
+      threshold: 0.01,
+    };
+
+    const observer = new IntersectionObserver((entries, self) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Clone and insert the real SongResources component DOM node tree
+          const clone = template.content.cloneNode(true);
+          wrapper.appendChild(clone);
+          template.remove();
+
+          // Disconnect completely since we only need to load the scripts once
+          self.disconnect();
+        }
+      });
+    }, observerOptions);
+
+    observer.observe(wrapper);
+  }
+
+  // Bind execution parameters cleanly across classic navigations and transitions
+  setupLazyResources();
+  document.addEventListener('astro:after-swap', setupLazyResources);
+</script>
