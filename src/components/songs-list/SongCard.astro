@@ -7,7 +7,7 @@
  *
  * @file SongIndexCard.astro
  * @author Alexandru Delegeanu
- * @version 1.5
+ * @version 1.6
  * @description Song presentation card.
  */
 
@@ -37,7 +37,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
     data-title={props.title.toLowerCase()}
     data-artists={props.artists.map(artist=>artist.toLowerCase())}
     data-types={props.type.map(type=>type.toLocaleLowerCase())}
-    class="grid grid-cols-[27px_90px_1fr_auto] sm:grid-cols-[27px_100px_1fr_auto] items-center gap-1 
+    class="grid grid-cols-[27px_90px_1fr_auto] sm:grid-cols-[27px_100px_1fr_auto] items-center sm:gap-1 
         p-1.5 sm:p-2 border border-solid
         w-full
         cursor-pointer transition-colors duration-200
@@ -77,12 +77,12 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
   <!-- Song Metadata Details -->
   <div class="pt-1.5 min-w-0">
     <!-- Title -->
-    <h1 class="text-base sm:text-lg font-bold leading-tight truncate mb-[3px] sm:mb-[5px] text-magenta">
+    <h1 class="text-base text-[0.9em] md:text-lg font-bold leading-tight truncate mb-[3px] md:mb-[5px] text-magenta">
       {props.title}
     </h1>
 
     <!-- Artists list -->
-    <h2 class="text-md sm:text-md italic leading-tight truncate mb-[3px] sm:mb-[5px] text-magenta">
+    <h2 class="text-[0.85em] sm:text-[1em] italic leading-tight truncate mb-[3px] sm:mb-[5px] text-magenta">
       {props.artists.join(', ')}
     </h2>
 
@@ -91,7 +91,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
       {props.type.map((instrument) => (
         <div class="relative group/tooltip cursor-help">
           <!-- Dynamic rendering of Game Icons -->
-          <Icon name={typeToIcon[instrument] || 'game-icons:guitar'} class="w-4 h-4" />
+          <Icon name={typeToIcon[instrument] || 'game-icons:guitar'} class="w-3 h-3 sm:w-4 sm:h-4" />
           
           <!-- Dynamic Native Hover Tooltip -->
           <span class="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 px-2 py-1 text-xs rounded bg-gray-900 text-white opacity-0 pointer-events-none group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap z-30">
@@ -103,7 +103,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
   </div>
 
   <!-- Action Interactions (Favorite & Guitar Pick) -->
-  <div class="flex items-center gap-1 sm:gap-2 pr-1 sm:pr-2">
+  <div class="flex items-center sm:gap-2 pr-1 sm:pr-2">
     <!-- Favorite Toggle Button -->
     <button 
         data-favorite-btn

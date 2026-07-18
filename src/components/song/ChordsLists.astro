@@ -7,7 +7,7 @@
  *
  * @file SongChordsList.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Song chords list component.
  */
 
@@ -29,7 +29,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
 {shouldRender && (
   <details open class="group border-t border-solid border-gold w-full">
     <!-- Accordion Button / Header -->
-    <summary class="flex justify-center items-center relative pt-2 pb-2 list-none cursor-pointer select-none bg-black/5">
+    <summary class="flex justify-center items-center relative pt-1 md:pt-2 md:pb-2 list-none cursor-pointer select-none bg-black/5">
       <h3 class="text-center font-bold text-lg w-full text-gold">
         Chords
       </h3>
@@ -53,8 +53,8 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
     </summary>
 
     <!-- Accordion Panel / Content -->
-    <div class="p-4 pt-0">
-      <ul class="flex gap-[0.5em] overflow-x-auto p-[1.1em_0em] sm:p-[1.1em_1em] scrollbar-thin">
+    <div class="md:p-4 pt-0">
+      <ul class="flex gap-[0.5em] overflow-x-auto py-2 md:p-[1.1em_0em] scrollbar-thin">
         {
           chordIDs.map((chordID) => {
             const config = chordsIndex[chordID];

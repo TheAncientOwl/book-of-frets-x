@@ -7,7 +7,7 @@
  *
  * @file chords.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Native layout layer rendering searchable chord configurations with custom SearchBar.
  */
 
@@ -48,7 +48,7 @@ const sortedChords = Object.entries(chordsIndex)
               <div
                 data-chord-name={chordConfig.name.toLowerCase()}
                 data-chord-key={chordKeyName}
-                class='chord-card-wrapper transition-opacity duration-200'
+                class='chord-card-wrapper transition-opacity duration-200 w-[13em] p-[1em] text-[0.6em]'
               >
                 <Chord {...chordConfig} />
               </div>

@@ -7,7 +7,7 @@
  *
  * @file Song.astro
  * @author Alexandru Delegeanu
- * @version 1.6
+ * @version 1.7
  * @description Song renderer.
  */
 
@@ -32,10 +32,10 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
 
 <div
   id='song-viewport-container'
-  class='w-full min-h-dvh overflow-y-auto bg-deep-charcoal p-2 md:p-4 flex flex-col items-center justify-start'
+  class='w-full min-h-dvh overflow-y-auto bg-deep-charcoal md:p-3 flex flex-col items-center justify-start overflow-x-hidden'
 >
   <div
-    class='rounded-xl bg-deep-purple p-4 min-h-dvh w-full max-w-5xl flex flex-col justify-between gap-6'
+    class='rounded-xl bg-deep-purple md:p-4 min-h-dvh w-full max-w-5xl flex flex-col justify-between gap-6'
   >
     <div>
       <SongHeader
@@ -50,7 +50,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
         res={props.res}
       />
 
-      <div class='rounded-xl overflow-hidden bg-black/20 p-3 mt-4'>
+      <div class='rounded-xl overflow-hidden bg-black/20 md:p-3 mt-3'>
         <SongNotes notes={props.notes} />
         <SongChordsList chordIDs={props.chordIDs} />
 
