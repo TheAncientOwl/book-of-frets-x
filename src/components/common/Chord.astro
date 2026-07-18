@@ -7,7 +7,7 @@
  *
  * @file Chord.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Render chord block based on given config.
  */
 
@@ -15,6 +15,7 @@ import Fret from './Fret.astro';
 import type { TIsOpenFret } from './Fret.astro';
 import type { TChord, TFret } from '#types/chord';
 import type { TGuitarString } from '#types/common';
+import ChordDisplay from '#components/song/sections/renderers/chords/v2/Display.astro';
 
 interface Props extends TChord {
   class?: string;
@@ -55,7 +56,7 @@ const computedFretsData = props.frets.map(fret => {
   <div
     class='relative flex justify-center items-center gap-[5px] text-[2.3em] font-bold text-center mb-1.5 text-gold flex-row'
   >
-    <h2 class='text-magenta font-bold text-lg'>{props.name}</h2>
+    <ChordDisplay name={props.name} />
 
     {
       props.startFret && (

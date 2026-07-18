@@ -1,0 +1,94 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file chords.astro
+ * @author Alexandru Delegeanu
+ * @version 1.1
+ * @description Native layout layer rendering searchable chord configurations with custom SearchBar.
+ */
+
+import '#styles/global.css';
+
+import ChordsLayout from '#layouts/ChordsLayout.astro';
+import SearchBar from '#components/common/SearchBar.astro';
+import Chord from '#components/common/Chord.astro';
+
+import type { TChord } from '#types/chord';
+import chordsIndexData from '#public/chords/index.json';
+const chordsIndex = chordsIndexData.index as Record<string, TChord>;
+
+const sortedChords = Object.entries(chordsIndex)
+  .filter(([key]) => key !== '-')
+  .sort((a, b) => (a[0] > b[0] ? 1 : -1));
+---
+
+<ChordsLayout>
+  <div class='bg-deep-charcoal min-h-dvh'>
+    <div
+      id='chords-page-container'
+      class='w-full h-full min-h-dvh flex flex-col p-4 md:p-4 md:rounded-lg max-w-full md:max-w-5xl mx-auto bg-deep-purple/70'
+    >
+      {/* Centered search tracking bar */}
+      <div class='flex mx-auto justify-center w-[250px] mb-5'>
+        <SearchBar placeholder='Search chords...' />
+      </div>
+
+      {/* Scrollable list content frame */}
+      <div class='flex-1 overflow-y-auto pr-1'>
+        <div
+          id='chords-grid'
+          class='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 justify-items-center'
+        >
+          {
+            sortedChords.map(([chordKeyName, chordConfig]) => (
+              <div
+                data-chord-name={chordConfig.name.toLowerCase()}
+                data-chord-key={chordKeyName}
+                class='chord-card-wrapper transition-opacity duration-200'
+              >
+                <Chord {...chordConfig} />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</ChordsLayout>
+
+<script>
+  function setupChordsSearch() {
+    const container = document.getElementById('chords-page-container');
+    const grid = document.getElementById('chords-grid');
+
+    if (!container || !grid) return;
+
+    const cards = grid.querySelectorAll<HTMLDivElement>('[data-chord-name]');
+
+    // Listen for the custom event bubbling up from SearchBar.astro
+    container.addEventListener('search-change', (event: Event) => {
+      const customEvent = event as CustomEvent<{ query: string }>;
+      const query = (customEvent.detail.query || '').trim().toLowerCase();
+
+      cards.forEach(card => {
+        const chordName = card.getAttribute('data-chord-name') || '';
+
+        if (chordName.includes(query)) {
+          card.style.display = 'block';
+          card.style.opacity = '1';
+        } else {
+          card.style.display = 'none';
+          card.style.opacity = '0';
+        }
+      });
+    });
+  }
+
+  // Bind execution bounds properly for standard loads and view-transition cycles
+  setupChordsSearch();
+  document.addEventListener('astro:after-swap', setupChordsSearch);
+</script>
