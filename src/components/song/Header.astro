@@ -7,7 +7,7 @@
  *
  * @file Header.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description Song Header component with tight hover scopes and global toast listeners.
  */
 
@@ -67,6 +67,8 @@ const typeToIcon: Record<string, string> = {
           `}
           sizes='(max-width: 640px) 70px, 80px'
           alt={`${props.title} cover`}
+          fetchpriority='high'
+          loading='eager'
           class='w-full h-full object-cover transition-opacity duration-350 opacity-0'
           onload="this.classList.remove('opacity-0')"
         />
