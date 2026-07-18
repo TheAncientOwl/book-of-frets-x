@@ -1,0 +1,134 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFrets 2026                      *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file AboutPage.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description App homepage containing project details, features, and core motivations.
+ */
+
+import '#styles/global.css';
+
+import AboutLayout from '#layouts/AboutLayout.astro';
+---
+
+<AboutLayout>
+  <div
+    id='about-page-container'
+    class='h-full overflow-y-scroll pt-12 px-4 text-magenta/80 max-w-4xl mx-auto bg-deep-charcoal'
+  >
+    <h1 class='text-center font-bold text-4xl mb-12 text-magenta/80'>Book Of Frets</h1>
+
+    <div class='mb-8 text-magenta/80'>
+      <p>
+        BookOfFrets is a web-based application designed to help guitar enthusiasts learn and explore
+        songs through an interactive fretboard. It features a comprehensive collection of songs with
+        detailed frets, strumming patterns, chords,{' '}
+        <a href='/chords' class='text-gold/90 no-underline hover:opacity-80 transition-opacity'>
+          chords list
+        </a>
+        ,{' '}
+        <a href='/' class='text-gold/90 no-underline hover:opacity-80 transition-opacity'>
+          songs list
+        </a>
+        , and customizable{' '}
+        <a href='/settings' class='text-gold/90 no-underline hover:opacity-80 transition-opacity'>
+          themes
+        </a>
+        .
+      </p>
+    </div>
+
+    <div class='mb-8'>
+      <h2 class='text-2xl font-bold mb-4 text-magenta/80'>✨ Features</h2>
+      <ul class='space-y-4 pl-6 list-disc text-magenta/80'>
+        <li>
+          🎵{' '}
+          <span class='font-bold'>Songs with Frets</span>: Visualize songs with precise fret
+          positions to help you learn finger placements.
+        </li>
+        <li>
+          🎼{' '}
+          <span class='font-bold'>Chords</span>: Access a rich library of chords with clear
+          diagrams.
+        </li>
+        <li>
+          📖{' '}
+          <span class='font-bold'>Chords List</span>: Browse and search through a curated list of
+          chords.
+        </li>
+        <li>
+          📂{' '}
+          <span class='font-bold'>Songs List</span>: Easily navigate through a growing collection of
+          songs.
+        </li>
+        <li>
+          🎨{' '}
+          <span class='font-bold'>Themes</span>: Customize the look and feel of the app with various
+          themes.
+        </li>
+        <li>
+          📺{' '}
+          <span class='font-bold'>Video Resources</span>: Learn how to play songs with helpful video
+          tutorials.
+        </li>
+      </ul>
+    </div>
+
+    <div class='mb-8'>
+      <h2 class='text-2xl font-bold mb-4 text-magenta/80'>🛠️ Main Feature</h2>
+      <p class='text-magenta/80'>
+        BookOfFrets is easily configurable via JSON files, allowing users and contributors to add
+        new songs, chords, and themes without modifying the core code. This extensibility makes it
+        simple to expand the app's content and tailor it to your preferences.
+      </p>
+    </div>
+
+    <div class='mb-8'>
+      <h2 class='text-2xl font-bold mb-4 text-magenta/80'>🎶 Motivation</h2>
+      <p class='text-magenta/80'>
+        As a guitar learner, I found myself frustrated with the tedious process of writing chords
+        and songs by hand. I wanted a prettier, more extensible solution that could grow with my
+        learning journey. BookOfFrets was born out of this desire to create an intuitive and
+        visually appealing tool that makes learning guitar more enjoyable and accessible.
+      </p>
+    </div>
+
+    <div class='mb-8'>
+      <h2 class='text-2xl font-bold mb-4 text-magenta/80'>🤝 Contribution</h2>
+      <p class='text-magenta/80'>
+        <a
+          href='https://github.com/TheAncientOwl/book-of-frets/blob/main/CONTRIBUTING.md'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-gold/90 no-underline mr-[5px] hover:opacity-80 transition-opacity'
+        >
+          Contributions
+        </a>
+        are welcome and encouraged! If you have new songs, chords, or themes to share, please submit a
+        pull request. There are plenty of songs to showcase theme/chord/song configuration! Help us make
+        BookOfFrets better for everyone.
+      </p>
+    </div>
+
+    <div class='mb-8'>
+      <h2 class='text-2xl font-bold mb-4 text-magenta/80'>📜 License</h2>
+      <p class='text-magenta/80'>
+        This project is licensed under the{' '}
+        <a
+          href='https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE'
+          target='_blank'
+          rel='noopener noreferrer'
+          class='text-gold/90 no-underline hover:opacity-80 transition-opacity'
+        >
+          MIT License
+        </a>
+        .
+      </p>
+    </div>
+  </div>
+</AboutLayout>
