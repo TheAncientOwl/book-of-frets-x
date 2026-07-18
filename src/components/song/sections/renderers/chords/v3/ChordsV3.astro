@@ -1,0 +1,62 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file ChordsV3Renderer.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Main section renderer handling repeating multi-line structures.
+ */
+
+import type { TChordsV3SectionData, TSongSectionLyrics, TStrummingPattern } from '#types/song';
+import ChordsV2LineRenderer from '#components/song/sections/renderers/chords/v2/LineRenderer.astro';
+import ChordsV2LineDelimiter from '#components/song/sections/renderers/chords/v2/LineDelimiter.astro';
+import ChordsV2LineTimes from '#components/song/sections/renderers/chords/v2/LineTimes.astro';
+import ChordsV1Lyrics from '#components/song/sections/renderers/chords/v1/Lyrics.astro';
+
+interface Props {
+  data: TChordsV3SectionData;
+  strummingPatterns: TStrummingPattern[];
+  showLyrics: boolean;
+  lyrics: TSongSectionLyrics;
+  chordsIndex: Record<string, any>;
+  songSettings: {
+    display: {
+      strummingPattern: boolean;
+      chordTimes: boolean;
+      chordTimesOne: boolean;
+    };
+  };
+}
+
+const { data, strummingPatterns, showLyrics, lyrics, chordsIndex, songSettings } = Astro.props;
+
+const GAP_BETWEEN_CHORD_LINES = '1.25rem';
+---
+
+<div class='flex flex-col justify-center items-center gap-[1em]'>
+  {/* Multi-line repeat grouping layout layer */}
+  <div class='flex flex-col relative' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
+    {
+      data.items.map(entry => (
+        <ChordsV2LineRenderer
+          data={entry}
+          strummingPatterns={strummingPatterns}
+          chordsIndex={chordsIndex}
+          songSettings={songSettings}
+        />
+      ))
+    }
+
+    {/* Section bounds structural anchor details */}
+    <ChordsV2LineDelimiter positioning='end' horizontalSpacing='-2.5em' />
+
+    <ChordsV2LineTimes times={`x${data.times}`} right='-4.2em' />
+  </div>
+
+  {/* Associated lyric line structure block */}
+  <ChordsV1Lyrics visible={showLyrics} lyrics={lyrics} />
+</div>

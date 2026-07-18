@@ -16,7 +16,7 @@ import type { TSong } from '#types/song';
 import SongHeader from '#components/song/Header.astro';
 import SongNotes from './Notes.astro';
 import SongChordsList from '#components/song/ChordsLists.astro';
-// import SongSections from './Sections/SongSections.astro';
+import SongSections from '#components/song/sections/Sections.astro';
 import SongResources from './SongResources.astro';
 
 interface Props extends TSong {
@@ -24,6 +24,10 @@ interface Props extends TSong {
 }
 
 const props = Astro.props;
+
+import type { TChord } from '#types/chord';
+import chordsIndexData from '#public/chords/index.json';
+const chordsIndex = chordsIndexData.index as Record<string, any>;
 ---
 
 <div
@@ -48,15 +52,22 @@ const props = Astro.props;
       <div class='rounded-xl overflow-hidden bg-black/20 p-3 mt-4'>
         <SongNotes notes={props.notes} />
         <SongChordsList chordIDs={props.chordIDs} />
-        <!--
-          <SongSections
-            sections={props.sections}
-            order={props.order}
-            strumms={props.strumms}
-            showLyrics={false}
-            lyrics={[]}
-          />
-        -->
+
+        <SongSections
+          chordsIndex={chordsIndex}
+          songSettings={{
+            display: {
+              strummingPattern: true,
+              chordTimes: true,
+              chordTimesOne: true,
+            },
+          }}
+          sections={props.sections}
+          order={props.order}
+          strumms={props.strumms}
+          showLyrics={false}
+          lyrics={[]}
+        />
       </div>
     </div>
 

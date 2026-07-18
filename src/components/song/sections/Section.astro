@@ -1,0 +1,100 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file SongSection.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Native layout encapsulation for individual repeating song sections.
+ */
+
+import type { TSongSection, TSongSectionLyrics, TStrummingPattern } from '#types/song';
+import SongSectionEntry from '#components/song/sections/SectionEntry.astro';
+
+interface Props {
+  name: string;
+  times: number;
+  entries: TSongSection['entries'];
+  showLyrics: boolean;
+  lyrics: TSongSectionLyrics;
+  strumms: TStrummingPattern[];
+  chordsIndex: Record<string, any>;
+  songSettings: {
+    display: {
+      strummingPattern: boolean;
+      chordTimes: boolean;
+      chordTimesOne: boolean;
+    };
+  };
+}
+
+const { name, times, entries, showLyrics, lyrics, strumms, chordsIndex, songSettings } =
+  Astro.props;
+
+// Exported layout metric matching the original static variable mapping
+// Exported via global style variables or shared layout configurations if needed
+const GAP_BETWEEN_CHORD_LINES = '0.75em';
+---
+
+<details class='w-full group' open>
+  {/* Accordion Button / Header Control */}
+  <summary
+    class='flex justify-center items-center relative pt-2 pb-3 list-none appearance-none outline-none cursor-pointer select-none bg-black/5 hover:bg-black/10 transition-colors border-t border-gold/60'
+  >
+    <h3 class='text-center font-semibold text-sm capitalize text-gold'>
+      <span class='relative text-lg'>
+        {name}
+        {
+          times > 1 && (
+            <span class='absolute bottom-0 right-0 translate-x-[120%] translate-y-[20%] text-xs font-bold px-2 py-0.5 rounded-sm bg-dark-magenta/70 text-gold/70'>
+              x{times}
+            </span>
+          )
+        }
+      </span>
+    </h3>
+
+    {/* Chevron Icon built natively that reacts to the open state */}
+    <div class='absolute right-4 transition-transform duration-200 group-open:rotate-180 text-gold'>
+      <svg
+        xmlns='http://www.w3.org/2000/svg'
+        width='15'
+        height='15'
+        viewBox='0 0 24 24'
+        fill='none'
+        stroke='currentColor'
+        stroke-width='2.5'
+        stroke-linecap='round'
+        stroke-linejoin='round'
+      >
+        <path d='m6 9 6 6 6-6'></path>
+      </svg>
+    </div>
+  </summary>
+
+  {/* Accordion Panel Content Layer */}
+  <div class='flex flex-col pt-[0.5em] pb-[1.5em]' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
+    {
+      entries.map(entry => (
+        <SongSectionEntry
+          entry={entry}
+          strumms={strumms}
+          showLyrics={showLyrics}
+          lyrics={lyrics}
+          chordsIndex={chordsIndex}
+          songSettings={songSettings}
+        />
+      ))
+    }
+  </div>
+</details>
+
+<style>
+  /* Standard rule extraction removing the default summary marker arrows across engines */
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file SongSectionEntry.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Master entry switcher routing to correct layout version renderers.
+ */
+
+import type {
+  TChordsV1SectionEntry,
+  TChordsV2SectionData,
+  TChordsV3SectionData,
+  TGTabV1SectionData,
+  TSongSectionEntry,
+  TSongSectionLyrics,
+  TStrummingPattern,
+} from '#types/song';
+
+import ChordsV1Renderer from '#components/song/sections/renderers/chords/v1/ChordsV1.astro';
+import ChordsV2Renderer from '#components/song/sections/renderers/chords/v2/ChordsV2.astro';
+import ChordsV3Renderer from '#components/song/sections/renderers/chords/v3/ChordsV3.astro';
+import GuitarTabsV1Renderer from '#components/song/sections/renderers/guitar-tabs/v1/GuitarTabsV1.astro';
+
+interface Props {
+  strumms: TStrummingPattern[];
+  showLyrics: boolean;
+  lyrics: TSongSectionLyrics;
+  entry: TSongSectionEntry;
+  chordsIndex: Record<string, any>;
+  songSettings: {
+    display: {
+      strummingPattern: boolean;
+      chordTimes: boolean;
+      chordTimesOne: boolean;
+    };
+  };
+}
+
+const { strumms, showLyrics, lyrics, entry, chordsIndex, songSettings } = Astro.props;
+
+const rendererType = entry.renderer;
+---
+
+<div class='flex flex-col items-center w-full overflow-x-auto md:overflow-x-hidden'>
+  {
+    (() => {
+      switch (rendererType) {
+        case 'chords-v1':
+          return (
+            <ChordsV1Renderer
+              chordsIndex={chordsIndex}
+              data={entry.data as TChordsV1SectionEntry[]}
+              strumms={strumms}
+              showLyrics={showLyrics}
+              lyrics={lyrics}
+            />
+          );
+        case 'chords-v2':
+          return (
+            <ChordsV2Renderer
+              data={entry.data as TChordsV2SectionData}
+              strummingPatterns={strumms}
+              showLyrics={showLyrics}
+              lyrics={lyrics}
+              chordsIndex={chordsIndex}
+              songSettings={songSettings}
+            />
+          );
+        case 'chords-v3':
+          return (
+            <ChordsV3Renderer
+              data={entry.data as TChordsV3SectionData}
+              strummingPatterns={strumms}
+              showLyrics={showLyrics}
+              lyrics={lyrics}
+              chordsIndex={chordsIndex}
+              songSettings={songSettings}
+            />
+          );
+        case 'gtab-v1':
+          return <GuitarTabsV1Renderer data={entry.data as TGTabV1SectionData} />;
+
+        default:
+          console.error(`Unimplemented chords type "${rendererType}"`);
+          return (
+            <div class='relative group inline-block bg-black text-red-500 px-2 py-1 rounded cursor-help font-medium text-sm'>
+              {`[Configuration-Error] Unimplemented renderer type "${rendererType}"`}
+
+              {/* Native Tailwind CSS implementation of the fall-back debug tooltip */}
+              <div class='absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50 p-3 bg-neutral-900 border border-gold/60 rounded-md shadow-2xl max-w-[600px] w-max pointer-events-none'>
+                <pre class='font-mono text-xs text-white/70 whitespace-pre-wrap'>
+                  {JSON.stringify(entry, null, 2)}
+                </pre>
+              </div>
+            </div>
+          );
+      }
+    })()
+  }
+</div>

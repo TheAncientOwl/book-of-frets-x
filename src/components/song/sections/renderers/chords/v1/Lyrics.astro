@@ -1,0 +1,44 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file ChordsV1Lyrics.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Chords chunk lyrics component.
+ */
+
+import type { TSongSectionLyrics } from '#types/song';
+
+interface Props {
+  visible: boolean;
+  lyrics: TSongSectionLyrics;
+  class?: string;
+}
+
+const { visible, lyrics, class: className = '' } = Astro.props;
+---
+
+{
+  visible && (
+    <p
+      class:list={[
+        'p-[0.3em_1em] md:p-[0.5em_1em] max-w-full white-space-pre overflow-auto font-mono text-gold/80',
+        className,
+      ]}
+    >
+      {lyrics.map((line, index) => (
+        <>
+          {line.slice(1)}
+          <br />
+          {index < lyrics.length - 1 && line.charAt(0) === 'L' && (
+            <span class='inline-block w-full h-[15px] md:h-[10px]' />
+          )}
+        </>
+      ))}
+    </p>
+  )
+}

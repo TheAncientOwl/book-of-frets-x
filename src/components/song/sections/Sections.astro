@@ -1,0 +1,60 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file SongSections.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Renders the structured sequence of song sections based on playback order.
+ */
+
+import type { TSongSection, TSongSectionLyrics, TStrummingPattern } from '#types/song';
+import SongSection from '#components/song/sections/Section.astro';
+
+interface Props {
+  sections: Record<string, TSongSection>;
+  order: string[];
+  strumms: TStrummingPattern[];
+  showLyrics: boolean;
+  lyrics: TSongSectionLyrics[];
+  chordsIndex: Record<string, any>;
+  songSettings: {
+    display: {
+      strummingPattern: boolean;
+      chordTimes: boolean;
+      chordTimesOne: boolean;
+    };
+  };
+}
+
+const { sections, order, strumms, showLyrics, lyrics, chordsIndex, songSettings } = Astro.props;
+---
+
+{
+  order.map((songSectionName, index) => {
+    const songSectionData = sections[songSectionName];
+
+    console.assert(
+      songSectionData !== undefined,
+      `Failed to find song section data for "${songSectionName}"`,
+    );
+
+    if (!songSectionData) return null;
+
+    return (
+      <SongSection
+        name={songSectionData.name}
+        times={songSectionData.times}
+        entries={songSectionData.entries}
+        strumms={strumms}
+        showLyrics={showLyrics}
+        lyrics={lyrics[index]}
+        chordsIndex={chordsIndex}
+        songSettings={songSettings}
+      />
+    );
+  })
+}

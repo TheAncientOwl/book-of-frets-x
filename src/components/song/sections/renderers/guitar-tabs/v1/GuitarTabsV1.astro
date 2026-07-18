@@ -1,0 +1,155 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file GuitarTabsV1.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Render song string patterns and interactive fret/tab markers.
+ */
+
+import type { TGTabV1SectionData } from '#types/song';
+
+interface Props {
+  data: TGTabV1SectionData;
+}
+
+const { data } = Astro.props;
+
+type TFretNumber = number | string;
+
+type TDisplayChord = {
+  name: string;
+  offset: number;
+};
+
+type TStringToFrets = {
+  e: TFretNumber[];
+  B: TFretNumber[];
+  G: TFretNumber[];
+  D: TFretNumber[];
+  A: TFretNumber[];
+  E: TFretNumber[];
+};
+
+const parseItems = (items: string): { stringsToFrets: TStringToFrets; chords: TDisplayChord[] } => {
+  const stringsToFrets: TStringToFrets = {
+    E: ['|'] as TFretNumber[],
+    A: ['|'] as TFretNumber[],
+    D: ['|'] as TFretNumber[],
+    G: ['|'] as TFretNumber[],
+    B: ['|'] as TFretNumber[],
+    e: ['|'] as TFretNumber[],
+  };
+  const chords: TDisplayChord[] = [] as TDisplayChord[];
+
+  const asValues = Object.values(stringsToFrets);
+
+  let chordOffset: number = 0;
+  items.split(' ').map((item, index) => {
+    try {
+      if (item === '-' || item === '|') {
+        asValues.forEach(entry => entry.push(item));
+        chordOffset += 1;
+        return;
+      }
+
+      if (item.charAt(0) === '[') {
+        chords.push({ name: item.slice(1, item.length - 1), offset: chordOffset });
+        return;
+      }
+
+      let newStringSize: number | undefined = undefined;
+      let fillLength: number = 0;
+      const pushed = new Set<TFretNumber[]>();
+      item.split('+').map((chord, idx) => {
+        try {
+          const arr = stringsToFrets[chord.charAt(0) as keyof typeof stringsToFrets];
+          pushed.add(arr);
+
+          const fret = chord.slice(1);
+          fillLength = Math.max(fillLength, fret.length);
+
+          arr.push(fret);
+          newStringSize = arr.length;
+        } catch (err) {
+          console.log(`item-${index}+${idx}: "${item}" + "${chord}"`);
+          console.error(err);
+        }
+      });
+
+      if (newStringSize !== undefined) {
+        asValues.forEach(entry => {
+          if (pushed.has(entry)) {
+            const localFilled = fillLength - entry[entry.length - 1].toString().length;
+            if (localFilled > 0) {
+              entry.push('-'.repeat(localFilled));
+            }
+          } else {
+            entry.push('-'.repeat(fillLength));
+          }
+        });
+        chordOffset += fillLength;
+      }
+    } catch (err) {
+      console.log(`item-${index}: ${item}`);
+      console.error(err);
+    }
+  });
+
+  asValues.forEach(arr => arr.push('|'));
+
+  return { stringsToFrets, chords };
+};
+
+const { stringsToFrets, chords } = parseItems(data);
+
+// Process the display chords inline inside the template mapping
+const mappedChords = chords
+  .map((chord, index) => {
+    if (index === 0) {
+      return chord.name;
+    }
+    return (
+      ' '.repeat(chord.offset - chords[index - 1].offset - chords[index - 1].name.length) +
+      chord.name
+    );
+  })
+  .join('');
+
+const tuningStrings: Array<{ name: keyof TStringToFrets }> = [
+  { name: 'e' },
+  { name: 'B' },
+  { name: 'G' },
+  { name: 'D' },
+  { name: 'A' },
+  { name: 'E' },
+];
+---
+
+<div class='flex flex-col w-full overflow-x-auto text-[1.2em] text-[15.5px]'>
+  <div class='min-w-max select-none'>
+    {/* Mapped dynamic chord names above the tab lines */}
+    {chords.length > 0 && <p class='ml-[3ch] font-mono whitespace-pre text-gold'>{mappedChords}</p>}
+
+    {/* Tab lines pipeline */}
+    {
+      tuningStrings.map(stringItem => (
+        <div class='flex items-center'>
+          <div class='sticky left-0 z-10 bg-black/50 px-1 font-bold font-mono text-gold'>
+            {stringItem.name}
+          </div>
+          <span class='bg-black/10 font-mono whitespace-pre text-gold'>
+            {stringsToFrets[stringItem.name].join('')}
+          </span>
+        </div>
+      ))
+    }
+
+    {/* Section bottom break marker */}
+    <hr class='mt-[1em] border-t border-solid border-gold/60' />
+  </div>
+</div>

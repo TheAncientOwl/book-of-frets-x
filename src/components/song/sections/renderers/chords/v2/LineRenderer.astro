@@ -1,0 +1,259 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file LineRenderer.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Measure parsing and grid renderer for chords v2 layout.
+ */
+
+import type { TChordsV2SectionData, TStrummingPattern } from '#types/song';
+import ChordsV2LineDelimiter from '#components/song/sections/renderers/chords/v2/LineDelimiter.astro';
+import ChordsV2LineTimes from '#components/song/sections/renderers/chords/v2/LineTimes.astro';
+import ChordV2Display from '#components/song/sections/renderers/chords/v2/Display.astro';
+import ChordCard from '#components/common/Chord.astro';
+
+interface Props {
+  data: TChordsV2SectionData;
+  strummingPatterns: TStrummingPattern[];
+  chordsIndex: Record<string, any>;
+  songSettings: {
+    display: {
+      strummingPattern: boolean;
+      chordTimes: boolean;
+      chordTimesOne: boolean;
+    };
+  };
+}
+
+const { data, strummingPatterns, chordsIndex, songSettings } = Astro.props;
+
+// Global constants from design system
+const GAP_BETWEEN_CHORD_LINES = '1.25rem'; // Replaces tokens like GAP_BETWEEN_CHORD_LINES dynamically
+const SEPARATOR_CHORD_CHAR = '|';
+const SEPARATOR_CHORD_NEWLINE = '/';
+const NO_CHORD_ID = '-';
+const EMPHASIZE_STRUMS = ['De', 'Ue'];
+const EMPHASIZE_STRUM_CHAR = 'e';
+
+// --- Type definition matching for structural layout passing ---
+type TBetweenSeparator = { type: 'delimiter' | 'spacer' };
+
+const chordsV2ParseData = (sectionData: TChordsV2SectionData) => {
+  const colsData: string[][] = [];
+  const times: string[] = [];
+  const betweenSeparator: TBetweenSeparator[] = [];
+
+  sectionData.forEach(item => {
+    switch (item[0]) {
+      case 'x': {
+        if (item.includes(' ! 0')) {
+          item.split(' ! 0 ').forEach((column, idx) => {
+            if (colsData.length <= idx) colsData.push([]);
+            colsData[idx].push(idx === 0 ? column : `x1 ${column}`);
+          });
+          betweenSeparator.push({ type: 'delimiter' });
+        } else if (item.includes(' ? 0 ')) {
+          item.split(' ? 0 ').forEach((column, idx) => {
+            if (colsData.length <= idx) colsData.push([]);
+            colsData[idx].push(idx === 0 ? column : `x1 ${column}`);
+          });
+          betweenSeparator.push({ type: 'spacer' });
+        } else {
+          if (colsData.length === 0) colsData.push([]);
+          colsData[0].push(item);
+          betweenSeparator.push({ type: 'delimiter' });
+        }
+        times.push(item.substring(0, item.indexOf(' ')));
+        break;
+      }
+      case '>': {
+        item
+          .split(' ')
+          .slice(1)
+          .forEach((patternId, idx) => {
+            if (colsData.length <= idx) colsData.push([]);
+            colsData[idx].push(`> ${patternId}`);
+          });
+        times.push(' ');
+        betweenSeparator.push({ type: 'spacer' });
+        break;
+      }
+      default: {
+        console.error(`Not handled chords-v2 string "${item}"`);
+        break;
+      }
+    }
+  });
+
+  return { colsData, times, betweenSeparator };
+};
+
+const splitByNewline = (lineData: string[]): string[][] => {
+  const lines: string[][] = [[]];
+  lineData.forEach(item => {
+    if (item === SEPARATOR_CHORD_NEWLINE) {
+      lines.push([]);
+    } else {
+      lines[lines.length - 1].push(item);
+    }
+  });
+  return lines;
+};
+
+const mapPairs = <T, R>(array: T[], callback: (a: T, b: T, index: number) => R): R[] => {
+  const result: R[] = [];
+  for (let idx = 2; idx < array.length; idx += 2) {
+    result.push(callback(array[idx - 1], array[idx], idx - 1));
+  }
+  return result;
+};
+
+const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
+---
+
+<div class='flex flex-row' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
+  {
+    colsData.map((column, colIdx) => {
+      const isFirstColumn = colIdx === 0;
+      const isLastColumn = colIdx === colsData.length - 1;
+
+      return (
+        <>
+          <div class='flex flex-col flex-1'>
+            {column.map((line, lineIdx) => {
+              if (!line.startsWith('>')) {
+                const parsedLineData = line.split(' ');
+                const lines = splitByNewline(parsedLineData);
+                const marginTop = lineIdx !== 0 ? GAP_BETWEEN_CHORD_LINES : '0';
+                const lineTimes = isLastColumn ? times[lineIdx] : undefined;
+
+                return (
+                  /* --- ChordsV2Line Equivalent --- */
+                  <div
+                    class='flex flex-row justify-center relative select-none'
+                    style={{ marginTop }}
+                  >
+                    {isFirstColumn && <ChordsV2LineDelimiter positioning='begin' />}
+                    {isLastColumn && <ChordsV2LineDelimiter positioning='end' />}
+
+                    <div class='flex flex-col' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
+                      {lines.map(lineData => (
+                        <div class='flex flex-row gap-[1em] justify-center items-center relative'>
+                          {mapPairs(lineData, (chordId, chordTimes) => {
+                            if (chordId === SEPARATOR_CHORD_CHAR) {
+                              return <div class='h-5.5 w-0 border-l border-solid border-gold/60' />;
+                            }
+
+                            const chordConfig = chordsIndex[chordId];
+
+                            return (
+                              /* --- Chord Popover Structural Subcomponent --- */
+                              <details class='relative inline-block group chords-v2-popover'>
+                                <summary class='list-none appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-gold hover:bg-dark-magenta/70 transition-colors relative'>
+                                  {chordId !== NO_CHORD_ID && chordConfig !== undefined ? (
+                                    <ChordV2Display name={chordConfig.name} />
+                                  ) : (
+                                    '-'
+                                  )}
+
+                                  {songSettings.display.chordTimes &&
+                                    (chordTimes !== '1' || songSettings.display.chordTimesOne) && (
+                                      <span
+                                        class='absolute -top-2.5 right-0 translate-x-full text-xs font-bold text-gold'
+                                        title={`Strum ${chordTimes} times`}
+                                      >
+                                        {chordTimes}
+                                      </span>
+                                    )}
+                                </summary>
+
+                                {chordConfig && (
+                                  <div class='absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-30 p-6 rounded-lg border border-solid border-gold/60 bg-deep-purple shadow-xl pointer-events-auto'>
+                                    <div class='absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-deep-purple' />
+                                    <button
+                                      type='button'
+                                      class='absolute top-2 right-2 text-gold/50 hover:text-gold text-xs font-mono outline-none'
+                                      onclick="this.closest('details').removeAttribute('open')"
+                                    >
+                                      ✕
+                                    </button>
+                                    <div class='flex justify-center p-1 w-30 h-35'>
+                                      <ChordCard {...chordConfig} />
+                                    </div>
+                                  </div>
+                                )}
+                              </details>
+                            );
+                          })}
+                        </div>
+                      ))}
+                    </div>
+
+                    {lineTimes && <ChordsV2LineTimes times={lineTimes} />}
+                  </div>
+                );
+              } else {
+                /* --- Inline Port of ChordsV1StrummingPattern --- */
+                const patternIdx = Number(line.substring(2));
+                const pattern = strummingPatterns[patternIdx];
+
+                return songSettings.display.strummingPattern && pattern ? (
+                  <div class='relative mt-[0.4em]'>
+                    <div class='flex flex-row gap-2 justify-center text-gold'>
+                      {pattern.map(strumItem => (
+                        <span
+                          class:list={[
+                            'font-bold',
+                            EMPHASIZE_STRUMS.includes(strumItem) ? 'underline' : '',
+                          ]}
+                        >
+                          {strumItem.replace(EMPHASIZE_STRUM_CHAR, '')}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ) : null;
+              }
+            })}
+          </div>
+
+          {/* --- Between Separator Layout Pipeline --- */}
+          {colIdx < colsData.length - 1 && (
+            <div class='flex flex-col' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
+              {betweenSeparator.map(sep =>
+                sep.type === 'delimiter' ? (
+                  <ChordsV2LineDelimiter positioning='between' />
+                ) : (
+                  <div class='h-full' />
+                ),
+              )}
+            </div>
+          )}
+        </>
+      );
+    })
+  }
+</div>
+
+<script>
+  function setupDismissal() {
+    document.addEventListener('click', e => {
+      const target = e.target as HTMLElement;
+      const openPopovers = document.querySelectorAll('.chords-v2-popover[open]');
+
+      openPopovers.forEach(popover => {
+        if (!popover.contains(target)) {
+          popover.removeAttribute('open');
+        }
+      });
+    });
+  }
+
+  setupDismissal();
+  document.addEventListener('astro:after-swap', setupDismissal);
+</script>

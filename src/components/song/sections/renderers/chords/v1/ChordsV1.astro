@@ -1,0 +1,96 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file ChordsV1Renderer.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Render song chords pattern version 1.
+ */
+
+import type { TSongSectionLyrics, TStrummingPattern, TChordsV1SectionEntry } from '#types/song';
+
+import ChordsV1Item from '#components/song/sections/renderers/chords/v1/Item.astro';
+import ChordsV1Divider from '#components/song/sections/renderers/chords/v1/Divider.astro';
+import ChordsV1Lyrics from '#components/song/sections/renderers/chords/v1/Lyrics.astro';
+
+interface Props {
+  data: TChordsV1SectionEntry[];
+  strumms: TStrummingPattern[];
+  showLyrics: boolean;
+  lyrics: TSongSectionLyrics;
+  chordsIndex: Record<string, any>;
+  settingsDisplaySectionTimes?: boolean;
+}
+
+const {
+  data,
+  strumms,
+  showLyrics,
+  lyrics,
+  chordsIndex,
+  settingsDisplaySectionTimes = true,
+} = Astro.props;
+---
+
+{
+  data.map(curr => {
+    const showTimes = settingsDisplaySectionTimes && curr.times > 1;
+
+    return (
+      <>
+        <div
+          class:list={[
+            'w-full relative block md:flex gap-4 items-stretch justify-center text-[0.85em] sm:text-[0.9em] md:text-[1em] max-w-fit border-none border-solid',
+            showTimes
+              ? 'border-r border-solid border-gold/60 pr-4 md:border-none md:pr-0'
+              : 'border-none pr-0',
+          ]}
+        >
+          {/* Desktop Left Anchor Line */}
+          <ChordsV1Divider class='hidden md:block' />
+
+          {curr.items.map((item, itemIndex) => {
+            // Determine loop end bounds dynamically for responsive spacer borders
+            const isLastVisibleItem = itemIndex >= curr.items.length - (showTimes ? 2 : 1);
+
+            return (
+              <>
+                <ChordsV1Item
+                  items={item}
+                  strumms={strumms}
+                  chordsIndex={chordsIndex}
+                  songSettings={{
+                    display: { strummingPattern: true, chordTimes: true, chordTimesOne: true },
+                  }}
+                />
+
+                <ChordsV1Divider
+                  class:list={[
+                    'md:block',
+                    isLastVisibleItem ? 'block md:block' : 'hidden md:block',
+                  ]}
+                />
+              </>
+            );
+          })}
+
+          {/* Repeat Counter Overlay */}
+          {showTimes && (
+            <span
+              class='text-sm font-bold absolute top-1/2 right-0 translate-x-[150%] -translate-y-1/2 z-10 text-gold select-none'
+              title={`Repeat ${curr.times} times`}
+            >
+              x{curr.times}
+            </span>
+          )}
+        </div>
+
+        {showLyrics && <ChordsV1Lyrics visible={showLyrics} lyrics={lyrics} />}
+      </>
+    );
+  })
+}

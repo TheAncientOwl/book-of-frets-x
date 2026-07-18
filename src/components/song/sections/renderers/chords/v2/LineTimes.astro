@@ -1,0 +1,35 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file LineTimes.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Repetition multiplier flag with structural absolute anchoring.
+ */
+
+interface Props {
+  times: string;
+  right?: string;
+  settingsDisplaySectionTimes?: boolean;
+}
+
+const { times, right, settingsDisplaySectionTimes = true } = Astro.props;
+
+const showTimes = settingsDisplaySectionTimes && times !== 'x1';
+
+// Dynamic right position style injection to support dynamic negative em offsets exactly like Chakra
+const inlineStyles = right ? { right } : { right: '-3.25em' };
+---
+
+{/* Chakra Tooltip native hover tag mapping */}
+<div
+  class='absolute top-0 z-10 h-full flex justify-center items-center text-sm font-bold text-gold select-none'
+  style={inlineStyles}
+  title={`Repeat ${times} times`}
+>
+  {showTimes && <>{times}</>}
+</div>

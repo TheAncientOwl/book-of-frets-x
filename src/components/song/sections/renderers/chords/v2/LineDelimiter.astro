@@ -1,0 +1,46 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file LineDelimiter.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Measure bar/delimiter separator mapping for chords v2 layout.
+ */
+
+interface Props {
+  positioning: 'begin' | 'end' | 'between';
+  horizontalSpacing?: string;
+}
+
+const { positioning, horizontalSpacing = '-1.5em' } = Astro.props;
+
+// Determine absolute or relative anchoring layout
+const isAbsolute = positioning !== 'between';
+
+// Mirroring the exact conditional positioning assignment logic
+const positionStyles: Record<string, string> = {};
+if (positioning === 'begin') {
+  positionStyles.left = horizontalSpacing;
+}
+if (positioning === 'end') {
+  positionStyles.right = horizontalSpacing;
+}
+---
+
+<div
+  class:list={[
+    'z-10 self-stretch h-full flex justify-center items-center pointer-events-none',
+    isAbsolute ? 'absolute' : 'relative',
+    /* Border matching rules using standard 1.5px sizing variables */
+    positioning === 'begin' || positioning === 'between'
+      ? 'border-r-[1.5px] border-solid border-gold/60'
+      : 'border-r-0',
+    positioning === 'end' ? 'border-l-[1.5px] border-solid border-gold/60' : 'border-l-0',
+  ]}
+  style={positionStyles}
+>
+</div>

@@ -1,8 +1,8 @@
 /**
- * -------------------------------------------------------------------------- *
+ * --------------------------------------------------------------------------- *
  *                     Copyright (c) by BookOfFrets 2025                      *
- * -------------------------------------------------------------------------- *
- * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  *
  * @file chord.d.ts
  * @author Alexandru Delegeanu

@@ -1,0 +1,34 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file ChordsV1Divider.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Divider component.
+ */
+
+interface Props {
+  class?: string;
+  color?: string; // Fallback for dynamic themes if passed explicitly
+}
+
+const { class: className = '', color = 'border-gold/60' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'border-solid',
+    color,
+    // Mobile: Horizontal-ish row line behavior (height 0px, width 70%, centered margins)
+    'h-0 w-[70%] border-t mx-auto my-[15px]',
+    // Desktop: Clean vertical line reset (height auto, width 0px, flush margins)
+    'md:h-auto md:w-0 md:border-l md:border-t-0 md:m-0',
+    className,
+  ]}
+  role='separator'
+>
+</div>
