@@ -5,9 +5,9 @@
  * --------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  *
- * @file SongList.astro
+ * @file SongsList.astro
  * @author Alexandru Delegeanu
- * @version 1.6
+ * @version 1.9
  * @description List all available songs.
  */
 
@@ -36,29 +36,50 @@ const AboveTheFoldCount = 12;
 
 <script>
   const songCards = document.querySelectorAll('[data-song-card]');
+  const STORAGE_KEY = 'book-of-frets-favorites';
+  const TOGGLE_STORAGE_KEY = 'book-of-frets-filter-favorites-active';
 
-  // <Handle-Search>
-  document.addEventListener('search-change', (event: any) => {
-    const query = event.detail.query.trim().toLowerCase();
+  let currentSearchQuery = '';
+  // Pull state cleanly dynamically to guard execution race order conditions
+  let filterOnlyFavorites = localStorage.getItem(TOGGLE_STORAGE_KEY) === 'true';
 
+  function applyFilters() {
     songCards.forEach(card => {
       const htmlCard = card as HTMLElement;
-      const title = htmlCard.dataset.title || '';
-      const artists = htmlCard.dataset.artists || '';
-      const types = htmlCard.dataset.types || '';
+      const title = (htmlCard.dataset.title || '').toLowerCase();
+      const artists = (htmlCard.dataset.artists || '').toLowerCase();
+      const types = (htmlCard.dataset.types || '').toLowerCase();
+      const isFavorited = htmlCard.getAttribute('data-favorited') === 'true';
 
-      if (!query || title.includes(query) || artists.includes(query) || types.includes(query)) {
+      const matchesSearch =
+        !currentSearchQuery ||
+        title.includes(currentSearchQuery) ||
+        artists.includes(currentSearchQuery) ||
+        types.includes(currentSearchQuery);
+
+      const matchesFavorites = !filterOnlyFavorites || isFavorited;
+
+      if (matchesSearch && matchesFavorites) {
         htmlCard.style.display = '';
       } else {
         htmlCard.style.display = 'none';
       }
     });
+  }
+
+  // <Handle-Filters>
+  document.addEventListener('search-change', (event: any) => {
+    currentSearchQuery = event.detail.query.trim().toLowerCase();
+    applyFilters();
   });
-  // </Handle-Search>
+
+  document.addEventListener('favorites-toggle', (event: any) => {
+    filterOnlyFavorites = event.detail.onlyFavorites;
+    applyFilters();
+  });
+  // </Handle-Filters>
 
   // <Handle-Favorites-On-Page-Load>
-  const STORAGE_KEY = 'book-of-frets-favorites';
-
   const getStoredFavorites = (): Record<string, boolean> => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -87,6 +108,10 @@ const AboveTheFoldCount = 12;
       filledIcon?.classList.remove('hidden');
     }
   });
+
+  // Re-read storage value just before running initial layout pass to bypass module runtime variance
+  filterOnlyFavorites = localStorage.getItem(TOGGLE_STORAGE_KEY) === 'true';
+  applyFilters();
   // </Handle-Favorites-On-Page-Load>
 
   // <Handle-Favorites-Toggle>
@@ -125,6 +150,8 @@ const AboveTheFoldCount = 12;
         delete currentFavorites[songId];
       }
       saveStoredFavorites(currentFavorites);
+
+      applyFilters();
     });
   });
   // </Handle-Favorites-Toggle>
