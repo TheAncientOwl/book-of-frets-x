@@ -1,0 +1,84 @@
+---
+/**
+ * -------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFrets 2026                      *
+ * -------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE
+ *
+ * @file NavigationList.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Native navigation links layer handling session storage metrics.
+ */
+
+interface Props {
+  // Since we are transitioning to native routing, we can expose a class hook
+  // or a custom attribute to let parent components (like a mobile drawer) know when to close.
+  id?: string;
+}
+
+const { id = 'main-nav-list' } = Astro.props;
+---
+
+<nav id={id}>
+  {/* Unified routing pipeline */}
+  <ul class='flex flex-col gap-[0.5em] font-bold text-center mt-[1em] text-gold list-none p-0'>
+    <li data-reset-scroll class='cursor-pointer'>
+      <a
+        href=`${import.meta.env.BASE_URL}index.html`
+        class='block w-full h-full hover:opacity-80 transition-opacity'>Songs</a
+      >
+    </li>
+    <li data-nav-item class='cursor-pointer'>
+      <a
+        href=`${import.meta.env.BASE_URL}chords`
+        class='block w-full h-full hover:opacity-80 transition-opacity'>Chords</a
+      >
+    </li>
+    <li data-nav-item class='cursor-pointer'>
+      <a
+        href=`${import.meta.env.BASE_URL}about`
+        class='block w-full h-full hover:opacity-80 transition-opacity'>About</a
+      >
+    </li>
+  </ul>
+</nav>
+
+<script>
+  // Accessing the storage keys safely inline matching your application store boundaries
+  const SCROLL_TOP_KEY = 'listScrollTop'; // SessionStorageKeys.listScrollTop equivalent
+
+  function setupNavigationListeners() {
+    const container = document.getElementById('main-nav-list');
+    if (!container) return;
+
+    // Elements targeted to clear out scroll position tracking metrics
+    const scrollResetElements = container.querySelectorAll('[data-reset-scroll]');
+    scrollResetElements.forEach(item => {
+      item.addEventListener('click', () => {
+        try {
+          sessionStorage.setItem(SCROLL_TOP_KEY, '0');
+        } catch (e) {
+          console.error('Failed to update sessionStorage context:', e);
+        }
+        dispatchItemClick();
+      });
+    });
+
+    // Standard items that only need to trigger structural updates (e.g. closing drawer panels)
+    const standardElements = container.querySelectorAll('[data-nav-item]');
+    standardElements.forEach(item => {
+      item.addEventListener('click', dispatchItemClick);
+    });
+  }
+
+  function dispatchItemClick() {
+    // Replaces React's internal props.onItemClick callbacks by raising a native DOM event
+    // that top-level containers (like a shell navbar or drawer sidebars) can actively handle.
+    window.dispatchEvent(new CustomEvent('nav-item-clicked'));
+  }
+
+  // Bind execution boundaries properly for standard loads and view-transition cycles
+  setupNavigationListeners();
+  document.addEventListener('astro:after-swap', setupNavigationListeners);
+</script>
