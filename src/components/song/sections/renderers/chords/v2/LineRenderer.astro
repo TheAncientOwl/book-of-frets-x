@@ -7,7 +7,7 @@
  *
  * @file LineRenderer.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Measure parsing and grid renderer for chords v2 layout.
  */
 
@@ -15,12 +15,13 @@ import type { TChordsV2SectionData, TStrummingPattern } from '#types/song';
 import ChordsV2LineDelimiter from '#components/song/sections/renderers/chords/v2/LineDelimiter.astro';
 import ChordsV2LineTimes from '#components/song/sections/renderers/chords/v2/LineTimes.astro';
 import ChordV2Display from '#components/song/sections/renderers/chords/v2/Display.astro';
-import ChordCard from '#components/common/Chord.astro';
+import ChordPopover from '#components/common/ChordPopover.astro';
+import type { TChord } from '#types/chord';
 
 interface Props {
   data: TChordsV2SectionData;
   strummingPatterns: TStrummingPattern[];
-  chordsIndex: Record<string, any>;
+  chordsIndex: Record<string, TChord>;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -32,15 +33,13 @@ interface Props {
 
 const { data, strummingPatterns, chordsIndex, songSettings } = Astro.props;
 
-// Global constants from design system
-const GAP_BETWEEN_CHORD_LINES = '1.25rem'; // Replaces tokens like GAP_BETWEEN_CHORD_LINES dynamically
+const GAP_BETWEEN_CHORD_LINES = '1.25rem';
 const SEPARATOR_CHORD_CHAR = '|';
 const SEPARATOR_CHORD_NEWLINE = '/';
 const NO_CHORD_ID = '-';
 const EMPHASIZE_STRUMS = ['De', 'Ue'];
 const EMPHASIZE_STRUM_CHAR = 'e';
 
-// --- Type definition matching for structural layout passing ---
 type TBetweenSeparator = { type: 'delimiter' | 'spacer' };
 
 const chordsV2ParseData = (sectionData: TChordsV2SectionData) => {
@@ -116,7 +115,7 @@ const mapPairs = <T, R>(array: T[], callback: (a: T, b: T, index: number) => R):
 const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
 ---
 
-<div class='flex flex-row' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
+<div class='flex flex-row w-full' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
   {
     colsData.map((column, colIdx) => {
       const isFirstColumn = colIdx === 0;
@@ -133,7 +132,6 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                 const lineTimes = isLastColumn ? times[lineIdx] : undefined;
 
                 return (
-                  /* --- ChordsV2Line Equivalent --- */
                   <div
                     class='flex flex-row justify-center relative select-none'
                     style={{ marginTop }}
@@ -142,19 +140,25 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                     {isLastColumn && <ChordsV2LineDelimiter positioning='end' />}
 
                     <div class='flex flex-col' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
-                      {lines.map(lineData => (
+                      {lines.map((lineData, subLineIdx) => (
                         <div class='flex flex-row gap-[1em] justify-center items-center relative'>
-                          {mapPairs(lineData, (chordId, chordTimes) => {
+                          {mapPairs(lineData, (chordId, chordTimes, pairIdx) => {
                             if (chordId === SEPARATOR_CHORD_CHAR) {
                               return <div class='h-5.5 w-0 border-l border-solid border-gold/60' />;
                             }
 
                             const chordConfig = chordsIndex[chordId];
 
+                            // Generate a completely unique dynamic ID for each popover instance
+                            const popoverUniqueId = `popover-v2-${colIdx}-${lineIdx}-${subLineIdx}-${pairIdx}-${chordId}`;
+
                             return (
-                              /* --- Chord Popover Structural Subcomponent --- */
-                              <details class='relative inline-block group chords-v2-popover'>
-                                <summary class='list-none appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-gold hover:bg-dark-magenta/70 transition-colors relative'>
+                              <div class='relative inline-block'>
+                                <button
+                                  type='button'
+                                  popovertarget={popoverUniqueId}
+                                  class='chord-v2-popover-trigger appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-gold hover:bg-dark-magenta/70 transition-colors relative border-none'
+                                >
                                   {chordId !== NO_CHORD_ID && chordConfig !== undefined ? (
                                     <ChordV2Display name={chordConfig.name} />
                                   ) : (
@@ -170,24 +174,12 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                                         {chordTimes}
                                       </span>
                                     )}
-                                </summary>
+                                </button>
 
                                 {chordConfig && (
-                                  <div class='absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-30 p-6 rounded-lg border border-solid border-gold/60 bg-deep-purple shadow-xl pointer-events-auto'>
-                                    <div class='absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-deep-purple' />
-                                    <button
-                                      type='button'
-                                      class='absolute top-2 right-2 text-gold/50 hover:text-gold text-xs font-mono outline-none'
-                                      onclick="this.closest('details').removeAttribute('open')"
-                                    >
-                                      ✕
-                                    </button>
-                                    <div class='flex justify-center p-1 w-30 h-35'>
-                                      <ChordCard {...chordConfig} />
-                                    </div>
-                                  </div>
+                                  <ChordPopover id={popoverUniqueId} chordConfig={chordConfig} />
                                 )}
-                              </details>
+                              </div>
                             );
                           })}
                         </div>
@@ -198,7 +190,6 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                   </div>
                 );
               } else {
-                /* --- Inline Port of ChordsV1StrummingPattern --- */
                 const patternIdx = Number(line.substring(2));
                 const pattern = strummingPatterns[patternIdx];
 
@@ -222,7 +213,6 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
             })}
           </div>
 
-          {/* --- Between Separator Layout Pipeline --- */}
           {colIdx < colsData.length - 1 && (
             <div class='flex flex-col' style={{ gap: GAP_BETWEEN_CHORD_LINES }}>
               {betweenSeparator.map(sep =>
@@ -241,19 +231,30 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
 </div>
 
 <script>
-  function setupDismissal() {
-    document.addEventListener('click', e => {
-      const target = e.target as HTMLElement;
-      const openPopovers = document.querySelectorAll('.chords-v2-popover[open]');
+  function setupV2PopoverAnchoring() {
+    const triggers = document.querySelectorAll<HTMLButtonElement>('.chord-v2-popover-trigger');
 
-      openPopovers.forEach(popover => {
-        if (!popover.contains(target)) {
-          popover.removeAttribute('open');
-        }
+    triggers.forEach(trigger => {
+      const targetId = trigger.getAttribute('popovertarget');
+      if (!targetId) return;
+
+      const popover = document.getElementById(targetId);
+      if (!popover) return;
+
+      trigger.addEventListener('click', () => {
+        requestAnimationFrame(() => {
+          const triggerRect = trigger.getBoundingClientRect();
+
+          // Horizontally center the popover relative to the clicked chord box button
+          popover.style.left = `${triggerRect.left + triggerRect.width / 2 - popover.offsetWidth / 2}px`;
+
+          // Position it exactly 12px above the button top seam
+          popover.style.top = `${triggerRect.top - popover.offsetHeight - 12 + window.scrollY}px`;
+        });
       });
     });
   }
 
-  setupDismissal();
-  document.addEventListener('astro:after-swap', setupDismissal);
+  setupV2PopoverAnchoring();
+  document.addEventListener('astro:after-swap', setupV2PopoverAnchoring);
 </script>

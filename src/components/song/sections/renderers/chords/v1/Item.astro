@@ -7,17 +7,18 @@
  *
  * @file ChordsChunkItem.astro
  * @author Alexandru Delegeanu
- * @version 1.0
- * @description Render song pattern section. Ported 1:1 to Astro/Tailwind CSS.
+ * @version 1.1
+ * @description Render song pattern section.
  */
 
 import type { TStrummingChordsItem, TStrummingPattern } from '#types/song';
-import Chord from '#components/common/Chord.astro';
+import ChordPopover from '#components/common/ChordPopover.astro';
+import type { TChord } from '#types/chord';
 
 interface Props {
   items: TStrummingChordsItem;
   strumms: TStrummingPattern[];
-  chordsIndex: Record<string, any>;
+  chordsIndex: Record<string, TChord>;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -35,7 +36,6 @@ const SEPARATOR_CHORD_CHAR = '|';
 const SEPARATOR_BREAK_LINE = '/';
 const NO_CHORD_ID = '-';
 
-// --- helper function equivalent ---
 const mapPairs = <T, R>(array: T[], callback: (a: T, b: T, index: number) => R): R[] => {
   const result: R[] = [];
   for (let idx = 2; idx < array.length; idx += 2) {
@@ -49,7 +49,7 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
 
 <div class='flex flex-row items-end justify-center gap-5'>
   {
-    linesData.map(lineData => {
+    linesData.map((lineData, lineIdx) => {
       const strumm = Number(lineData[0][0]);
 
       if (strumm >= strumms.length) {
@@ -63,12 +63,11 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
       const strummingPattern = strumms[strumm];
 
       return (
-        /* --- ChordsV1ItemLine Subcomponent Root --- */
         <div class='flex flex-col justify-center items-center gap-2'>
           <div class='flex flex-col gap-5'>
-            {lineData.map(data => (
+            {lineData.map((data, dataIdx) => (
               <div class='flex flex-row gap-5 justify-center'>
-                {mapPairs(data, (chordId, times, index) => {
+                {mapPairs(data, (chordId, times, pairIdx) => {
                   if (chordId === SEPARATOR_CHORD_CHAR) {
                     return <div class='h-5.5 w-0 border-l border-solid border-gold/60' />;
                   }
@@ -83,17 +82,22 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
                     console.error(`Missing chord index for ID '${chordId}'`);
                   }
 
+                  // Generate a strictly unique ID string instance per iteration mapping loop keys
+                  const popoverUniqueId = `popover-${lineIdx}-${dataIdx}-${pairIdx}-${chordId}`;
+
                   return (
-                    /* --- Chakra Popover Native Alternative --- */
-                    <details class='relative inline-block group chords-chunk-popover select-none'>
-                      <summary class='list-none appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-gold hover:bg-dark-magenta/70 transition-colors relative'>
+                    <div class='relative inline-block select-none'>
+                      <button
+                        type='button'
+                        popovertarget={popoverUniqueId}
+                        class='chord-popover-trigger appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-gold hover:bg-dark-magenta/70 transition-colors relative border-none'
+                      >
                         {chordId !== NO_CHORD_ID && chordConfig !== undefined
                           ? chordConfig.name
                           : '-'}
 
                         {songSettings.display.chordTimes &&
                           (times !== '1' || songSettings.display.chordTimesOne) && (
-                            /* --- Chakra Tooltip Equivalent --- */
                             <span
                               class='absolute -top-2.5 right-0 translate-x-full text-xs font-bold text-gold'
                               title={`Strum ${times} times`}
@@ -101,36 +105,18 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
                               {times}
                             </span>
                           )}
-                      </summary>
+                      </button>
 
-                      {/* --- PopoverContent Portal Equivalent via absolute positioning --- */}
                       {chordConfig && (
-                        <div class='absolute bottom-full left-1/2 -translate-x-1/2 mb-3 z-30 p-6 rounded-lg border border-solid border-gold/60 bg-deep-purple shadow-xl pointer-events-auto'>
-                          {/* PopoverArrow */}
-                          <div class='absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-deep-purple' />
-
-                          {/* Close button utility */}
-                          <button
-                            type='button'
-                            class='absolute top-2 right-2 text-gold/50 hover:text-gold text-xs font-mono outline-none'
-                            onclick="this.closest('details').removeAttribute('open')"
-                          >
-                            ✕
-                          </button>
-
-                          <div class='flex justify-center p-1 w-30 h-35'>
-                            <Chord {...chordConfig} />
-                          </div>
-                        </div>
+                        <ChordPopover id={popoverUniqueId} chordConfig={chordConfig} />
                       )}
-                    </details>
+                    </div>
                   );
                 })}
               </div>
             ))}
           </div>
 
-          {/* --- ChordsV1StrummingPattern Subcomponent --- */}
           {songSettings.display.strummingPattern && (
             <div class='relative mt-[0.4em]'>
               <div class='flex flex-row gap-2 justify-center text-gold'>
@@ -154,20 +140,29 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
 </div>
 
 <script>
-  // Shared listener to auto-dismiss other open chord popovers when clicking empty canvas areas
-  function handleGlobalDismissal() {
-    document.addEventListener('click', e => {
-      const target = e.target as HTMLElement;
-      const openPopovers = document.querySelectorAll('.chords-chunk-popover[open]');
+  function setupPopoverAnchoring() {
+    const triggers = document.querySelectorAll<HTMLButtonElement>('.chord-popover-trigger');
 
-      openPopovers.forEach(popover => {
-        if (!popover.contains(target)) {
-          popover.removeAttribute('open');
-        }
+    triggers.forEach(trigger => {
+      const targetId = trigger.getAttribute('popovertarget');
+      if (!targetId) return;
+
+      const popover = document.getElementById(targetId);
+      if (!popover) return;
+
+      // Handle custom alignment geometry on display action click updates
+      trigger.addEventListener('click', () => {
+        requestAnimationFrame(() => {
+          const triggerRect = trigger.getBoundingClientRect();
+
+          // Center horizontal, place 12px exactly above the trigger seam node
+          popover.style.left = `${triggerRect.left + triggerRect.width / 2 - popover.offsetWidth / 2}px`;
+          popover.style.top = `${triggerRect.top - popover.offsetHeight - 12 + window.scrollY}px`;
+        });
       });
     });
   }
 
-  handleGlobalDismissal();
-  document.addEventListener('astro:after-swap', handleGlobalDismissal);
+  setupPopoverAnchoring();
+  document.addEventListener('astro:after-swap', setupPopoverAnchoring);
 </script>
