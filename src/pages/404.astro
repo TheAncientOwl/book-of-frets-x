@@ -1,0 +1,58 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file 404.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Display 404 not found page.
+ */
+
+import '#styles/global.css';
+
+import PageNotFound404Layout from '#layouts/PageNotFound404Layout.astro';
+---
+
+<PageNotFound404Layout directory=''>
+  <div class='flex items-center justify-center min-h-dvh p-6'>
+    <div class='flex flex-col items-center justify-center text-center p-6 bg-black/30 gap-1'>
+      <h1 class='text-3xl font-bold mb-5 text-magenta italic'>
+        These are not the frets <br />
+        you’re looking for 🎸
+      </h1>
+
+      <div class='group relative mb-2'>
+        <!-- The GIF: Now has its own hover scale effect -->
+        <img
+          src={`${import.meta.env.BASE_URL}404.gif`}
+          alt='Not Found'
+          class='rounded-lg transition-transform duration-300 hover:scale-110 cursor-pointer'
+        />
+
+        <!-- Tooltip -->
+        <div
+          class='absolute top-full left-1/2 -translate-x-1/2 w-max p-3 rounded-lg
+                border border-magenta
+                 bg-black text-magenta opacity-0 transition-opacity
+                 group-hover:opacity-100 pointer-events-none z-50'
+        >
+          <p>sad...</p>
+          <p>And sad backwards is das</p>
+          <p>And das' not good... :(</p>
+        </div>
+      </div>
+
+      <div class='text-md font-bold text-magenta mb-10'>Page Not Found</div>
+
+      <a
+        href={`${import.meta.env.BASE_URL}index.html`}
+        class='px-4 py-2 rounded transition-colors border border-magenta text-magenta'
+      >
+        Take me home, country roads
+      </a>
+    </div>
+  </div>
+</PageNotFound404Layout>
