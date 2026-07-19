@@ -7,15 +7,15 @@
  *
  * @file ChordPopover.astro
  * @author Alexandru Delegeanu
- * @version 1.0
- * @description Top-layer popover rendering chord diagrams natively without layout distortion.
+ * @version 1.1
+ * @description Viewport-centered popover with fluid card wrapping to prevent layout clipping.
  */
 
 import Chord from '#components/common/Chord.astro';
 import type { TChord } from '#types/chord';
 
 interface Props {
-  id: string; // Unique ID to associate target anchors with this modal popup
+  id: string;
   chordConfig: TChord;
 }
 
@@ -25,42 +25,43 @@ const { id, chordConfig } = Astro.props;
 <div
   id={id}
   popover
-  class='popover-top-layer p-4 rounded-lg border border-solid border-gold/60 bg-deep-purple shadow-xl overflow-visible max-w-none backdrop:bg-transparent'
+  class='fixed !inset-0 !m-0 p-0 w-dvw h-dvh max-w-none max-h-none border-none bg-transparent backdrop:bg-black/65 open:flex items-center justify-center z-50 cursor-pointer'
 >
-  {/* Close button utility */}
-  <button
-    type='button'
-    class='absolute top-2 right-2 text-gold/50 hover:text-gold text-xs font-mono outline-none cursor-pointer z-40'
-    popovertarget={id}
-    popovertargetaction='hide'
+  <div
+    class='relative p-8 rounded-lg border border-solid border-gold/60 bg-deep-purple shadow-2xl overflow-visible cursor-default'
   >
-    ✕
-  </button>
+    <button
+      type='button'
+      class='absolute top-2 right-2 text-gold/50 hover:text-gold text-xs font-mono outline-none cursor-pointer z-40'
+      popovertarget={id}
+      popovertargetaction='hide'
+    >
+      ✕
+    </button>
 
-  {
-    /* 
-    FIX: Removed 'w-30 h-35' restrictions. We isolate the font-size context 
-    so the chord's internal 'em' metrics calculate perfectly.
-  */
-  }
-  <div class='flex justify-center items-center text-[0.7em]'>
-    <Chord {...chordConfig} />
+    <div class='flex items-center justify-center text-[0.7em] max-w-full h-auto mx-auto'>
+      <Chord {...chordConfig} />
+    </div>
   </div>
 </div>
 
-<style>
-  /* 
-    Styles specific to components rendering inside the native Top Layer.
-  */
-  .popover-top-layer {
-    margin: 0;
-    position: absolute;
-    border-radius: 0.5rem;
-    color: inherit;
-    z-index: 50;
+<script>
+  const setupPopoverDismissal = () => {
+    const popovers = document.querySelectorAll('[popover]');
+
+    popovers.forEach(popover => {
+      popover.removeEventListener('click', handleAnywhereClick);
+      popover.addEventListener('click', handleAnywhereClick);
+    });
+  };
+
+  function handleAnywhereClick(event: Event) {
+    const popover = event.currentTarget as any;
+    if (typeof popover.hidePopover === 'function') {
+      popover.hidePopover();
+    }
   }
 
-  .popover-top-layer:not(:popover-open) {
-    display: none;
-  }
-</style>
+  setupPopoverDismissal();
+  document.addEventListener('astro:page-load', setupPopoverDismissal);
+</script>
