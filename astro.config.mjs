@@ -12,6 +12,9 @@ export default defineConfig({
   // </GitHub-Pages>
 
   integrations: [icon()],
+  build: {
+    inlineStylesheets: 'always',
+  },
   vite: {
     plugins: [tailwindcss()],
   },
