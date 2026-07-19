@@ -7,8 +7,8 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   // <GitHub-Pages>
-  site: 'https://TheAncientOwl.github.io',
-  base: '/book-of-frets-x/',
+  site: 'https://book-of-frets.com',
+  base: '/',
   // </GitHub-Pages>
 
   integrations: [icon()],
