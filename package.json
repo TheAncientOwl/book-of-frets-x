@@ -1,6 +1,7 @@
 {
   "name": "book-of-frets-x",
   "type": "module",
+  "homepage": "https://book-of-frets.com",
   "version": "1.0.0",
   "engines": {
     "node": ">=22.12.0"
