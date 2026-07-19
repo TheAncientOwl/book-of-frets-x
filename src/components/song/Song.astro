@@ -7,7 +7,7 @@
  *
  * @file Song.astro
  * @author Alexandru Delegeanu
- * @version 1.7
+ * @version 1.8
  * @description Song renderer.
  */
 
@@ -17,7 +17,7 @@ import SongHeader from '#components/song/Header.astro';
 import SongNotes from './Notes.astro';
 import SongChordsList from '#components/song/ChordsLists.astro';
 import SongSections from '#components/song/sections/Sections.astro';
-import SongResources from './SongResources.astro';
+// import SongResources from './SongResources.astro';
 
 interface Props extends TSong {
   directory: string;
@@ -72,18 +72,18 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
       </div>
     </div>
 
-    <div
+    <!-- <div
       id='lazy-resources-wrapper'
       class='mt-auto pt-6 border-t border-solid border-white/5 min-h-[200px]'
     >
       <template id='song-resources-template'>
         <SongResources res={props.res} />
       </template>
-    </div>
+    </div> -->
   </div>
 </div>
 
-<script>
+<!-- <script>
   function setupLazyResources() {
     const rootContainer = document.getElementById('song-viewport-container');
     const wrapper = document.getElementById('lazy-resources-wrapper');
@@ -119,4 +119,4 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
   // Bind execution parameters cleanly across classic navigations and transitions
   setupLazyResources();
   document.addEventListener('astro:after-swap', setupLazyResources);
-</script>
+</script> -->
