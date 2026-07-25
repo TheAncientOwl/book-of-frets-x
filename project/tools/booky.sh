@@ -4,7 +4,7 @@
 # -----------------------------------------------------------------------------
 # @file booky.sh
 # @author Alexandru Delegeanu
-# @version 1.1
+# @version 1.2
 # @description Main CLI entrypoint for BookOfFretsX tooling
 #
 
@@ -13,9 +13,9 @@ set -euo pipefail
 # Resolve project root (directory where this script lives)
 BOOKY_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Ensure BOOK_OF_FRETS_ROOT is set (fallback to BOOKY_ROOT)
-if [ -z "${BOOK_OF_FRETS_ROOT:-}" ]; then
-  export BOOK_OF_FRETS_ROOT="$BOOKY_ROOT"
+# Ensure BOOK_OF_FRETS_X_ROOT is set (fallback to BOOKY_ROOT)
+if [ -z "${BOOK_OF_FRETS_X_ROOT:-}" ]; then
+  export BOOK_OF_FRETS_X_ROOT="$BOOKY_ROOT"
 fi
 
 print_help() {
@@ -82,7 +82,7 @@ case "$command" in
       echo "❌ Usage: ./booky.sh --webpify <input_path> [quality]"
       exit 1
     fi
-    python3 "$BOOK_OF_FRETS_ROOT/project/tools/webpify/run.py" "$@"
+    python3 "$BOOK_OF_FRETS_X_ROOT/project/tools/webpify/run.py" "$@"
     ;;
 
   --jpegify)
@@ -90,7 +90,7 @@ case "$command" in
       echo "❌ Usage: ./booky.sh --jpegify <input_path>"
       exit 1
     fi
-    "$BOOK_OF_FRETS_ROOT/project/tools/jpegify/run.sh" "$@"
+    "$BOOK_OF_FRETS_X_ROOT/project/tools/jpegify/run.sh" "$@"
     ;;
 
   --resize)
@@ -98,7 +98,7 @@ case "$command" in
       echo "❌ Usage: ./booky.sh --resize <input_path> <width> <height>"
       exit 1
     fi
-    python3 "$BOOK_OF_FRETS_ROOT/project/tools/image-resizer/run.py" "$@"
+    python3 "$BOOK_OF_FRETS_X_ROOT/project/tools/image-resizer/run.py" "$@"
     ;;
 
   --song)
@@ -106,7 +106,7 @@ case "$command" in
       echo "❌ Usage: ./booky.sh --song <dir-name> <cover-image-src-path>"
       exit 1
     fi
-    "$BOOK_OF_FRETS_ROOT/project/tools/song/create.sh" "$@" "$BOOK_OF_FRETS_ROOT/public/songs/index.json"
+    "$BOOK_OF_FRETS_X_ROOT/project/tools/song/create.sh" "$@" "$BOOK_OF_FRETS_X_ROOT/public/songs/index.json"
     ;;
 
   --render-pdf)
@@ -114,11 +114,11 @@ case "$command" in
       echo "❌ Usage: ./booky.sh --render-pdf <config_path> [--theme <theme_config_path>]"
       exit 1
     fi
-    python3 "$BOOK_OF_FRETS_ROOT/project/tools/pdf/render.py" "$@"
+    python3 "$BOOK_OF_FRETS_X_ROOT/project/tools/pdf/render.py" "$@"
     ;;
 
   --render-pdf-all)
-    "$BOOK_OF_FRETS_ROOT/project/tools/pdf/render_all_pdf.sh"
+    "$BOOK_OF_FRETS_X_ROOT/project/tools/pdf/render_all_pdf.sh"
     ;;
 
   --render-pdf-themes)
@@ -126,7 +126,7 @@ case "$command" in
       echo "❌ Usage: ./booky.sh --render-pdf-themes <config_path>"
       exit 1
     fi
-    "$BOOK_OF_FRETS_ROOT/project/tools/pdf/render_pdf_themes.sh" "$@"
+    "$BOOK_OF_FRETS_X_ROOT/project/tools/pdf/render_pdf_themes.sh" "$@"
     ;;
 
   *)

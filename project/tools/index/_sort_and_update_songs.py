@@ -6,7 +6,7 @@
 
  @file _sort_and_update_songs.py
  @author Alexandru Delegeanu
- @version 1.1
+ @version 1.2
  @description Convert source image to jpeg
 """
 
@@ -48,7 +48,7 @@ def update_index_html(index_html_path: Path, preloads: List[Dict[str, Any]]):
     html = index_html_path.read_text(encoding="utf-8")
 
     if PRELOAD_START not in html or PRELOAD_END not in html:
-        print("Could not find preload markers in index.html")
+        print(f"Could not find preload markers in {index_html_path.name}")
         return
 
     start_index = html.index(PRELOAD_START) + len(PRELOAD_START)
@@ -60,30 +60,30 @@ def update_index_html(index_html_path: Path, preloads: List[Dict[str, Any]]):
         if directory:
             preload_blocks.append(build_preload_block(directory))
 
-    new_preload_section = "\n" + "\n".join(preload_blocks) + "\n\n    "
+    new_preload_section = "\n" + "\n".join(preload_blocks) + "\n    "
 
     updated_html = html[:start_index] + new_preload_section + html[end_index:]
 
     if updated_html != html:
         index_html_path.write_text(updated_html, encoding="utf-8")
     else:
-        print("No changes were applied to index.html")
+        print(f"No changes were applied to {index_html_path.name}")
 
 
 def main():
     if len(sys.argv) != 3:
-        print("Usage: python sort.py <path-to-index.json> <path-to-index.html>")
+        print("Usage: python sort.py <path-to-index.json> <path-to-layout-file>")
         sys.exit(1)
 
     index_path = Path(sys.argv[1])
-    index_html_path = Path(sys.argv[2])
+    layout_path = Path(sys.argv[2])
 
     if not index_path.exists():
         print(f"File not found: {index_path}")
         sys.exit(1)
 
-    if not index_html_path.exists():
-        print(f"File not found: {index_html_path}")
+    if not layout_path.exists():
+        print(f"File not found: {layout_path}")
         sys.exit(1)
 
     with index_path.open("r", encoding="utf-8") as f:
@@ -96,10 +96,10 @@ def main():
         json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
-    update_index_html(index_html_path, sorted_index[:13])
+    update_index_html(layout_path, sorted_index[:12])
 
     print(f"Sorted {len(sorted_index)} entries successfully.")
-    print("Updated index.html preload covers (first 12 entries).")
+    print(f"Updated {layout_path.name} preload covers (first 12 entries).")
 
 
 if __name__ == "__main__":

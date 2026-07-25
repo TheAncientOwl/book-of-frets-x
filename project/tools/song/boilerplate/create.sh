@@ -6,7 +6,7 @@
 #
 # @file create.sh
 # @author Alexandru Delegeanu
-# @version 1.1
+# @version 1.2
 # @description Create song boilerplate
 #
 
@@ -68,6 +68,47 @@ cat > "$output_file" <<EOF
 EOF
 
 echo "✅ Boilerplate created at: $output_file"
+
+# >> Create Astro song page
+astro_output_dir="src/pages/songs"
+mkdir -p "$astro_output_dir"
+astro_output_file="${astro_output_dir}/${dir_name}.astro"
+
+cat > "$astro_output_file" <<'ASTROEOF'
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file ASTRO_FILENAME
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description ASTRO_TITLE song page.
+ */
+
+import '#styles/global.css';
+
+import SongLayout from '#layouts/SongLayout.astro';
+import Song from '#components/song/Song.astro';
+
+import type { TSong } from '#types/song';
+import configData from '#public/songs/ASTRO_DIR/config.json';
+const config = configData as TSong;
+---
+
+<SongLayout directory='ASTRO_DIR'>
+  <Song directory='ASTRO_DIR' {...config} />
+</SongLayout>
+ASTROEOF
+
+# Replace placeholders in the Astro file
+sed -i '' "s|ASTRO_FILENAME|${dir_name}.astro|g" "$astro_output_file"
+sed -i '' "s|ASTRO_TITLE|${title}|g" "$astro_output_file"
+sed -i '' "s|ASTRO_DIR|${dir_name}|g" "$astro_output_file"
+
+echo "✅ Astro page created at: $astro_output_file"
 
 index_entry="{
   \"title\": \"${title}\",

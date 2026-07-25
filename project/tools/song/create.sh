@@ -6,7 +6,7 @@
 #
 # @file create.sh
 # @author Alexandru Delegeanu
-# @version 1.0
+# @version 1.1
 # @description Helper to generate song config boilerplate + cover images
 #
 
@@ -25,7 +25,7 @@ echo "[Info] Directory name: ${dir_name}"
 echo "[Info] Cover image path: ${cover_image_src_path}"
 
 # Create song directory
-dir_path="$BOOK_OF_FRETS_ROOT/public/songs/$dir_name"
+dir_path="$BOOK_OF_FRETS_X_ROOT/public/songs/$dir_name"
 echo "[Info] Creating song directory path: ${dir_path}"
 mkdir -p $dir_path
 echo "[Info] Created song directory path: ${dir_path} successfully"
@@ -41,14 +41,14 @@ echo ""
 
 # Webpify cover image
 webp_cover_dest_path="${cover_dest_path%.*}.webp"
-python3 $BOOK_OF_FRETS_ROOT/project/tools/webpify/run.py "$cover_dest_path" 85
+python3 $BOOK_OF_FRETS_X_ROOT/project/tools/webpify/run.py "$cover_dest_path" 85
 rm $cover_dest_path
 
 # Resize cover image
-$BOOK_OF_FRETS_ROOT/project/tools/song/resize-cover/run.sh $webp_cover_dest_path
+$BOOK_OF_FRETS_X_ROOT/project/tools/song/resize-cover/run.sh $webp_cover_dest_path
 
 # Create song config boilerplate
-$BOOK_OF_FRETS_ROOT/project/tools/song/boilerplate/create.sh "$dir_name" "$index_json_path"
+$BOOK_OF_FRETS_X_ROOT/project/tools/song/boilerplate/create.sh "$dir_name" "$index_json_path"
 
 # Sort the songs/index.json and update index.html
-$BOOK_OF_FRETS_ROOT/project/tools/index/sort_and_update_songs.sh
+$BOOK_OF_FRETS_X_ROOT/project/tools/index/sort_and_update_songs.sh

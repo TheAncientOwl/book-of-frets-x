@@ -6,8 +6,8 @@
 #
 # @file run.sh
 # @author Alexandru Delegeanu
-# @version 1.0
+# @version 1.1
 # @description Runs @see sort.py
 #
 
-python3 ./project/tools/index/_sort_and_update_songs.py public/songs/index.json index.html
+python3 ./project/tools/index/_sort_and_update_songs.py public/songs/index.json src/layouts/SongsListLayout.astro
