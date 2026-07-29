@@ -1,0 +1,107 @@
+{
+  "version": "2.0.0",
+  "contributors": ["TheAncientOwl"],
+  "title": "Lovely",
+  "artists": ["Billie Eilish", "Khalid"],
+  "type": ["acoustic"],
+  "notes": [],
+  "capo": 0,
+  "chordIDs": ["C", "Em", "Bm"],
+  "strumms": [["D", "-", "D", "U", "D", "U", "D", "U"], ["D"]],
+  "sections": {
+    "i1": {
+      "name": "intro",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "gtab-v1",
+          "data": "[C] - G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 - | - G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 -"
+        }
+      ]
+    },
+    "i2": {
+      "name": "intro",
+      "times": 4,
+      "entries": [
+        {
+          "renderer": "gtab-v1",
+          "data": "[C] - E9+G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 - | - G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 - | [Em] - E0+G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 - | [Bm] - E7+G7 - B7 - G7 - B7 - G7 - B7 - G7 - B7 -"
+        }
+      ]
+    },
+    "pc": {
+      "name": "prechorus",
+      "times": 4,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x1 C 1 C 1 Em 1 Bm 1", "> 0"]
+        }
+      ]
+    },
+    "c": {
+      "name": "chorus",
+      "times": 2,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x1 C 1 - 1 Em 1 Bm 1", "> 1"]
+        }
+      ]
+    },
+    "b": {
+      "name": "break",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "gtab-v1",
+          "data": "[C] - E8+G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 - | - G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 -"
+        }
+      ]
+    },
+    "v": {
+      "name": "verse",
+      "times": 2,
+      "entries": [
+        {
+          "renderer": "gtab-v1",
+          "data": "[C] - E9+G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 - | - G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 - | [Em] - E0+G9 - B8 - G9 - B8 - G9 - B8 - G9 - B8 - | [Bm] - E7+G7 - B7 - G7 - B7 - G7 - B7 - G7 - B7 -"
+        }
+      ]
+    },
+    "o": {
+      "name": "outro",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v3",
+          "data": {
+            "times": 2,
+            "items": [["x1 C 1 C 1 Em 1 Bm 1", "> 0"]]
+          }
+        },
+        {
+          "renderer": "chords-v3",
+          "data": {
+            "times": 2,
+            "items": [["x1 C 1 - 1 Em 1 Bm 1", "> 1"]]
+          }
+        }
+      ]
+    }
+  },
+  "order": ["i1", "i2", "pc", "c", "b", "v", "pc", "c", "o"],
+  "lyrics": false,
+  "res": [
+    {
+      "alias": "Lovely Guitar Tutorial Billie Eilish Guitar |Chords + Fingerpicking|",
+      "author": "GuitarZero2Hero ~ YouTube",
+      "link": "https://youtu.be/QKQr9HgkuFk"
+    },
+    {
+      "alias": "Lovely Guitar Cover Billie Eilish 🎸|Tabs + Chords|",
+      "author": "GuitarZero2Hero Express ~ YouTube",
+      "link": "https://youtu.be/1MRVR_c7qQw"
+    }
+  ]
+}
