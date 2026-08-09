@@ -29,6 +29,7 @@ interface Props {
   type: string[];
   contributors: string[];
   lyrics: boolean;
+  pdf: boolean;
   res: Resource[];
   directory: string;
   lyricsShown: boolean;
@@ -126,7 +127,7 @@ const typeToIcon: Record<string, string> = {
     <div
       class='flex flex-col items-center gap-2.5 absolute top-0 left-[7em] sm:left-[8em] h-full justify-center'
     >
-      <OpenPDFButton directory={props.directory} />
+      <OpenPDFButton available={props.pdf} directory={props.directory} />
       <FetchLyricsButton
         available={props.lyrics}
         lyricsShown={props.lyricsShown}

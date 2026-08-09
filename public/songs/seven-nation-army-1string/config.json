@@ -26,5 +26,6 @@
   },
   "order": ["m"],
   "lyrics": false,
+  "pdf": false,
   "res": []
 }

@@ -85,6 +85,7 @@
   },
   "order": ["v1", "pc", "c", "v2", "c", "bg", "v3", "pc", "c", "o"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Salt Water Guitar Tutorial - Ed Sheeran Guitar Lesson |Chords + Strumming|",

@@ -63,6 +63,7 @@ cat > "$output_file" <<EOF
   "sections": {},
   "order": [],
   "lyrics": false,
+"pdf": false,
   "res": ${res_json}
 }
 EOF

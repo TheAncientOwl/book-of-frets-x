@@ -66,6 +66,7 @@
   },
   "order": ["00", "r1", "r2", "r1", "02"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Hazbin Hotel - Vox Populi - Guitar Cover with Tabs",

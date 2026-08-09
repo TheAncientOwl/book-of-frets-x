@@ -95,6 +95,7 @@
   },
   "order": ["vr", "pc", "cr", "c", "v", "pc", "cr", "c2", "fpc", "c2"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "How Long Guitar Tutorial - Charlie Puth Guitar Lesson 🎸 |Chords + TAB + Guitar Cover|",

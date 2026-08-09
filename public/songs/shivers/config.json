@@ -86,6 +86,7 @@
   },
   "order": ["v", "c1", "v", "c2"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Shivers Guitar Tutorial Ed Sheeran Guitar Lesson |No Capo + Easy Chords|",

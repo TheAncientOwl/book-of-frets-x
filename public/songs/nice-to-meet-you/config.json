@@ -87,6 +87,7 @@
   },
   "order": ["v", "pr", "c", "v", "pr", "c", "po"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Myles Smith - Nice To Meet You EASY Guitar Tutorial With Chords / Lyrics",

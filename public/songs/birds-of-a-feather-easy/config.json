@@ -32,6 +32,7 @@
   },
   "order": ["i", "mp"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Birds Of A Feather Guitar Tutorial Billie Eilish Guitar Chords + Fingerpicking",

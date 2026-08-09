@@ -188,6 +188,10 @@
       "type": "boolean",
       "default": false
     },
+    "pdf": {
+      "type": "boolean",
+      "default": false
+    },
     "res": {
       "type": "array",
       "items": {

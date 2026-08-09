@@ -72,6 +72,7 @@
   },
   "order": ["v", "pc", "c1", "v", "pc", "c2", "bg", "c3"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Slowly Guitar Tutorial Ed Sheeran Easy Chords + Strumming",

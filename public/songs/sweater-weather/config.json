@@ -55,6 +55,7 @@
   },
   "order": ["v", "pr", "c1", "v", "pr", "c2", "b", "c3", "o"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Sweater Weather Guitar Tutorial - The Neighbourhood Guitar Lesson |Chords + Guitar Cover|",

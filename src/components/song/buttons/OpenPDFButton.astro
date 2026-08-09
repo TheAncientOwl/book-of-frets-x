@@ -15,16 +15,19 @@ import { Icon } from 'astro-icon/components';
 
 interface Props {
   directory: string;
+  available: boolean;
 }
 
-const { directory } = Astro.props;
+const { directory, available } = Astro.props;
 ---
 
 <div class='relative group/pdf-btn inline-block'>
   <button
     id='open-pdf-btn'
+    disabled={!available}
     data-directory={directory}
-    class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-gold text-gold transition-colors duration-200 cursor-pointer hover:bg-black'
+    data-available={available ? 'true' : 'false'}
+    class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-gold text-gold transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 hover:bg-black'
     aria-label='open-pdf-button'
   >
     <Icon name='fa6-solid:file-pdf' class='w-[16px] h-[16px] text-gold' />
@@ -34,14 +37,25 @@ const { directory } = Astro.props;
   <div
     class='absolute left-0 top-full mt-2 px-2.5 py-1.5 text-xs rounded-lg border border-solid border-gold bg-[#181426] text-gold opacity-0 pointer-events-none group-hover/pdf-btn:opacity-100 transition-opacity whitespace-nowrap z-40 shadow-xl text-center'
   >
-    Open PDF
+    {
+      available ? (
+        'Open PDF'
+      ) : (
+        <div>
+          PDF not available for this song... :( <br />
+          <span class='text-magenta font-semibold'>Feel free to contribute :D</span>
+        </div>
+      )
+    }
   </div>
 </div>
 
 <script>
-  const pdfBtn = document.getElementById('open-pdf-btn');
+  const pdfBtn = document.getElementById('open-pdf-btn') as HTMLButtonElement | null;
 
   pdfBtn?.addEventListener('click', () => {
+    if (pdfBtn.getAttribute('data-available') !== 'true') return;
+
     const directory = pdfBtn.getAttribute('data-directory');
     if (!directory) return;
 

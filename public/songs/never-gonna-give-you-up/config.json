@@ -84,6 +84,7 @@
   },
   "order": ["i", "v", "pr", "c", "v", "pr", "c"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Rick Astley - Never Gonna Give You Up EASY Guitar Tutorial With Chords / Lyrics",

@@ -151,6 +151,7 @@
   },
   "order": ["i", "v1", "pr1", "c1", "v2", "pr2", "c1", "b", "c2"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Save Your Tears Guitar Tutorial The Weeknd Guitar Lesson |Easy Chords|",

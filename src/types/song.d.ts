@@ -68,6 +68,7 @@ export type TSong = {
   sections: Record<string, TSongSection>;
   order: string[];
   lyrics: boolean;
+  pdf: boolean;
   res: TResource[];
   type: string[];
   contributors: string[];

@@ -50,7 +50,8 @@
     }
   },
   "order": ["i", "v", "pr", "c", "v", "pr", "c", "b", "o"],
-  "lyrics": true,
+  "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Run Away to Mars by TALK - Beginner Guitar Lesson & Play Along",

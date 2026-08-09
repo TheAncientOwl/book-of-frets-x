@@ -134,6 +134,7 @@
   },
   "order": ["i", "v1", "ch1", "br", "v2", "ch2", "bdg", "ch3", "o"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Choosin' Texas Guitar Tutorial Ella Langley Lesson |Standard Tuning + Live Tuning|",
