@@ -1,0 +1,150 @@
+{
+  "version": "2.0.0",
+  "contributors": ["TheAncientOwl"],
+  "title": "Choosin' Texas (Standard Tuning)",
+  "artists": ["Ella Langley"],
+  "type": ["acoustic"],
+  "notes": [],
+  "capo": 1,
+  "chordIDs": ["Dm", "C", "F", "Am"],
+  "strumms": [
+    ["D", "U", "D", "U", "D", "U", "D", "U"],
+    ["D"],
+    ["D", "D", "D", "D", "D", "D", "D", "D"]
+  ],
+  "sections": {
+    "i": {
+      "name": "intro",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x1 Dm 1 Dm 1 C 1 C 1", "x1 Dm 1 F 1 C 1 C 1", "> 0"]
+        }
+      ]
+    },
+    "v1": {
+      "name": "verse 1",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x2 Dm 1 Dm 1 C 1 C 1", "x1 F 1 F 1 G 1 G 1", "> 0"]
+        }
+      ]
+    },
+    "ch1": {
+      "name": "chorus 1",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": [
+            "x1 F 1 F 1 C 1 C 1",
+            "x1 Dm 1 Dm 1 G 1 G 1",
+            "x1 F 1 F 1 Am 1 Am 1",
+            "x1 F 1",
+            "> 0",
+            "x1 G 1 C 1",
+            "> 1"
+          ]
+        }
+      ]
+    },
+    "br": {
+      "name": "break",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x1 Dm 1 Dm 1 C 1 C 1", "> 0"]
+        }
+      ]
+    },
+    "v2": {
+      "name": "verse 2",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x2 Dm 1 Dm 1 C 1 C 1", "x1 F 1 F 1 G 1 G 1", "> 0"]
+        }
+      ]
+    },
+    "ch2": {
+      "name": "chorus 2",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": [
+            "x1 F 1 F 1 C 1 C 1",
+            "x1 Dm 1 Dm 1 G 1 G 1",
+            "x1 F 1 F 1 Am 1 Am 1",
+            "x1 F 1 G 1 C 1 C 1",
+            "> 0"
+          ]
+        }
+      ]
+    },
+    "bdg": {
+      "name": "bridge",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x1 F 1 G 1 Am 1", "x1 F 1 G 1 Dm 1", "> 0", "x1 G 1 - 1 - 1", "> 1"]
+        }
+      ]
+    },
+    "ch3": {
+      "name": "chorus 3",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": [
+            "x1 F 1 F 1 C 1 C 1",
+            "x1 Dm 1 Dm 1 G 1 G 1",
+            "> 2",
+            "x1 F 1 F 1 Am 1 Am 1",
+            "x1 F 1 G 1 Am 1 Dm 1",
+            "x1 F 1",
+            "> 0",
+            "x1 G 1",
+            "> 1",
+            "x1 C 1",
+            "> 0",
+            "x1 C 1",
+            "> 1"
+          ]
+        }
+      ]
+    },
+    "o": {
+      "name": "outro",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x1 Dm 1 Dm 1 C 1 C 1", "x1 Dm 1 F 1", "> 0", "x1 C 1", "> 1"]
+        }
+      ]
+    }
+  },
+  "order": ["i", "v1", "ch1", "br", "v2", "ch2", "bdg", "ch3", "o"],
+  "lyrics": false,
+  "pdf": false,
+  "res": [
+    {
+      "alias": "Choosin' Texas Guitar Tutorial Ella Langley Lesson |Standard Tuning + Live Tuning|",
+      "author": "GuitarZero2Hero ~ YouTube",
+      "link": "https://youtu.be/sCJ3fYIfy2I"
+    },
+    {
+      "alias": "Choosin' Texas Guitar Cover Ella Langley 🎸|Tabs + Chords|",
+      "author": "GuitarZero2Hero Express ~ YouTube",
+      "link": "https://youtu.be/K5h5GgcQwLQ"
+    }
+  ]
+}

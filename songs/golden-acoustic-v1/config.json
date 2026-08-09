@@ -102,6 +102,7 @@
   },
   "order": ["i", "v1", "p1", "c1", "v2", "p2", "c2", "po", "o"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Golden - Huntrix (KPop Demon Hunters) EASY Guitar Tutorial with Chords | Lyrics",

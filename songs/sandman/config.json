@@ -75,6 +75,7 @@
   },
   "order": ["i", "v", "pc", "c", "b", "v", "pc", "c", "b", "pc", "cf"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Sandman Guitar Tutorial Ed Sheeran Guitar Lesson |Easy Chords|",

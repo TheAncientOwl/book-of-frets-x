@@ -120,6 +120,7 @@
   },
   "order": ["00", "01", "02", "03"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Come Play - Arcane - Guitar Cover with Tabs - (League of Legends)",

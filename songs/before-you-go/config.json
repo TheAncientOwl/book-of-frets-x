@@ -122,6 +122,7 @@
   },
   "order": ["i", "vp1", "cp", "bk", "vs", "cs", "b", "fc1", "vp2"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Before You Go Guitar Tutorial 🎸 Lewis Capaldi Guitar Lesson |Fingerpicking + TAB|",

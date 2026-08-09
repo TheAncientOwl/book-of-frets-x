@@ -72,6 +72,7 @@
   },
   "order": ["i", "v1", "v2", "c1", "v1", "v2", "c2"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Zombie (Acoustic) Guitar Tutorial Yungblud | Chords & Strumming |",

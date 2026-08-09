@@ -241,6 +241,7 @@
   },
   "order": ["i", "v1", "b1", "v2", "b2", "v3", "b3", "v4", "b4", "v5", "o"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "The Times They Are A Changin' Guitar Tutorial Bob Dylan Guitar Lesson |Easy Chords + Strumming|",

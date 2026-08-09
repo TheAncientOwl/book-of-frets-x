@@ -170,6 +170,7 @@
   },
   "order": ["i", "r1", "v1", "c", "r1", "v2", "s", "v3", "c", "r1", "v4", "o1", "r2", "o2"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Rudolph The Red Nosed Reindeer Christmas Guitar Tutorial & Lesson |Easy Chords + Strumming + Solo|",

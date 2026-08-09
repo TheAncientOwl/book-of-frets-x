@@ -111,6 +111,7 @@
   },
   "order": ["v", "pc", "c", "v", "pc", "c", "bg", "fc", "o"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Love Someone Guitar Tutorial - Lukas Graham Guitar Lesson 🎸 |Studio Version + Easy Chords + Cover|",

@@ -92,6 +92,7 @@
   },
   "order": ["i1", "i2", "pc", "c", "b", "v", "pc", "c", "o"],
   "lyrics": false,
+  "pdf": false,
   "res": [
     {
       "alias": "Lovely Guitar Tutorial Billie Eilish Guitar |Chords + Fingerpicking|",
