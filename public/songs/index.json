@@ -134,6 +134,13 @@
       "chordIDs": ["C", "Am", "F", "Em"]
     },
     {
+      "title": "Choosin' Texas (Standard Tuning)",
+      "artists": ["Ella Langley"],
+      "directory": "choosin-texas",
+      "type": ["acoustic"],
+      "chordIDs": ["Dm", "C", "F", "Am"]
+    },
+    {
       "title": "Rudolph The Red Nosed Reindeer",
       "artists": ["Gene Autry"],
       "directory": "rudolph-the-red-nosed-reindeer",
