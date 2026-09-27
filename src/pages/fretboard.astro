@@ -7,8 +7,8 @@
  *
  * @file fretboard.astro
  * @author Alexandru Delegeanu
- * @version 1.4
- * @description Neck notes cheat sheet with exclusive Note, Fret, and String highlighting
+ * @version 1.6
+ * @description Neck notes cheat sheet with exclusive Note, Fret, and String highlighting, plus LocalStorage
  */
 
 import '#styles/global.css';
@@ -179,8 +179,9 @@ const sharpToFlatMap: Record<string, string> = {
   let selectedFret: string | null = null;
   let selectedString: string | null = null;
 
-  let hideAccidentals = false;
-  let useFlats = false;
+  // Initialize from LocalStorage or default to false
+  let hideAccidentals = localStorage.getItem('bofx-hide-accidentals') === 'true';
+  let useFlats = localStorage.getItem('bofx-use-flats') === 'true';
 
   const container = document.getElementById('fretboard-container');
   const noteBadges = document.querySelectorAll<HTMLButtonElement>('.note-badge');
@@ -190,6 +191,10 @@ const sharpToFlatMap: Record<string, string> = {
   const hideAccidentalsCb = document.getElementById('hide-accidentals') as HTMLInputElement;
   const useFlatsCb = document.getElementById('use-flats') as HTMLInputElement;
   const useFlatsLabel = document.getElementById('use-flats-label');
+
+  // Set initial checkbox states based on LocalStorage
+  if (hideAccidentalsCb) hideAccidentalsCb.checked = hideAccidentals;
+  if (useFlatsCb) useFlatsCb.checked = useFlats;
 
   function updateFretboardState() {
     // 1. Checkbox UI Rules
@@ -311,6 +316,8 @@ const sharpToFlatMap: Record<string, string> = {
   // Checkbox: Hide Accidentals
   hideAccidentalsCb?.addEventListener('change', (e) => {
     hideAccidentals = (e.target as HTMLInputElement).checked;
+    localStorage.setItem('bofx-hide-accidentals', hideAccidentals.toString());
+    
     if (hideAccidentals && selectedNote && selectedNote.includes('#')) {
       selectedNote = null;
     }
@@ -320,6 +327,8 @@ const sharpToFlatMap: Record<string, string> = {
   // Checkbox: Toggle Flats
   useFlatsCb?.addEventListener('change', (e) => {
     useFlats = (e.target as HTMLInputElement).checked;
+    localStorage.setItem('bofx-use-flats', useFlats.toString());
+    
     updateFretboardState();
   });
 
