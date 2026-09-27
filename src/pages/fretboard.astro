@@ -1,0 +1,327 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file fretboard.astro
+ * @author Alexandru Delegeanu
+ * @version 1.4
+ * @description Neck notes cheat sheet with exclusive Note, Fret, and String highlighting
+ */
+
+import '#styles/global.css';
+import FretboardLayout from '#layouts/FretboardLayout.astro';
+
+// Standard Tuning EADGBE: String 6 (Low E) to String 1 (High E)
+const fretboardData = [
+  { fret: 0, notes: ['E', 'A', 'D', 'G', 'B', 'E'] },
+  { fret: 1, notes: ['F', 'A#', 'D#', 'G#', 'C', 'F'] },
+  { fret: 2, notes: ['F#', 'B', 'E', 'A', 'C#', 'F#'] },
+  { fret: 3, notes: ['G', 'C', 'F', 'A#', 'D', 'G'], marker: 'single' },
+  { fret: 4, notes: ['G#', 'C#', 'F#', 'B', 'D#', 'G#'] },
+  { fret: 5, notes: ['A', 'D', 'G', 'C', 'E', 'A'], marker: 'single' },
+  { fret: 6, notes: ['A#', 'D#', 'G#', 'C#', 'F', 'A#'] },
+  { fret: 7, notes: ['B', 'E', 'A', 'D', 'F#', 'B'], marker: 'single' },
+  { fret: 8, notes: ['C', 'F', 'A#', 'D#', 'G', 'C'] },
+  { fret: 9, notes: ['C#', 'F#', 'B', 'E', 'G#', 'C#'], marker: 'single' },
+  { fret: 10, notes: ['D', 'G', 'C', 'F', 'A', 'D'] },
+  { fret: 11, notes: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'] },
+  { fret: 12, notes: ['E', 'A', 'D', 'G', 'B', 'E'], marker: 'double' },
+  { fret: 13, notes: ['F', 'A#', 'D#', 'G#', 'C', 'F'] },
+  { fret: 14, notes: ['F#', 'B', 'E', 'A', 'C#', 'F#'] },
+  { fret: 15, notes: ['G', 'C', 'F', 'A#', 'D', 'G'], marker: 'single' },
+  { fret: 16, notes: ['G#', 'C#', 'F#', 'B', 'D#', 'G#'] },
+  { fret: 17, notes: ['A', 'D', 'G', 'C', 'E', 'A'], marker: 'single' },
+  { fret: 18, notes: ['A#', 'D#', 'G#', 'C#', 'F', 'A#'] },
+  { fret: 19, notes: ['B', 'E', 'A', 'D', 'F#', 'B'], marker: 'single' },
+  { fret: 20, notes: ['C', 'F', 'A#', 'D#', 'G', 'C'] },
+  { fret: 21, notes: ['C#', 'F#', 'B', 'E', 'G#', 'C#'], marker: 'single' },
+  { fret: 22, notes: ['D', 'G', 'C', 'F', 'A', 'D'] },
+  { fret: 23, notes: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'] },
+  { fret: 24, notes: ['E', 'A', 'D', 'G', 'B', 'E'], marker: 'double' },
+];
+
+const stringLabels = ['E', 'A', 'D', 'G', 'B', 'e'];
+
+const sharpToFlatMap: Record<string, string> = {
+  'A#': 'Bb',
+  'C#': 'Db',
+  'D#': 'Eb',
+  'F#': 'Gb',
+  'G#': 'Ab',
+};
+---
+
+<FretboardLayout>
+  <div class='bg-deep-charcoal min-h-dvh flex justify-center py-8 px-4 text-white'>
+    <div class='w-full max-w-xl flex flex-col items-center bg-deep-purple/70 p-6 rounded-2xl shadow-2xl border border-purple-500/20'>
+      <h2 class='text-2xl font-bold mb-4 tracking-wide text-amber-200/90'>THE Fretboard</h2>
+
+      <!-- Controls Panel -->
+      <div class='flex gap-6 mb-6 text-xs font-medium text-stone-300'>
+        <label class='flex items-center gap-2 cursor-pointer hover:text-amber-200 transition-colors'>
+          <input type='checkbox' id='hide-accidentals' class='w-4 h-4 accent-amber-500 bg-stone-800 border-stone-600 rounded cursor-pointer' />
+          <span>Hide Accidentals</span>
+        </label>
+        
+        <div class='w-px h-5 bg-stone-700 mx-2'></div>
+
+        <label id='use-flats-label' class='flex items-center gap-2 cursor-pointer hover:text-amber-200 transition-all'>
+          <input type='checkbox' id='use-flats' class='w-4 h-4 accent-amber-500 bg-stone-800 border-stone-600 rounded cursor-pointer' />
+          <span>Use Flats (b)</span>
+        </label>
+      </div>
+
+      <!-- Vertical Neck Component -->
+      <div id='fretboard-container' class='w-full max-w-md flex flex-col bg-[#241a18] rounded-lg p-6 border border-stone-800 shadow-inner relative'>
+        
+        <!-- String Selection Headers -->
+        <div class='relative flex items-center justify-between w-full mb-3'>
+          <div class='absolute -left-8 w-6'></div>
+          {stringLabels.map((str, stringIndex) => (
+            <div class='flex-1 flex justify-center'>
+              <button
+                type='button'
+                data-select-string={stringIndex}
+                class='string-selector text-xs font-bold text-stone-500 hover:text-amber-300 transition-all cursor-pointer p-1 rounded-md'
+              >
+                {str}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {fretboardData.map((fretInfo) => {
+          const isNut = fretInfo.fret === 0;
+          const isNutOrOctave = fretInfo.fret === 0 || fretInfo.fret === 12;
+
+          return (
+            <div
+              class={`relative flex items-center justify-between w-full h-10 transition-colors ${
+                isNutOrOctave
+                  ? 'border-b-4 border-amber-100/80 mb-2 bg-stone-900/60'
+                  : 'border-b-2 border-stone-400/60 bg-stone-900/30 hover:bg-stone-800/50'
+              }`}
+            >
+              <!-- Interactive Fret Number Indicator -->
+              <button
+                type='button'
+                data-select-fret={fretInfo.fret}
+                class='fret-selector absolute -left-8 text-xs font-mono font-semibold text-stone-500 w-6 text-right hover:text-amber-300 transition-all cursor-pointer'
+              >
+                {isNut ? '0' : fretInfo.fret}
+              </button>
+
+              <!-- Single / Double Fret Markers -->
+              {fretInfo.marker === 'single' && (
+                <div class='absolute inset-0 flex items-center justify-center pointer-events-none'>
+                  <div class='w-3 h-3 rounded-full bg-amber-200/20 border border-amber-100/30' />
+                </div>
+              )}
+              {fretInfo.marker === 'double' && (
+                <div class='absolute inset-0 flex items-center justify-center pointer-events-none sm:gap-30 max-[500px]:gap-19'>
+                  <div class='w-2.5 h-2.5 rounded-full bg-amber-200/20 border border-amber-100/30' />
+                  <div class='w-2.5 h-2.5 rounded-full bg-amber-200/20 border border-amber-100/30' />
+                </div>
+              )}
+
+              <!-- 6 Guitar Strings & Center Notes -->
+              {fretInfo.notes.map((note, stringIndex) => {
+                const stringThicknessClass = [
+                  'w-[3px]', // 6th string (Low E)
+                  'w-[2.5px]', // 5th string (A)
+                  'w-[2px]', // 4th string (D)
+                  'w-[1.5px]', // 3rd string (G)
+                  'w-[1px]', // 2nd string (B)
+                  'w-[1px]', // 1st string (High e)
+                ][stringIndex];
+
+                const isAccidental = note.includes('#');
+                const flatNote = isAccidental ? sharpToFlatMap[note] : note;
+
+                return (
+                  <div class='relative flex-1 flex items-center justify-center h-full'>
+                    <div class={`absolute inset-y-0 ${stringThicknessClass} bg-stone-400/70 z-0`} />
+
+                    <!-- Interactive Note Badge with Coordinates -->
+                    <button
+                      type='button'
+                      data-note={note}
+                      data-flat={flatNote}
+                      data-fret={fretInfo.fret}
+                      data-string={stringIndex}
+                      data-accidental={isAccidental ? 'true' : 'false'}
+                      data-nut={isNutOrOctave ? 'true' : 'false'}
+                      class={`note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer ${
+                        isNutOrOctave
+                          ? 'bg-amber-500/90 text-stone-950 font-extrabold'
+                          : 'bg-slate-950/90 text-amber-200 border border-amber-400/40'
+                      }`}
+                    >
+                      {note}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</FretboardLayout>
+
+<script>
+  // Exclusive State Variables
+  let selectedNote: string | null = null;
+  let selectedFret: string | null = null;
+  let selectedString: string | null = null;
+
+  let hideAccidentals = false;
+  let useFlats = false;
+
+  const container = document.getElementById('fretboard-container');
+  const noteBadges = document.querySelectorAll<HTMLButtonElement>('.note-badge');
+  const fretSelectors = document.querySelectorAll<HTMLButtonElement>('.fret-selector');
+  const stringSelectors = document.querySelectorAll<HTMLButtonElement>('.string-selector');
+  
+  const hideAccidentalsCb = document.getElementById('hide-accidentals') as HTMLInputElement;
+  const useFlatsCb = document.getElementById('use-flats') as HTMLInputElement;
+  const useFlatsLabel = document.getElementById('use-flats-label');
+
+  function updateFretboardState() {
+    // 1. Checkbox UI Rules
+    if (hideAccidentals) {
+      useFlatsCb.disabled = true;
+      if (useFlatsLabel) {
+        useFlatsLabel.style.opacity = '0.5';
+        useFlatsLabel.style.pointerEvents = 'none';
+      }
+    } else {
+      useFlatsCb.disabled = false;
+      if (useFlatsLabel) {
+        useFlatsLabel.style.opacity = '1';
+        useFlatsLabel.style.pointerEvents = 'auto';
+      }
+    }
+
+    const hasAnySelection = selectedNote !== null || selectedFret !== null || selectedString !== null;
+
+    // 2. Update Note Badges
+    noteBadges.forEach((badge) => {
+      const note = badge.dataset.note as string;
+      const flatNote = badge.dataset.flat as string;
+      const fret = badge.dataset.fret as string;
+      const stringIdx = badge.dataset.string as string;
+      
+      const isAccidental = badge.dataset.accidental === 'true';
+      const isNut = badge.dataset.nut === 'true';
+
+      badge.textContent = useFlats ? flatNote : note;
+
+      if (hideAccidentals && isAccidental) {
+        badge.style.opacity = '0';
+        badge.style.pointerEvents = 'none';
+        return;
+      }
+      badge.style.pointerEvents = 'auto';
+
+      // Check if this specific badge should be highlighted based on active mode
+      const isHighlighted = 
+        (selectedNote !== null && note === selectedNote) ||
+        (selectedFret !== null && fret === selectedFret) ||
+        (selectedString !== null && stringIdx === selectedString);
+
+      if (!hasAnySelection) {
+        // Default state
+        badge.style.opacity = '1';
+        badge.style.transform = '';
+        badge.className = isNut
+          ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-amber-500/90 text-stone-950 font-extrabold'
+          : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-slate-950/90 text-amber-200 border border-amber-400/40';
+      } else if (isHighlighted) {
+        // Highlighted state
+        badge.style.opacity = '1';
+        badge.style.transform = 'scale(1.15)';
+        badge.className = 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all shadow-lg cursor-pointer bg-emerald-500 text-stone-950 border-2 border-emerald-300 font-extrabold ring-4 ring-emerald-500/30';
+      } else {
+        // Faded background state
+        badge.style.opacity = '0.35';
+        badge.style.transform = 'scale(0.9)';
+        badge.className = isNut
+          ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-amber-500/90 text-stone-950 font-extrabold'
+          : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-slate-950/90 text-amber-200 border border-amber-400/40';
+      }
+    });
+
+    // 3. Highlight active UI Selectors
+    fretSelectors.forEach((btn) => {
+      if (selectedFret === btn.dataset.selectFret) {
+        btn.classList.replace('text-stone-500', 'text-amber-400');
+        btn.classList.add('scale-125');
+      } else {
+        btn.classList.replace('text-amber-400', 'text-stone-500');
+        btn.classList.remove('scale-125');
+      }
+    });
+
+    stringSelectors.forEach((btn) => {
+      if (selectedString === btn.dataset.selectString) {
+        btn.classList.replace('text-stone-500', 'text-amber-400');
+        btn.classList.add('scale-125');
+      } else {
+        btn.classList.replace('text-amber-400', 'text-stone-500');
+        btn.classList.remove('scale-125');
+      }
+    });
+  }
+
+  // Event Delegation for Fretboard Container
+  container?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    
+    const noteBtn = target.closest<HTMLButtonElement>('.note-badge');
+    const fretBtn = target.closest<HTMLButtonElement>('.fret-selector');
+    const stringBtn = target.closest<HTMLButtonElement>('.string-selector');
+
+    if (noteBtn) {
+      // Note Mode
+      selectedFret = null;
+      selectedString = null;
+      selectedNote = selectedNote === noteBtn.dataset.note ? null : noteBtn.dataset.note ?? null;
+    } else if (fretBtn) {
+      // Fret Mode
+      selectedNote = null;
+      selectedString = null;
+      selectedFret = selectedFret === fretBtn.dataset.selectFret ? null : fretBtn.dataset.selectFret ?? null;
+    } else if (stringBtn) {
+      // String Mode
+      selectedNote = null;
+      selectedFret = null;
+      selectedString = selectedString === stringBtn.dataset.selectString ? null : stringBtn.dataset.selectString ?? null;
+    } else {
+      return; // Clicked empty space
+    }
+
+    updateFretboardState();
+  });
+
+  // Checkbox: Hide Accidentals
+  hideAccidentalsCb?.addEventListener('change', (e) => {
+    hideAccidentals = (e.target as HTMLInputElement).checked;
+    if (hideAccidentals && selectedNote && selectedNote.includes('#')) {
+      selectedNote = null;
+    }
+    updateFretboardState();
+  });
+
+  // Checkbox: Toggle Flats
+  useFlatsCb?.addEventListener('change', (e) => {
+    useFlats = (e.target as HTMLInputElement).checked;
+    updateFretboardState();
+  });
+
+  updateFretboardState();
+</script>

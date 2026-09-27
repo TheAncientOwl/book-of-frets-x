@@ -7,7 +7,7 @@
  *
  * @file NavigationList.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Native navigation links layer handling session storage metrics.
  */
 
@@ -33,6 +33,12 @@ const { id = 'main-nav-list' } = Astro.props;
       <a
         href=`${import.meta.env.BASE_URL}chords`
         class='block w-full h-full hover:opacity-80 transition-opacity'>Chords</a
+      >
+    </li>
+    <li data-nav-item class='cursor-pointer'>
+      <a
+        href=`${import.meta.env.BASE_URL}fretboard`
+        class='block w-full h-full hover:opacity-80 transition-opacity'>Fretboard</a
       >
     </li>
     <li data-nav-item class='cursor-pointer'>
