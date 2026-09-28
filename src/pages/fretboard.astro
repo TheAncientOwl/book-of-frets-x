@@ -7,8 +7,8 @@
  *
  * @file fretboard.astro
  * @author Alexandru Delegeanu
- * @version 1.6
- * @description Neck notes cheat sheet with exclusive Note, Fret, and String highlighting, plus LocalStorage
+ * @version 1.5
+ * @description Neck notes cheat sheet with exclusive highlighting, LocalStorage, Wood Grain Texture, and Tone.js Audio
  */
 
 import '#styles/global.css';
@@ -55,27 +55,34 @@ const sharpToFlatMap: Record<string, string> = {
 ---
 
 <FretboardLayout>
-  <div class='bg-deep-charcoal min-h-dvh flex justify-center py-8 px-4 text-white'>
-    <div class='w-full max-w-xl flex flex-col items-center bg-deep-purple/70 p-6 rounded-2xl shadow-2xl border border-purple-500/20'>
-      <h2 class='text-2xl font-bold mb-4 tracking-wide text-amber-200/90'>THE Fretboard</h2>
+  <div class='bg-deep-charcoal min-h-dvh flex justify-center text-white'>
+    <div class='w-full max-w-xl flex flex-col items-center bg-deep-purple p-6 rounded-xl shadow-2xl'>
+      <h2 class='text-2xl font-bold mb-3 tracking-wide text-gold'>THE Fretboard</h2>
 
       <!-- Controls Panel -->
-      <div class='flex gap-6 mb-6 text-xs font-medium text-stone-300'>
-        <label class='flex items-center gap-2 cursor-pointer hover:text-amber-200 transition-colors'>
+      <div class='flex gap-2 mb-4 text-xs font-medium text-gold whitespace-nowrap overflow-x-auto max-w-full pb-1'>
+        <label class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-amber-200 transition-colors'>
           <input type='checkbox' id='hide-accidentals' class='w-4 h-4 accent-amber-500 bg-stone-800 border-stone-600 rounded cursor-pointer' />
           <span>Hide Accidentals</span>
         </label>
         
-        <div class='w-px h-5 bg-stone-700 mx-2'></div>
+        <div class='w-px h-5 bg-stone-700 mx-1 shrink-0'></div>
 
-        <label id='use-flats-label' class='flex items-center gap-2 cursor-pointer hover:text-amber-200 transition-all'>
+        <label id='use-flats-label' class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-amber-200 transition-all'>
           <input type='checkbox' id='use-flats' class='w-4 h-4 accent-amber-500 bg-stone-800 border-stone-600 rounded cursor-pointer' />
           <span>Use Flats (b)</span>
         </label>
+
+        <div class='w-px h-5 bg-stone-700 mx-1 shrink-0'></div>
+
+        <label id='sound-mode-label' class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-amber-200 transition-all'>
+          <input type='checkbox' id='sound-mode' class='w-4 h-4 accent-amber-500 bg-stone-800 border-stone-600 rounded cursor-pointer' />
+          <span>Sound Mode</span>
+        </label>
       </div>
 
-      <!-- Vertical Neck Component -->
-      <div id='fretboard-container' class='w-full max-w-md flex flex-col bg-[#241a18] rounded-lg p-6 border border-stone-800 shadow-inner relative'>
+      <!-- Vertical Neck Component with Wood Texture -->
+      <div id='fretboard-container' class='wood-fretboard w-full max-w-md flex flex-col rounded-lg p-6 border border-stone-800/80 shadow-2xl relative overflow-hidden'>
         
         <!-- String Selection Headers -->
         <div class='relative flex items-center justify-between w-full mb-3'>
@@ -109,21 +116,21 @@ const sharpToFlatMap: Record<string, string> = {
               <button
                 type='button'
                 data-select-fret={fretInfo.fret}
-                class='fret-selector absolute -left-8 text-xs font-mono font-semibold text-stone-500 w-6 text-right hover:text-amber-300 transition-all cursor-pointer'
+                class='fret-selector absolute -left-8 text-xs font-mono font-semibold text-stone-500 w-7 text-right hover:text-amber-300 transition-all cursor-pointer'
               >
-                {isNut ? '0' : fretInfo.fret}
+                {isNut ? '' : fretInfo.fret}
               </button>
 
               <!-- Single / Double Fret Markers -->
               {fretInfo.marker === 'single' && (
                 <div class='absolute inset-0 flex items-center justify-center pointer-events-none'>
-                  <div class='w-3 h-3 rounded-full bg-amber-200/20 border border-amber-100/30' />
+                  <div class='w-3 h-3 rounded-full bg-stone-400/60 border border-amber-100/30' />
                 </div>
               )}
               {fretInfo.marker === 'double' && (
-                <div class='absolute inset-0 flex items-center justify-center pointer-events-none sm:gap-30 max-[500px]:gap-19'>
-                  <div class='w-2.5 h-2.5 rounded-full bg-amber-200/20 border border-amber-100/30' />
-                  <div class='w-2.5 h-2.5 rounded-full bg-amber-200/20 border border-amber-100/30' />
+                <div class='absolute inset-0 pointer-events-none'>
+                  <div class='absolute top-1/2 left-[33.33%] -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-stone-400/60 border border-amber-100/30' />
+                  <div class='absolute top-1/2 left-[66.67%] -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-stone-400/60 border border-amber-100/30' />
                 </div>
               )}
 
@@ -173,15 +180,92 @@ const sharpToFlatMap: Record<string, string> = {
   </div>
 </FretboardLayout>
 
-<script>
-  // Exclusive State Variables
-  let selectedNote: string | null = null;
-  let selectedFret: string | null = null;
-  let selectedString: string | null = null;
+<style>
+  .wood-fretboard {
+    background-color: #26160f;
+    background-image: 
+      /* Curved Neck Radius Vignette */
+      linear-gradient(90deg, rgba(32, 17, 11, 0.52) 0%, rgba(255, 235, 215, 0.05) 50%, rgba(32, 17, 11, 0.52) 100%),
+      /* Fine Rosewood Fiber Lines */
+      repeating-linear-gradient(89.5deg, rgba(185, 255, 237, 0.035) 0px, rgba(255, 215, 185, 0.035) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(90.5deg, rgba(12, 6, 4, 0.35) 0px, rgba(12, 6, 4, 0.35) 2px, transparent 2px, transparent 5px),
+      /* Rich Dark Brown Rosewood Gradient */
+      linear-gradient(180deg, #331e15 0%, #27160e 35%, #2e1b12 70%, #21120a 100%);
+  }
+</style>
 
-  // Initialize from LocalStorage or default to false
+<script>
+  // Dynamic import type for Tone.js (safe for SSR/Astro)
+  let ToneModule: typeof import('tone') | null = null;
+  let sampler: any = null;
+  let isAudioLoaded = false;
+
+  // Base MIDI values for standard guitar tuning (Low E2 to High E4)
+  const STRING_BASE_MIDI = [40, 45, 50, 55, 59, 64];
+  const NOTES_LIST = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
+  function getNoteWithOctave(stringIndex: number, fret: number): string {
+    const midi = STRING_BASE_MIDI[stringIndex] + fret;
+    const noteName = NOTES_LIST[midi % 12];
+    const octave = Math.floor(midi / 12) - 1;
+    return `${noteName}${octave}`;
+  }
+
+  async function initAudio() {
+    if (!ToneModule) {
+      ToneModule = await import('tone');
+    }
+
+    if (!sampler && ToneModule) {
+      // High-quality acoustic steel guitar samples served via jsDelivr CDN
+      sampler = new ToneModule.Sampler({
+        urls: {
+          E2: "E2.mp3",
+          A2: "A2.mp3",
+          D3: "D3.mp3",
+          G3: "G3.mp3",
+          B3: "B3.mp3",
+          E4: "E4.mp3",
+        },
+        baseUrl: "https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/MusyngKite/acoustic_guitar_steel-mp3/",
+        onload: () => {
+          isAudioLoaded = true;
+        }
+      }).toDestination();
+    }
+  }
+
+  async function playGuitarNote(stringIndex: number, fret: number) {
+    await initAudio();
+    if (!ToneModule) return;
+
+    await ToneModule.start(); // Unlock audio context on user gesture
+    const noteWithOctave = getNoteWithOctave(stringIndex, fret);
+
+    if (sampler) {
+      sampler.triggerAttackRelease(noteWithOctave, "2n");
+    }
+  }
+
+  // Visual Ripple / Pulse Feedback for Sound Mode
+  function triggerPluckFeedback(element: HTMLElement) {
+    element.classList.add('scale-125', 'ring-4', 'ring-green-400', '!bg-green-400', '!text-stone-950', 'z-30');
+    
+    setTimeout(() => {
+      element.classList.remove('scale-125', 'ring-4', 'ring-green-400', '!bg-green-400', '!text-stone-950', 'z-30');
+      updateFretboardState();
+    }, 300);
+  }
+
+  // Exclusive State Variables (restored from LocalStorage)
+  let selectedNote: string | null = localStorage.getItem('bofx-selected-note');
+  let selectedFret: string | null = localStorage.getItem('bofx-selected-fret');
+  let selectedString: string | null = localStorage.getItem('bofx-selected-string');
+
+  // Checkboxes state
   let hideAccidentals = localStorage.getItem('bofx-hide-accidentals') === 'true';
   let useFlats = localStorage.getItem('bofx-use-flats') === 'true';
+  let soundModeEnabled = localStorage.getItem('bofx-sound-mode') === 'true';
 
   const container = document.getElementById('fretboard-container');
   const noteBadges = document.querySelectorAll<HTMLButtonElement>('.note-badge');
@@ -190,18 +274,40 @@ const sharpToFlatMap: Record<string, string> = {
   
   const hideAccidentalsCb = document.getElementById('hide-accidentals') as HTMLInputElement;
   const useFlatsCb = document.getElementById('use-flats') as HTMLInputElement;
+  const soundModeCb = document.getElementById('sound-mode') as HTMLInputElement;
   const useFlatsLabel = document.getElementById('use-flats-label');
 
-  // Set initial checkbox states based on LocalStorage
+  // Set initial checkbox states
   if (hideAccidentalsCb) hideAccidentalsCb.checked = hideAccidentals;
   if (useFlatsCb) useFlatsCb.checked = useFlats;
+  if (soundModeCb) soundModeCb.checked = soundModeEnabled;
+
+  function saveSelectionState() {
+    if (selectedNote !== null) {
+      localStorage.setItem('bofx-selected-note', selectedNote);
+    } else {
+      localStorage.removeItem('bofx-selected-note');
+    }
+
+    if (selectedFret !== null) {
+      localStorage.setItem('bofx-selected-fret', selectedFret);
+    } else {
+      localStorage.removeItem('bofx-selected-fret');
+    }
+
+    if (selectedString !== null) {
+      localStorage.setItem('bofx-selected-string', selectedString);
+    } else {
+      localStorage.removeItem('bofx-selected-string');
+    }
+  }
 
   function updateFretboardState() {
-    // 1. Checkbox UI Rules
+    // Checkbox UI Rules
     if (hideAccidentals) {
       useFlatsCb.disabled = true;
       if (useFlatsLabel) {
-        useFlatsLabel.style.opacity = '0.5';
+        useFlatsLabel.style.opacity = '0.7';
         useFlatsLabel.style.pointerEvents = 'none';
       }
     } else {
@@ -214,7 +320,7 @@ const sharpToFlatMap: Record<string, string> = {
 
     const hasAnySelection = selectedNote !== null || selectedFret !== null || selectedString !== null;
 
-    // 2. Update Note Badges
+    // Update Note Badges
     noteBadges.forEach((badge) => {
       const note = badge.dataset.note as string;
       const flatNote = badge.dataset.flat as string;
@@ -233,27 +339,23 @@ const sharpToFlatMap: Record<string, string> = {
       }
       badge.style.pointerEvents = 'auto';
 
-      // Check if this specific badge should be highlighted based on active mode
       const isHighlighted = 
         (selectedNote !== null && note === selectedNote) ||
         (selectedFret !== null && fret === selectedFret) ||
         (selectedString !== null && stringIdx === selectedString);
 
       if (!hasAnySelection) {
-        // Default state
         badge.style.opacity = '1';
         badge.style.transform = '';
         badge.className = isNut
           ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-amber-500/90 text-stone-950 font-extrabold'
           : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-slate-950/90 text-amber-200 border border-amber-400/40';
       } else if (isHighlighted) {
-        // Highlighted state
         badge.style.opacity = '1';
         badge.style.transform = 'scale(1.15)';
-        badge.className = 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all shadow-lg cursor-pointer bg-emerald-500 text-stone-950 border-2 border-emerald-300 font-extrabold ring-4 ring-emerald-500/30';
+        badge.className = 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all shadow-lg cursor-pointer bg-green-600 text-stone-950 border-2 border-green-400 font-extrabold ring-4 ring-green-600/30';
       } else {
-        // Faded background state
-        badge.style.opacity = '0.35';
+        badge.style.opacity = '0.40';
         badge.style.transform = 'scale(0.9)';
         badge.className = isNut
           ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-amber-500/90 text-stone-950 font-extrabold'
@@ -261,7 +363,7 @@ const sharpToFlatMap: Record<string, string> = {
       }
     });
 
-    // 3. Highlight active UI Selectors
+    // Highlight active UI Selectors
     fretSelectors.forEach((btn) => {
       if (selectedFret === btn.dataset.selectFret) {
         btn.classList.replace('text-stone-500', 'text-amber-400');
@@ -291,25 +393,45 @@ const sharpToFlatMap: Record<string, string> = {
     const fretBtn = target.closest<HTMLButtonElement>('.fret-selector');
     const stringBtn = target.closest<HTMLButtonElement>('.string-selector');
 
+    // 1. SOUND MODE ACTIVE: Play sound + flash ripple effect without changing selection
+    if (soundModeEnabled) {
+      if (noteBtn) {
+        const stringIdx = parseInt(noteBtn.dataset.string || '0', 10);
+        const fretNum = parseInt(noteBtn.dataset.fret || '0', 10);
+        playGuitarNote(stringIdx, fretNum);
+        triggerPluckFeedback(noteBtn);
+      } else if (stringBtn) {
+        const stringIdx = parseInt(stringBtn.dataset.selectString || '0', 10);
+        playGuitarNote(stringIdx, 0); // Play open string
+        
+        // Also ripple open string nut badge
+        const openNutBadge = container?.querySelector<HTMLButtonElement>(`.note-badge[data-string="${stringIdx}"][data-fret="0"]`);
+        if (openNutBadge) {
+          triggerPluckFeedback(openNutBadge);
+        }
+        triggerPluckFeedback(stringBtn);
+      }
+      return;
+    }
+
+    // 2. SELECTION MODE ACTIVE (Sound Mode off)
     if (noteBtn) {
-      // Note Mode
       selectedFret = null;
       selectedString = null;
       selectedNote = selectedNote === noteBtn.dataset.note ? null : noteBtn.dataset.note ?? null;
     } else if (fretBtn) {
-      // Fret Mode
       selectedNote = null;
       selectedString = null;
       selectedFret = selectedFret === fretBtn.dataset.selectFret ? null : fretBtn.dataset.selectFret ?? null;
     } else if (stringBtn) {
-      // String Mode
       selectedNote = null;
       selectedFret = null;
       selectedString = selectedString === stringBtn.dataset.selectString ? null : stringBtn.dataset.selectString ?? null;
     } else {
-      return; // Clicked empty space
+      return;
     }
 
+    saveSelectionState();
     updateFretboardState();
   });
 
@@ -320,6 +442,7 @@ const sharpToFlatMap: Record<string, string> = {
     
     if (hideAccidentals && selectedNote && selectedNote.includes('#')) {
       selectedNote = null;
+      saveSelectionState();
     }
     updateFretboardState();
   });
@@ -328,9 +451,21 @@ const sharpToFlatMap: Record<string, string> = {
   useFlatsCb?.addEventListener('change', (e) => {
     useFlats = (e.target as HTMLInputElement).checked;
     localStorage.setItem('bofx-use-flats', useFlats.toString());
-    
     updateFretboardState();
   });
+
+  // Checkbox: Sound Mode
+  soundModeCb?.addEventListener('change', (e) => {
+    soundModeEnabled = (e.target as HTMLInputElement).checked;
+    localStorage.setItem('bofx-sound-mode', soundModeEnabled.toString());
+    if (soundModeEnabled) {
+      initAudio();
+    }
+  });
+
+  if (soundModeEnabled) {
+    initAudio();
+  }
 
   updateFretboardState();
 </script>
