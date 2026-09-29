@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file practice.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description Practice helpers with compact action buttons and scaled display text
  */
 
@@ -30,7 +30,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       <h2
         class='text-2xl font-extrabold mb-2 tracking-wide text-amber-400 flex items-center justify-center gap-2'
       >
-        🎯 Fretboard Practice
+        🎯 Practice
       </h2>
       <p class='text-gray-400 text-sm mb-6 text-center'>
         Sharpen your fretboard fluency with targeted random prompts.
@@ -88,7 +88,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               <span id='notes-btn-icon' class='material-symbols-outlined text-[16px]'
                 >play_arrow</span
               >
-              <span id='notes-btn-text'>Start Practice</span>
+              <span id='notes-btn-text'>Start</span>
             </button>
           </div>
 
@@ -149,7 +149,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               <span id='strings-btn-icon' class='material-symbols-outlined text-[16px]'
                 >play_arrow</span
               >
-              <span id='strings-btn-text'>Start Practice</span>
+              <span id='strings-btn-text'>Start</span>
             </button>
           </div>
 
@@ -217,7 +217,6 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
             onchange='updateNotesCount(this.value)'
             class='w-full bg-deep-charcoal border border-purple-800/60 rounded-md p-2 text-xs font-medium text-amber-300 focus:outline-none focus:border-amber-400'
           />
-          <span class='text-[11px] text-gray-400 whitespace-nowrap'>notes per prompt</span>
         </div>
       </div>
 
@@ -280,7 +279,6 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
             onchange='updateStringsCount(this.value)'
             class='w-full bg-deep-charcoal border border-purple-800/60 rounded-md p-2 text-xs font-medium text-amber-300 focus:outline-none focus:border-amber-400'
           />
-          <span class='text-[11px] text-gray-400 whitespace-nowrap'>combos per prompt</span>
         </div>
       </div>
 
