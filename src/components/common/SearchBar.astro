@@ -1,14 +1,13 @@
 ---
 /**
  * --------------------------------------------------------------------------- *
- *                     Copyright (c) by BookOfFretsX 2026                      *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
  * --------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
- *
  * @file SearchBar.astro
  * @author Alexandru Delegeanu
- * @version 1.0
- * @description Responsive search bar with a docked search icon.
+ * @version 1.1
+ * @description Responsive search bar with a docked search icon and clear button.
  */
 
 import { Icon } from 'astro-icon/components';
@@ -26,28 +25,71 @@ const { placeholder = 'Search items...' } = Astro.props;
     data-search-input
     aria-label='Search items'
     placeholder={placeholder}
-    class=`w-full rounded-lg py-2 pl-4 pr-10
+    class=`w-full rounded-lg py-2 pl-4 pr-16
         text-magenta bg-deep-purple-900 border border-magenta
         focus:outline-none focus:ring-2 focus:ring-magenta-700 focus:border-transparent
         placeholder-magenta-500 transition-all`
   />
 
-  <div class=`absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-magenta`>
-    <Icon name='tabler:search' class='w-5 h-5' />
+  <div class='absolute inset-y-0 right-0 flex items-center pr-3 gap-1.5 text-magenta'>
+    <!-- Clear 'X' button (hidden by default via opacity/pointer-events) -->
+    <button
+      type='button'
+      data-clear-btn
+      aria-label='Clear search'
+      class='opacity-0 pointer-events-none hover:text-white transition-opacity cursor-pointer p-0.5 flex items-center justify-center'
+    >
+      <Icon name='tabler:x' class='w-4 h-4' />
+    </button>
+    <div class='pointer-events-none flex items-center'>
+      <Icon name='tabler:search' class='w-5 h-5' />
+    </div>
   </div>
 </div>
 
 <script>
-  const inputs = document.querySelectorAll('[data-search-input]');
+  const wrappers = document.querySelectorAll('.relative');
 
-  inputs.forEach(input => {
+  wrappers.forEach(wrapper => {
+    const input = wrapper.querySelector('[data-search-input]') as HTMLInputElement;
+    const clearBtn = wrapper.querySelector('[data-clear-btn]') as HTMLButtonElement;
+
+    if (!input || !clearBtn) return;
+
+    const updateClearButtonVisibility = () => {
+      if (input.value.length > 0) {
+        clearBtn.classList.remove('opacity-0', 'pointer-events-none');
+        clearBtn.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        clearBtn.classList.add('opacity-0', 'pointer-events-none');
+        clearBtn.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    };
+
     input.addEventListener('input', event => {
       const target = event.target as HTMLInputElement;
+      updateClearButtonVisibility();
+
       const searchEvent = new CustomEvent('search-change', {
         detail: { query: target.value },
         bubbles: true,
       });
       input.dispatchEvent(searchEvent);
     });
+
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      updateClearButtonVisibility();
+      input.focus();
+
+      const searchEvent = new CustomEvent('search-change', {
+        detail: { query: '' },
+        bubbles: true,
+      });
+      input.dispatchEvent(searchEvent);
+    });
+
+    // Initial check in case of browser autofill
+    updateClearButtonVisibility();
   });
 </script>
