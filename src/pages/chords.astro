@@ -7,7 +7,7 @@
  *
  * @file chords.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description Native layout layer rendering searchable chord configurations with custom SearchBar.
  */
 
@@ -30,7 +30,7 @@ const sortedChords = Object.entries(chordsIndex)
   <div class='bg-deep-charcoal min-h-dvh'>
     <div
       id='chords-page-container'
-      class='w-full h-full min-h-dvh flex flex-col p-4 md:p-4 md:rounded-lg max-w-full md:max-w-5xl mx-auto bg-deep-purple/70'
+      class='w-full h-full min-h-dvh flex flex-col p-4 md:p-4 md:rounded-lg max-w-full md:max-w-6xl mx-auto bg-deep-purple/70'
     >
       {/* Centered search tracking bar */}
       <div class='flex mx-auto justify-center w-[250px] mb-5'>
@@ -41,14 +41,14 @@ const sortedChords = Object.entries(chordsIndex)
       <div class='flex-1 overflow-y-auto pr-1'>
         <div
           id='chords-grid'
-          class='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 justify-items-center'
+          class='flex flex-wrap justify-center items-center gap-y-1 gap-x-9 max-w-6xl mx-auto'
         >
           {
             sortedChords.map(([chordKeyName, chordConfig]) => (
               <div
                 data-chord-name={chordConfig.name.toLowerCase()}
                 data-chord-key={chordKeyName}
-                class='chord-card-wrapper transition-opacity duration-200 w-[13em] p-[1em] text-[0.6em]'
+                class='chord-card-wrapper transition-opacity duration-200 w-[13em] p-[1em] text-[0.6em] flex items-center justify-center'
               >
                 <Chord {...chordConfig} />
               </div>
