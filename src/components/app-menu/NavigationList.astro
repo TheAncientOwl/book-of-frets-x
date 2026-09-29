@@ -23,28 +23,40 @@ const { id = 'main-nav-list' } = Astro.props;
 <nav id={id}>
   {/* Unified routing pipeline */}
   <ul class='flex flex-col gap-[0.5em] font-bold text-center mt-[1em] text-gold list-none p-0'>
+    <li data-nav-item class='cursor-pointer'>
+      <a
+        href=`${import.meta.env.BASE_URL}about`
+        class='block w-full h-full hover:opacity-80 transition-opacity'>📕 About</a
+      >
+    </li>
     <li data-reset-scroll class='cursor-pointer'>
       <a
         href=`${import.meta.env.BASE_URL}index.html`
-        class='block w-full h-full hover:opacity-80 transition-opacity'>Songs</a
+        class='block w-full h-full hover:opacity-80 transition-opacity'>🎶 Songs</a
       >
     </li>
     <li data-nav-item class='cursor-pointer'>
       <a
         href=`${import.meta.env.BASE_URL}chords`
-        class='block w-full h-full hover:opacity-80 transition-opacity'>Chords</a
+        class='block w-full h-full hover:opacity-80 transition-opacity'>🎵 Chords</a
+      >
+    </li>
+    <!-- <li data-nav-item class='cursor-pointer'>
+      <a
+        href=`${import.meta.env.BASE_URL}scales`
+        class='block w-full h-full hover:opacity-80 transition-opacity'>🎼 Scales</a
+      >
+    </li> -->
+    <li data-nav-item class='cursor-pointer'>
+      <a
+        href=`${import.meta.env.BASE_URL}practice`
+        class='block w-full h-full hover:opacity-80 transition-opacity'>🎯 Practice</a
       >
     </li>
     <li data-nav-item class='cursor-pointer'>
       <a
         href=`${import.meta.env.BASE_URL}fretboard`
-        class='block w-full h-full hover:opacity-80 transition-opacity'>Fretboard</a
-      >
-    </li>
-    <li data-nav-item class='cursor-pointer'>
-      <a
-        href=`${import.meta.env.BASE_URL}about`
-        class='block w-full h-full hover:opacity-80 transition-opacity'>About</a
+        class='block w-full h-full hover:opacity-80 transition-opacity'>🎸 Fretboard</a
       >
     </li>
   </ul>

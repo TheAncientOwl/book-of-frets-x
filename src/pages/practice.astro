@@ -1,0 +1,652 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file practice.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Practice helpers with fixed-position separator and centered note/string display
+ */
+
+import '#styles/global.css';
+import GeneralLayout from '#layouts/GeneralLayout.astro';
+---
+
+<GeneralLayout>
+  <div class='bg-deep-charcoal min-h-dvh flex flex-col items-center text-white'>
+    <div
+      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-deep-purple p-6 rounded-xl shadow-2xl'
+    >
+      <h2
+        class='text-2xl font-extrabold mb-2 tracking-wide text-amber-400 flex items-center justify-center gap-2'
+      >
+        🎯 Fretboard Practice
+      </h2>
+      <p class='text-gray-400 text-sm mb-6 text-center'>
+        Sharpen your fretboard fluency with targeted random prompts.
+      </p>
+
+      {/* Mini-Game Selector Tabs */}
+      <div class='flex w-full bg-deep-charcoal p-1 rounded-lg mb-6 border border-purple-900/50'>
+        <button
+          id='tab-notes'
+          class='flex-1 py-2 text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer'
+          onclick='switchTab("notes")'
+        >
+          Note Trainer
+        </button>
+        <button
+          id='tab-strings'
+          class='flex-1 py-2 text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer'
+          onclick='switchTab("strings")'
+        >
+          Note & String
+        </button>
+      </div>
+
+      {/* ========================================================= */}
+      {/* MINI-GAME 1: NOTE TRAINER                                 */}
+      {/* ========================================================= */}
+      <div id='game-notes' class='w-full flex flex-col items-center'>
+        {/* Settings & Stats Bar */}
+        <div
+          class='w-full flex justify-between items-center bg-purple-950/40 px-4 py-2.5 rounded-lg mb-4 border border-purple-900/30'
+        >
+          <div class='text-xs text-gray-400 flex items-center gap-1.5'>
+            <span>Total Practiced:</span>
+            <strong id='notes-practiced-count' class='text-white font-bold'>0</strong>
+          </div>
+          <button
+            onclick='openModal("notes-modal")'
+            class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-amber-300 border border-purple-600 cursor-pointer'
+          >
+            ⚙️ Configure
+          </button>
+        </div>
+
+        {/* Practice Arena */}
+        <div
+          class='w-full bg-deep-charcoal/80 rounded-xl p-6 flex flex-col items-center justify-between border border-purple-900/40 relative shadow-inner'
+        >
+          <div
+            id='notes-prompt-container'
+            class='flex flex-col items-center justify-between w-full my-2 h-[164px]'
+          >
+            <div class='h-6 flex items-center justify-center'>
+              <span
+                id='notes-status'
+                class='text-xs uppercase tracking-widest text-purple-400 font-semibold text-center'
+              >
+                Find Note on All Strings
+              </span>
+            </div>
+            <div
+              id='notes-display'
+              class='text-6xl font-black text-amber-400 tracking-wider h-[88px] flex items-center justify-center'
+            >
+              -
+            </div>
+            <div
+              id='notes-progress'
+              class='text-xs text-gray-400 h-4 flex items-center justify-center'
+            >
+              Click Start to begin practicing
+            </div>
+          </div>
+
+          <div class='flex gap-3 w-full mt-3'>
+            <button
+              id='notes-start-btn'
+              onclick='startNotesGame()'
+              class='flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-deep-charcoal font-bold rounded-lg shadow-lg transition-all text-sm uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2'
+            >
+              Start
+            </button>
+            <button
+              id='notes-next-btn'
+              onclick='nextNotePrompt()'
+              disabled
+              class='flex-1 py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:hover:bg-purple-600 disabled:cursor-not-allowed text-white font-bold rounded-lg shadow-lg transition-all text-sm uppercase tracking-wider cursor-pointer'
+            >
+              Next Note ➔
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================= */}
+      {/* MINI-GAME 2: NOTE & STRING TRAINER                        */}
+      {/* ========================================================= */}
+      <div id='game-strings' class='w-full flex flex-col items-center hidden'>
+        {/* Settings & Stats Bar */}
+        <div
+          class='w-full flex justify-between items-center bg-purple-950/40 px-4 py-2.5 rounded-lg mb-4 border border-purple-900/30'
+        >
+          <div class='text-xs text-gray-400 flex items-center gap-1.5'>
+            <span>Total Practiced:</span>
+            <strong id='strings-practiced-count' class='text-white font-bold'>0</strong>
+          </div>
+          <button
+            onclick='openModal("strings-modal")'
+            class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-amber-300 border border-purple-600 cursor-pointer'
+          >
+            ⚙️ Configure
+          </button>
+        </div>
+
+        {/* Practice Arena */}
+        <div
+          class='w-full bg-deep-charcoal/80 rounded-xl p-6 flex flex-col items-center justify-between border border-purple-900/40 relative shadow-inner'
+        >
+          <div
+            id='strings-prompt-container'
+            class='flex flex-col items-center justify-between w-full my-2 h-[164px]'
+          >
+            <div class='h-6 flex items-center justify-center'>
+              <span
+                id='strings-status'
+                class='text-xs uppercase tracking-widest text-purple-400 font-semibold text-center'
+              >
+                Find Note on String
+              </span>
+            </div>
+
+            {/* Fixed-width symmetric layout for Note and String */}
+            <div class='grid grid-cols-[1fr_auto_1fr] items-center w-full h-[88px] max-w-[280px]'>
+              {/* Note Side (Right-aligned so it meets the center separator cleanly) */}
+              <div class='flex flex-col items-end justify-center pr-4'>
+                <span class='text-[10px] text-gray-400 uppercase tracking-wider mb-0.5'>Note</span>
+                <span
+                  id='string-note-display'
+                  class='text-6xl font-black text-amber-400 flex items-center h-[60px]'>-</span
+                >
+              </div>
+
+              {/* Absolute Center Separator */}
+              <span class='text-3xl text-gray-600 font-light pb-2 text-center select-none'>/</span>
+
+              {/* String Side (Left-aligned so it starts right after the center separator) */}
+              <div class='flex flex-col items-start justify-center pl-4'>
+                <span class='text-[10px] text-gray-400 uppercase tracking-wider mb-0.5'>String</span
+                >
+                <span
+                  id='string-display'
+                  class='text-6xl font-black text-cyan-400 flex items-center h-[60px]'>-</span
+                >
+              </div>
+            </div>
+
+            <div
+              id='strings-progress'
+              class='text-xs text-gray-400 h-4 flex items-center justify-center'
+            >
+              Click Start to begin practicing
+            </div>
+          </div>
+
+          <div class='flex gap-3 w-full mt-3'>
+            <button
+              id='strings-start-btn'
+              onclick='startStringsGame()'
+              class='flex-1 py-3 bg-amber-500 hover:bg-amber-400 text-deep-charcoal font-bold rounded-lg shadow-lg transition-all text-sm uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2'
+            >
+              Start
+            </button>
+            <button
+              id='strings-next-btn'
+              onclick='nextStringPrompt()'
+              disabled
+              class='flex-1 py-3 bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:hover:bg-purple-600 disabled:cursor-not-allowed text-white font-bold rounded-lg shadow-lg transition-all text-sm uppercase tracking-wider cursor-pointer'
+            >
+              Next Combo ➔
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* ========================================================= */}
+  {/* MODAL 1: NOTE CONFIGURATION                               */}
+  {/* ========================================================= */}
+  <div
+    id='notes-modal'
+    class='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
+  >
+    <div
+      class='bg-[#1e192f] border border-purple-900/60 w-full max-w-lg rounded-xl p-6 shadow-2xl flex flex-col'
+    >
+      <div class='flex justify-between items-center mb-4'>
+        <h3 class='text-lg font-bold text-amber-400'>Configure Notes</h3>
+        <button
+          onclick='closeModal("notes-modal")'
+          class='text-gray-400 hover:text-white text-lg cursor-pointer'>✕</button
+        >
+      </div>
+
+      <div class='flex justify-between items-center mb-2'>
+        <span class='text-xs font-semibold text-gray-300 uppercase tracking-wide'
+          >Configure Notes</span
+        >
+        <div class='space-x-2 text-xs'>
+          <button
+            onclick='toggleAllNotes(true)'
+            class='text-amber-400 hover:underline cursor-pointer'>All</button
+          >
+          <span class='text-gray-500'>/</span>
+          <button
+            onclick='toggleAllNotes(false)'
+            class='text-amber-400 hover:underline cursor-pointer'>None</button
+          >
+        </div>
+      </div>
+
+      <div id='notes-checkboxes' class='grid grid-cols-3 gap-2 mb-2'></div>
+    </div>
+  </div>
+
+  {/* ========================================================= */}
+  {/* MODAL 2: NOTES & STRINGS CONFIGURATION                    */}
+  {/* ========================================================= */}
+  <div
+    id='strings-modal'
+    class='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
+  >
+    <div
+      class='bg-[#1e192f] border border-purple-900/60 w-full max-w-lg rounded-xl p-6 shadow-2xl flex flex-col'
+    >
+      <div class='flex justify-between items-center mb-4'>
+        <h3 class='text-lg font-bold text-amber-400'>Configure Notes & Strings</h3>
+        <button
+          onclick='closeModal("strings-modal")'
+          class='text-gray-400 hover:text-white text-lg cursor-pointer'>✕</button
+        >
+      </div>
+
+      <div class='flex justify-between items-center mb-2'>
+        <span class='text-xs font-semibold text-gray-300 uppercase tracking-wide'
+          >Configure Strings</span
+        >
+        <div class='space-x-2 text-xs'>
+          <button
+            onclick='toggleAllStrings(true)'
+            class='text-amber-400 hover:underline cursor-pointer'>All</button
+          >
+          <span class='text-gray-500'>/</span>
+          <button
+            onclick='toggleAllStrings(false)'
+            class='text-amber-400 hover:underline cursor-pointer'>None</button
+          >
+        </div>
+      </div>
+      <div id='string-checkboxes' class='grid grid-cols-3 gap-2 mb-4'></div>
+
+      <div class='flex justify-between items-center mb-2'>
+        <span class='text-xs font-semibold text-gray-300 uppercase tracking-wide'
+          >Configure Notes</span
+        >
+        <div class='space-x-2 text-xs'>
+          <button
+            onclick='toggleAllStringNotes(true)'
+            class='text-amber-400 hover:underline cursor-pointer'>All</button
+          >
+          <span class='text-gray-500'>/</span>
+          <button
+            onclick='toggleAllStringNotes(false)'
+            class='text-amber-400 hover:underline cursor-pointer'>None</button
+          >
+        </div>
+      </div>
+      <div id='string-notes-checkboxes' class='grid grid-cols-3 gap-2 mb-2'></div>
+    </div>
+  </div>
+</GeneralLayout>
+
+<script>
+  declare global {
+    interface Window {
+      openModal: (id: string) => void;
+      closeModal: (id: string) => void;
+      switchTab: (tab: 'notes' | 'strings', save?: boolean) => void;
+      updateNoteState: (idx: number, val: boolean) => void;
+      updateStringState: (idx: number, val: boolean) => void;
+      updateStringNoteState: (idx: number, val: boolean) => void;
+      toggleAllNotes: (val: boolean) => void;
+      toggleAllStrings: (val: boolean) => void;
+      toggleAllStringNotes: (val: boolean) => void;
+      startNotesGame: () => void;
+      nextNotePrompt: () => void;
+      startStringsGame: () => void;
+      nextStringPrompt: () => void;
+    }
+  }
+
+  interface NoteConfig {
+    label: string;
+    checked: boolean;
+  }
+
+  interface StringConfig {
+    label: string;
+    displayHtml: string;
+    checked: boolean;
+  }
+
+  const defaultNotes: NoteConfig[] = [
+    { label: 'A', checked: true },
+    { label: 'A♯', checked: true },
+    { label: 'B♭', checked: true },
+    { label: 'B', checked: true },
+    { label: 'C', checked: true },
+    { label: 'C♯', checked: true },
+    { label: 'D♭', checked: true },
+    { label: 'D', checked: true },
+    { label: 'D♯', checked: true },
+    { label: 'E♭', checked: true },
+    { label: 'E', checked: true },
+    { label: 'F', checked: true },
+    { label: 'F♯', checked: true },
+    { label: 'G♭', checked: true },
+    { label: 'G', checked: true },
+    { label: 'G♯', checked: true },
+    { label: 'A♭', checked: true },
+  ];
+
+  const defaultStrings: StringConfig[] = [
+    {
+      label: 'E <span class="text-[10px] text-gray-400">(low)</span>',
+      displayHtml:
+        '<span class="flex items-end gap-0.5 text-4xl sm:text-5xl font-black">E<span class="text-[10px] text-gray-400 font-medium pb-1">low</span></span>',
+      checked: true,
+    },
+    { label: 'A', displayHtml: 'A', checked: true },
+    { label: 'D', displayHtml: 'D', checked: true },
+    { label: 'G', displayHtml: 'G', checked: true },
+    { label: 'B', displayHtml: 'B', checked: true },
+    {
+      label: 'E <span class="text-[10px] text-gray-400">(high)</span>',
+      displayHtml:
+        '<span class="flex items-end gap-0.5 text-4xl sm:text-5xl font-black">E<span class="text-[10px] text-gray-400 font-medium pb-1">high</span></span>',
+      checked: true,
+    },
+  ];
+
+  // Load configuration and persistent lifetime stats from localStorage
+  let notesState: NoteConfig[] = loadState('bof_notes_state', defaultNotes);
+  let stringNotesState: NoteConfig[] = loadState('bof_string_notes_state', defaultNotes);
+  let stringsState: StringConfig[] = loadState('bof_strings_state', defaultStrings);
+
+  let notesPracticed: number = parseInt(
+    localStorage.getItem('bof_notes_total_practiced') || '0',
+    10,
+  );
+  let stringsPracticed: number = parseInt(
+    localStorage.getItem('bof_strings_total_practiced') || '0',
+    10,
+  );
+
+  function loadState<T>(key: string, fallback: T): T {
+    try {
+      const saved = localStorage.getItem(key);
+      return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(fallback));
+    } catch (e) {
+      return JSON.parse(JSON.stringify(fallback));
+    }
+  }
+
+  function saveState(key: string, data: any): void {
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (e) {
+      console.error('Failed to save state to localStorage', e);
+    }
+  }
+
+  function initUI(): void {
+    renderNotesModalCheckboxes();
+    renderStringModalCheckboxes();
+
+    // Initialize display counters on load
+    const notesPracticedEl = document.getElementById('notes-practiced-count');
+    const stringsPracticedEl = document.getElementById('strings-practiced-count');
+    if (notesPracticedEl) notesPracticedEl.textContent = notesPracticed.toString();
+    if (stringsPracticedEl) stringsPracticedEl.textContent = stringsPracticed.toString();
+
+    const savedTab = localStorage.getItem('bof_active_tab') as 'notes' | 'strings' | null;
+    if (savedTab === 'strings') {
+      (window as any).switchTab('strings', false);
+    }
+  }
+
+  // --- Modal Controls ---
+  (window as any).openModal = function (id: string): void {
+    document.getElementById(id)?.classList.remove('hidden');
+  };
+
+  (window as any).closeModal = function (id: string): void {
+    document.getElementById(id)?.classList.add('hidden');
+  };
+
+  (window as any).switchTab = function (tab: 'notes' | 'strings', save: boolean = true): void {
+    const tabNotes = document.getElementById('tab-notes');
+    const tabStrings = document.getElementById('tab-strings');
+    const gameNotes = document.getElementById('game-notes');
+    const gameStrings = document.getElementById('game-strings');
+
+    if (!tabNotes || !tabStrings || !gameNotes || !gameStrings) return;
+
+    if (tab === 'notes') {
+      tabNotes.className =
+        'flex-1 py-2 text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer';
+      tabStrings.className =
+        'flex-1 py-2 text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
+      gameNotes.classList.remove('hidden');
+      gameStrings.classList.add('hidden');
+    } else {
+      tabStrings.className =
+        'flex-1 py-2 text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer';
+      tabNotes.className =
+        'flex-1 py-2 text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
+      gameStrings.classList.remove('hidden');
+      gameNotes.classList.add('hidden');
+    }
+
+    if (save) {
+      localStorage.setItem('bof_active_tab', tab);
+    }
+  };
+
+  function renderCheckboxesIntoColumns(
+    items: NoteConfig[],
+    updateFnName: string,
+    containerId: string,
+  ): void {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+
+    const numCols = 3;
+    const colLists: { item: NoteConfig; originalIndex: number }[][] = Array.from(
+      { length: numCols },
+      () => [],
+    );
+
+    const itemsPerCol = Math.ceil(items.length / numCols);
+    items.forEach((item, idx) => {
+      const colIdx = Math.floor(idx / itemsPerCol);
+      if (colLists[colIdx]) {
+        colLists[colIdx].push({ item, originalIndex: idx });
+      }
+    });
+
+    colLists.forEach(colItems => {
+      let colHtml = `<div class="flex flex-col gap-2">`;
+      colItems.forEach(({ item, originalIndex }) => {
+        colHtml += `
+          <label class="flex items-center space-x-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="${updateFnName}(${originalIndex}, this.checked)" class="rounded bg-deep-charcoal border-purple-700 text-amber-500 focus:ring-0 cursor-pointer">
+            <span class="text-xs font-medium text-gray-200 cursor-pointer">${item.label}</span>
+          </label>
+        `;
+      });
+      colHtml += `</div>`;
+      container.innerHTML += colHtml;
+    });
+  }
+
+  function renderNotesModalCheckboxes(): void {
+    renderCheckboxesIntoColumns(notesState, 'updateNoteState', 'notes-checkboxes');
+  }
+
+  function renderStringModalCheckboxes(): void {
+    const sContainer = document.getElementById('string-checkboxes');
+    if (sContainer) {
+      sContainer.innerHTML = '';
+      stringsState.forEach((str: StringConfig, idx: number) => {
+        sContainer.innerHTML += `
+          <label class="flex items-center space-x-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+            <input type="checkbox" ${str.checked ? 'checked' : ''} onchange="updateStringState(${idx}, this.checked)" class="rounded bg-deep-charcoal border-purple-700 text-amber-500 focus:ring-0 cursor-pointer">
+            <span class="text-xs font-medium text-gray-200 cursor-pointer">${str.label}</span>
+          </label>
+        `;
+      });
+    }
+
+    renderCheckboxesIntoColumns(
+      stringNotesState,
+      'updateStringNoteState',
+      'string-notes-checkboxes',
+    );
+  }
+
+  (window as any).updateNoteState = (idx: number, val: boolean): void => {
+    notesState[idx].checked = val;
+    saveState('bof_notes_state', notesState);
+  };
+
+  (window as any).updateStringState = (idx: number, val: boolean): void => {
+    stringsState[idx].checked = val;
+    saveState('bof_strings_state', stringsState);
+  };
+
+  (window as any).updateStringNoteState = (idx: number, val: boolean): void => {
+    stringNotesState[idx].checked = val;
+    saveState('bof_string_notes_state', stringNotesState);
+  };
+
+  (window as any).toggleAllNotes = (val: boolean): void => {
+    notesState.forEach((n: NoteConfig) => (n.checked = val));
+    saveState('bof_notes_state', notesState);
+    renderNotesModalCheckboxes();
+  };
+
+  (window as any).toggleAllStrings = (val: boolean): void => {
+    stringsState.forEach((s: StringConfig) => (s.checked = val));
+    saveState('bof_strings_state', stringsState);
+    renderStringModalCheckboxes();
+  };
+
+  (window as any).toggleAllStringNotes = (val: boolean): void => {
+    stringNotesState.forEach((n: NoteConfig) => (n.checked = val));
+    saveState('bof_string_notes_state', stringNotesState);
+    renderStringModalCheckboxes();
+  };
+
+  // --- Game 1 Logic (Persistent Note Trainer) ---
+  (window as any).startNotesGame = function (): void {
+    const activePool = notesState
+      .filter((n: NoteConfig) => n.checked)
+      .map((n: NoteConfig) => n.label);
+    if (activePool.length === 0) {
+      alert('Please select at least one note in the configuration popup!');
+      return;
+    }
+
+    const startBtn = document.getElementById('notes-start-btn');
+    const nextBtn = document.getElementById('notes-next-btn');
+    if (startBtn) startBtn.innerHTML = '<span>🔄</span> Refresh';
+    if (nextBtn) nextBtn.removeAttribute('disabled');
+
+    showRandomNote();
+  };
+
+  (window as any).nextNotePrompt = function (): void {
+    notesPracticed++;
+    localStorage.setItem('bof_notes_total_practiced', notesPracticed.toString());
+    showRandomNote();
+  };
+
+  function showRandomNote(): void {
+    const activePool = notesState
+      .filter((n: NoteConfig) => n.checked)
+      .map((n: NoteConfig) => n.label);
+    if (activePool.length === 0) return;
+
+    const randomNote = activePool[Math.floor(Math.random() * activePool.length)];
+
+    const display = document.getElementById('notes-display');
+    const status = document.getElementById('notes-status');
+    const progress = document.getElementById('notes-progress');
+    const practicedEl = document.getElementById('notes-practiced-count');
+
+    if (display) display.textContent = randomNote;
+    if (status) status.textContent = 'Find Note on All Strings';
+    if (progress) progress.textContent = `Practice active. Click Refresh or Next anytime!`;
+    if (practicedEl) practicedEl.textContent = notesPracticed.toString();
+  }
+
+  // --- Game 2 Logic (Persistent Note & String Trainer) ---
+  (window as any).startStringsGame = function (): void {
+    const activeStrings = stringsState.filter((s: StringConfig) => s.checked);
+    const activeNotes = stringNotesState
+      .filter((n: NoteConfig) => n.checked)
+      .map((n: NoteConfig) => n.label);
+
+    if (activeStrings.length === 0 || activeNotes.length === 0) {
+      alert('Please select at least one string and one note in your configuration!');
+      return;
+    }
+
+    const startBtn = document.getElementById('strings-start-btn');
+    const nextBtn = document.getElementById('strings-next-btn');
+    if (startBtn) startBtn.innerHTML = '<span>🔄</span> Refresh';
+    if (nextBtn) nextBtn.removeAttribute('disabled');
+
+    showRandomStringCombo();
+  };
+
+  (window as any).nextStringPrompt = function (): void {
+    stringsPracticed++;
+    localStorage.setItem('bof_strings_total_practiced', stringsPracticed.toString());
+    showRandomStringCombo();
+  };
+
+  function showRandomStringCombo(): void {
+    const activeStrings = stringsState.filter((s: StringConfig) => s.checked);
+    const activeNotes = stringNotesState
+      .filter((n: NoteConfig) => n.checked)
+      .map((n: NoteConfig) => n.label);
+
+    if (activeStrings.length === 0 || activeNotes.length === 0) return;
+
+    const randStr = activeStrings[Math.floor(Math.random() * activeStrings.length)];
+    const randNote = activeNotes[Math.floor(Math.random() * activeNotes.length)];
+
+    const strDisplay = document.getElementById('string-display');
+    const noteDisplay = document.getElementById('string-note-display');
+    const status = document.getElementById('strings-status');
+    const progress = document.getElementById('strings-progress');
+    const practicedEl = document.getElementById('strings-practiced-count');
+
+    if (strDisplay) strDisplay.innerHTML = randStr.displayHtml;
+    if (noteDisplay) noteDisplay.textContent = randNote;
+    if (status) status.textContent = 'Find Note on String';
+    if (progress) progress.textContent = `Practice active. Click Refresh or Next anytime!`;
+    if (practicedEl) practicedEl.textContent = stringsPracticed.toString();
+  }
+
+  // Initialize on load
+  initUI();
+</script>
