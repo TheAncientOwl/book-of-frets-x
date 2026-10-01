@@ -1,0 +1,750 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file tuner.astro
+ * @author Alexandru Delegeanu
+ * @version 2.00
+ * @description Interactive guitar tuner featuring realistic electric guitar samples + distortion for the Strat headstock and acoustic samples for the 3x3, with smoothed pitch detection.
+ */
+
+import '#styles/global.css';
+import GeneralLayout from '#layouts/GeneralLayout.astro';
+---
+
+<GeneralLayout>
+  <head>
+    <link
+      rel='stylesheet'
+      href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200'
+    />
+  </head>
+
+  <div class='bg-deep-charcoal min-h-dvh flex flex-col items-center text-white'>
+    <div
+      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-deep-purple p-6 rounded-xl shadow-2xl relative'
+    >
+      {/* Header & Settings Bar (Centered Title) */}
+      <div class='w-full flex items-center justify-between mb-4 relative'>
+        <div class='w-8'></div>
+        <h2
+          class='text-2xl font-extrabold tracking-wide text-amber-400 flex items-center justify-center gap-2'
+        >
+          🎸 Guitar Tuner
+        </h2>
+        <button
+          type='button'
+          id='open-config-btn'
+          class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-amber-300 border border-purple-600 cursor-pointer flex items-center gap-1.5 shadow'
+        >
+          <span class='material-symbols-outlined text-[15px]'>settings</span> Configure
+        </button>
+      </div>
+
+      {/* Tuner Status & Visualizer Arena */}
+      <div
+        class='w-full bg-deep-charcoal/90 rounded-xl p-4 flex flex-col items-center border border-purple-900/50 shadow-inner mb-3 relative overflow-hidden'
+      >
+        <div class='w-full flex justify-between items-center mb-3 px-2'>
+          <button
+            type='button'
+            id='tuner-toggle-btn'
+            class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center gap-1.5'
+          >
+            <span id='tuner-btn-icon' class='material-symbols-outlined text-[16px]'>mic</span>
+            <span id='tuner-btn-text'>Start Mic</span>
+          </button>
+
+          <div class='flex items-center gap-2'>
+            <span class='text-xs text-gray-400 font-medium'>Auto Detect</span>
+            <label class='relative inline-flex items-center cursor-pointer'>
+              <input type='checkbox' id='auto-detect-checkbox' checked class='sr-only peer' />
+              <div
+                class='w-9 h-5 bg-purple-950 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-400'
+              >
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class='flex flex-col items-center justify-center my-1'>
+          <div
+            class='text-xs uppercase tracking-widest text-purple-400 font-semibold mb-1'
+            id='tuner-target-label'
+          >
+            Target: E2 (82.41 Hz)
+          </div>
+          <div
+            id='detected-note-display'
+            class='text-4xl sm:text-5xl font-black text-amber-400 tracking-wider mb-1 min-h-[50px] flex items-center justify-center'
+          >
+            —
+          </div>
+          <div id='detected-freq-display' class='text-xs text-gray-400 font-mono mb-3'>
+            0.00 Hz (0 cents)
+          </div>
+
+          <div
+            class='w-64 sm:w-80 h-3 bg-purple-950/80 rounded-full overflow-hidden p-0.5 border border-purple-800/50 relative shadow-inner'
+          >
+            <div
+              id='tuning-needle'
+              class='absolute top-0.5 bottom-0.5 w-1.5 bg-amber-400 rounded-full transition-all duration-75 left-1/2 -translate-x-1/2'
+            >
+            </div>
+            <div class='absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/40 -translate-x-1/2'></div>
+          </div>
+          <div class='flex justify-between w-64 sm:w-80 text-[10px] text-gray-500 font-mono mt-1'>
+            <span>♭ Flat</span>
+            <span class='text-emerald-400 font-bold'>In Tune</span>
+            <span>Sharp ♯</span>
+          </div>
+        </div>
+      </div>
+
+      {/* HEADSTOCK CONTAINER */}
+      <div class='w-full flex-1 flex flex-col items-center justify-center relative min-h-[340px]'>
+        {/* STYLE 1: 3x3 ACOUSTIC HEADSTOCK */}
+        <div
+          id='headstock-3x3'
+          class='relative w-[280px] h-[340px] flex items-center justify-center'
+        >
+          <div class='absolute left-2 top-8 flex flex-col justify-between h-[240px] z-10'>
+            <button
+              type='button'
+              data-string-index='0'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >E</button
+            >
+            <button
+              type='button'
+              data-string-index='1'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >A</button
+            >
+            <button
+              type='button'
+              data-string-index='2'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >D</button
+            >
+          </div>
+          <div class='absolute right-2 top-8 flex flex-col justify-between h-[240px] z-10'>
+            <button
+              type='button'
+              data-string-index='3'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >G</button
+            >
+            <button
+              type='button'
+              data-string-index='4'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >B</button
+            >
+            <button
+              type='button'
+              data-string-index='5'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >E</button
+            >
+          </div>
+
+          <svg viewBox='0 0 200 320' class='w-full h-full drop-shadow-2xl'>
+            <path
+              d='M 60,20 Q 100,5 140,20 L 150,260 Q 150,300 100,310 Q 50,300 50,260 Z'
+              fill='#8B4513'
+              stroke='#5c2c16'
+              stroke-width='4'></path>
+            <path
+              d='M 65,30 Q 100,18 135,30 L 143,255 Q 143,290 100,298 Q 57,290 57,255 Z'
+              fill='#a0522d'></path>
+            <line x1='60' y1='60' x2='80' y2='60' stroke='#ccc' stroke-width='4'></line>
+            <line x1='60' y1='120' x2='80' y2='120' stroke='#ccc' stroke-width='4'></line>
+            <line x1='60' y1='180' x2='80' y2='180' stroke='#ccc' stroke-width='4'></line>
+            <line x1='140' y1='60' x2='120' y2='60' stroke='#ccc' stroke-width='4'></line>
+            <line x1='140' y1='120' x2='120' y2='120' stroke='#ccc' stroke-width='4'></line>
+            <line x1='140' y1='180' x2='120' y2='180' stroke='#ccc' stroke-width='4'></line>
+            <line x1='80' y1='60' x2='92' y2='320' stroke='#e0e0e0' stroke-width='2.5'></line>
+            <line x1='80' y1='120' x2='95' y2='320' stroke='#d0d0d0' stroke-width='2'></line>
+            <line x1='80' y1='180' x2='98' y2='320' stroke='#c0c0c0' stroke-width='1.5'></line>
+            <line x1='120' y1='60' x2='108' y2='320' stroke='#b0b0b0' stroke-width='1.2'></line>
+            <line x1='120' y1='120' x2='105' y2='320' stroke='#909090' stroke-width='1'></line>
+            <line x1='120' y1='180' x2='102' y2='320' stroke='#808080' stroke-width='0.8'></line>
+            <rect x='85' y='305' width='30' height='6' fill='#e2e8f0' rx='2'></rect>
+          </svg>
+        </div>
+
+        {/* STYLE 2: 6-IN-LINE STRAT HEADSTOCK */}
+        <div
+          id='headstock-strat'
+          class='relative w-[280px] h-[340px] flex items-center justify-center hidden'
+        >
+          {/* Selector Buttons */}
+          <div class='absolute left-1 top-2.5 flex flex-col justify-between h-[285px] z-10'>
+            <button
+              type='button'
+              data-string-index='5'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >E</button
+            >
+            <button
+              type='button'
+              data-string-index='4'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >B</button
+            >
+            <button
+              type='button'
+              data-string-index='3'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >G</button
+            >
+            <button
+              type='button'
+              data-string-index='2'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >D</button
+            >
+            <button
+              type='button'
+              data-string-index='1'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >A</button
+            >
+            <button
+              type='button'
+              data-string-index='0'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              >E</button
+            >
+          </div>
+
+          <svg viewBox='0 0 200 320' class='w-full h-full drop-shadow-2xl'>
+            {/* Gloss Maple Vintage Strat Headstock Body Outline */}
+            <path
+              d='M 100,38 
+                 C 102,15 150,12 178,42 
+                 C 198,65 185,110 172,140
+                 C 160,170 172,220 168,260
+                 C 162,295 150,312 138,312
+                 L 65,312 
+                 L 65,260 
+                 C 65,245 58,230 62,190
+                 L 100,38 Z'
+              fill='url(#stratWoodGrad)'
+              stroke='#c49a6c'
+              stroke-width='3.5'></path>
+
+            {/* Wood Gradient Definition */}
+            <defs>
+              <linearGradient id='stratWoodGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
+                <stop offset='0%' stop-color='#fae1be'></stop>
+                <stop offset='50%' stop-color='#f5cca0'></stop>
+                <stop offset='100%' stop-color='#dfad78'></stop>
+              </linearGradient>
+            </defs>
+
+            {/* Inner Edge Highlight / Grain Effect */}
+            <path
+              d='M 103,42 
+                 C 105,22 148,19 173,45 
+                 C 191,65 179,110 167,140
+                 C 156,170 167,220 163,258
+                 C 158,290 147,305 135,305
+                 L 70,305
+                 L 70,260
+                 C 70,248 64,233 67,192
+                 L 103,42 Z'
+              fill='rgba(255,255,255,0.18)'></path>
+
+            {/* Guitar Strings: 100% Mathematically Parallel with 10px Spacing across Neck */}
+            <line x1='126' y1='38' x2='126' y2='307' stroke='#e2e8f0' stroke-width='1.2'></line>
+            <line x1='116' y1='78' x2='116' y2='307' stroke='#cbd5e1' stroke-width='1.5'></line>
+            <line x1='106' y1='118' x2='106' y2='307' stroke='#94a3b8' stroke-width='1.8'></line>
+            <line x1='96' y1='158' x2='96' y2='307' stroke='#64748b' stroke-width='2.2'></line>
+            <line x1='86' y1='198' x2='86' y2='307' stroke='#475569' stroke-width='2.5'></line>
+            <line x1='76' y1='238' x2='76' y2='307' stroke='#334155' stroke-width='2.8'></line>
+
+            {/* Tuning Post Peg Circles */}
+            <circle cx='126' cy='38' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
+            ></circle>
+            <circle cx='116' cy='78' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
+            ></circle>
+            <circle cx='106' cy='118' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
+            ></circle>
+            <circle cx='96' cy='158' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
+            ></circle>
+            <circle cx='86' cy='198' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
+            ></circle>
+            <circle cx='76' cy='238' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
+            ></circle>
+
+            {/* Headstock Nut at Base */}
+            <rect x='70' y='305' width='63' height='6' fill='#1e293b' rx='1'></rect>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* CONFIGURATION MODAL */}
+  <div
+    id='tuner-config-modal'
+    class='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
+  >
+    <div
+      class='bg-[#1e192f] border border-purple-900/60 w-full max-w-md rounded-xl p-6 shadow-2xl flex flex-col'
+    >
+      <div class='flex justify-between items-center mb-4'>
+        <h3 class='text-lg font-bold text-amber-400'>Tuner Settings</h3>
+        <button
+          type='button'
+          id='close-config-btn'
+          class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
+        >
+          <span class='material-symbols-outlined text-[20px]'>close</span>
+        </button>
+      </div>
+
+      <div class='mb-5 bg-deep-charcoal/50 p-3.5 rounded-lg border border-purple-900/40'>
+        <label class='block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-2'>
+          Headstock Style
+        </label>
+        <div class='grid grid-cols-2 gap-2'>
+          <button
+            type='button'
+            id='style-btn-3x3'
+            class='py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow'
+          >
+            Acoustic (3x3)
+          </button>
+          <button
+            type='button'
+            id='style-btn-strat'
+            class='py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950'
+          >
+            Strat (6-in-line)
+          </button>
+        </div>
+      </div>
+
+      <div class='mb-3 bg-deep-charcoal/50 p-3.5 rounded-lg border border-purple-900/40'>
+        <label
+          for='tuning-variant-select'
+          class='block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-2'
+        >
+          Tuning Variant
+        </label>
+        <select
+          id='tuning-variant-select'
+          class='w-full bg-deep-charcoal border border-purple-800/80 rounded-md p-2 text-xs font-medium text-amber-300 focus:outline-none focus:border-amber-400 cursor-pointer'
+        >
+          <option value='standard'>Standard (E A D G B E)</option>
+          <option value='drop_d'>Drop D (D A D G B E)</option>
+          <option value='half_step_down'>Half Step Down (Eb Ab Db Gb Bb Eb)</option>
+          <option value='open_g'>Open G (D G D G B D)</option>
+          <option value='DADGAD'>DADGAD (Celtic)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</GeneralLayout>
+
+<script>
+  let ToneModule: typeof import('tone') | null = null;
+  let acousticSampler: any = null;
+  let electricSampler: any = null;
+  let ampCabinetFilter: any = null;
+  let distortionEffect: any = null;
+
+  const tuningPresets: Record<string, { name: string; freq: number }[]> = {
+    standard: [
+      { name: 'E2', freq: 82.41 },
+      { name: 'A2', freq: 110.0 },
+      { name: 'D3', freq: 146.83 },
+      { name: 'G3', freq: 196.0 },
+      { name: 'B3', freq: 246.94 },
+      { name: 'E4', freq: 329.63 },
+    ],
+    drop_d: [
+      { name: 'D2', freq: 73.42 },
+      { name: 'A2', freq: 110.0 },
+      { name: 'D3', freq: 146.83 },
+      { name: 'G3', freq: 196.0 },
+      { name: 'B3', freq: 246.94 },
+      { name: 'E4', freq: 329.63 },
+    ],
+    half_step_down: [
+      { name: 'Eb2', freq: 77.78 },
+      { name: 'Ab2', freq: 103.83 },
+      { name: 'Db3', freq: 138.59 },
+      { name: 'Gb3', freq: 185.0 },
+      { name: 'Bb3', freq: 233.08 },
+      { name: 'Eb4', freq: 311.13 },
+    ],
+    open_g: [
+      { name: 'D2', freq: 73.42 },
+      { name: 'G2', freq: 98.0 },
+      { name: 'D3', freq: 146.83 },
+      { name: 'G3', freq: 196.0 },
+      { name: 'B3', freq: 246.94 },
+      { name: 'D4', freq: 293.66 },
+    ],
+    DADGAD: [
+      { name: 'D2', freq: 73.42 },
+      { name: 'A2', freq: 110.0 },
+      { name: 'D3', freq: 146.83 },
+      { name: 'G3', freq: 196.0 },
+      { name: 'A3', freq: 220.0 },
+      { name: 'D4', freq: 293.66 },
+    ],
+  };
+
+  let currentVariant = localStorage.getItem('bof_tuner_variant') || 'standard';
+  let currentNotes = tuningPresets[currentVariant] || tuningPresets.standard;
+  let activeStringIndex = 0;
+  let isRunning = false;
+  let audioCtx: AudioContext | null = null;
+  let analyser: AnalyserNode | null = null;
+  let mediaStream: MediaStream | null = null;
+  let animationFrameId: number | null = null;
+  let currentHeadstock = localStorage.getItem('bof_headstock_style') || '3x3';
+
+  let smoothedCents = 0;
+  let smoothedFreq = 0;
+  const smoothingFactor = 0.08;
+
+  async function initAudio() {
+    if (!ToneModule) {
+      ToneModule = await import('tone');
+    }
+
+    if (!acousticSampler && ToneModule) {
+      acousticSampler = new ToneModule.Sampler({
+        urls: {
+          E2: 'E2.mp3',
+          A2: 'A2.mp3',
+          D3: 'D3.mp3',
+          G3: 'G3.mp3',
+          B3: 'B3.mp3',
+          E4: 'E4.mp3',
+        },
+        baseUrl:
+          'https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/MusyngKite/acoustic_guitar_steel-mp3/',
+      }).toDestination();
+
+      distortionEffect = new ToneModule.Distortion(0.35);
+      ampCabinetFilter = new ToneModule.Filter({
+        frequency: 3200,
+        type: 'lowpass',
+        rolloff: -12,
+      });
+
+      electricSampler = new ToneModule.Sampler({
+        urls: {
+          E2: 'E2.mp3',
+          A2: 'A2.mp3',
+          D3: 'D3.mp3',
+          G3: 'G3.mp3',
+          B3: 'B3.mp3',
+          E4: 'E4.mp3',
+        },
+        baseUrl:
+          'https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/MusyngKite/electric_guitar_clean-mp3/',
+      });
+
+      electricSampler.chain(distortionEffect, ampCabinetFilter, ToneModule.getDestination());
+    }
+  }
+
+  async function playReferenceNote(noteName: string) {
+    if (!ToneModule) {
+      await initAudio();
+    }
+    if (!ToneModule) return;
+
+    await ToneModule.start();
+
+    if (currentHeadstock === 'strat' && electricSampler) {
+      electricSampler.triggerAttackRelease(noteName, '2n');
+    } else if (acousticSampler) {
+      acousticSampler.triggerAttackRelease(noteName, '2n');
+    }
+  }
+
+  function initTunerUI() {
+    const variantSelect = document.getElementById(
+      'tuning-variant-select',
+    ) as HTMLSelectElement | null;
+    if (variantSelect) variantSelect.value = currentVariant;
+
+    setHeadstockStyle(currentHeadstock, false);
+    updateStringButtonsLabels();
+    highlightActiveStringButton();
+  }
+
+  function updateStringButtonsLabels() {
+    currentNotes.forEach((note, idx) => {
+      const labelText = note.name.replace(/[0-9]/g, '');
+      const buttons = document.querySelectorAll(`[data-string-index="${idx}"]`);
+      buttons.forEach(btn => {
+        btn.textContent = labelText;
+      });
+    });
+  }
+
+  function openModal(id: string) {
+    document.getElementById(id)?.classList.remove('hidden');
+  }
+
+  function closeModal(id: string) {
+    document.getElementById(id)?.classList.add('hidden');
+  }
+
+  function setHeadstockStyle(style: string, save = true) {
+    currentHeadstock = style;
+    if (save) localStorage.setItem('bof_headstock_style', style);
+
+    const hs3x3 = document.getElementById('headstock-3x3');
+    const hsStrat = document.getElementById('headstock-strat');
+    const btn3x3 = document.getElementById('style-btn-3x3');
+    const btnStrat = document.getElementById('style-btn-strat');
+
+    if (style === '3x3') {
+      hs3x3?.classList.remove('hidden');
+      hsStrat?.classList.add('hidden');
+      if (btn3x3)
+        btn3x3.className =
+          'py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow';
+      if (btnStrat)
+        btnStrat.className =
+          'py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950';
+    } else {
+      hs3x3?.classList.add('hidden');
+      hsStrat?.classList.remove('hidden');
+      if (btnStrat)
+        btnStrat.className =
+          'py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow';
+      if (btn3x3)
+        btn3x3.className =
+          'py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950';
+    }
+    highlightActiveStringButton();
+  }
+
+  function changeTuningVariant(variantKey: string) {
+    currentVariant = variantKey;
+    localStorage.setItem('bof_tuner_variant', variantKey);
+    currentNotes = tuningPresets[variantKey] || tuningPresets.standard;
+    activeStringIndex = 0;
+    updateStringButtonsLabels();
+    highlightActiveStringButton();
+    playReferenceNote(currentNotes[activeStringIndex].name);
+  }
+
+  function selectString(idx: number) {
+    activeStringIndex = idx;
+    highlightActiveStringButton();
+    playReferenceNote(currentNotes[activeStringIndex].name);
+  }
+
+  function highlightActiveStringButton() {
+    currentNotes.forEach((_, idx) => {
+      const isActive = idx === activeStringIndex;
+      const activeClasses =
+        'bg-amber-400 text-deep-charcoal border-white scale-110 shadow-amber-400/50';
+      const inactiveClasses = 'bg-deep-charcoal text-white border-purple-800';
+
+      const buttons = document.querySelectorAll(`[data-string-index="${idx}"]`);
+      buttons.forEach(btn => {
+        btn.className = `string-selector-btn rounded-full border-2 font-bold flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer ${
+          btn.classList.contains('w-11') ? 'w-11 h-11 text-sm' : 'w-10 h-10 text-xs'
+        } ${isActive ? activeClasses : inactiveClasses}`;
+      });
+    });
+
+    const targetLabel = document.getElementById('tuner-target-label');
+    if (targetLabel && currentNotes[activeStringIndex]) {
+      const note = currentNotes[activeStringIndex];
+      targetLabel.textContent = `Target: ${note.name} (${note.freq} Hz)`;
+    }
+  }
+
+  async function toggleTuner() {
+    const btnText = document.getElementById('tuner-btn-text');
+    const btnIcon = document.getElementById('tuner-btn-icon');
+
+    if (!isRunning) {
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+        audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+        const source = audioCtx.createMediaStreamSource(mediaStream);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 2048;
+        source.connect(analyser);
+
+        isRunning = true;
+        if (btnText) btnText.textContent = 'Stop Mic';
+        if (btnIcon) btnIcon.textContent = 'mic_off';
+
+        detectPitch();
+      } catch (err) {
+        alert('Microphone access is required for the guitar tuner.');
+        console.error(err);
+      }
+    } else {
+      stopTuner();
+    }
+  }
+
+  function stopTuner() {
+    isRunning = false;
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
+    if (audioCtx && audioCtx.state !== 'closed') audioCtx.close();
+
+    const btnText = document.getElementById('tuner-btn-text');
+    const btnIcon = document.getElementById('tuner-btn-icon');
+    if (btnText) btnText.textContent = 'Start Mic';
+    if (btnIcon) btnIcon.textContent = 'mic';
+
+    const noteDisplay = document.getElementById('detected-note-display');
+    const freqDisplay = document.getElementById('detected-freq-display');
+    const needle = document.getElementById('tuning-needle');
+    if (noteDisplay) noteDisplay.textContent = '—';
+    if (freqDisplay) freqDisplay.textContent = '0.00 Hz (0 cents)';
+    if (needle) needle.style.left = '50%';
+    smoothedCents = 0;
+    smoothedFreq = 0;
+  }
+
+  function autoCorrelate(buffer: Float32Array, sampleRate: number): number {
+    const SIZE = buffer.length;
+    let sum = 0;
+    for (let i = 0; i < SIZE; i++) sum += buffer[i] * buffer[i];
+    const rms = Math.sqrt(sum / SIZE);
+
+    if (rms < 0.02) return -1;
+
+    let r1 = 0;
+    let r2 = SIZE - 1;
+    const threshold = 0.2;
+    for (let i = 0; i < SIZE / 2; i++) {
+      if (Math.abs(buffer[i]) < threshold) {
+        r1 = i;
+        break;
+      }
+    }
+    for (let i = 1; i < SIZE / 2; i++) {
+      if (Math.abs(buffer[SIZE - i]) < threshold) {
+        r2 = SIZE - i;
+        break;
+      }
+    }
+
+    const trimmedBuffer = buffer.slice(r1, r2);
+    const c = new Array(trimmedBuffer.length).fill(0);
+    for (let i = 0; i < trimmedBuffer.length; i++) {
+      for (let j = 0; j < trimmedBuffer.length - i; j++) {
+        c[i] = c[i] + trimmedBuffer[j] * trimmedBuffer[j + i];
+      }
+    }
+
+    let d = 0;
+    while (c[d] > c[d + 1]) d++;
+    let maxval = -1;
+    let maxpos = -1;
+    for (let i = d; i < trimmedBuffer.length; i++) {
+      if (c[i] > maxval) {
+        maxval = c[i];
+        maxpos = i;
+      }
+    }
+    let T0 = maxpos;
+    return sampleRate / T0;
+  }
+
+  function detectPitch() {
+    if (!isRunning || !analyser || !audioCtx) return;
+
+    const buffer = new Float32Array(analyser.fftSize);
+    analyser.getFloatTimeDomainData(buffer);
+    const freq = autoCorrelate(buffer, audioCtx.sampleRate);
+
+    const noteDisplay = document.getElementById('detected-note-display');
+    const freqDisplay = document.getElementById('detected-freq-display');
+    const needle = document.getElementById('tuning-needle');
+    const autoCheckbox = document.getElementById('auto-detect-checkbox') as HTMLInputElement | null;
+
+    if (freq !== -1 && freq > 40 && freq < 1000) {
+      if (smoothedFreq === 0) smoothedFreq = freq;
+      smoothedFreq = smoothedFreq + smoothingFactor * (freq - smoothedFreq);
+
+      let targetNote = currentNotes[activeStringIndex];
+      if (autoCheckbox?.checked) {
+        let minDiff = Infinity;
+        currentNotes.forEach((n, idx) => {
+          const diff = Math.abs(n.freq - smoothedFreq);
+          if (diff < minDiff) {
+            minDiff = diff;
+            activeStringIndex = idx;
+            targetNote = n;
+          }
+        });
+        highlightActiveStringButton();
+      }
+
+      const rawCents = 1200 * Math.log2(smoothedFreq / targetNote.freq);
+      smoothedCents = smoothedCents + smoothingFactor * (rawCents - smoothedCents);
+
+      if (noteDisplay) noteDisplay.textContent = targetNote.name;
+      if (freqDisplay)
+        freqDisplay.textContent = `${smoothedFreq.toFixed(2)} Hz (${smoothedCents > 0 ? '+' : ''}${smoothedCents.toFixed(0)} cents)`;
+
+      const needlePos = Math.max(5, Math.min(95, 50 + smoothedCents * 1.5));
+      if (needle) {
+        needle.style.left = `${needlePos}%`;
+        if (Math.abs(smoothedCents) < 3) {
+          needle.className =
+            'absolute top-0.5 bottom-0.5 w-1.5 bg-emerald-400 rounded-full transition-all duration-75 -translate-x-1/2 shadow-[0_0_10px_#34d399]';
+        } else {
+          needle.className =
+            'absolute top-0.5 bottom-0.5 w-1.5 bg-amber-400 rounded-full transition-all duration-75 -translate-x-1/2';
+        }
+      }
+    }
+
+    animationFrameId = requestAnimationFrame(detectPitch);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initTunerUI();
+    initAudio();
+
+    document
+      .getElementById('open-config-btn')
+      ?.addEventListener('click', () => openModal('tuner-config-modal'));
+    document
+      .getElementById('close-config-btn')
+      ?.addEventListener('click', () => closeModal('tuner-config-modal'));
+    document.getElementById('tuner-toggle-btn')?.addEventListener('click', toggleTuner);
+    document
+      .getElementById('style-btn-3x3')
+      ?.addEventListener('click', () => setHeadstockStyle('3x3'));
+    document
+      .getElementById('style-btn-strat')
+      ?.addEventListener('click', () => setHeadstockStyle('strat'));
+    document.getElementById('tuning-variant-select')?.addEventListener('change', e => {
+      changeTuningVariant((e.target as HTMLSelectElement).value);
+    });
+    document.querySelectorAll('.string-selector-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const idx = parseInt((e.currentTarget as HTMLElement).dataset.stringIndex || '0', 10);
+        selectString(idx);
+      });
+    });
+  });
+</script>
