@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file practice.astro
  * @author Alexandru Delegeanu
- * @version 1.3
+ * @version 1.4
  * @description Practice helpers with compact action buttons and scaled display text
  */
 
@@ -127,12 +127,24 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
             <span>Total Practiced:</span>
             <strong id='strings-practiced-count' class='text-white font-bold'>0</strong>
           </div>
-          <button
-            onclick='openModal("strings-modal")'
-            class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-amber-300 border border-purple-600 cursor-pointer flex items-center gap-1.5'
-          >
-            <span class='material-symbols-outlined text-[15px]'>settings</span> Configure
-          </button>
+          <div class='flex items-center gap-2'>
+            <button
+              id='strings-mic-toggle'
+              onclick='toggleStringsMic()'
+              class='px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5'
+            >
+              <span id='strings-mic-toggle-icon' class='material-symbols-outlined text-[15px]'
+                >mic</span
+              >
+              <span id='strings-mic-toggle-text'>Mic On</span>
+            </button>
+            <button
+              onclick='openModal("strings-modal")'
+              class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-amber-300 border border-purple-600 cursor-pointer flex items-center gap-1.5'
+            >
+              <span class='material-symbols-outlined text-[15px]'>settings</span> Configure
+            </button>
+          </div>
         </div>
 
         {/* Practice Arena */}
@@ -147,9 +159,9 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
             >
               <span id='strings-btn-icon' class='material-symbols-outlined text-[16px]'
-                >play_arrow</span
+                >refresh</span
               >
-              <span id='strings-btn-text'>Start</span>
+              <span id='strings-btn-text'>Refresh</span>
             </button>
           </div>
 
@@ -172,6 +184,16 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               class='text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap px-2 text-center min-h-[88px]'
             >
               -
+            </div>
+
+            <div
+              id='strings-mic-status'
+              class='mt-4 min-h-5 text-[11px] uppercase tracking-widest text-gray-500 font-semibold text-center'
+            >
+              Microphone inactive
+            </div>
+
+            <div id='strings-pitch-display' class='mt-1 min-h-5 text-xs text-gray-500 text-center'>
             </div>
           </div>
         </div>
@@ -336,7 +358,8 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       toggleAllStrings: (val: boolean) => void;
       toggleAllStringNotes: (val: boolean) => void;
       startNotesGame: () => void;
-      startStringsGame: () => void;
+      startStringsGame: () => void | Promise<void>;
+      toggleStringsMic: () => void;
     }
   }
 
@@ -389,12 +412,16 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   ];
 
   let notesState: NoteConfig[] = loadState('bof_notes_state', defaultNotes);
+
   let stringNotesState: NoteConfig[] = loadState('bof_string_notes_state', defaultNotes);
+
   let stringsState: StringConfig[] = loadState('bof_strings_state', defaultStrings);
+
   let notesCountSetting: number = parseInt(
     localStorage.getItem('bof_notes_count_setting') || '1',
     10,
   );
+
   let stringsCountSetting: number = parseInt(
     localStorage.getItem('bof_strings_count_setting') || '1',
     10,
@@ -404,6 +431,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     localStorage.getItem('bof_notes_total_practiced') || '0',
     10,
   );
+
   let stringsPracticed: number = parseInt(
     localStorage.getItem('bof_strings_total_practiced') || '0',
     10,
@@ -412,6 +440,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   function loadState<T>(key: string, fallback: T): T {
     try {
       const saved = localStorage.getItem(key);
+
       return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(fallback));
     } catch (e) {
       return JSON.parse(JSON.stringify(fallback));
@@ -431,21 +460,33 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     renderStringModalCheckboxes();
 
     const notesCountInput = document.getElementById('notes-count-input') as HTMLInputElement;
+
     if (notesCountInput) {
       notesCountInput.value = notesCountSetting.toString();
     }
 
     const stringsCountInput = document.getElementById('strings-count-input') as HTMLInputElement;
+
     if (stringsCountInput) {
       stringsCountInput.value = stringsCountSetting.toString();
     }
 
     const notesPracticedEl = document.getElementById('notes-practiced-count');
+
     const stringsPracticedEl = document.getElementById('strings-practiced-count');
-    if (notesPracticedEl) notesPracticedEl.textContent = notesPracticed.toString();
-    if (stringsPracticedEl) stringsPracticedEl.textContent = stringsPracticed.toString();
+
+    if (notesPracticedEl) {
+      notesPracticedEl.textContent = notesPracticed.toString();
+    }
+
+    if (stringsPracticedEl) {
+      stringsPracticedEl.textContent = stringsPracticed.toString();
+    }
+
+    updateStringsMicToggle();
 
     const savedTab = localStorage.getItem('bof_active_tab') as 'notes' | 'strings' | null;
+
     if (savedTab === 'strings') {
       (window as any).switchTab('strings', false);
     }
@@ -461,24 +502,33 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   (window as any).switchTab = function (tab: 'notes' | 'strings', save: boolean = true): void {
     const tabNotes = document.getElementById('tab-notes');
+
     const tabStrings = document.getElementById('tab-strings');
+
     const gameNotes = document.getElementById('game-notes');
+
     const gameStrings = document.getElementById('game-strings');
 
-    if (!tabNotes || !tabStrings || !gameNotes || !gameStrings) return;
+    if (!tabNotes || !tabStrings || !gameNotes || !gameStrings) {
+      return;
+    }
 
     if (tab === 'notes') {
       tabNotes.className =
         'flex-1 py-2 text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer';
+
       tabStrings.className =
         'flex-1 py-2 text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
+
       gameNotes.classList.remove('hidden');
       gameStrings.classList.add('hidden');
     } else {
       tabStrings.className =
         'flex-1 py-2 text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer';
+
       tabNotes.className =
         'flex-1 py-2 text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
+
       gameStrings.classList.remove('hidden');
       gameNotes.classList.add('hidden');
     }
@@ -494,34 +544,47 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     containerId: string,
   ): void {
     const container = document.getElementById(containerId);
+
     if (!container) return;
+
     container.innerHTML = '';
 
     const numCols = 3;
-    const colLists: { item: NoteConfig; originalIndex: number }[][] = Array.from(
-      { length: numCols },
-      () => [],
-    );
+
+    const colLists: {
+      item: NoteConfig;
+      originalIndex: number;
+    }[][] = Array.from({ length: numCols }, () => []);
 
     const itemsPerCol = Math.ceil(items.length / numCols);
+
     items.forEach((item, idx) => {
       const colIdx = Math.floor(idx / itemsPerCol);
+
       if (colLists[colIdx]) {
-        colLists[colIdx].push({ item, originalIndex: idx });
+        colLists[colIdx].push({
+          item,
+          originalIndex: idx,
+        });
       }
     });
 
     colLists.forEach(colItems => {
       let colHtml = `<div class="flex flex-col gap-2">`;
+
       colItems.forEach(({ item, originalIndex }) => {
         colHtml += `
-          <label class="flex items-center space-x-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
-            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="${updateFnName}(${originalIndex}, this.checked)" class="rounded bg-deep-charcoal border-purple-700 text-amber-500 focus:ring-0 cursor-pointer">
-            <span class="text-xs font-medium text-gray-200 cursor-pointer">${item.label}</span>
-          </label>
-        `;
+              <label class="flex items-center space-x-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+                <input type="checkbox" ${
+                  item.checked ? 'checked' : ''
+                } onchange="${updateFnName}(${originalIndex}, this.checked)" class="rounded bg-deep-charcoal border-purple-700 text-amber-500 focus:ring-0 cursor-pointer">
+                <span class="text-xs font-medium text-gray-200 cursor-pointer">${item.label}</span>
+              </label>
+            `;
       });
+
       colHtml += `</div>`;
+
       container.innerHTML += colHtml;
     });
   }
@@ -532,15 +595,19 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   function renderStringModalCheckboxes(): void {
     const sContainer = document.getElementById('string-checkboxes');
+
     if (sContainer) {
       sContainer.innerHTML = '';
+
       stringsState.forEach((str: StringConfig, idx: number) => {
         sContainer.innerHTML += `
-          <label class="flex items-center space-x-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
-            <input type="checkbox" ${str.checked ? 'checked' : ''} onchange="updateStringState(${idx}, this.checked)" class="rounded bg-deep-charcoal border-purple-700 text-amber-500 focus:ring-0 cursor-pointer">
-            <span class="text-xs font-medium text-gray-200 cursor-pointer">${str.label}</span>
-          </label>
-        `;
+            <label class="flex items-center space-x-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+              <input type="checkbox" ${
+                str.checked ? 'checked' : ''
+              } onchange="updateStringState(${idx}, this.checked)" class="rounded bg-deep-charcoal border-purple-700 text-amber-500 focus:ring-0 cursor-pointer">
+              <span class="text-xs font-medium text-gray-200 cursor-pointer">${str.label}</span>
+            </label>
+          `;
       });
     }
 
@@ -553,46 +620,59 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   (window as any).updateNoteState = (idx: number, val: boolean): void => {
     notesState[idx].checked = val;
+
     saveState('bof_notes_state', notesState);
   };
 
   (window as any).updateNotesCount = (val: string): void => {
     const parsed = parseInt(val, 10);
+
     notesCountSetting = isNaN(parsed) || parsed < 1 ? 1 : parsed;
+
     localStorage.setItem('bof_notes_count_setting', notesCountSetting.toString());
   };
 
   (window as any).updateStringsCount = (val: string): void => {
     const parsed = parseInt(val, 10);
+
     stringsCountSetting = isNaN(parsed) || parsed < 1 ? 1 : parsed;
+
     localStorage.setItem('bof_strings_count_setting', stringsCountSetting.toString());
   };
 
   (window as any).updateStringState = (idx: number, val: boolean): void => {
     stringsState[idx].checked = val;
+
     saveState('bof_strings_state', stringsState);
   };
 
   (window as any).updateStringNoteState = (idx: number, val: boolean): void => {
     stringNotesState[idx].checked = val;
+
     saveState('bof_string_notes_state', stringNotesState);
   };
 
   (window as any).toggleAllNotes = (val: boolean): void => {
     notesState.forEach((n: NoteConfig) => (n.checked = val));
+
     saveState('bof_notes_state', notesState);
+
     renderNotesModalCheckboxes();
   };
 
   (window as any).toggleAllStrings = (val: boolean): void => {
     stringsState.forEach((s: StringConfig) => (s.checked = val));
+
     saveState('bof_strings_state', stringsState);
+
     renderStringModalCheckboxes();
   };
 
   (window as any).toggleAllStringNotes = (val: boolean): void => {
     stringNotesState.forEach((n: NoteConfig) => (n.checked = val));
+
     saveState('bof_string_notes_state', stringNotesState);
+
     renderStringModalCheckboxes();
   };
 
@@ -600,15 +680,24 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     const activePool = notesState
       .filter((n: NoteConfig) => n.checked)
       .map((n: NoteConfig) => n.label);
+
     if (activePool.length === 0) {
       alert('Please select at least one note in the configuration popup!');
+
       return;
     }
 
     const btnIcon = document.getElementById('notes-btn-icon');
+
     const btnText = document.getElementById('notes-btn-text');
-    if (btnIcon) btnIcon.textContent = 'refresh';
-    if (btnText) btnText.textContent = 'Refresh';
+
+    if (btnIcon) {
+      btnIcon.textContent = 'refresh';
+    }
+
+    if (btnText) {
+      btnText.textContent = 'Refresh';
+    }
 
     showRandomNotes();
   };
@@ -617,19 +706,27 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     const activePool = notesState
       .filter((n: NoteConfig) => n.checked)
       .map((n: NoteConfig) => n.label);
-    if (activePool.length === 0) return;
+
+    if (activePool.length === 0) {
+      return;
+    }
 
     const targetCount = Math.min(notesCountSetting, activePool.length);
+
     const actualCount = Math.floor(Math.random() * targetCount) + 1;
 
     notesPracticed += actualCount;
+
     localStorage.setItem('bof_notes_total_practiced', notesPracticed.toString());
 
     const shuffled = [...activePool].sort(() => 0.5 - Math.random());
+
     const selectedNotes = shuffled.slice(0, actualCount);
 
     const display = document.getElementById('notes-display');
+
     const status = document.getElementById('notes-status');
+
     const practicedEl = document.getElementById('notes-practiced-count');
 
     if (display) {
@@ -637,73 +734,780 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
         .map(note => `<span>${note}</span>`)
         .join('<span class="text-gray-600 font-light mx-1">/</span>');
     }
-    if (status)
+
+    if (status) {
       status.textContent =
         actualCount > 1 ? 'Find Notes on All Strings' : 'Find Note on All Strings';
-    if (practicedEl) practicedEl.textContent = notesPracticed.toString();
+    }
+
+    if (practicedEl) {
+      practicedEl.textContent = notesPracticed.toString();
+    }
   }
 
-  (window as any).startStringsGame = function (): void {
-    const activeStrings = stringsState.filter((s: StringConfig) => s.checked);
-    const activeNotes = stringNotesState
-      .filter((n: NoteConfig) => n.checked)
-      .map((n: NoteConfig) => n.label);
+  interface StringPracticeCombo {
+    note: string;
+    stringName: string;
+    stringIndex: number;
+  }
 
-    if (activeStrings.length === 0 || activeNotes.length === 0) {
-      alert('Please select at least one string and one note in your configuration!');
+  const STRING_BASE_MIDI: number[] = [40, 45, 50, 55, 59, 64];
+
+  const NOTE_TO_SEMITONE: Record<string, number> = {
+    C: 0,
+    'C♯': 1,
+    'D♭': 1,
+    D: 2,
+    'D♯': 3,
+    'E♭': 3,
+    E: 4,
+    F: 5,
+    'F♯': 6,
+    'G♭': 6,
+    G: 7,
+    'G♯': 8,
+    'A♭': 8,
+    A: 9,
+    'A♯': 10,
+    'B♭': 10,
+    B: 11,
+  };
+
+  let stringsPracticeSequence: StringPracticeCombo[] = [];
+
+  let stringsPracticeIndex = 0;
+
+  let stringsPracticeRunning = false;
+
+  let stringsMicEnabled = localStorage.getItem('bof_strings_mic_enabled') !== 'false';
+
+  let micStream: MediaStream | null = null;
+
+  let micAudioContext: AudioContext | null = null;
+
+  let micAnalyser: AnalyserNode | null = null;
+
+  let micSource: MediaStreamAudioSourceNode | null = null;
+
+  let micBuffer: Float32Array<ArrayBuffer> | null = null;
+
+  let micAnimationFrame = 0;
+
+  let stableMidi = -1;
+
+  let stableFrames = 0;
+
+  let lastPitchTime = 0;
+
+  function getNoteSemitone(note: string): number {
+    return NOTE_TO_SEMITONE[note] ?? -1;
+  }
+
+  function midiToNoteName(midi: number): string {
+    const names = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
+
+    return names[((midi % 12) + 12) % 12] ?? '';
+  }
+
+  function midiToFrequency(midi: number): number {
+    return 440 * Math.pow(2, (midi - 69) / 12);
+  }
+
+  function centsFromMidi(frequency: number, midi: number): number {
+    return 1200 * Math.log2(frequency / midiToFrequency(midi));
+  }
+
+  function getTargetMidiCandidates(combo: StringPracticeCombo): number[] {
+    const targetSemitone = getNoteSemitone(combo.note);
+
+    if (targetSemitone < 0) {
+      return [];
+    }
+
+    const baseMidi = STRING_BASE_MIDI[combo.stringIndex];
+
+    if (baseMidi === undefined) {
+      return [];
+    }
+
+    const candidates: number[] = [];
+
+    for (let fret = 0; fret <= 24; fret++) {
+      const midi = baseMidi + fret;
+
+      if (midi % 12 === targetSemitone) {
+        candidates.push(midi);
+      }
+    }
+
+    return candidates;
+  }
+
+  function combosCanSoundTheSame(first: StringPracticeCombo, second: StringPracticeCombo): boolean {
+    const firstCandidates = getTargetMidiCandidates(first);
+
+    const secondCandidates = getTargetMidiCandidates(second);
+
+    return firstCandidates.some(midi => secondCandidates.includes(midi));
+  }
+
+  function isPitchCorrect(
+    frequency: number,
+    combo: StringPracticeCombo,
+  ): {
+    correct: boolean;
+    midi: number;
+    cents: number;
+  } {
+    const detectedMidiFloat = 69 + 12 * Math.log2(frequency / 440);
+
+    const detectedMidi = Math.round(detectedMidiFloat);
+
+    const candidates = getTargetMidiCandidates(combo);
+
+    let bestCents = Number.POSITIVE_INFINITY;
+
+    let bestMidi = detectedMidi;
+
+    for (const candidate of candidates) {
+      const cents = centsFromMidi(frequency, candidate);
+
+      if (Math.abs(cents) < Math.abs(bestCents)) {
+        bestCents = cents;
+        bestMidi = candidate;
+      }
+    }
+
+    return {
+      correct: candidates.includes(detectedMidi) && Math.abs(bestCents) <= 35,
+      midi: bestMidi,
+      cents: bestCents,
+    };
+  }
+
+  /**
+   * Lightweight monophonic guitar pitch detector.
+   *
+   * Autocorrelation is used instead of FFT peak-picking because the fundamental
+   * frequency of a plucked guitar string is often weaker than its harmonics.
+   */
+  function detectPitch(buffer: Float32Array, sampleRate: number): number | null {
+    const size = buffer.length;
+
+    let mean = 0;
+
+    for (let i = 0; i < size; i++) {
+      mean += buffer[i];
+    }
+
+    mean /= size;
+
+    let rms = 0;
+
+    for (let i = 0; i < size; i++) {
+      const sample = buffer[i] - mean;
+
+      rms += sample * sample;
+    }
+
+    rms = Math.sqrt(rms / size);
+
+    if (rms < 0.012) {
+      return null;
+    }
+
+    const minFrequency = 70;
+    const maxFrequency = 1400;
+
+    const minLag = Math.floor(sampleRate / maxFrequency);
+
+    const maxLag = Math.min(Math.floor(sampleRate / minFrequency), size - 2);
+
+    let bestLag = -1;
+    let bestCorrelation = 0;
+
+    for (let lag = minLag; lag <= maxLag; lag++) {
+      let correlation = 0;
+      let energyA = 0;
+      let energyB = 0;
+
+      for (let i = 0; i < size - lag; i++) {
+        const a = buffer[i] - mean;
+
+        const b = buffer[i + lag] - mean;
+
+        correlation += a * b;
+
+        energyA += a * a;
+
+        energyB += b * b;
+      }
+
+      if (energyA === 0 || energyB === 0) {
+        continue;
+      }
+
+      const normalized = correlation / Math.sqrt(energyA * energyB);
+
+      if (normalized > bestCorrelation) {
+        bestCorrelation = normalized;
+
+        bestLag = lag;
+      }
+    }
+
+    if (bestLag < 0 || bestCorrelation < 0.65) {
+      return null;
+    }
+
+    let refinedLag = bestLag;
+
+    if (bestLag > minLag && bestLag < maxLag) {
+      const correlationAt = (lag: number): number => {
+        let correlation = 0;
+        let energyA = 0;
+        let energyB = 0;
+
+        for (let i = 0; i < size - lag; i++) {
+          const a = buffer[i] - mean;
+
+          const b = buffer[i + lag] - mean;
+
+          correlation += a * b;
+
+          energyA += a * a;
+
+          energyB += b * b;
+        }
+
+        if (energyA === 0 || energyB === 0) {
+          return 0;
+        }
+
+        return correlation / Math.sqrt(energyA * energyB);
+      };
+
+      const left = correlationAt(bestLag - 1);
+
+      const center = correlationAt(bestLag);
+
+      const right = correlationAt(bestLag + 1);
+
+      const denominator = 2 * (2 * center - left - right);
+
+      if (Math.abs(denominator) > 0.000001) {
+        refinedLag += (right - left) / denominator;
+      }
+    }
+
+    const frequency = sampleRate / refinedLag;
+
+    return frequency >= minFrequency && frequency <= maxFrequency ? frequency : null;
+  }
+
+  function updateStringsMicStatus(text: string, className = 'text-gray-500'): void {
+    const status = document.getElementById('strings-mic-status');
+
+    if (!status) return;
+
+    status.className = `mt-4 min-h-5 text-[11px] uppercase tracking-widest font-semibold text-center ${className}`;
+
+    status.textContent = text;
+  }
+
+  function updateStringsPitchDisplay(
+    frequency: number | null,
+    midi: number | null = null,
+    cents = 0,
+  ): void {
+    const display = document.getElementById('strings-pitch-display');
+
+    if (!display) return;
+
+    if (frequency === null || midi === null) {
+      display.textContent = '';
+
       return;
     }
 
-    const btnIcon = document.getElementById('strings-btn-icon');
-    const btnText = document.getElementById('strings-btn-text');
-    if (btnIcon) btnIcon.textContent = 'refresh';
-    if (btnText) btnText.textContent = 'Refresh';
+    const note = midiToNoteName(midi);
 
-    showRandomStringCombos();
+    const centsText = `${cents >= 0 ? '+' : ''}${Math.round(cents)}¢`;
+
+    display.textContent = `${note} · ${frequency.toFixed(1)} Hz · ${centsText}`;
+  }
+
+  function updateStringsMicToggle(): void {
+    const button = document.getElementById('strings-mic-toggle');
+
+    const icon = document.getElementById('strings-mic-toggle-icon');
+
+    const text = document.getElementById('strings-mic-toggle-text');
+
+    if (!button || !icon || !text) {
+      return;
+    }
+
+    if (stringsMicEnabled) {
+      button.className =
+        'px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5';
+
+      icon.textContent = 'mic';
+
+      text.textContent = 'Mic On';
+    } else {
+      button.className =
+        'px-3 py-1.5 bg-gray-800/70 hover:bg-gray-700/70 text-xs font-semibold rounded-md transition-colors text-gray-400 border border-gray-700 cursor-pointer flex items-center gap-1.5';
+
+      icon.textContent = 'mic_off';
+
+      text.textContent = 'Mic Off';
+    }
+  }
+
+  (window as any).toggleStringsMic = function (): void {
+    if (stringsPracticeRunning) {
+      stringsPracticeRunning = false;
+
+      stopStringsMicrophone();
+      setStringsButtonState(false);
+    }
+
+    stringsMicEnabled = !stringsMicEnabled;
+
+    localStorage.setItem('bof_strings_mic_enabled', stringsMicEnabled.toString());
+
+    updateStringsMicToggle();
+
+    updateStringsMicStatus(
+      stringsMicEnabled ? 'Microphone enabled' : 'Microphone disabled',
+      stringsMicEnabled ? 'text-green-400' : 'text-gray-500',
+    );
+
+    updateStringsPitchDisplay(null);
+
+    renderStringPracticeSequence();
   };
 
-  function showRandomStringCombos(): void {
-    const activeStrings = stringsState.filter((s: StringConfig) => s.checked);
-    const activeNotes = stringNotesState
-      .filter((n: NoteConfig) => n.checked)
-      .map((n: NoteConfig) => n.label);
+  function setStringsButtonState(_running: boolean): void {
+    const btnIcon = document.getElementById('strings-btn-icon');
 
-    if (activeStrings.length === 0 || activeNotes.length === 0) return;
+    const btnText = document.getElementById('strings-btn-text');
 
-    const targetCount = stringsCountSetting;
-    const combos: { note: string; stringName: string }[] = [];
-
-    for (let i = 0; i < targetCount; i++) {
-      const randStr = activeStrings[Math.floor(Math.random() * activeStrings.length)];
-      const randNote = activeNotes[Math.floor(Math.random() * activeNotes.length)];
-      combos.push({ note: randNote, stringName: randStr.name });
+    if (btnIcon) {
+      btnIcon.textContent = 'refresh';
     }
 
-    stringsPracticed += combos.length;
-    localStorage.setItem('bof_strings_total_practiced', stringsPracticed.toString());
+    if (btnText) {
+      btnText.textContent = 'Refresh';
+    }
+  }
 
+  function renderStringPracticeSequence(): void {
     const display = document.getElementById('strings-display');
+
     const status = document.getElementById('strings-status');
+
+    if (!display) return;
+
+    if (stringsPracticeSequence.length === 0) {
+      display.textContent = '-';
+
+      if (status) {
+        status.textContent = 'Find Note on String';
+      }
+
+      return;
+    }
+
+    display.innerHTML = stringsPracticeSequence
+      .map((combo, index) => {
+        const isCurrent =
+          index === stringsPracticeIndex && stringsPracticeIndex < stringsPracticeSequence.length;
+
+        const isCompleted = stringsMicEnabled && index < stringsPracticeIndex;
+
+        let borderClass = 'border-purple-900/40';
+
+        let backgroundClass = 'bg-deep-charcoal/60';
+
+        let opacityClass = '';
+
+        if (isCompleted) {
+          borderClass = 'border-green-500';
+
+          backgroundClass = 'bg-green-950/30';
+        } else if (isCurrent) {
+          borderClass = 'border-amber-400';
+
+          backgroundClass = 'bg-amber-950/20';
+        } else {
+          opacityClass = 'opacity-45';
+        }
+
+        return `
+              <div
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150"
+              >
+                ${
+                  isCompleted
+                    ? '<span class="material-symbols-outlined text-green-400 text-[18px]">check_circle</span>'
+                    : ''
+                }
+                <span class="${
+                  isCompleted ? 'text-green-300' : 'text-amber-400'
+                }">${combo.note}</span>
+                <span class="text-gray-500 font-light">on</span>
+                <span class="${
+                  isCompleted ? 'text-green-300' : 'text-cyan-400'
+                }">${combo.stringName}</span>
+              </div>
+            `;
+      })
+      .join('');
+
+    if (status) {
+      if (!stringsPracticeRunning) {
+        status.textContent =
+          stringsPracticeIndex >= stringsPracticeSequence.length
+            ? 'Sequence Complete'
+            : 'Find Note on String';
+      } else {
+        status.textContent =
+          stringsPracticeSequence.length > 1
+            ? `Play ${stringsPracticeIndex + 1} of ${stringsPracticeSequence.length}`
+            : 'Play the Target';
+      }
+    }
+  }
+
+  function updateStringsPracticeStats(): void {
     const practicedEl = document.getElementById('strings-practiced-count');
 
-    if (display) {
-      display.innerHTML = combos
-        .map(
-          c => `
-          <div class="flex items-center gap-1.5 bg-deep-charcoal/60 px-3 py-1 rounded-lg border border-purple-900/40">
-            <span class="text-amber-400">${c.note}</span>
-            <span class="text-gray-500 font-light">on</span>
-            <span class="text-cyan-400">${c.stringName}</span>
-          </div>
-        `,
-        )
-        .join('');
+    if (practicedEl) {
+      practicedEl.textContent = stringsPracticed.toString();
+    }
+  }
+
+  function createStringPracticeSequence(): StringPracticeCombo[] {
+    const activeStrings = stringsState
+      .map((stringConfig, stringIndex) => ({
+        stringConfig,
+        stringIndex,
+      }))
+      .filter(({ stringConfig }) => stringConfig.checked);
+
+    const activeNotes = stringNotesState
+      .filter((note: NoteConfig) => note.checked)
+      .map((note: NoteConfig) => note.label);
+
+    if (activeStrings.length === 0 || activeNotes.length === 0) {
+      return [];
     }
 
-    if (status)
-      status.textContent = combos.length > 1 ? 'Find Notes on Strings' : 'Find Note on String';
-    if (practicedEl) practicedEl.textContent = stringsPracticed.toString();
+    const availableCombos: StringPracticeCombo[] = [];
+
+    for (const { stringConfig, stringIndex } of activeStrings) {
+      for (const note of activeNotes) {
+        availableCombos.push({
+          note,
+          stringName: stringConfig.name,
+          stringIndex,
+        });
+      }
+    }
+
+    const targetCount = Math.min(stringsCountSetting, availableCombos.length);
+
+    let bestSequence: StringPracticeCombo[] = [];
+
+    /*
+     * Retry the randomized construction so
+     * we can usually reach the requested count
+     * even when the adjacency constraint makes
+     * some random paths dead-end.
+     */
+    for (let attempt = 0; attempt < 100; attempt++) {
+      const remaining = [...availableCombos].sort(() => Math.random() - 0.5);
+
+      const sequence: StringPracticeCombo[] = [];
+
+      while (sequence.length < targetCount && remaining.length > 0) {
+        const previous = sequence.length > 0 ? sequence[sequence.length - 1] : null;
+
+        /*
+         * Only reject a candidate when it can
+         * produce the exact same pitch as the
+         * immediately previous combo.
+         *
+         * Example:
+         *
+         * A on high E -> A4 / MIDI 69
+         * A on B      -> A4 / MIDI 69
+         *
+         * These cannot appear next to each
+         * other.
+         *
+         * But the same pitch may appear again
+         * later in the sequence.
+         */
+        const candidates = previous
+          ? remaining.filter(combo => !combosCanSoundTheSame(previous, combo))
+          : remaining;
+
+        if (candidates.length === 0) {
+          break;
+        }
+
+        const next = candidates[Math.floor(Math.random() * candidates.length)];
+
+        sequence.push(next);
+
+        const remainingIndex = remaining.indexOf(next);
+
+        if (remainingIndex >= 0) {
+          remaining.splice(remainingIndex, 1);
+        }
+      }
+
+      if (sequence.length > bestSequence.length) {
+        bestSequence = sequence;
+      }
+
+      if (bestSequence.length === targetCount) {
+        break;
+      }
+    }
+
+    return bestSequence;
   }
+
+  async function startStringsMicrophone(): Promise<boolean> {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      updateStringsMicStatus('Microphone is not supported by this browser', 'text-red-400');
+
+      return false;
+    }
+
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+        },
+      });
+
+      micAudioContext = new AudioContext();
+
+      await micAudioContext.resume();
+
+      micAnalyser = micAudioContext.createAnalyser();
+
+      micAnalyser.fftSize = 4096;
+
+      micAnalyser.smoothingTimeConstant = 0;
+
+      micSource = micAudioContext.createMediaStreamSource(micStream);
+
+      micSource.connect(micAnalyser);
+
+      micBuffer = new Float32Array(micAnalyser.fftSize);
+
+      stableMidi = -1;
+      stableFrames = 0;
+      lastPitchTime = 0;
+
+      updateStringsMicStatus('Listening · play the highlighted note', 'text-green-400');
+
+      processMicrophonePitch();
+
+      return true;
+    } catch (error) {
+      console.error('Failed to start microphone', error);
+
+      stopStringsMicrophone();
+
+      updateStringsMicStatus('Microphone permission was denied or unavailable', 'text-red-400');
+
+      return false;
+    }
+  }
+
+  function processMicrophonePitch(): void {
+    if (!stringsPracticeRunning || !micAnalyser || !micAudioContext || !micBuffer) {
+      return;
+    }
+
+    micAnalyser.getFloatTimeDomainData(micBuffer);
+
+    const frequency = detectPitch(micBuffer, micAudioContext.sampleRate);
+
+    if (frequency !== null) {
+      const combo = stringsPracticeSequence[stringsPracticeIndex];
+
+      if (combo) {
+        const result = isPitchCorrect(frequency, combo);
+
+        updateStringsPitchDisplay(frequency, result.midi, result.cents);
+
+        const detectedMidi = Math.round(69 + 12 * Math.log2(frequency / 440));
+
+        if (Math.abs(result.cents) <= 35) {
+          if (detectedMidi === stableMidi) {
+            stableFrames++;
+          } else {
+            stableMidi = detectedMidi;
+
+            stableFrames = 1;
+          }
+
+          if (result.correct && stableFrames >= 3) {
+            advanceStringPractice();
+
+            stableFrames = 0;
+            stableMidi = -1;
+          }
+        } else {
+          stableFrames = 0;
+          stableMidi = -1;
+        }
+
+        lastPitchTime = performance.now();
+      }
+    } else if (performance.now() - lastPitchTime > 250) {
+      updateStringsPitchDisplay(null);
+
+      stableFrames = 0;
+      stableMidi = -1;
+    }
+
+    micAnimationFrame = requestAnimationFrame(processMicrophonePitch);
+  }
+
+  function advanceStringPractice(): void {
+    const completedIndex = stringsPracticeIndex;
+
+    stringsPracticed++;
+
+    localStorage.setItem('bof_strings_total_practiced', stringsPracticed.toString());
+
+    updateStringsPracticeStats();
+
+    stringsPracticeIndex++;
+
+    renderStringPracticeSequence();
+
+    const completedCard = document.querySelectorAll('#strings-display > div')[completedIndex];
+
+    completedCard?.classList.add('border-green-400');
+
+    if (stringsPracticeIndex >= stringsPracticeSequence.length) {
+      stringsPracticeRunning = false;
+
+      setStringsButtonState(false);
+
+      updateStringsMicStatus('Sequence complete', 'text-green-400');
+
+      stopStringsMicrophone();
+
+      renderStringPracticeSequence();
+    }
+
+    if (stringsPracticeIndex >= stringsPracticeSequence.length) {
+      stringsPracticeRunning = false;
+
+      stopStringsMicrophone();
+
+      // Automatically generate a fresh sequence.
+      void (window as any).startStringsGame();
+    }
+  }
+
+  function stopStringsMicrophone(): void {
+    if (micAnimationFrame) {
+      cancelAnimationFrame(micAnimationFrame);
+
+      micAnimationFrame = 0;
+    }
+
+    micSource?.disconnect();
+    micSource = null;
+
+    micAnalyser = null;
+    micBuffer = null;
+
+    micStream?.getTracks().forEach(track => track.stop());
+
+    micStream = null;
+
+    if (micAudioContext) {
+      void micAudioContext.close();
+
+      micAudioContext = null;
+    }
+
+    stableMidi = -1;
+    stableFrames = 0;
+    lastPitchTime = 0;
+  }
+
+  (window as any).startStringsGame = async function (): Promise<void> {
+    /*
+     * Refresh always creates a new sequence.
+     * If the microphone is active, restart
+     * its capture so the new sequence starts
+     * cleanly.
+     */
+    if (stringsPracticeRunning) {
+      stringsPracticeRunning = false;
+
+      stopStringsMicrophone();
+    }
+
+    const activeStrings = stringsState.filter((s: StringConfig) => s.checked);
+
+    const activeNotes = stringNotesState.filter((n: NoteConfig) => n.checked);
+
+    if (activeStrings.length === 0 || activeNotes.length === 0) {
+      alert('Please select at least one string and one note in your configuration!');
+
+      return;
+    }
+
+    stringsPracticeSequence = createStringPracticeSequence();
+
+    if (stringsPracticeSequence.length === 0) {
+      return;
+    }
+
+    stringsPracticeIndex = 0;
+    stringsPracticeRunning = false;
+
+    setStringsButtonState(false);
+
+    renderStringPracticeSequence();
+
+    if (!stringsMicEnabled) {
+      updateStringsMicStatus('Microphone disabled · sequence ready', 'text-gray-500');
+
+      return;
+    }
+
+    stringsPracticeRunning = true;
+
+    updateStringsMicStatus('Requesting microphone access…', 'text-amber-400');
+
+    const microphoneStarted = await startStringsMicrophone();
+
+    if (!microphoneStarted) {
+      stringsPracticeRunning = false;
+
+      setStringsButtonState(false);
+
+      renderStringPracticeSequence();
+    }
+  };
 
   initUI();
 </script>
