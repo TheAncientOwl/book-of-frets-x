@@ -9,21 +9,24 @@
  * @version 1.0
  * @description Quiz the note at a random guitar string and fret coordinate.
  */
+import { Icon } from 'astro-icon/components';
 ---
 
 <div id='game-coordinates' class='w-full flex-col items-center' style='display: none'>
   <section class='w-full rounded-xl border border-purple-900/40 bg-deep-charcoal/80 p-5 sm:p-6'>
     <div class='mb-6 flex items-center justify-between gap-3'>
       <div>
-        <p class='text-xs font-semibold uppercase tracking-widest text-purple-400'>Fret Quiz</p>
         <p id='coordinate-progress' class='mt-1 text-xs text-gray-500'>Ready</p>
       </div>
       <span id='coordinate-score' class='text-xs font-semibold text-amber-400'>Score 0</span>
     </div>
 
-    <div class='flex min-h-28 flex-col items-center justify-center text-center'>
-      <p id='coordinate-question' class='text-xl font-bold text-purple-400 sm:text-2xl'>
-        Start a quiz to identify notes on the neck
+    <div
+      id='coordinate-question-area'
+      class='flex flex-col items-center justify-center text-center'
+    >
+      <p id='coordinate-question' class='text-sm font-bold uppercase text-purple-400 sm:text-2xl'>
+        Identify notes on the neck
       </p>
       <p
         id='coordinate-feedback'
@@ -35,22 +38,36 @@
     </div>
 
     <div id='coordinate-answers' class='grid grid-cols-2 gap-2 sm:gap-3'></div>
+    <div
+      id='coordinate-results'
+      style='display: none'
+      class='py-8 text-center'
+      role='status'
+      aria-live='polite'
+    >
+      <p class='text-xs font-semibold uppercase tracking-widest text-purple-400'>Quiz complete</p>
+      <p id='coordinate-final-score' class='mt-3 text-4xl font-black text-amber-400'></p>
+      <p class='mt-2 text-sm text-gray-400'>Correct answers</p>
+    </div>
 
     <div class='mt-4 flex justify-center gap-2'>
       <button
         type='button'
         id='coordinate-start-btn'
-        class='cursor-pointer rounded-md bg-amber-400 px-5 py-2 text-xs font-bold uppercase tracking-wider text-deep-charcoal shadow transition-colors hover:bg-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-200'
+        class='inline-flex cursor-pointer items-center gap-1.5 rounded-md bg-amber-400 px-5 py-2 text-xs font-bold uppercase tracking-wider text-deep-charcoal shadow transition-colors hover:bg-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-200'
       >
-        Start
+        <Icon name='material-symbols:play-arrow' class='coordinate-start-play h-4 w-4' />
+        <Icon name='material-symbols:refresh' class='coordinate-start-restart hidden h-4 w-4' />
+        <span id='coordinate-start-label'>Start</span>
       </button>
       <button
         type='button'
         id='coordinate-next-btn'
         disabled
-        class='hidden cursor-pointer rounded-md border border-purple-700/60 bg-purple-900/50 px-5 py-2 text-xs font-semibold text-purple-100 transition-colors hover:bg-purple-800/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 disabled:cursor-not-allowed disabled:opacity-40'
+        class='hidden inline-flex cursor-pointer items-center gap-1.5 rounded-md border border-purple-700/60 bg-purple-900/50 px-5 py-2 text-xs font-semibold text-purple-100 transition-colors hover:bg-purple-800/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 disabled:cursor-not-allowed disabled:opacity-40'
       >
-        Next question
+        <span id='coordinate-next-label'>Next question</span>
+        <Icon name='material-symbols:arrow-forward' class='h-4 w-4' />
       </button>
     </div>
   </section>
@@ -92,8 +109,13 @@
   const scoreLabel = document.getElementById('coordinate-score');
   const feedbackLabel = document.getElementById('coordinate-feedback');
   const answersContainer = document.getElementById('coordinate-answers');
+  const questionArea = document.getElementById('coordinate-question-area');
+  const resultsPanel = document.getElementById('coordinate-results');
+  const finalScoreLabel = document.getElementById('coordinate-final-score');
   const startButton = document.getElementById('coordinate-start-btn');
+  const startLabel = document.getElementById('coordinate-start-label');
   const nextButton = document.getElementById('coordinate-next-btn') as HTMLButtonElement | null;
+  const nextLabel = document.getElementById('coordinate-next-label');
 
   let totalQuestions = getQuestionCount();
   let answeredQuestions = 0;
@@ -188,7 +210,7 @@
 
     progressLabel.textContent = `Question ${answeredQuestions} of ${totalQuestions}`;
     scoreLabel.textContent = `Score ${score}`;
-    questionLabel.textContent = `What note is on fret ${fret} of the ${stringNames[stringIndex]} string?`;
+    questionLabel.innerHTML = `<span class="text-stone-400">Fret</span> <span class="text-amber-400">${fret}</span> <span class="font-light text-gray-500">on</span> <span class="text-cyan-400">${stringNames[stringIndex]}</span> <span class="text-stone-400">String</span>`;
     feedbackLabel.textContent = '';
 
     const distractors = availableAnswers
@@ -206,7 +228,7 @@
 
     if (nextButton) {
       nextButton.disabled = true;
-      nextButton.textContent = 'Next question';
+      if (nextLabel) nextLabel.textContent = 'Next question';
       nextButton.classList.remove('hidden');
     }
   }
@@ -216,11 +238,13 @@
       return;
 
     progressLabel.textContent = 'Quiz complete';
-    scoreLabel.textContent = `Score ${score} / ${totalQuestions}`;
-    questionLabel.textContent = 'Nice work';
-    feedbackLabel.textContent = `You got ${score} of ${totalQuestions} questions correct.`;
+    scoreLabel.textContent = `Final score ${score} / ${totalQuestions}`;
+    if (finalScoreLabel) finalScoreLabel.textContent = `${score} / ${totalQuestions}`;
+    if (questionArea) questionArea.style.display = 'none';
     answersContainer.replaceChildren();
-    startButton!.textContent = 'Play again';
+    answersContainer.style.display = 'none';
+    if (resultsPanel) resultsPanel.style.display = 'block';
+    if (startLabel) startLabel.textContent = 'Play again';
     nextButton?.classList.add('hidden');
   }
 
@@ -248,16 +272,18 @@
         }
       });
 
-    if (feedbackLabel) {
-      feedbackLabel.textContent = isCorrect
-        ? 'Correct'
-        : `Not quite. The answer is ${correctAnswer}.`;
-      feedbackLabel.className = `mt-3 min-h-5 text-sm ${isCorrect ? 'text-green-300' : 'text-red-300'}`;
-    }
     if (scoreLabel) scoreLabel.textContent = `Score ${score}`;
+    if (answeredQuestions === totalQuestions) {
+      if (nextButton) {
+        if (nextLabel) nextLabel.textContent = 'See results';
+        nextButton.disabled = false;
+        nextButton.classList.remove('hidden');
+      }
+      return;
+    }
+
     if (nextButton) {
-      nextButton.textContent =
-        answeredQuestions === totalQuestions ? 'See results' : 'Next question';
+      if (nextLabel) nextLabel.textContent = 'Next question';
       nextButton.disabled = false;
       nextButton.classList.remove('hidden');
     }
@@ -267,7 +293,12 @@
     totalQuestions = getQuestionCount();
     answeredQuestions = 0;
     score = 0;
-    startButton.textContent = 'Restart';
+    if (questionArea) questionArea.style.display = 'flex';
+    if (answersContainer) answersContainer.style.display = 'grid';
+    if (resultsPanel) resultsPanel.style.display = 'none';
+    if (startLabel) startLabel.textContent = 'Restart';
+    startButton.querySelector('.coordinate-start-play')?.classList.add('hidden');
+    startButton.querySelector('.coordinate-start-restart')?.classList.remove('hidden');
     nextButton?.classList.add('hidden');
     renderQuestion();
   });
