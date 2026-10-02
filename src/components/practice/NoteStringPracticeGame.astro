@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NoteStringPracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Note-and-string Practice game panel.
  */
 import { Icon } from 'astro-icon/components';
@@ -64,6 +64,22 @@ import { Icon } from 'astro-icon/components';
         class='mt-4 min-h-5 text-[11px] uppercase tracking-widest text-gray-500 font-semibold text-center'
       >
         Microphone inactive
+      </div>
+      <div class='mt-2 flex w-36 items-center gap-2' aria-label='Microphone input level'>
+        <div
+          role='meter'
+          aria-label='Microphone input level'
+          aria-valuemin='0'
+          aria-valuemax='100'
+          aria-valuenow='0'
+          class='h-1.5 flex-1 overflow-hidden rounded-full bg-gray-700'
+        >
+          <div
+            id='strings-mic-level'
+            class='h-full w-0 rounded-full bg-emerald-400 transition-[width] duration-75'
+          ></div>
+        </div>
+        <span id='strings-mic-level-label' class='w-14 text-right text-[9px] text-gray-500'>No input</span>
       </div>
       <div id='strings-pitch-display' class='mt-1 min-h-5 text-xs text-gray-500 text-center'></div>
     </div>

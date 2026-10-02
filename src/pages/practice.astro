@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file practice.astro
  * @author Alexandru Delegeanu
- * @version 1.8
+ * @version 1.9
  * @description Practice helpers with compact action buttons and scaled display text
  */
 
@@ -540,10 +540,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     10,
   );
 
-  let stringsCountSetting: number = parseInt(
-    localStorage.getItem('bof_strings_count_setting') || '1',
-    10,
-  );
+  const savedStringsCount = parseInt(localStorage.getItem('bof_strings_count_setting') || '1', 10);
+  let stringsCountSetting = Number.isNaN(savedStringsCount)
+    ? 1
+    : Math.max(1, Math.min(20, savedStringsCount));
 
   let pitchToleranceSetting: number = parseInt(
     localStorage.getItem('bof_pitch_tolerance_setting') || '35',
@@ -1200,7 +1200,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
    * Autocorrelation is used instead of FFT peak-picking because the fundamental
    * frequency of a plucked guitar string is often weaker than its harmonics.
    */
-  function detectPitch(buffer: Float32Array, sampleRate: number): number | null {
+  function detectPitch(
+    buffer: Float32Array,
+    sampleRate: number,
+  ): { frequency: number | null; rms: number } {
     const size = buffer.length;
 
     let mean = 0;
@@ -1221,8 +1224,8 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     rms = Math.sqrt(rms / size);
 
-    if (rms < 0.012) {
-      return null;
+    if (rms < 0.0015) {
+      return { frequency: null, rms };
     }
 
     const minFrequency = 70;
@@ -1265,8 +1268,8 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       }
     }
 
-    if (bestLag < 0 || bestCorrelation < 0.65) {
-      return null;
+    if (bestLag < 0 || bestCorrelation < 0.55) {
+      return { frequency: null, rms };
     }
 
     let refinedLag = bestLag;
@@ -1311,7 +1314,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     const frequency = sampleRate / refinedLag;
 
-    return frequency >= minFrequency && frequency <= maxFrequency ? frequency : null;
+    return {
+      frequency: frequency >= minFrequency && frequency <= maxFrequency ? frequency : null,
+      rms,
+    };
   }
 
   function updateStringsMicStatus(text: string, className = 'text-gray-500'): void {
@@ -1322,6 +1328,19 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     status.className = `mt-4 min-h-5 text-[11px] uppercase tracking-widest font-semibold text-center ${className}`;
 
     status.textContent = text;
+  }
+
+  function updateStringsMicInput(rms: number, hasPitch: boolean): void {
+    const meter = document.getElementById('strings-mic-level');
+    const meterTrack = meter?.parentElement;
+    const label = document.getElementById('strings-mic-level-label');
+    const level = Math.max(0, Math.min(100, Math.round(rms * 1500)));
+
+    if (meter) meter.style.width = `${level}%`;
+    meterTrack?.setAttribute('aria-valuenow', level.toString());
+    if (label) {
+      label.textContent = rms < 0.0015 ? 'No input' : hasPitch ? 'Pitch found' : 'Signal found';
+    }
   }
 
   function updateStringsPitchDisplay(
@@ -1386,6 +1405,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       stringsMicEnabled ? 'Microphone enabled' : 'Microphone disabled',
       stringsMicEnabled ? 'text-green-400' : 'text-gray-500',
     );
+    if (!stringsMicEnabled) updateStringsMicInput(0, false);
 
     updateStringsPitchDisplay(null);
 
@@ -1590,7 +1610,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
         audio: {
           echoCancellation: false,
           noiseSuppression: false,
-          autoGainControl: false,
+          autoGainControl: true,
         },
       });
 
@@ -1637,7 +1657,9 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     micAnalyser.getFloatTimeDomainData(micBuffer);
 
-    const frequency = detectPitch(micBuffer, micAudioContext.sampleRate);
+    const detection = detectPitch(micBuffer, micAudioContext.sampleRate);
+    const { frequency, rms } = detection;
+    updateStringsMicInput(rms, frequency !== null);
 
     if (frequency !== null) {
       const combo = stringsPracticeSequence[stringsPracticeIndex];
@@ -1768,6 +1790,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     stringsPracticeSequence = createStringPracticeSequence();
 
     if (stringsPracticeSequence.length === 0) {
+      updateStringsMicStatus(
+        'No valid questions available. Check your selected strings and notes.',
+        'text-red-400',
+      );
       return;
     }
 
