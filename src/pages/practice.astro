@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file practice.astro
  * @author Alexandru Delegeanu
- * @version 1.9
+ * @version 1.10
  * @description Practice helpers with compact action buttons and scaled display text
  */
 
@@ -479,7 +479,6 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   }
 
   const ICONS = {
-    checkCircle: `<svg class="w-[18px] h-[18px] text-green-400 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`,
     refresh: `<svg class="w-[16px] h-[16px] fill-current" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>`,
     mic: `<svg class="w-[15px] h-[15px] fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>`,
     micOff: `<svg class="w-[15px] h-[15px] fill-current" viewBox="0 0 24 24"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c1.33-.19 2.53-.73 3.52-1.5l2.21 2.21L20 17.36 4.27 3z"/></svg>`,
@@ -1478,7 +1477,6 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               aria-label="Show ${combo.note} on string ${stringNumber} on the fretboard"
               class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150 cursor-pointer hover:border-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
             >
-                ${isCompleted ? ICONS.checkCircle : ''}
                 <span class="${isCompleted ? 'text-green-300' : 'text-amber-400'}">${combo.note}</span>
                 <span class="text-gray-500 font-light text-xs">on</span>
               <span class="relative inline-flex items-baseline">
