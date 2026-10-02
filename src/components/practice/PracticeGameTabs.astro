@@ -1,0 +1,36 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file PracticeGameTabs.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Navigation tabs for Practice minigames.
+ */
+---
+
+<div class='flex w-full bg-deep-charcoal p-1 rounded-lg mb-6 border border-purple-900/50'>
+  <button
+    id='tab-notes'
+    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer'
+    onclick='switchTab("notes")'
+  >
+    Note
+  </button>
+  <button
+    id='tab-strings'
+    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer'
+    onclick='switchTab("strings")'
+  >
+    Note & String
+  </button>
+  <button
+    id='tab-coordinates'
+    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer'
+    onclick='switchTab("coordinates")'
+  >
+    Fret Quiz
+  </button>
+</div>

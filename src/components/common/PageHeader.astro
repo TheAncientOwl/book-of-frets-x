@@ -1,0 +1,26 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file PageHeader.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Shared centered page heading with an optional action slot.
+ */
+
+const hasAction = Astro.slots.has('action');
+---
+
+<header
+  class={`w-full flex items-center mb-4 relative ${hasAction ? 'justify-between' : 'justify-center'}`}
+>
+  {hasAction && <div class='w-8' />}
+  <h2
+    class='text-2xl font-extrabold tracking-wide text-amber-400 flex items-center justify-center gap-2'
+  >
+    <slot />
+  </h2>
+  {hasAction && <slot name='action' />}
+</header>

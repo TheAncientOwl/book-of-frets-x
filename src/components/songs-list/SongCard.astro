@@ -44,7 +44,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
         bg-black/15 border-neon-purple hover:bg-black/40"
 >
   <!-- Song Number -->
-  <span class="font-bold text-center text-gold self-center">
+  <span class="font-bold text-center text-amber-300/90 self-center">
     {props.index}.
   </span>
 
@@ -69,7 +69,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
     <div class="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
       <div class="flex items-center justify-center w-[30px] h-[30px] rounded-full bg-purple-600">
         <!-- Play Triangle -->
-        <span class="ml-[2px] w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-brand-gold"></span>
+        <span class="ml-[2px] w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[10px] border-l-brand-amber-300"></span>
       </div>
     </div>
   </div>
@@ -87,7 +87,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
     </h2>
 
     <!-- Instrument Type Icons -->
-    <div class="flex gap-2 text-gold">
+    <div class="flex gap-2 text-amber-300">
       {props.type.map((instrument) => (
         <div class="relative group/tooltip cursor-help">
           <!-- Dynamic rendering of Game Icons -->
@@ -107,7 +107,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
     <!-- Favorite Toggle Button -->
     <button 
         data-favorite-btn
-        class="z-10 p-1.5 transition-transform hover:scale-110 active:scale-95 text-gold cursor-pointer" 
+        class="z-10 p-1.5 transition-transform hover:scale-110 active:scale-95 text-amber-300/90 cursor-pointer" 
         aria-label="Toggle Favorite"
     >
       <span class="favorite-empty">
@@ -121,20 +121,20 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
     <!-- Guitar Pick / Popover Trigger -->
     <div class="relative group/popover z-20">
       <button 
-        class="p-1.5 transition-transform hover:scale-110 active:scale-95 text-gold" 
+        class="p-1.5 transition-transform hover:scale-110 active:scale-95 text-amber-300" 
         aria-label="View song chords"
       >
         <Icon name="tabler:guitar-pick-filled" class="w-5 h-5" />
       </button>
 
       <!-- Hover / Click CSS Popover -->
-      <div class="absolute right-0 bottom-full mb-2 hidden group-hover/popover:block w-48 p-3 rounded-md shadow-xl border border-solid border-brand-gold bg-[#181426] text-white">
+      <div class="absolute right-0 bottom-full mb-2 hidden group-hover/popover:block w-48 p-3 rounded-md shadow-xl border border-solid border-brand-amber-300/90 bg-[#181426] text-white">
         <!-- Popover Arrow pointer -->
-        <div class="absolute top-full right-3 -mt-1.5 w-3 h-3 rotate-45 border-r border-b border-solid border-brand-gold bg-[#181426]"></div>
+        <div class="absolute top-full right-3 -mt-1.5 w-3 h-3 rotate-45 border-r border-b border-solid border-brand-amber-300/90 bg-[#181426]"></div>
         
         <div class="flex gap-1.5 flex-wrap">
           {props.chordIDs.map((chordId) => (
-            <span class="text-xs px-2 py-1 border border-solid border-magenta bg-[#181426] text-gold rounded font-mono">
+            <span class="text-xs px-2 py-1 border border-solid border-magenta bg-[#181426] text-amber-300/90 rounded font-mono">
               {chordId}
             </span>
           ))}

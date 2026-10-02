@@ -1,0 +1,279 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file FretCoordinatePracticeGame.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Quiz the note at a random guitar string and fret coordinate.
+ */
+---
+
+<div id='game-coordinates' class='w-full flex-col items-center' style='display: none'>
+  <section class='w-full rounded-xl border border-purple-900/40 bg-deep-charcoal/80 p-5 sm:p-6'>
+    <div class='mb-6 flex items-center justify-between gap-3'>
+      <div>
+        <p class='text-xs font-semibold uppercase tracking-widest text-purple-400'>Fret Quiz</p>
+        <p id='coordinate-progress' class='mt-1 text-xs text-gray-500'>Ready</p>
+      </div>
+      <span id='coordinate-score' class='text-xs font-semibold text-amber-400'>Score 0</span>
+    </div>
+
+    <div class='flex min-h-28 flex-col items-center justify-center text-center'>
+      <p id='coordinate-question' class='text-xl font-bold text-purple-400 sm:text-2xl'>
+        Start a quiz to identify notes on the neck
+      </p>
+      <p
+        id='coordinate-feedback'
+        role='status'
+        aria-live='polite'
+        class='mt-2 min-h-5 text-sm text-gray-400'
+      >
+      </p>
+    </div>
+
+    <div id='coordinate-answers' class='grid grid-cols-2 gap-2 sm:gap-3'></div>
+
+    <div class='mt-4 flex justify-center gap-2'>
+      <button
+        type='button'
+        id='coordinate-start-btn'
+        class='cursor-pointer rounded-md bg-amber-400 px-5 py-2 text-xs font-bold uppercase tracking-wider text-deep-charcoal shadow transition-colors hover:bg-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-200'
+      >
+        Start
+      </button>
+      <button
+        type='button'
+        id='coordinate-next-btn'
+        disabled
+        class='hidden cursor-pointer rounded-md border border-purple-700/60 bg-purple-900/50 px-5 py-2 text-xs font-semibold text-purple-100 transition-colors hover:bg-purple-800/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 disabled:cursor-not-allowed disabled:opacity-40'
+      >
+        Next question
+      </button>
+    </div>
+  </section>
+</div>
+
+<script>
+  declare global {
+    interface Window {
+      startCoordinateQuiz: () => void;
+      nextCoordinateQuestion: () => void;
+    }
+  }
+
+  const coordinateNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const openStringMidi = [40, 45, 50, 55, 59, 64];
+  const stringNames = ['Low E', 'A', 'D', 'G', 'B', 'High E'];
+  const notePitchClasses: Record<string, number> = {
+    C: 0,
+    'C#': 1,
+    Db: 1,
+    D: 2,
+    'D#': 3,
+    Eb: 3,
+    E: 4,
+    F: 5,
+    'F#': 6,
+    Gb: 6,
+    G: 7,
+    'G#': 8,
+    Ab: 8,
+    A: 9,
+    'A#': 10,
+    Bb: 10,
+    B: 11,
+  };
+
+  const questionLabel = document.getElementById('coordinate-question');
+  const progressLabel = document.getElementById('coordinate-progress');
+  const scoreLabel = document.getElementById('coordinate-score');
+  const feedbackLabel = document.getElementById('coordinate-feedback');
+  const answersContainer = document.getElementById('coordinate-answers');
+  const startButton = document.getElementById('coordinate-start-btn');
+  const nextButton = document.getElementById('coordinate-next-btn') as HTMLButtonElement | null;
+
+  let totalQuestions = getQuestionCount();
+  let answeredQuestions = 0;
+  let score = 0;
+  let correctAnswer = '';
+  let hasAnswered = false;
+
+  function getQuestionCount(): number {
+    const savedCount = Number(localStorage.getItem('bof_coordinate_question_count') ?? 10);
+    return Number.isInteger(savedCount) ? Math.max(1, Math.min(50, savedCount)) : 10;
+  }
+
+  function getQuestionPool(): { stringIndex: number; fret: number; pitchClass: number }[] {
+    const maxFretValue = Number(localStorage.getItem('bof_coordinate_max_fret') ?? 24);
+    const maxFret = Number.isInteger(maxFretValue) ? Math.max(0, Math.min(24, maxFretValue)) : 24;
+
+    let selectedStringIndexes = openStringMidi.map((_, index) => index);
+    let selectedNotes = coordinateNotes;
+
+    try {
+      const savedStrings = localStorage.getItem('bof_coordinate_strings_state');
+      if (savedStrings !== null) {
+        const stringStates = JSON.parse(savedStrings) as { checked?: boolean }[];
+        selectedStringIndexes = stringStates.flatMap((stringState, index) =>
+          stringState?.checked && index < openStringMidi.length ? [index] : [],
+        );
+      }
+
+      const savedNotes = localStorage.getItem('bof_coordinate_notes_state');
+      if (savedNotes !== null) {
+        const noteStates = JSON.parse(savedNotes) as { label?: string; checked?: boolean }[];
+        selectedNotes = noteStates
+          .filter(noteState => noteState.checked && noteState.label)
+          .map(noteState => noteState.label ?? '');
+      }
+    } catch {
+      selectedStringIndexes = openStringMidi.map((_, index) => index);
+      selectedNotes = coordinateNotes;
+    }
+
+    const allowedPitchClasses = new Set(
+      selectedNotes
+        .map(note => notePitchClasses[note.replace('♯', '#').replace('♭', 'b')])
+        .filter((pitchClass): pitchClass is number => pitchClass !== undefined),
+    );
+    const questionPool: { stringIndex: number; fret: number; pitchClass: number }[] = [];
+
+    selectedStringIndexes.forEach(stringIndex => {
+      for (let fret = 0; fret <= maxFret; fret++) {
+        const pitchClass = (openStringMidi[stringIndex] + fret) % 12;
+        if (allowedPitchClasses.has(pitchClass))
+          questionPool.push({ stringIndex, fret, pitchClass });
+      }
+    });
+
+    return questionPool;
+  }
+
+  function renderQuestion(): void {
+    if (!questionLabel || !progressLabel || !scoreLabel || !feedbackLabel || !answersContainer)
+      return;
+
+    const questionPool = getQuestionPool();
+    if (questionPool.length === 0) {
+      progressLabel.textContent = 'No questions available';
+      scoreLabel.textContent = `Score ${score}`;
+      questionLabel.textContent = 'No matching notes on the selected strings';
+      feedbackLabel.textContent = 'Choose more notes or strings, or raise Max Fret in Settings.';
+      answersContainer.replaceChildren();
+      nextButton?.classList.add('hidden');
+      return;
+    }
+
+    const availableAnswers = Array.from(
+      new Set(questionPool.map(({ pitchClass }) => coordinateNotes[pitchClass])),
+    );
+    if (availableAnswers.length < 2) {
+      progressLabel.textContent = 'More notes needed';
+      scoreLabel.textContent = `Score ${score}`;
+      questionLabel.textContent = 'Select at least two notes for answer choices';
+      feedbackLabel.textContent = 'Choose another reachable note in Fret Quiz Settings.';
+      answersContainer.replaceChildren();
+      nextButton?.classList.add('hidden');
+      return;
+    }
+
+    const question = questionPool[Math.floor(Math.random() * questionPool.length)];
+    const { stringIndex, fret, pitchClass } = question;
+    correctAnswer = coordinateNotes[pitchClass];
+    answeredQuestions += 1;
+    hasAnswered = false;
+
+    progressLabel.textContent = `Question ${answeredQuestions} of ${totalQuestions}`;
+    scoreLabel.textContent = `Score ${score}`;
+    questionLabel.textContent = `What note is on fret ${fret} of the ${stringNames[stringIndex]} string?`;
+    feedbackLabel.textContent = '';
+
+    const distractors = availableAnswers
+      .filter(note => note !== correctAnswer)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3);
+    const choices = [correctAnswer, ...distractors];
+    choices.sort(() => Math.random() - 0.5);
+    answersContainer.innerHTML = choices
+      .map(
+        note =>
+          `<button type="button" data-coordinate-answer="${note}" class="cursor-pointer rounded-md border border-purple-900/50 bg-deep-purple/70 px-4 py-3 text-lg font-bold text-amber-300 transition-colors hover:border-amber-400/70 hover:bg-purple-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">${note}</button>`,
+      )
+      .join('');
+
+    if (nextButton) {
+      nextButton.disabled = true;
+      nextButton.textContent = 'Next question';
+      nextButton.classList.remove('hidden');
+    }
+  }
+
+  function finishQuiz(): void {
+    if (!questionLabel || !progressLabel || !scoreLabel || !feedbackLabel || !answersContainer)
+      return;
+
+    progressLabel.textContent = 'Quiz complete';
+    scoreLabel.textContent = `Score ${score} / ${totalQuestions}`;
+    questionLabel.textContent = 'Nice work';
+    feedbackLabel.textContent = `You got ${score} of ${totalQuestions} questions correct.`;
+    answersContainer.replaceChildren();
+    startButton!.textContent = 'Play again';
+    nextButton?.classList.add('hidden');
+  }
+
+  answersContainer?.addEventListener('click', event => {
+    const target = event.target as HTMLElement;
+    const answerButton = target.closest<HTMLButtonElement>('[data-coordinate-answer]');
+    if (!answerButton || hasAnswered) return;
+
+    hasAnswered = true;
+    const isCorrect = answerButton.dataset.coordinateAnswer === correctAnswer;
+    if (isCorrect) score += 1;
+
+    answersContainer
+      .querySelectorAll<HTMLButtonElement>('[data-coordinate-answer]')
+      .forEach(button => {
+        button.disabled = true;
+        if (button.dataset.coordinateAnswer === correctAnswer) {
+          button.className =
+            'cursor-not-allowed rounded-md border border-green-400 bg-green-500/20 px-4 py-3 text-lg font-bold text-green-200';
+        } else if (button === answerButton) {
+          button.className =
+            'cursor-not-allowed rounded-md border border-red-400 bg-red-500/20 px-4 py-3 text-lg font-bold text-red-200';
+        } else {
+          button.classList.add('opacity-50');
+        }
+      });
+
+    if (feedbackLabel) {
+      feedbackLabel.textContent = isCorrect
+        ? 'Correct'
+        : `Not quite. The answer is ${correctAnswer}.`;
+      feedbackLabel.className = `mt-3 min-h-5 text-sm ${isCorrect ? 'text-green-300' : 'text-red-300'}`;
+    }
+    if (scoreLabel) scoreLabel.textContent = `Score ${score}`;
+    if (nextButton) {
+      nextButton.textContent =
+        answeredQuestions === totalQuestions ? 'See results' : 'Next question';
+      nextButton.disabled = false;
+      nextButton.classList.remove('hidden');
+    }
+  });
+
+  startButton?.addEventListener('click', () => {
+    totalQuestions = getQuestionCount();
+    answeredQuestions = 0;
+    score = 0;
+    startButton.textContent = 'Restart';
+    nextButton?.classList.add('hidden');
+    renderQuestion();
+  });
+
+  nextButton?.addEventListener('click', () => {
+    if (answeredQuestions >= totalQuestions) finishQuiz();
+    else renderQuestion();
+  });
+</script>

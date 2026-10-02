@@ -1,0 +1,32 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file IconButton.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Shared icon-only action button with accessible labeling.
+ */
+
+interface Props {
+  id?: string;
+  label: string;
+  onclick?: string;
+  title?: string;
+}
+
+const { id, label, onclick, title = label } = Astro.props;
+---
+
+<button
+  type='button'
+  id={id}
+  onclick={onclick}
+  title={title}
+  aria-label={label}
+  class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-stone-300 border border-purple-600 cursor-pointer flex items-center gap-1.5 shadow'
+>
+  <slot />
+</button>

@@ -50,17 +50,17 @@ const computedFretsData = props.frets.map(fret => {
 ---
 
 <div
-  class={`w-[13em] p-[1em] rounded-[1em] text-[1em] border border-solid flex flex-col items-center relative bg-medium-purple border-gold ${className}`}
+  class={`w-[13em] p-[1em] rounded-[1em] text-[1em] border border-solid flex flex-col items-center relative bg-medium-purple border-amber-300/90 ${className}`}
 >
   <!-- Heading / Title Layout -->
   <div
-    class='relative flex justify-center items-center gap-[5px] text-[2.3em] font-bold text-center mb-1.5 text-gold flex-row'
+    class='relative flex justify-center items-center gap-[5px] text-[2.3em] font-bold text-center mb-1.5 text-amber-300/90 flex-row'
   >
     <ChordDisplay name={props.name} />
 
     {
       props.startFret && (
-        <div class='absolute top-0 right-0 translate-x-full text-sm w-4 h-4 text-[0.45em] font-bold border border-solid rounded-full flex items-center justify-center bg-[#181426] border-neon-purple text-gold'>
+        <div class='absolute top-0 right-0 translate-x-full text-sm w-4 h-4 text-[0.45em] font-bold border border-solid rounded-full flex items-center justify-center bg-[#181426] border-neon-purple text-amber-300/90'>
           {props.startFret}
         </div>
       )
@@ -69,7 +69,7 @@ const computedFretsData = props.frets.map(fret => {
 
   <!-- Frets Block Grid Container -->
   <div class='w-[11em] mt-[1.5em]'>
-    <hr class='border-t border-solid border-gold/60' />
+    <hr class='border-t border-solid border-amber-300/60' />
 
     {
       computedFretsData.map((stringToFingersMap, idx) => {
@@ -79,7 +79,7 @@ const computedFretsData = props.frets.map(fret => {
               stringsToFingers={stringToFingersMap}
               isOpenFret={idx !== 0 ? undefined : computeOpenFrets(props.frets)}
             />
-            {idx < props.frets.length && <hr class='border-t border-solid border-gold/60' />}
+            {idx < props.frets.length && <hr class='border-t border-solid border-amber-300/60' />}
           </>
         );
       })

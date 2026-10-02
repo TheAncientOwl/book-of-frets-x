@@ -1,0 +1,44 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file Checkbox.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Shared checkbox input with standard and switch styles.
+ */
+
+import './checkbox.css';
+
+interface Props {
+  checked?: boolean;
+  className?: string;
+  disabled?: boolean;
+  id?: string;
+  name?: string;
+  value?: string;
+  variant?: 'standard' | 'switch';
+}
+
+const {
+  checked = false,
+  className = '',
+  disabled = false,
+  id,
+  name,
+  value,
+  variant = 'standard',
+} = Astro.props;
+---
+
+<input
+  type='checkbox'
+  id={id}
+  name={name}
+  value={value}
+  checked={checked}
+  disabled={disabled}
+  class:list={['bof-checkbox', `bof-checkbox--${variant}`, className]}
+/>

@@ -144,7 +144,9 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                         <div class='flex flex-row gap-[1em] justify-center items-center relative'>
                           {mapPairs(lineData, (chordId, chordTimes, pairIdx) => {
                             if (chordId === SEPARATOR_CHORD_CHAR) {
-                              return <div class='h-5.5 w-0 border-l border-solid border-gold/60' />;
+                              return (
+                                <div class='h-5.5 w-0 border-l border-solid border-amber-300/60' />
+                              );
                             }
 
                             const chordConfig = chordsIndex[chordId];
@@ -157,7 +159,7 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                                 <button
                                   type='button'
                                   popovertarget={popoverUniqueId}
-                                  class='chord-v2-popover-trigger appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-gold hover:bg-dark-magenta/70 transition-colors relative border-none'
+                                  class='chord-v2-popover-trigger appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-amber-300/90 hover:bg-dark-magenta/70 transition-colors relative border-none'
                                 >
                                   {chordId !== NO_CHORD_ID && chordConfig !== undefined ? (
                                     <ChordV2Display name={chordConfig.name} />
@@ -168,7 +170,7 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                                   {songSettings.display.chordTimes &&
                                     (chordTimes !== '1' || songSettings.display.chordTimesOne) && (
                                       <span
-                                        class='absolute -top-2.5 right-0 translate-x-full text-xs font-bold text-gold'
+                                        class='absolute -top-2.5 right-0 translate-x-full text-xs font-bold text-amber-300/90'
                                         title={`Strum ${chordTimes} times`}
                                       >
                                         {chordTimes}
@@ -195,7 +197,7 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
 
                 return songSettings.display.strummingPattern && pattern ? (
                   <div class='relative mt-[0.4em]'>
-                    <div class='flex flex-row gap-2 justify-center text-gold'>
+                    <div class='flex flex-row gap-2 justify-center text-amber-300/90'>
                       {pattern.map(strumItem => (
                         <span
                           class:list={[

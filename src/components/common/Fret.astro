@@ -73,7 +73,7 @@ const barre = getBarreChordLine(stringsToFingers);
   {
     barre && (
       <div
-        class={`absolute top-1/2 font-bold h-[1.5em] -translate-y-1/2 z-10 rounded-full text-center flex items-center justify-center border border-solid border-neon-purple text-gold ${circleColorClass}`}
+        class={`absolute top-1/2 font-bold h-[1.5em] -translate-y-1/2 z-10 rounded-full text-center flex items-center justify-center border border-solid border-neon-purple text-amber-300/90 ${circleColorClass}`}
         style={{
           left: `${barre.begin * DISTANCE_BETWEEN_CHORDS - 7}%`,
           width: `${barre.span * DISTANCE_BETWEEN_CHORDS * 0.95}%`,
@@ -110,14 +110,14 @@ const barre = getBarreChordLine(stringsToFingers);
           {/* Open String Open Circle Marker */}
           {isOpen && (
             <div
-              class='w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-neon-purple text-gold absolute -top-[45%] -translate-x-1/2 p-[0.75em] z-[1] bg-transparent'
+              class='w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-neon-purple text-amber-300/90 absolute -top-[45%] -translate-x-1/2 p-[0.75em] z-[1] bg-transparent'
               style={{ left: `${leftPercent}%` }}
             />
           )}
 
           {/* Vertical Guitar String Line Segment */}
           <div
-            class='h-full border-s border-solid border-gold/60'
+            class='h-full border-s border-solid border-amber-300/60'
             style={{ borderLeftWidth: GuitarStringsWidths[stringIdx] }}
           />
 
@@ -127,7 +127,7 @@ const barre = getBarreChordLine(stringsToFingers);
           {/* Standard Note Finger Node Indicator */}
           {!barre && hasFinger && (
             <div
-              class={`w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-neon-purple text-gold absolute top-1/2 -translate-x-1/2 -translate-y-1/2 p-[0.75em] z-[100] flex items-center justify-center ${circleColorClass}`}
+              class={`w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-neon-purple text-amber-300/90 absolute top-1/2 -translate-x-1/2 -translate-y-1/2 p-[0.75em] z-[100] flex items-center justify-center ${circleColorClass}`}
               style={{ left: `${leftPercent}%` }}
             >
               {showFinger && <span>{finger === THUMB_STRING_ID ? 'T' : finger}</span>}

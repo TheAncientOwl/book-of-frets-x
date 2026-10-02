@@ -6,188 +6,45 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file practice.astro
  * @author Alexandru Delegeanu
- * @version 1.5
+ * @version 1.7
  * @description Practice helpers with compact action buttons and scaled display text
  */
 
 import '#styles/global.css';
+import '#components/common/checkbox.css';
+
+import { Icon } from 'astro-icon/components';
+import IconButton from '#components/common/IconButton.astro';
+import PageHeader from '#components/common/PageHeader.astro';
+import Fretboard from '#components/common/Fretboard.astro';
+import PracticeGameTabs from '#components/practice/PracticeGameTabs.astro';
+import NotePracticeGame from '#components/practice/NotePracticeGame.astro';
+import NoteStringPracticeGame from '#components/practice/NoteStringPracticeGame.astro';
+import FretCoordinatePracticeGame from '#components/practice/FretCoordinatePracticeGame.astro';
 import GeneralLayout from '#layouts/GeneralLayout.astro';
 ---
 
 <GeneralLayout>
-  <!-- Load Google Material Symbols Outlined font -->
-  <head>
-    <link
-      rel='stylesheet'
-      href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200'
-    />
-  </head>
-
   <div class='bg-deep-charcoal min-h-dvh flex flex-col items-center text-white'>
     <div
-      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-deep-purple p-6 rounded-xl shadow-2xl'
+      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-deep-purple p-3 sm:p-6 pt-6 rounded-xl shadow-2xl'
     >
-      <h2
-        class='text-2xl font-extrabold mb-2 tracking-wide text-amber-400 flex items-center justify-center gap-2'
-      >
-        🎯 Practice
-      </h2>
+      <PageHeader>
+        <Icon name='material-symbols:track-changes' class='w-[22px] h-[22px] text-purple-500/80' />
+        Practice
+        <IconButton slot='action' label='Settings' onclick='openActiveSettingsModal()'>
+          <Icon name='material-symbols:settings' class='w-[20px] h-[20px]' />
+        </IconButton>
+      </PageHeader>
+
       <p class='text-gray-400 text-sm mb-6 text-center'>
         Sharpen your fretboard fluency with targeted random prompts.
       </p>
 
-      {/* Mini-Game Selector Tabs */}
-      <div class='flex w-full bg-deep-charcoal p-1 rounded-lg mb-6 border border-purple-900/50'>
-        <button
-          id='tab-notes'
-          class='flex-1 py-2 text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer'
-          onclick='switchTab("notes")'
-        >
-          Note
-        </button>
-        <button
-          id='tab-strings'
-          class='flex-1 py-2 text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer'
-          onclick='switchTab("strings")'
-        >
-          Note & String
-        </button>
-      </div>
-
-      {/* ========================================================= */}
-      {/* MINI-GAME 1: NOTE TRAINER                                 */}
-      {/* ========================================================= */}
-      <div id='game-notes' class='w-full flex flex-col items-center'>
-        {/* Settings & Stats Bar */}
-        <div
-          class='w-full flex justify-end items-center bg-purple-950/40 px-4 py-2.5 rounded-lg mb-4 border border-purple-900/30'
-        >
-          <button
-            onclick='openModal("notes-modal")'
-            class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-amber-300 border border-purple-600 cursor-pointer flex items-center gap-1.5'
-          >
-            <span class='material-symbols-outlined text-[15px]'>settings</span> Configure
-          </button>
-        </div>
-
-        {/* Practice Arena */}
-        <div
-          class='w-full bg-deep-charcoal/80 rounded-xl py-6 px-4 flex flex-col items-center border border-purple-900/40 relative shadow-inner'
-        >
-          {/* Action Button at the Top */}
-          <div class='flex justify-center w-full mb-6'>
-            <button
-              id='notes-start-btn'
-              onclick='startNotesGame()'
-              class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
-            >
-              <span id='notes-btn-icon' class='material-symbols-outlined text-[16px]'
-                >play_arrow</span
-              >
-              <span id='notes-btn-text'>Start</span>
-            </button>
-          </div>
-
-          <div
-            id='notes-prompt-container'
-            class='flex flex-col items-center justify-center w-full my-1'
-          >
-            <div class='h-6 flex items-center justify-center mb-3'>
-              <span
-                id='notes-status'
-                class='text-xs uppercase tracking-widest text-purple-400 font-semibold text-center'
-              >
-                Find Note on All Strings
-              </span>
-            </div>
-            {/* Scaled down text size */}
-            <div
-              id='notes-display'
-              class='text-3xl sm:text-4xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap px-2 text-center min-h-[88px]'
-            >
-              -
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ========================================================= */}
-      {/* MINI-GAME 2: NOTE & STRING TRAINER                        */}
-      {/* ========================================================= */}
-      <div id='game-strings' class='w-full flex flex-col items-center hidden'>
-        {/* Settings & Stats Bar */}
-        <div
-          class='w-full flex justify-between items-center bg-purple-950/40 px-4 py-2.5 rounded-lg mb-4 border border-purple-900/30'
-        >
-          <button
-            id='strings-mic-toggle'
-            onclick='toggleStringsMic()'
-            class='px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5'
-          >
-            <span id='strings-mic-toggle-icon' class='material-symbols-outlined text-[15px]'
-              >mic</span
-            >
-            <span id='strings-mic-toggle-text'>Mic On</span>
-          </button>
-          <button
-            onclick='openModal("strings-modal")'
-            class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-amber-300 border border-purple-600 cursor-pointer flex items-center gap-1.5'
-          >
-            <span class='material-symbols-outlined text-[15px]'>settings</span> Configure
-          </button>
-        </div>
-
-        {/* Practice Arena */}
-        <div
-          class='w-full bg-deep-charcoal/80 rounded-xl py-6 px-4 flex flex-col items-center border border-purple-900/40 relative shadow-inner'
-        >
-          {/* Action Button at the Top */}
-          <div class='flex justify-center w-full mb-6'>
-            <button
-              id='strings-start-btn'
-              onclick='startStringsGame()'
-              class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
-            >
-              <span id='strings-btn-icon' class='material-symbols-outlined text-[16px]'
-                >refresh</span
-              >
-              <span id='strings-btn-text'>Refresh</span>
-            </button>
-          </div>
-
-          <div
-            id='strings-prompt-container'
-            class='flex flex-col items-center justify-center w-full my-1'
-          >
-            <div class='h-6 flex items-center justify-center mb-3'>
-              <span
-                id='strings-status'
-                class='text-xs uppercase tracking-widest text-purple-400 font-semibold text-center'
-              >
-                Find Note on String
-              </span>
-            </div>
-
-            {/* Scaled down text size for multi-combo boxes */}
-            <div
-              id='strings-display'
-              class='text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap px-2 text-center min-h-[88px]'
-            >
-              -
-            </div>
-
-            <div
-              id='strings-mic-status'
-              class='mt-4 min-h-5 text-[11px] uppercase tracking-widest text-gray-500 font-semibold text-center'
-            >
-              Microphone inactive
-            </div>
-
-            <div id='strings-pitch-display' class='mt-1 min-h-5 text-xs text-gray-500 text-center'>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PracticeGameTabs />
+      <NotePracticeGame />
+      <NoteStringPracticeGame />
+      <FretCoordinatePracticeGame />
     </div>
   </div>
 
@@ -207,7 +64,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           onclick='closeModal("notes-modal")'
           class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
         >
-          <span class='material-symbols-outlined text-[20px]'>close</span>
+          <Icon name='material-symbols:close' class='w-[20px] h-[20px]' />
         </button>
       </div>
 
@@ -215,20 +72,41 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       <div class='mb-5 bg-deep-charcoal/50 p-3.5 rounded-lg border border-purple-900/40'>
         <label
           for='notes-count-input'
-          class='block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5'
+          class='mb-1 block text-xs font-semibold text-gray-300 uppercase tracking-wide'
         >
           Max Notes Per Prompt
         </label>
-        <div class='flex items-center gap-3'>
+        <div class='flex w-full'>
+          <button
+            type='button'
+            data-step-target='notes-count-input'
+            data-step-direction='-1'
+            aria-label='Decrease max notes per prompt'
+            title='Decrease max notes per prompt'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+          >
+            <Icon name='material-symbols:remove' class='w-5 h-5' />
+          </button>
           <input
             type='number'
             id='notes-count-input'
             min='1'
             max='17'
+            step='1'
             value='1'
             onchange='updateNotesCount(this.value)'
-            class='w-full bg-deep-charcoal border border-purple-800/60 rounded-md p-2 text-xs font-medium text-amber-300 focus:outline-none focus:border-amber-400'
+            class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
           />
+          <button
+            type='button'
+            data-step-target='notes-count-input'
+            data-step-direction='1'
+            aria-label='Increase max notes per prompt'
+            title='Increase max notes per prompt'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+          >
+            <Icon name='material-symbols:add' class='w-5 h-5' />
+          </button>
         </div>
       </div>
 
@@ -269,28 +147,91 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           onclick='closeModal("strings-modal")'
           class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
         >
-          <span class='material-symbols-outlined text-[20px]'>close</span>
+          <Icon name='material-symbols:close' class='w-[20px] h-[20px]' />
         </button>
       </div>
 
-      {/* Combos Count Configuration Input */}
-      <div class='mb-5 bg-deep-charcoal/50 p-3.5 rounded-lg border border-purple-900/40'>
-        <label
-          for='strings-count-input'
-          class='block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5'
-        >
-          Max Combos Per Prompt
-        </label>
-        <div class='flex items-center gap-3'>
-          <input
-            type='number'
-            id='strings-count-input'
-            min='1'
-            max='20'
-            value='1'
-            onchange='updateStringsCount(this.value)'
-            class='w-full bg-deep-charcoal border border-purple-800/60 rounded-md p-2 text-xs font-medium text-amber-300 focus:outline-none focus:border-amber-400'
-          />
+      <div class='mb-4 grid grid-cols-2 gap-3'>
+        <div class='min-w-0'>
+          <label
+            for='strings-count-input'
+            class='mb-1 block min-h-8 text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
+          >
+            Max Combos Per Prompt
+          </label>
+          <div class='flex w-full'>
+            <button
+              type='button'
+              data-step-target='strings-count-input'
+              data-step-direction='-1'
+              aria-label='Decrease max combos per prompt'
+              title='Decrease max combos per prompt'
+              class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            >
+              <Icon name='material-symbols:remove' class='w-5 h-5' />
+            </button>
+            <input
+              type='number'
+              id='strings-count-input'
+              min='1'
+              max='20'
+              step='1'
+              value='1'
+              onchange='updateStringsCount(this.value)'
+              class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+            />
+            <button
+              type='button'
+              data-step-target='strings-count-input'
+              data-step-direction='1'
+              aria-label='Increase max combos per prompt'
+              title='Increase max combos per prompt'
+              class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            >
+              <Icon name='material-symbols:add' class='w-5 h-5' />
+            </button>
+          </div>
+        </div>
+
+        <div class='min-w-0'>
+          <label
+            for='strings-tolerance-input'
+            class='mb-1 block min-h-8 text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
+          >
+            Pitch Tolerance
+          </label>
+          <div class='flex w-full'>
+            <button
+              type='button'
+              data-step-target='strings-tolerance-input'
+              data-step-direction='-1'
+              aria-label='Decrease pitch tolerance'
+              title='Decrease pitch tolerance'
+              class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            >
+              <Icon name='material-symbols:remove' class='w-5 h-5' />
+            </button>
+            <input
+              type='number'
+              id='strings-tolerance-input'
+              min='5'
+              max='100'
+              step='5'
+              value='35'
+              onchange='updatePitchTolerance(this.value)'
+              class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+            />
+            <button
+              type='button'
+              data-step-target='strings-tolerance-input'
+              data-step-direction='1'
+              aria-label='Increase pitch tolerance'
+              title='Increase pitch tolerance'
+              class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            >
+              <Icon name='material-symbols:add' class='w-5 h-5' />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -333,15 +274,186 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   </div>
 </GeneralLayout>
 
+<div
+  id='coordinate-modal'
+  class='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
+>
+  <div
+    class='w-full max-w-lg max-h-[90dvh] overflow-y-auto rounded-xl border border-purple-900/60 bg-[#1e192f] p-6 shadow-2xl'
+  >
+    <div class='mb-5 flex items-center justify-between gap-4'>
+      <h3 class='text-lg font-bold text-amber-400'>Fret Quiz Settings</h3>
+      <button
+        type='button'
+        onclick='closeModal("coordinate-modal")'
+        aria-label='Close Fret Quiz settings'
+        class='flex h-9 w-9 items-center justify-center rounded-md text-gray-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+      >
+        <Icon name='material-symbols:close' class='w-5 h-5' />
+      </button>
+    </div>
+    <label
+      for='coordinate-question-count'
+      class='mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-300'
+    >
+      Questions per quiz
+    </label>
+    <div class='flex w-full'>
+      <button
+        type='button'
+        data-step-target='coordinate-question-count'
+        data-step-direction='-1'
+        aria-label='Decrease questions per quiz'
+        class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+      >
+        <Icon name='material-symbols:remove' class='w-5 h-5' />
+      </button>
+      <input
+        type='number'
+        id='coordinate-question-count'
+        min='1'
+        max='50'
+        step='1'
+        value='10'
+        onchange='updateCoordinateQuestionCount(this.value)'
+        class='number-stepper-input min-w-0 w-full appearance-none border-y border-purple-800/60 bg-deep-charcoal p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:border-amber-400 focus:outline-none'
+      />
+      <button
+        type='button'
+        data-step-target='coordinate-question-count'
+        data-step-direction='1'
+        aria-label='Increase questions per quiz'
+        class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+      >
+        <Icon name='material-symbols:add' class='w-5 h-5' />
+      </button>
+    </div>
+
+    <label
+      for='coordinate-max-fret'
+      class='mb-1 mt-4 block text-xs font-semibold uppercase tracking-wide text-gray-300'
+    >
+      Max fret
+    </label>
+    <div class='flex w-full'>
+      <button
+        type='button'
+        data-step-target='coordinate-max-fret'
+        data-step-direction='-1'
+        aria-label='Decrease maximum fret'
+        class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+      >
+        <Icon name='material-symbols:remove' class='w-5 h-5' />
+      </button>
+      <input
+        type='number'
+        id='coordinate-max-fret'
+        min='0'
+        max='24'
+        step='1'
+        value='24'
+        onchange='updateCoordinateMaxFret(this.value)'
+        class='number-stepper-input min-w-0 w-full appearance-none border-y border-purple-800/60 bg-deep-charcoal p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:border-amber-400 focus:outline-none'
+      />
+      <button
+        type='button'
+        data-step-target='coordinate-max-fret'
+        data-step-direction='1'
+        aria-label='Increase maximum fret'
+        class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+      >
+        <Icon name='material-symbols:add' class='w-5 h-5' />
+      </button>
+    </div>
+
+    <div class='mt-5'>
+      <div class='mb-2 flex items-center justify-between'>
+        <span class='text-xs font-semibold uppercase tracking-wide text-gray-300'
+          >Configure Strings</span
+        >
+        <div class='space-x-2 text-xs'>
+          <button
+            type='button'
+            onclick='toggleAllCoordinateStrings(true)'
+            class='text-amber-400 hover:underline cursor-pointer'>All</button
+          >
+          <span class='text-gray-500'>/</span>
+          <button
+            type='button'
+            onclick='toggleAllCoordinateStrings(false)'
+            class='text-amber-400 hover:underline cursor-pointer'>None</button
+          >
+        </div>
+      </div>
+      <div id='coordinate-string-checkboxes' class='grid grid-cols-3 gap-2'></div>
+    </div>
+
+    <div class='mt-5'>
+      <div class='mb-2 flex items-center justify-between'>
+        <span class='text-xs font-semibold uppercase tracking-wide text-gray-300'
+          >Configure Notes</span
+        >
+        <div class='space-x-2 text-xs'>
+          <button
+            type='button'
+            onclick='toggleAllCoordinateNotes(true)'
+            class='text-amber-400 hover:underline cursor-pointer'>All</button
+          >
+          <span class='text-gray-500'>/</span>
+          <button
+            type='button'
+            onclick='toggleAllCoordinateNotes(false)'
+            class='text-amber-400 hover:underline cursor-pointer'>None</button
+          >
+        </div>
+      </div>
+      <div id='coordinate-note-checkboxes' class='grid grid-cols-3 gap-2'></div>
+    </div>
+  </div>
+</div>
+
+<div
+  id='practice-fretboard-modal'
+  class='fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-5'
+>
+  <div
+    role='dialog'
+    aria-modal='true'
+    aria-label='Fretboard'
+    class='relative w-full max-w-lg max-h-[92dvh] bg-deep-purple border border-purple-900/60 rounded-xl shadow-2xl flex flex-col overflow-hidden'
+  >
+    <button
+      type='button'
+      data-close-practice-fretboard
+      aria-label='Close fretboard popup'
+      class='absolute top-2 right-2 z-10 flex h-9 w-9 items-center justify-center rounded-md text-gray-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+    >
+      <Icon name='material-symbols:close' class='w-5 h-5' />
+    </button>
+    <div class='min-h-0 overflow-y-auto px-2 pb-2 pt-12 sm:px-3 sm:pb-3'>
+      <Fretboard
+        id='practice-fretboard'
+        showControls={false}
+        compact={true}
+        persist={false}
+        interactive={false}
+      />
+    </div>
+  </div>
+</div>
+
 <script>
   declare global {
     interface Window {
       openModal: (id: string) => void;
       closeModal: (id: string) => void;
-      switchTab: (tab: 'notes' | 'strings', save?: boolean) => void;
+      openActiveSettingsModal: () => void;
+      switchTab: (tab: 'notes' | 'strings' | 'coordinates', save?: boolean) => void;
       updateNoteState: (idx: number, val: boolean) => void;
       updateNotesCount: (val: string) => void;
       updateStringsCount: (val: string) => void;
+      updatePitchTolerance: (val: string) => void;
+      updateCoordinateQuestionCount: (val: string) => void;
       updateStringState: (idx: number, val: boolean) => void;
       updateStringNoteState: (idx: number, val: boolean) => void;
       toggleAllNotes: (val: boolean) => void;
@@ -349,6 +461,8 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       toggleAllStringNotes: (val: boolean) => void;
       startNotesGame: () => void;
       startStringsGame: () => void | Promise<void>;
+      startCoordinateQuiz: () => void;
+      nextCoordinateQuestion: () => void;
       toggleStringsMic: () => void;
     }
   }
@@ -363,6 +477,13 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     name: string;
     checked: boolean;
   }
+
+  const ICONS = {
+    checkCircle: `<svg class="w-[18px] h-[18px] text-green-400 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>`,
+    refresh: `<svg class="w-[16px] h-[16px] fill-current" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>`,
+    mic: `<svg class="w-[15px] h-[15px] fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>`,
+    micOff: `<svg class="w-[15px] h-[15px] fill-current" viewBox="0 0 24 24"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c1.33-.19 2.53-.73 3.52-1.5l2.21 2.21L20 17.36 4.27 3z"/></svg>`,
+  };
 
   const defaultNotes: NoteConfig[] = [
     { label: 'A', checked: true },
@@ -387,7 +508,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   const defaultStrings: StringConfig[] = [
     {
       label: 'E <span class="text-[10px] text-gray-400">(low)</span>',
-      name: 'E <span class="text-[0.65em] opacity-75 font-normal">(low)</span>',
+      name: 'E <span class="text-[0.5em] opacity-75 font-normal">(low)</span>',
       checked: true,
     },
     { label: 'A', name: 'A', checked: true },
@@ -396,7 +517,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     { label: 'B', name: 'B', checked: true },
     {
       label: 'E <span class="text-[10px] text-gray-400">(high)</span>',
-      name: 'E <span class="text-[0.65em] opacity-75 font-normal">(high)</span>',
+      name: 'E <span class="text-[0.5em] opacity-75 font-normal">(high)</span>',
       checked: true,
     },
   ];
@@ -407,6 +528,13 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   let stringsState: StringConfig[] = loadState('bof_strings_state', defaultStrings);
 
+  let coordinateNotesState: NoteConfig[] = loadState('bof_coordinate_notes_state', defaultNotes);
+
+  let coordinateStringsState: StringConfig[] = loadState(
+    'bof_coordinate_strings_state',
+    defaultStrings,
+  );
+
   let notesCountSetting: number = parseInt(
     localStorage.getItem('bof_notes_count_setting') || '1',
     10,
@@ -416,6 +544,25 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     localStorage.getItem('bof_strings_count_setting') || '1',
     10,
   );
+
+  let pitchToleranceSetting: number = parseInt(
+    localStorage.getItem('bof_pitch_tolerance_setting') || '35',
+    10,
+  );
+
+  let coordinateQuestionCountSetting = Math.max(
+    1,
+    Math.min(50, parseInt(localStorage.getItem('bof_coordinate_question_count') || '10', 10) || 10),
+  );
+
+  const savedCoordinateMaxFret = parseInt(
+    localStorage.getItem('bof_coordinate_max_fret') ?? '24',
+    10,
+  );
+
+  let coordinateMaxFretSetting = Number.isNaN(savedCoordinateMaxFret)
+    ? 24
+    : Math.max(0, Math.min(24, savedCoordinateMaxFret));
 
   function loadState<T>(key: string, fallback: T): T {
     try {
@@ -438,6 +585,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   function initUI(): void {
     renderNotesModalCheckboxes();
     renderStringModalCheckboxes();
+    renderCoordinateSettings();
 
     const notesCountInput = document.getElementById('notes-count-input') as HTMLInputElement;
 
@@ -451,12 +599,114 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       stringsCountInput.value = stringsCountSetting.toString();
     }
 
+    const toleranceInput = document.getElementById('strings-tolerance-input') as HTMLInputElement;
+
+    if (toleranceInput) {
+      toleranceInput.value = pitchToleranceSetting.toString();
+    }
+
+    const coordinateQuestionCountInput = document.getElementById(
+      'coordinate-question-count',
+    ) as HTMLInputElement | null;
+    if (coordinateQuestionCountInput) {
+      coordinateQuestionCountInput.value = coordinateQuestionCountSetting.toString();
+    }
+
+    const coordinateMaxFretInput = document.getElementById(
+      'coordinate-max-fret',
+    ) as HTMLInputElement | null;
+    if (coordinateMaxFretInput) {
+      coordinateMaxFretInput.value = coordinateMaxFretSetting.toString();
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('[data-step-target]').forEach(button => {
+      button.addEventListener('click', () => {
+        const input = document.getElementById(
+          button.dataset.stepTarget ?? '',
+        ) as HTMLInputElement | null;
+
+        if (!input) return;
+
+        const minimum = Number(input.min);
+        const maximum = Number(input.max);
+        const step = Number(input.step) || 1;
+        const direction = Number(button.dataset.stepDirection);
+        const nextValue = Math.max(
+          minimum,
+          Math.min(maximum, Number(input.value) + direction * step),
+        );
+
+        input.value = nextValue.toString();
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
+
+    const stringsDisplay = document.getElementById('strings-display');
+    const fretboardModal = document.getElementById('practice-fretboard-modal');
+    const closeFretboardButton = fretboardModal?.querySelector<HTMLButtonElement>(
+      '[data-close-practice-fretboard]',
+    );
+    let popupOpener: HTMLButtonElement | null = null;
+
+    function closeFretboardPopup() {
+      fretboardModal?.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      popupOpener?.focus();
+      popupOpener = null;
+    }
+
+    function openFretboardPopup(promptButton: HTMLButtonElement) {
+      if (!fretboardModal) return;
+
+      const note = promptButton.dataset.practiceFretboardNote;
+      const stringValue = promptButton.dataset.practiceFretboardString;
+      const stringIndex = stringValue === undefined ? null : Number(stringValue);
+      if (!note || (stringValue !== undefined && !Number.isInteger(stringIndex))) return;
+
+      popupOpener = promptButton;
+      fretboardModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      closeFretboardButton?.focus();
+      window.dispatchEvent(
+        new CustomEvent('fretboard:highlight', {
+          detail: {
+            rootId: 'practice-fretboard',
+            note,
+            stringIndex,
+            useFlats: note.includes('♭') || note.endsWith('b'),
+          },
+        }),
+      );
+    }
+
+    function handleFretboardPromptClick(event: Event) {
+      const target = event.target as HTMLElement;
+      const promptButton = target.closest<HTMLButtonElement>('[data-practice-fretboard-note]');
+      if (promptButton) openFretboardPopup(promptButton);
+    }
+
+    document.getElementById('notes-display')?.addEventListener('click', handleFretboardPromptClick);
+    stringsDisplay?.addEventListener('click', handleFretboardPromptClick);
+
+    closeFretboardButton?.addEventListener('click', closeFretboardPopup);
+    fretboardModal?.addEventListener('click', event => {
+      if (event.target === fretboardModal) closeFretboardPopup();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !fretboardModal?.classList.contains('hidden')) {
+        closeFretboardPopup();
+      }
+    });
+
     updateStringsMicToggle();
 
-    const savedTab = localStorage.getItem('bof_active_tab') as 'notes' | 'strings' | null;
+    const savedTab = localStorage.getItem('bof_active_tab') as
+      'notes' | 'strings' | 'coordinates' | null;
 
     if (savedTab === 'strings') {
       (window as any).switchTab('strings', false);
+    } else if (savedTab === 'coordinates') {
+      (window as any).switchTab('coordinates', false);
     }
   }
 
@@ -468,38 +718,54 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     document.getElementById(id)?.classList.add('hidden');
   };
 
-  (window as any).switchTab = function (tab: 'notes' | 'strings', save: boolean = true): void {
-    const tabNotes = document.getElementById('tab-notes');
-
-    const tabStrings = document.getElementById('tab-strings');
-
+  (window as any).openActiveSettingsModal = function (): void {
     const gameNotes = document.getElementById('game-notes');
-
     const gameStrings = document.getElementById('game-strings');
+    const gameCoordinates = document.getElementById('game-coordinates');
 
-    if (!tabNotes || !tabStrings || !gameNotes || !gameStrings) {
+    if (gameCoordinates?.style.display !== 'none') {
+      (window as any).openModal('coordinate-modal');
+    } else if (gameStrings?.style.display !== 'none') {
+      (window as any).openModal('strings-modal');
+    } else if (gameNotes && !gameNotes.classList.contains('hidden')) {
+      (window as any).openModal('notes-modal');
+    }
+  };
+
+  (window as any).switchTab = function (
+    tab: 'notes' | 'strings' | 'coordinates',
+    save: boolean = true,
+  ): void {
+    const tabNotes = document.getElementById('tab-notes');
+    const tabStrings = document.getElementById('tab-strings');
+    const tabCoordinates = document.getElementById('tab-coordinates');
+    const gameNotes = document.getElementById('game-notes');
+    const gameStrings = document.getElementById('game-strings');
+    const gameCoordinates = document.getElementById('game-coordinates');
+
+    if (
+      !tabNotes ||
+      !tabStrings ||
+      !tabCoordinates ||
+      !gameNotes ||
+      !gameStrings ||
+      !gameCoordinates
+    ) {
       return;
     }
 
-    if (tab === 'notes') {
-      tabNotes.className =
-        'flex-1 py-2 text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer';
-
-      tabStrings.className =
-        'flex-1 py-2 text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
-
-      gameNotes.classList.remove('hidden');
-      gameStrings.classList.add('hidden');
-    } else {
-      tabStrings.className =
-        'flex-1 py-2 text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer';
-
-      tabNotes.className =
-        'flex-1 py-2 text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
-
-      gameStrings.classList.remove('hidden');
-      gameNotes.classList.add('hidden');
-    }
+    const tabs = [
+      { id: 'notes', button: tabNotes, panel: gameNotes },
+      { id: 'strings', button: tabStrings, panel: gameStrings },
+      { id: 'coordinates', button: tabCoordinates, panel: gameCoordinates },
+    ] as const;
+    tabs.forEach(({ id, button, panel }) => {
+      const isActive = id === tab;
+      button.className = isActive
+        ? 'min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer'
+        : 'min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
+      panel.style.display = isActive ? 'flex' : 'none';
+    });
 
     if (save) {
       localStorage.setItem('bof_active_tab', tab);
@@ -542,10 +808,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
       colItems.forEach(({ item, originalIndex }) => {
         colHtml += `
-              <label class="flex items-center space-x-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+              <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
                 <input type="checkbox" ${
                   item.checked ? 'checked' : ''
-                } onchange="${updateFnName}(${originalIndex}, this.checked)" class="rounded bg-deep-charcoal border-purple-700 text-amber-500 focus:ring-0 cursor-pointer">
+                } onchange="${updateFnName}(${originalIndex}, this.checked)" class="bof-checkbox bof-checkbox--standard">
                 <span class="text-xs font-medium text-gray-200 cursor-pointer">${item.label}</span>
               </label>
             `;
@@ -569,10 +835,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
       stringsState.forEach((str: StringConfig, idx: number) => {
         sContainer.innerHTML += `
-            <label class="flex items-center space-x-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+            <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
               <input type="checkbox" ${
                 str.checked ? 'checked' : ''
-              } onchange="updateStringState(${idx}, this.checked)" class="rounded bg-deep-charcoal border-purple-700 text-amber-500 focus:ring-0 cursor-pointer">
+              } onchange="updateStringState(${idx}, this.checked)" class="bof-checkbox bof-checkbox--standard">
               <span class="text-xs font-medium text-gray-200 cursor-pointer">${str.label}</span>
             </label>
           `;
@@ -583,6 +849,31 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       stringNotesState,
       'updateStringNoteState',
       'string-notes-checkboxes',
+    );
+  }
+
+  function renderCoordinateStringCheckboxes(): void {
+    const container = document.getElementById('coordinate-string-checkboxes');
+    if (!container) return;
+
+    container.innerHTML = coordinateStringsState
+      .map(
+        (stringConfig, index) => `
+          <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+            <input type="checkbox" ${stringConfig.checked ? 'checked' : ''} onchange="updateCoordinateStringState(${index}, this.checked)" class="bof-checkbox bof-checkbox--standard">
+            <span class="text-xs font-medium text-gray-200 cursor-pointer">${stringConfig.label}</span>
+          </label>
+        `,
+      )
+      .join('');
+  }
+
+  function renderCoordinateSettings(): void {
+    renderCoordinateStringCheckboxes();
+    renderCheckboxesIntoColumns(
+      coordinateNotesState,
+      'updateCoordinateNoteState',
+      'coordinate-note-checkboxes',
     );
   }
 
@@ -606,6 +897,63 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     stringsCountSetting = isNaN(parsed) || parsed < 1 ? 1 : parsed;
 
     localStorage.setItem('bof_strings_count_setting', stringsCountSetting.toString());
+  };
+
+  (window as any).updatePitchTolerance = (val: string): void => {
+    const parsed = parseInt(val, 10);
+
+    pitchToleranceSetting = isNaN(parsed) || parsed < 5 ? 35 : parsed;
+
+    localStorage.setItem('bof_pitch_tolerance_setting', pitchToleranceSetting.toString());
+  };
+
+  (window as any).updateCoordinateQuestionCount = (val: string): void => {
+    const parsed = parseInt(val, 10);
+    coordinateQuestionCountSetting = isNaN(parsed) ? 10 : Math.max(1, Math.min(50, parsed));
+    localStorage.setItem(
+      'bof_coordinate_question_count',
+      coordinateQuestionCountSetting.toString(),
+    );
+
+    const input = document.getElementById('coordinate-question-count') as HTMLInputElement | null;
+    if (input) input.value = coordinateQuestionCountSetting.toString();
+  };
+
+  (window as any).updateCoordinateMaxFret = (val: string): void => {
+    const parsed = parseInt(val, 10);
+    coordinateMaxFretSetting = Number.isNaN(parsed) ? 24 : Math.max(0, Math.min(24, parsed));
+    localStorage.setItem('bof_coordinate_max_fret', coordinateMaxFretSetting.toString());
+
+    const input = document.getElementById('coordinate-max-fret') as HTMLInputElement | null;
+    if (input) input.value = coordinateMaxFretSetting.toString();
+  };
+
+  (window as any).updateCoordinateStringState = (index: number, checked: boolean): void => {
+    if (!coordinateStringsState[index]) return;
+    coordinateStringsState[index].checked = checked;
+    saveState('bof_coordinate_strings_state', coordinateStringsState);
+  };
+
+  (window as any).updateCoordinateNoteState = (index: number, checked: boolean): void => {
+    if (!coordinateNotesState[index]) return;
+    coordinateNotesState[index].checked = checked;
+    saveState('bof_coordinate_notes_state', coordinateNotesState);
+  };
+
+  (window as any).toggleAllCoordinateStrings = (checked: boolean): void => {
+    coordinateStringsState.forEach(stringConfig => (stringConfig.checked = checked));
+    saveState('bof_coordinate_strings_state', coordinateStringsState);
+    renderCoordinateStringCheckboxes();
+  };
+
+  (window as any).toggleAllCoordinateNotes = (checked: boolean): void => {
+    coordinateNotesState.forEach(note => (note.checked = checked));
+    saveState('bof_coordinate_notes_state', coordinateNotesState);
+    renderCheckboxesIntoColumns(
+      coordinateNotesState,
+      'updateCoordinateNoteState',
+      'coordinate-note-checkboxes',
+    );
   };
 
   (window as any).updateStringState = (idx: number, val: boolean): void => {
@@ -660,7 +1008,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     const btnText = document.getElementById('notes-btn-text');
 
     if (btnIcon) {
-      btnIcon.textContent = 'refresh';
+      btnIcon.innerHTML = ICONS.refresh;
     }
 
     if (btnText) {
@@ -693,7 +1041,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     if (display) {
       display.innerHTML = selectedNotes
-        .map(note => `<span>${note}</span>`)
+        .map(
+          note =>
+            `<button type="button" data-practice-fretboard-note="${note}" aria-label="Show ${note} on the fretboard" class="rounded-sm cursor-pointer transition-colors hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">${note}</button>`,
+        )
         .join('<span class="text-gray-600 font-light mx-1">/</span>');
     }
 
@@ -837,7 +1188,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     }
 
     return {
-      correct: candidates.includes(detectedMidi) && Math.abs(bestCents) <= 35,
+      correct: candidates.includes(detectedMidi) && Math.abs(bestCents) <= pitchToleranceSetting,
       midi: bestMidi,
       cents: bestCents,
     };
@@ -1000,9 +1351,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     const icon = document.getElementById('strings-mic-toggle-icon');
 
-    const text = document.getElementById('strings-mic-toggle-text');
-
-    if (!button || !icon || !text) {
+    if (!button || !icon) {
       return;
     }
 
@@ -1010,16 +1359,12 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       button.className =
         'px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5';
 
-      icon.textContent = 'mic';
-
-      text.textContent = 'Mic On';
+      icon.innerHTML = ICONS.mic;
     } else {
       button.className =
         'px-3 py-1.5 bg-gray-800/70 hover:bg-gray-700/70 text-xs font-semibold rounded-md transition-colors text-gray-400 border border-gray-700 cursor-pointer flex items-center gap-1.5';
 
-      icon.textContent = 'mic_off';
-
-      text.textContent = 'Mic Off';
+      icon.innerHTML = ICONS.micOff;
     }
   }
 
@@ -1053,7 +1398,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     const btnText = document.getElementById('strings-btn-text');
 
     if (btnIcon) {
-      btnIcon.textContent = 'refresh';
+      btnIcon.innerHTML = ICONS.refresh;
     }
 
     if (btnText) {
@@ -1103,23 +1448,24 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           opacityClass = 'opacity-45';
         }
 
+        const stringNumber = 6 - combo.stringIndex;
+
         return `
-              <div
-                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150"
-              >
-                ${
-                  isCompleted
-                    ? '<span class="material-symbols-outlined text-green-400 text-[18px]">check_circle</span>'
-                    : ''
-                }
-                <span class="${
-                  isCompleted ? 'text-green-300' : 'text-amber-400'
-                }">${combo.note}</span>
-                <span class="text-gray-500 font-light">on</span>
-                <span class="${
-                  isCompleted ? 'text-green-300' : 'text-cyan-400'
-                }">${combo.stringName}</span>
-              </div>
+            <button
+              type="button"
+              data-practice-fretboard-note="${combo.note}"
+              data-practice-fretboard-string="${combo.stringIndex}"
+              aria-label="Show ${combo.note} on string ${stringNumber} on the fretboard"
+              class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150 cursor-pointer hover:border-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
+            >
+                ${isCompleted ? ICONS.checkCircle : ''}
+                <span class="${isCompleted ? 'text-green-300' : 'text-amber-400'}">${combo.note}</span>
+                <span class="text-gray-500 font-light text-xs">on</span>
+              <span class="relative inline-flex items-baseline">
+                <span class="${isCompleted ? 'text-green-300' : 'text-cyan-400'}">${combo.stringName}</span>
+                <sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-gray-400/80 font-bold select-none pointer-events-none">${stringNumber}</sub>
+              </span>
+            </button>
             `;
       })
       .join('');
@@ -1303,7 +1649,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
         const detectedMidi = Math.round(69 + 12 * Math.log2(frequency / 440));
 
-        if (Math.abs(result.cents) <= 35) {
+        if (Math.abs(result.cents) <= pitchToleranceSetting) {
           if (detectedMidi === stableMidi) {
             stableFrames++;
           } else {
@@ -1342,7 +1688,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     renderStringPracticeSequence();
 
-    const completedCard = document.querySelectorAll('#strings-display > div')[completedIndex];
+    const completedCard = document.querySelectorAll('#strings-display > button')[completedIndex];
 
     completedCard?.classList.add('border-green-400');
 
@@ -1455,3 +1801,15 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   initUI();
 </script>
+
+<style>
+  .number-stepper-input {
+    -moz-appearance: textfield;
+  }
+
+  .number-stepper-input::-webkit-inner-spin-button,
+  .number-stepper-input::-webkit-outer-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
+</style>

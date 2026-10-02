@@ -46,7 +46,7 @@ const {
           class:list={[
             'w-full relative block md:flex gap-4 items-stretch justify-center text-[0.85em] sm:text-[0.9em] md:text-[1em] max-w-fit border-none border-solid',
             showTimes
-              ? 'border-r border-solid border-gold/60 pr-4 md:border-none md:pr-0'
+              ? 'border-r border-solid border-amber-300/60 pr-4 md:border-none md:pr-0'
               : 'border-none pr-0',
           ]}
         >
@@ -81,7 +81,7 @@ const {
           {/* Repeat Counter Overlay */}
           {showTimes && (
             <span
-              class='text-sm font-bold absolute top-1/2 right-0 translate-x-[150%] -translate-y-1/2 z-10 text-gold select-none'
+              class='text-sm font-bold absolute top-1/2 right-0 translate-x-[150%] -translate-y-1/2 z-10 text-amber-300/90 select-none'
               title={`Repeat ${curr.times} times`}
             >
               x{curr.times}

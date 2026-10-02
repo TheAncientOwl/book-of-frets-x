@@ -26,15 +26,15 @@ const { tooltipText, link } = Astro.props;
     href={link}
     target='_blank'
     rel='noopener noreferrer'
-    class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-gold text-gold transition-colors duration-200 hover:bg-black'
+    class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-amber-300/90 text-amber-300/90 transition-colors duration-200 hover:bg-black'
     aria-label='open-youtube-button'
   >
-    <Icon name='fa6-brands:youtube' class='w-[16px] h-[16px] text-gold' />
+    <Icon name='fa6-brands:youtube' class='w-[16px] h-[16px] text-amber-300/80' />
   </a>
 
   <!-- Safe wrapping container: pinned to the right edge, expanding left with a set max-width -->
   <div
-    class='absolute right-0 top-full mt-2 w-max max-w-[240px] px-2.5 py-1.5 text-xs rounded-lg border border-solid border-gold bg-[#181426] text-gold opacity-0 pointer-events-none group-hover/yt-btn:opacity-100 transition-opacity whitespace-normal z-40 shadow-xl text-center leading-relaxed'
+    class='absolute right-0 top-full mt-2 w-max max-w-[240px] px-2.5 py-1.5 text-xs rounded-lg border border-solid border-amber-300/90 bg-[#181426] text-amber-300/90 opacity-0 pointer-events-none group-hover/yt-btn:opacity-100 transition-opacity whitespace-normal z-40 shadow-xl text-center leading-relaxed'
   >
     {tooltipText}
   </div>

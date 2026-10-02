@@ -1,0 +1,71 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file NoteStringPracticeGame.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Note-and-string Practice game panel.
+ */
+import { Icon } from 'astro-icon/components';
+---
+
+<div id='game-strings' class='w-full flex-col items-center' style='display: none'>
+  <div
+    class='w-full bg-deep-charcoal/80 rounded-xl py-6 px-4 flex flex-col items-center border border-purple-900/40 relative shadow-inner'
+  >
+    <div class='absolute top-3 left-3'>
+      <button
+        id='strings-mic-toggle'
+        onclick='toggleStringsMic()'
+        class='px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5 z-10'
+      >
+        <span id='strings-mic-toggle-icon' class='flex items-center justify-center'>
+          <Icon name='material-symbols:mic' class='w-3.75 h-3.75' />
+        </span>
+      </button>
+    </div>
+
+    <div class='flex justify-center w-full mb-6'>
+      <button
+        id='strings-start-btn'
+        onclick='startStringsGame()'
+        class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
+      >
+        <span id='strings-btn-icon' class='flex items-center justify-center'>
+          <Icon name='material-symbols:play-arrow' class='w-4 h-4' />
+        </span>
+        <span id='strings-btn-text'>Start</span>
+      </button>
+    </div>
+
+    <div
+      id='strings-prompt-container'
+      class='flex flex-col items-center justify-center w-full my-1'
+    >
+      <div class='h-6 flex items-center justify-center mb-3'>
+        <span
+          id='strings-status'
+          class='text-xs uppercase tracking-widest text-purple-400 font-semibold text-center'
+        >
+          Find Note on String
+        </span>
+      </div>
+      <div
+        id='strings-display'
+        class='text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap text-center min-h-22'
+      >
+        -
+      </div>
+      <div
+        id='strings-mic-status'
+        class='mt-4 min-h-5 text-[11px] uppercase tracking-widest text-gray-500 font-semibold text-center'
+      >
+        Microphone inactive
+      </div>
+      <div id='strings-pitch-display' class='mt-1 min-h-5 text-xs text-gray-500 text-center'></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,602 @@
+---
+import Checkbox from '#components/common/Checkbox.astro';
+
+interface Props {
+  id?: string;
+  showControls?: boolean;
+  compact?: boolean;
+  persist?: boolean;
+  interactive?: boolean;
+}
+
+const {
+  id = 'fretboard',
+  showControls = true,
+  compact = false,
+  persist = true,
+  interactive = true,
+} = Astro.props;
+
+const fretboardData = [
+  { fret: 0, notes: ['E', 'A', 'D', 'G', 'B', 'E'] },
+  { fret: 1, notes: ['F', 'A#', 'D#', 'G#', 'C', 'F'] },
+  { fret: 2, notes: ['F#', 'B', 'E', 'A', 'C#', 'F#'] },
+  { fret: 3, notes: ['G', 'C', 'F', 'A#', 'D', 'G'], marker: 'single' },
+  { fret: 4, notes: ['G#', 'C#', 'F#', 'B', 'D#', 'G#'] },
+  { fret: 5, notes: ['A', 'D', 'G', 'C', 'E', 'A'], marker: 'single' },
+  { fret: 6, notes: ['A#', 'D#', 'G#', 'C#', 'F', 'A#'] },
+  { fret: 7, notes: ['B', 'E', 'A', 'D', 'F#', 'B'], marker: 'single' },
+  { fret: 8, notes: ['C', 'F', 'A#', 'D#', 'G', 'C'] },
+  { fret: 9, notes: ['C#', 'F#', 'B', 'E', 'G#', 'C#'], marker: 'single' },
+  { fret: 10, notes: ['D', 'G', 'C', 'F', 'A', 'D'] },
+  { fret: 11, notes: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'] },
+  { fret: 12, notes: ['E', 'A', 'D', 'G', 'B', 'E'], marker: 'double' },
+  { fret: 13, notes: ['F', 'A#', 'D#', 'G#', 'C', 'F'] },
+  { fret: 14, notes: ['F#', 'B', 'E', 'A', 'C#', 'F#'] },
+  { fret: 15, notes: ['G', 'C', 'F', 'A#', 'D', 'G'], marker: 'single' },
+  { fret: 16, notes: ['G#', 'C#', 'F#', 'B', 'D#', 'G#'] },
+  { fret: 17, notes: ['A', 'D', 'G', 'C', 'E', 'A'], marker: 'single' },
+  { fret: 18, notes: ['A#', 'D#', 'G#', 'C#', 'F', 'A#'] },
+  { fret: 19, notes: ['B', 'E', 'A', 'D', 'F#', 'B'], marker: 'single' },
+  { fret: 20, notes: ['C', 'F', 'A#', 'D#', 'G', 'C'] },
+  { fret: 21, notes: ['C#', 'F#', 'B', 'E', 'G#', 'C#'], marker: 'single' },
+  { fret: 22, notes: ['D', 'G', 'C', 'F', 'A', 'D'] },
+  { fret: 23, notes: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'] },
+  { fret: 24, notes: ['E', 'A', 'D', 'G', 'B', 'E'], marker: 'double' },
+];
+
+const stringLabels = ['E', 'A', 'D', 'G', 'B', 'e'];
+const sharpToFlatMap: Record<string, string> = {
+  'A#': 'Bb',
+  'C#': 'Db',
+  'D#': 'Eb',
+  'F#': 'Gb',
+  'G#': 'Ab',
+};
+---
+
+<div
+  id={id}
+  data-fretboard-root
+  data-persist={persist}
+  data-interactive={interactive}
+  class='w-full flex flex-col items-center'
+>
+  {
+    showControls && (
+      <div class='flex gap-2 text-xs font-medium text-stone-400 whitespace-nowrap overflow-x-auto max-w-full pb-1'>
+        <label
+          for={`${id}-sound-mode`}
+          class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-stone-300 transition-all'
+        >
+          <Checkbox id={`${id}-sound-mode`} />
+          <span>Sound Mode</span>
+        </label>
+        <div class='w-px h-5 bg-stone-700 mx-1 shrink-0' />
+        <label class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-stone-300 transition-colors'>
+          <Checkbox id={`${id}-hide-accidentals`} />
+          <span>Hide Accidentals</span>
+        </label>
+        <div class='w-px h-5 bg-stone-700 mx-1 shrink-0' />
+        <label
+          data-use-flats-label
+          class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-stone-300 transition-all'
+        >
+          <Checkbox id={`${id}-use-flats`} />
+          <span>Use Flats (b)</span>
+        </label>
+      </div>
+    )
+  }
+
+  <div
+    class={`fretboard-container relative w-full ${compact ? 'max-w-sm pl-8 pr-1 py-1' : 'max-w-md rounded-lg p-3 sm:p-4'}`}
+  >
+    <div class='fretboard-neck relative flex w-full flex-col items-center py-3'>
+      <div class='relative flex items-center justify-between w-full mb-2'>
+        <div class='absolute -left-8 w-6'></div>
+        {
+          stringLabels.map((stringLabel, stringIndex) => (
+            <div class='flex-1 flex justify-center'>
+              <button
+                type='button'
+                data-select-string={stringIndex}
+                disabled={!interactive}
+                class='string-selector text-xs font-bold text-stone-500 hover:text-amber-300 transition-all cursor-pointer p-1 rounded-md'
+              >
+                {stringLabel}
+              </button>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class='fretboard-nut' aria-hidden='true'>
+        {stringLabels.map(() => <span />)}
+      </div>
+
+      {
+        fretboardData.map(fretInfo => {
+          const isNut = fretInfo.fret === 0;
+          const isNutOrOctave = fretInfo.fret === 0 || fretInfo.fret === 12;
+          const fretHeight = compact
+            ? 34 - (10 * fretInfo.fret) / 24
+            : 46 - (14 * fretInfo.fret) / 24;
+
+          return (
+            <div
+              style={`--fret-height: ${fretHeight}px;`}
+              class={`fret-space relative flex items-center justify-between transition-colors ${isNutOrOctave ? 'fret-octave' : 'hover:bg-white/3'}`}
+            >
+              <button
+                type='button'
+                data-select-fret={fretInfo.fret}
+                disabled={!interactive}
+                class='fret-selector absolute -left-8 text-xs font-mono font-semibold text-stone-500 w-6 text-right hover:text-amber-300 transition-all cursor-pointer'
+              >
+                {isNut ? '' : fretInfo.fret}
+              </button>
+
+              {fretInfo.marker === 'single' && (
+                <div class='absolute inset-0 flex items-center justify-center pointer-events-none'>
+                  <div class='fret-marker-dot w-3 h-3 rounded-full' />
+                </div>
+              )}
+              {fretInfo.marker === 'double' && (
+                <div class='absolute inset-0 pointer-events-none'>
+                  <div class='fret-marker-dot absolute top-1/2 left-[33.33%] -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full' />
+                  <div class='fret-marker-dot absolute top-1/2 left-[66.67%] -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full' />
+                </div>
+              )}
+
+              {fretInfo.notes.map((note, stringIndex) => {
+                const stringThicknessClass = [
+                  'w-[3px]',
+                  'w-[2.5px]',
+                  'w-[2px]',
+                  'w-[1.5px]',
+                  'w-[1px]',
+                  'w-[1px]',
+                ][stringIndex];
+                const isAccidental = note.includes('#');
+                const flatNote = isAccidental ? sharpToFlatMap[note] : note;
+
+                return (
+                  <div class='relative flex-1 flex items-center justify-center h-full'>
+                    <div class={`guitar-string absolute inset-y-0 ${stringThicknessClass} z-0`} />
+                    <button
+                      type='button'
+                      data-note={note}
+                      data-flat={flatNote}
+                      data-fret={fretInfo.fret}
+                      data-string={stringIndex}
+                      data-accidental={isAccidental ? 'true' : 'false'}
+                      data-nut={isNutOrOctave ? 'true' : 'false'}
+                      disabled={!interactive}
+                      class={`note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer ${isNutOrOctave ? 'bg-amber-400/90 text-stone-950 font-extrabold' : 'bg-slate-950/90 text-amber-200 border border-amber-400/40'}`}
+                    >
+                      {note}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .fretboard-neck {
+    isolation: isolate;
+  }
+
+  .fretboard-neck::before {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border: 1px solid rgba(224, 190, 135, 0.2);
+    background-color: #29160f;
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(24, 11, 7, 0.55),
+        transparent 18%,
+        rgba(255, 226, 185, 0.08) 50%,
+        transparent 82%,
+        rgba(24, 11, 7, 0.55)
+      ),
+      repeating-linear-gradient(90deg, rgba(225, 180, 124, 0.045) 0 1px, transparent 1px 4px),
+      linear-gradient(180deg, #392318 0%, #2c190f 48%, #382216 100%);
+    border-radius: 4px;
+    content: '';
+    filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.5));
+  }
+
+  .fretboard-nut {
+    z-index: 1;
+    display: grid;
+    width: 100%;
+    height: 8px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    border: 1px solid #8d8274;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #f3e7cf 0%, #c5b79e 42%, #eee2ca 100%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.65);
+  }
+
+  .fretboard-nut span {
+    position: relative;
+  }
+
+  .fretboard-nut span::after {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    width: 2px;
+    height: 6px;
+    border-radius: 1px;
+    background: #655846;
+    box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.8);
+    content: '';
+    transform: translateX(-50%);
+  }
+
+  .fret-space {
+    height: var(--fret-height);
+    width: 100%;
+  }
+
+  .fret-space::after {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(180deg, #e8e1d5 0%, #88827a 45%, #39352f 100%);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.7);
+    content: '';
+    pointer-events: none;
+  }
+
+  .fret-space.fret-octave {
+    background-color: rgba(8, 5, 4, 0.2);
+  }
+
+  .guitar-string {
+    background: linear-gradient(
+      90deg,
+      #555047 0%,
+      #d7d0c4 35%,
+      #fff8e8 52%,
+      #aaa092 76%,
+      #484239 100%
+    );
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.85);
+    pointer-events: none;
+  }
+
+  .fret-marker-dot {
+    border: 1px solid rgba(255, 249, 228, 0.85);
+    background: linear-gradient(145deg, #fff8df, #b5a47f);
+    box-shadow:
+      inset 0 1px 2px rgba(255, 255, 255, 0.75),
+      0 1px 3px rgba(0, 0, 0, 0.8);
+  }
+
+  [data-fretboard-root][data-interactive='false'] .fretboard-container button {
+    cursor: default;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  let ToneModule: typeof import('tone') | null = null;
+  let sampler: any = null;
+
+  const STRING_BASE_MIDI = [40, 45, 50, 55, 59, 64];
+  const NOTES_LIST = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const NOTE_TO_PITCH_CLASS: Record<string, number> = {
+    C: 0,
+    'C#': 1,
+    Db: 1,
+    D: 2,
+    'D#': 3,
+    Eb: 3,
+    E: 4,
+    F: 5,
+    'F#': 6,
+    Gb: 6,
+    G: 7,
+    'G#': 8,
+    Ab: 8,
+    A: 9,
+    'A#': 10,
+    Bb: 10,
+    B: 11,
+  };
+
+  function normalizePitchClass(note: string): number {
+    return NOTE_TO_PITCH_CLASS[note.replace('♯', '#').replace('♭', 'b')] ?? -1;
+  }
+
+  function getNoteWithOctave(stringIndex: number, fret: number): string {
+    const midi = STRING_BASE_MIDI[stringIndex] + fret;
+    return `${NOTES_LIST[midi % 12]}${Math.floor(midi / 12) - 1}`;
+  }
+
+  async function initAudio() {
+    if (!ToneModule) ToneModule = await import('tone');
+    if (!sampler && ToneModule) {
+      sampler = new ToneModule.Sampler({
+        urls: {
+          E2: 'E2.mp3',
+          A2: 'A2.mp3',
+          D3: 'D3.mp3',
+          G3: 'G3.mp3',
+          B3: 'B3.mp3',
+          E4: 'E4.mp3',
+        },
+        baseUrl:
+          'https://cdn.jsdelivr.net/gh/gleitz/midi-js-soundfonts@gh-pages/MusyngKite/acoustic_guitar_steel-mp3/',
+      }).toDestination();
+    }
+  }
+
+  async function playGuitarNote(stringIndex: number, fret: number) {
+    await initAudio();
+    if (!ToneModule) return;
+    await ToneModule.start();
+    if (sampler) sampler.triggerAttackRelease(getNoteWithOctave(stringIndex, fret), '2n');
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-fretboard-root]').forEach(root => {
+    const container = root.querySelector<HTMLElement>('.fretboard-container');
+    if (!container) return;
+
+    const persist = root.dataset.persist === 'true';
+    const interactive = root.dataset.interactive !== 'false';
+    let selectedNote: string | null = persist ? localStorage.getItem('bofx-selected-note') : null;
+    let selectedFret: string | null = persist ? localStorage.getItem('bofx-selected-fret') : null;
+    let selectedString: string | null = persist
+      ? localStorage.getItem('bofx-selected-string')
+      : null;
+    let targetSelection: { note: string; stringIndex: string | null } | null = null;
+    let hideAccidentals = persist && localStorage.getItem('bofx-hide-accidentals') === 'true';
+    let useFlats = persist && localStorage.getItem('bofx-use-flats') === 'true';
+    let soundModeEnabled = persist && localStorage.getItem('bofx-sound-mode') === 'true';
+
+    const noteBadges = root.querySelectorAll<HTMLButtonElement>('.note-badge');
+    const fretSelectors = root.querySelectorAll<HTMLButtonElement>('.fret-selector');
+    const stringSelectors = root.querySelectorAll<HTMLButtonElement>('.string-selector');
+    const hideAccidentalsCb = root.querySelector<HTMLInputElement>('[id$="-hide-accidentals"]');
+    const useFlatsCb = root.querySelector<HTMLInputElement>('[id$="-use-flats"]');
+    const soundModeCb = root.querySelector<HTMLInputElement>('[id$="-sound-mode"]');
+    const useFlatsLabel = root.querySelector<HTMLElement>('[data-use-flats-label]');
+
+    if (hideAccidentalsCb) hideAccidentalsCb.checked = hideAccidentals;
+    if (useFlatsCb) useFlatsCb.checked = useFlats;
+    if (soundModeCb) soundModeCb.checked = soundModeEnabled;
+
+    function saveSelectionState() {
+      if (!persist) return;
+      if (selectedNote !== null) localStorage.setItem('bofx-selected-note', selectedNote);
+      else localStorage.removeItem('bofx-selected-note');
+      if (selectedFret !== null) localStorage.setItem('bofx-selected-fret', selectedFret);
+      else localStorage.removeItem('bofx-selected-fret');
+      if (selectedString !== null) localStorage.setItem('bofx-selected-string', selectedString);
+      else localStorage.removeItem('bofx-selected-string');
+    }
+
+    function updateFretboardState() {
+      if (useFlatsCb) useFlatsCb.disabled = hideAccidentals;
+      if (useFlatsLabel) {
+        useFlatsLabel.style.opacity = hideAccidentals ? '0.7' : '1';
+        useFlatsLabel.style.pointerEvents = hideAccidentals ? 'none' : 'auto';
+      }
+
+      const hasAnySelection =
+        targetSelection !== null ||
+        selectedNote !== null ||
+        selectedFret !== null ||
+        selectedString !== null;
+
+      noteBadges.forEach(badge => {
+        const note = badge.dataset.note ?? '';
+        const flatNote = badge.dataset.flat ?? note;
+        const fret = badge.dataset.fret;
+        const stringIndex = badge.dataset.string ?? '';
+        const isAccidental = badge.dataset.accidental === 'true';
+        const isNut = badge.dataset.nut === 'true';
+        badge.textContent = useFlats ? flatNote : note;
+
+        if (hideAccidentals && isAccidental) {
+          badge.style.opacity = '0';
+          badge.style.pointerEvents = 'none';
+          return;
+        }
+        badge.style.pointerEvents = 'auto';
+
+        const isTargeted =
+          targetSelection !== null &&
+          (targetSelection.stringIndex === null || stringIndex === targetSelection.stringIndex) &&
+          normalizePitchClass(note) === normalizePitchClass(targetSelection.note);
+        const isHighlighted = targetSelection
+          ? isTargeted
+          : (selectedNote !== null && note === selectedNote) ||
+            (selectedFret !== null && fret === selectedFret) ||
+            (selectedString !== null && stringIndex === selectedString);
+
+        if (!hasAnySelection) {
+          badge.style.opacity = '1';
+          badge.style.transform = '';
+          badge.className = isNut
+            ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-amber-500/90 text-stone-950 font-extrabold'
+            : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-slate-950/90 text-amber-200 border border-amber-400/40';
+        } else if (isHighlighted) {
+          badge.style.opacity = '1';
+          badge.style.transform = 'scale(1.15)';
+          badge.className =
+            'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all shadow-lg cursor-pointer bg-green-600 text-stone-950 border-2 border-green-400 font-extrabold ring-4 ring-green-600/30';
+        } else {
+          badge.style.opacity = '0.4';
+          badge.style.transform = 'scale(0.9)';
+          badge.className = isNut
+            ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-amber-500/90 text-stone-950 font-extrabold'
+            : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-slate-950/90 text-amber-200 border border-amber-400/40';
+        }
+      });
+
+      fretSelectors.forEach(button => {
+        if (selectedFret === button.dataset.selectFret) {
+          button.classList.replace('text-stone-500', 'text-amber-400');
+          button.classList.add('scale-125');
+        } else {
+          button.classList.replace('text-amber-400', 'text-stone-500');
+          button.classList.remove('scale-125');
+        }
+      });
+
+      stringSelectors.forEach(button => {
+        const isSelected =
+          selectedString === button.dataset.selectString ||
+          (targetSelection?.stringIndex !== null &&
+            targetSelection?.stringIndex === button.dataset.selectString);
+        if (isSelected) {
+          button.classList.replace('text-stone-500', 'text-amber-400');
+          button.classList.add('scale-125');
+        } else {
+          button.classList.replace('text-amber-400', 'text-stone-500');
+          button.classList.remove('scale-125');
+        }
+      });
+    }
+
+    function triggerPluckFeedback(element: HTMLElement) {
+      element.classList.add(
+        'scale-125',
+        'ring-4',
+        'ring-green-400',
+        '!bg-green-400',
+        '!text-stone-950',
+        'z-30',
+      );
+      setTimeout(() => {
+        element.classList.remove(
+          'scale-125',
+          'ring-4',
+          'ring-green-400',
+          '!bg-green-400',
+          '!text-stone-950',
+          'z-30',
+        );
+        updateFretboardState();
+      }, 300);
+    }
+
+    container.addEventListener('click', event => {
+      if (!interactive) return;
+
+      const target = event.target as HTMLElement;
+      const noteButton = target.closest<HTMLButtonElement>('.note-badge');
+      const fretButton = target.closest<HTMLButtonElement>('.fret-selector');
+      const stringButton = target.closest<HTMLButtonElement>('.string-selector');
+
+      if (soundModeEnabled) {
+        if (noteButton) {
+          playGuitarNote(
+            Number(noteButton.dataset.string ?? 0),
+            Number(noteButton.dataset.fret ?? 0),
+          );
+          triggerPluckFeedback(noteButton);
+        } else if (stringButton) {
+          const stringIndex = Number(stringButton.dataset.selectString ?? 0);
+          playGuitarNote(stringIndex, 0);
+          const openNutBadge = container.querySelector<HTMLButtonElement>(
+            `.note-badge[data-string="${stringIndex}"][data-fret="0"]`,
+          );
+          if (openNutBadge) triggerPluckFeedback(openNutBadge);
+          triggerPluckFeedback(stringButton);
+        }
+        return;
+      }
+
+      targetSelection = null;
+      if (noteButton) {
+        selectedFret = null;
+        selectedString = null;
+        selectedNote =
+          selectedNote === noteButton.dataset.note ? null : (noteButton.dataset.note ?? null);
+      } else if (fretButton) {
+        selectedNote = null;
+        selectedString = null;
+        selectedFret =
+          selectedFret === fretButton.dataset.selectFret
+            ? null
+            : (fretButton.dataset.selectFret ?? null);
+      } else if (stringButton) {
+        selectedNote = null;
+        selectedFret = null;
+        selectedString =
+          selectedString === stringButton.dataset.selectString
+            ? null
+            : (stringButton.dataset.selectString ?? null);
+      } else {
+        return;
+      }
+
+      saveSelectionState();
+      updateFretboardState();
+    });
+
+    hideAccidentalsCb?.addEventListener('change', event => {
+      hideAccidentals = (event.target as HTMLInputElement).checked;
+      if (persist) localStorage.setItem('bofx-hide-accidentals', hideAccidentals.toString());
+      if (hideAccidentals && selectedNote?.includes('#')) {
+        selectedNote = null;
+        saveSelectionState();
+      }
+      updateFretboardState();
+    });
+
+    useFlatsCb?.addEventListener('change', event => {
+      useFlats = (event.target as HTMLInputElement).checked;
+      if (persist) localStorage.setItem('bofx-use-flats', useFlats.toString());
+      updateFretboardState();
+    });
+
+    soundModeCb?.addEventListener('change', event => {
+      soundModeEnabled = (event.target as HTMLInputElement).checked;
+      if (persist) localStorage.setItem('bofx-sound-mode', soundModeEnabled.toString());
+      if (soundModeEnabled) void initAudio();
+    });
+
+    window.addEventListener('fretboard:highlight', event => {
+      const detail = (
+        event as CustomEvent<{
+          rootId: string;
+          note: string;
+          stringIndex: number | null;
+          useFlats?: boolean;
+        }>
+      ).detail;
+      if (detail?.rootId !== root.id) return;
+
+      targetSelection = {
+        note: detail.note,
+        stringIndex: detail.stringIndex === null ? null : String(detail.stringIndex),
+      };
+      useFlats = detail.useFlats ?? false;
+      selectedNote = null;
+      selectedFret = null;
+      selectedString = null;
+      updateFretboardState();
+    });
+
+    if (soundModeEnabled) void initAudio();
+    updateFretboardState();
+  });
+</script>

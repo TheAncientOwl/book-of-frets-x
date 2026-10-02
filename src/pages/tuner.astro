@@ -11,37 +11,26 @@
  */
 
 import '#styles/global.css';
+
+import { Icon } from 'astro-icon/components';
+import Checkbox from '#components/common/Checkbox.astro';
+import IconButton from '#components/common/IconButton.astro';
+import PageHeader from '#components/common/PageHeader.astro';
 import GeneralLayout from '#layouts/GeneralLayout.astro';
 ---
 
 <GeneralLayout>
-  <head>
-    <link
-      rel='stylesheet'
-      href='https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200'
-    />
-  </head>
-
   <div class='bg-deep-charcoal min-h-dvh flex flex-col items-center text-white'>
     <div
       class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-deep-purple p-6 rounded-xl shadow-2xl relative'
     >
-      {/* Header & Settings Bar (Centered Title) */}
-      <div class='w-full flex items-center justify-between mb-4 relative'>
-        <div class='w-8'></div>
-        <h2
-          class='text-2xl font-extrabold tracking-wide text-amber-400 flex items-center justify-center gap-2'
-        >
-          🎸 Guitar Tuner
-        </h2>
-        <button
-          type='button'
-          id='open-config-btn'
-          class='px-3 py-1.5 bg-purple-800 hover:bg-purple-700 text-xs font-semibold rounded-md transition-colors text-amber-300 border border-purple-600 cursor-pointer flex items-center gap-1.5 shadow'
-        >
-          <span class='material-symbols-outlined text-[15px]'>settings</span> Configure
-        </button>
-      </div>
+      <PageHeader>
+        <Icon name='material-symbols:tune' class='w-[22px] h-[22px] text-purple-500/80' />
+        Tuner
+        <IconButton slot='action' id='open-config-btn' label='Settings'>
+          <Icon name='material-symbols:settings' class='w-[20px] h-[20px]' />
+        </IconButton>
+      </PageHeader>
 
       {/* Tuner Status & Visualizer Arena */}
       <div
@@ -51,30 +40,28 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           <button
             type='button'
             id='tuner-toggle-btn'
-            class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center gap-1.5'
+            class='px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5'
           >
-            <span id='tuner-btn-icon' class='material-symbols-outlined text-[16px]'>mic</span>
-            <span id='tuner-btn-text'>Start Mic</span>
+            <Icon name='material-symbols:mic' class='w-[16px] h-[16px]' />
           </button>
 
           <div class='flex items-center gap-2'>
-            <span class='text-xs text-gray-400 font-medium'>Auto Detect</span>
-            <label class='relative inline-flex items-center cursor-pointer'>
-              <input type='checkbox' id='auto-detect-checkbox' checked class='sr-only peer' />
-              <div
-                class='w-9 h-5 bg-purple-950 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-400'
-              >
-              </div>
+            <span class='text-xs text-gray-400 font-medium flex items-center gap-1'>
+              <Icon name='material-symbols:sensors' class='w-[16px] h-[16px] text-purple-400' />
+              Auto Detect
+            </span>
+            <label class='inline-flex items-center cursor-pointer'>
+              <Checkbox id='auto-detect-checkbox' checked variant='switch' />
             </label>
           </div>
         </div>
 
         <div class='flex flex-col items-center justify-center my-1'>
           <div
-            class='text-xs uppercase tracking-widest text-purple-400 font-semibold mb-1'
-            id='tuner-target-label'
+            class='text-xs uppercase tracking-widest text-purple-400 font-semibold mb-1 flex items-center justify-center gap-1'
           >
-            Target: E2 (82.41 Hz)
+            <Icon name='material-symbols:track-changes' class='w-[16px] h-[16px] text-purple-400' />
+            <span id='tuner-target-label'>Target: E2 (82.41 Hz)</span>
           </div>
           <div
             id='detected-note-display'
@@ -153,27 +140,116 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           </div>
 
           <svg viewBox='0 0 200 320' class='w-full h-full drop-shadow-2xl'>
+            <defs>
+              <linearGradient id='acousticWoodGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
+                <stop offset='0%' stop-color='#80543a'></stop>
+                <stop offset='45%' stop-color='#4d3024'></stop>
+                <stop offset='100%' stop-color='#271914'></stop>
+              </linearGradient>
+              <linearGradient id='acousticHardwareGrad' x1='0%' y1='0%' x2='0%' y2='100%'>
+                <stop offset='0%' stop-color='#fffdf5'></stop>
+                <stop offset='35%' stop-color='#d4d2c9'></stop>
+                <stop offset='65%' stop-color='#777b79'></stop>
+                <stop offset='100%' stop-color='#e8e3d8'></stop>
+              </linearGradient>
+              <linearGradient id='acousticButtonGrad' x1='0%' y1='0%' x2='0%' y2='100%'>
+                <stop offset='0%' stop-color='#fff9e8'></stop>
+                <stop offset='50%' stop-color='#ddd0b6'></stop>
+                <stop offset='100%' stop-color='#a79273'></stop>
+              </linearGradient>
+              <clipPath id='acousticBodyClip'>
+                <path
+                  d='M 70,28 C 70,14 83,8 100,8 C 117,8 130,14 130,28 L 143,42 C 149,49 150,58 150,72 L 145,244 C 144,272 132,289 115,299 L 115,306 L 85,306 L 85,299 C 68,289 56,272 55,244 L 50,72 C 50,58 51,49 57,42 Z'
+                ></path>
+              </clipPath>
+              <g id='acousticTuner'>
+                <path d='M 6,0 H 19' stroke='#d3d0c8' stroke-width='3.5'></path>
+                <rect
+                  x='17'
+                  y='-5.5'
+                  width='18'
+                  height='11'
+                  rx='5.5'
+                  fill='url(#acousticButtonGrad)'
+                  stroke='#54483b'
+                  stroke-width='1.2'></rect>
+                <path d='M 21,-2.5 H 30' stroke='#fffdf5' stroke-opacity='0.85' stroke-width='1'
+                ></path>
+                <circle r='8.5' fill='#302923' stroke='url(#acousticHardwareGrad)' stroke-width='2'
+                ></circle>
+                <circle r='5' fill='url(#acousticHardwareGrad)' stroke='#4b4944' stroke-width='1'
+                ></circle>
+                <circle r='2' fill='#51504b' stroke='#fffdf5' stroke-width='0.8'></circle>
+              </g>
+            </defs>
+
             <path
-              d='M 60,20 Q 100,5 140,20 L 150,260 Q 150,300 100,310 Q 50,300 50,260 Z'
-              fill='#8B4513'
-              stroke='#5c2c16'
-              stroke-width='4'></path>
+              d='M 70,28 C 70,14 83,8 100,8 C 117,8 130,14 130,28 L 143,42 C 149,49 150,58 150,72 L 145,244 C 144,272 132,289 115,299 L 115,306 L 85,306 L 85,299 C 68,289 56,272 55,244 L 50,72 C 50,58 51,49 57,42 Z'
+              fill='url(#acousticWoodGrad)'
+              stroke='#21130f'
+              stroke-width='5'></path>
             <path
-              d='M 65,30 Q 100,18 135,30 L 143,255 Q 143,290 100,298 Q 57,290 57,255 Z'
-              fill='#a0522d'></path>
-            <line x1='60' y1='60' x2='80' y2='60' stroke='#ccc' stroke-width='4'></line>
-            <line x1='60' y1='120' x2='80' y2='120' stroke='#ccc' stroke-width='4'></line>
-            <line x1='60' y1='180' x2='80' y2='180' stroke='#ccc' stroke-width='4'></line>
-            <line x1='140' y1='60' x2='120' y2='60' stroke='#ccc' stroke-width='4'></line>
-            <line x1='140' y1='120' x2='120' y2='120' stroke='#ccc' stroke-width='4'></line>
-            <line x1='140' y1='180' x2='120' y2='180' stroke='#ccc' stroke-width='4'></line>
-            <line x1='80' y1='60' x2='92' y2='320' stroke='#e0e0e0' stroke-width='2.5'></line>
-            <line x1='80' y1='120' x2='95' y2='320' stroke='#d0d0d0' stroke-width='2'></line>
-            <line x1='80' y1='180' x2='98' y2='320' stroke='#c0c0c0' stroke-width='1.5'></line>
-            <line x1='120' y1='60' x2='108' y2='320' stroke='#b0b0b0' stroke-width='1.2'></line>
-            <line x1='120' y1='120' x2='105' y2='320' stroke='#909090' stroke-width='1'></line>
-            <line x1='120' y1='180' x2='102' y2='320' stroke='#808080' stroke-width='0.8'></line>
-            <rect x='85' y='305' width='30' height='6' fill='#e2e8f0' rx='2'></rect>
+              d='M 70,28 C 70,14 83,8 100,8 C 117,8 130,14 130,28 L 143,42 C 149,49 150,58 150,72 L 145,244 C 144,272 132,289 115,299 L 115,306 L 85,306 L 85,299 C 68,289 56,272 55,244 L 50,72 C 50,58 51,49 57,42 Z'
+              fill='none'
+              stroke='#c99a6c'
+              stroke-opacity='0.5'
+              stroke-width='1.5'></path>
+
+            <g
+              clip-path='url(#acousticBodyClip)'
+              fill='none'
+              stroke='#d9a676'
+              stroke-opacity='0.16'
+            >
+              <path d='M 62,310 C 72,245 68,180 82,125 S 98,55 91,5' stroke-width='1.2'></path>
+              <path d='M 77,312 C 86,245 80,185 95,128 S 110,55 106,5' stroke-width='2'></path>
+              <path d='M 94,312 C 101,248 96,185 109,127 S 124,56 120,8' stroke-width='1'></path>
+              <path d='M 111,312 C 119,250 112,188 126,130 S 140,70 137,40' stroke-width='1.5'
+              ></path>
+            </g>
+            <path
+              d='M 74,30 C 75,19 86,15 100,15 C 114,15 125,19 126,30 L 138,45 C 143,53 143,63 143,75 L 138,241 C 137,265 127,281 111,291 L 111,299 L 89,299 L 89,291 C 73,281 63,265 62,241 L 57,75 C 57,63 57,53 62,45 Z'
+              fill='rgba(255,245,225,0.09)'></path>
+
+            <path
+              d='M 96,258 Q 100,255 104,258 L 107,283 Q 100,287 93,283 Z'
+              fill='#171412'
+              stroke='#b99670'
+              stroke-width='1'></path>
+            <circle cx='100' cy='261' r='1.2' fill='#c9c4b8'></circle>
+            <circle cx='100' cy='281' r='1.2' fill='#c9c4b8'></circle>
+
+            <g stroke-linecap='round'>
+              <path
+                d='M 58,51 L 92,300 M 60,143 L 95,300 M 62,235 L 98,300 M 142,51 L 108,300 M 140,143 L 105,300 M 138,235 L 102,300'
+                fill='none'
+                stroke='#342d29'
+                stroke-opacity='0.62'
+                stroke-width='2.8'></path>
+              <path
+                d='M 58,51 L 92,300 M 60,143 L 95,300 M 62,235 L 98,300 M 142,51 L 108,300 M 140,143 L 105,300 M 138,235 L 102,300'
+                fill='none'
+                stroke='#eee9dd'
+                stroke-width='1'></path>
+            </g>
+
+            <use href='#acousticTuner' transform='translate(58 51) scale(-1 1)'></use>
+            <use href='#acousticTuner' transform='translate(60 143) scale(-1 1)'></use>
+            <use href='#acousticTuner' transform='translate(62 235) scale(-1 1)'></use>
+            <use href='#acousticTuner' transform='translate(142 51)'></use>
+            <use href='#acousticTuner' transform='translate(140 143)'></use>
+            <use href='#acousticTuner' transform='translate(138 235)'></use>
+
+            <rect
+              x='83'
+              y='296'
+              width='34'
+              height='9'
+              rx='2'
+              fill='#292d31'
+              stroke='#e3ded3'
+              stroke-width='1.2'></rect>
+            <path d='M 87,298 H 113' stroke='#fffaf0' stroke-opacity='0.8' stroke-width='1'></path>
           </svg>
         </div>
 
@@ -223,67 +299,209 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           </div>
 
           <svg viewBox='0 0 200 320' class='w-full h-full drop-shadow-2xl'>
-            {/* Gloss Maple Vintage Strat Headstock Body Outline */}
-            <path
-              d='M 100,38 
-                 C 102,15 150,12 178,42 
-                 C 198,65 185,110 172,140
-                 C 160,170 172,220 168,260
-                 C 162,295 150,312 138,312
-                 L 65,312 
-                 L 65,260 
-                 C 65,245 58,230 62,190
-                 L 100,38 Z'
-              fill='url(#stratWoodGrad)'
-              stroke='#c49a6c'
-              stroke-width='3.5'></path>
-
-            {/* Wood Gradient Definition */}
             <defs>
               <linearGradient id='stratWoodGrad' x1='0%' y1='0%' x2='100%' y2='100%'>
-                <stop offset='0%' stop-color='#fae1be'></stop>
-                <stop offset='50%' stop-color='#f5cca0'></stop>
-                <stop offset='100%' stop-color='#dfad78'></stop>
+                <stop offset='0%' stop-color='#f8dfbd'></stop>
+                <stop offset='48%' stop-color='#e8bd8d'></stop>
+                <stop offset='100%' stop-color='#c88e5b'></stop>
               </linearGradient>
+              <linearGradient id='stratHardwareGrad' x1='0%' y1='0%' x2='0%' y2='100%'>
+                <stop offset='0%' stop-color='#fffdf5'></stop>
+                <stop offset='35%' stop-color='#cbd0d2'></stop>
+                <stop offset='65%' stop-color='#737b80'></stop>
+                <stop offset='100%' stop-color='#e5e7e5'></stop>
+              </linearGradient>
+              <clipPath id='stratBodyClip'>
+                <path
+                  d='M 100,18 C 122,12 144,13 158,24 C 175,37 183,59 183,82 C 183,96 178,107 169,119 C 158,132 156,143 162,157 C 169,177 177,196 179,219 C 181,242 177,267 168,285 C 160,298 149,305 137,307 L 67,307 C 62,307 59,303 59,297 L 59,278 C 59,269 64,259 68,246 C 73,229 70,213 65,198 C 60,182 58,166 62,150 L 91,40 C 94,30 94,22 100,18 Z'
+                ></path>
+              </clipPath>
             </defs>
 
-            {/* Inner Edge Highlight / Grain Effect */}
             <path
-              d='M 103,42 
-                 C 105,22 148,19 173,45 
-                 C 191,65 179,110 167,140
-                 C 156,170 167,220 163,258
-                 C 158,290 147,305 135,305
-                 L 70,305
-                 L 70,260
-                 C 70,248 64,233 67,192
-                 L 103,42 Z'
-              fill='rgba(255,255,255,0.18)'></path>
+              d='M 100,18 C 122,12 144,13 158,24 C 175,37 183,59 183,82 C 183,96 178,107 169,119 C 158,132 156,143 162,157 C 169,177 177,196 179,219 C 181,242 177,267 168,285 C 160,298 149,305 137,307 L 67,307 C 62,307 59,303 59,297 L 59,278 C 59,269 64,259 68,246 C 73,229 70,213 65,198 C 60,182 58,166 62,150 L 91,40 C 94,30 94,22 100,18 Z'
+              fill='url(#stratWoodGrad)'
+              stroke='#704326'
+              stroke-width='5'></path>
+            <path
+              d='M 101,25 C 121,19 141,20 154,29 C 169,41 177,61 177,82 C 177,94 172,104 164,116 C 154,128 152,140 158,153 C 165,173 171,191 173,217 C 175,239 171,263 163,280 C 155,291 146,298 136,300 L 71,300 L 71,278 C 71,270 76,258 80,245 C 85,228 81,210 76,196 C 72,181 70,166 74,152 L 99,41 C 101,34 98,28 101,25 Z'
+              fill='none'
+              stroke='#f4d6ad'
+              stroke-opacity='0.72'
+              stroke-width='1.5'></path>
 
-            {/* Guitar Strings: 100% Mathematically Parallel with 10px Spacing across Neck */}
-            <line x1='126' y1='38' x2='126' y2='307' stroke='#e2e8f0' stroke-width='1.2'></line>
-            <line x1='116' y1='78' x2='116' y2='307' stroke='#cbd5e1' stroke-width='1.5'></line>
-            <line x1='106' y1='118' x2='106' y2='307' stroke='#94a3b8' stroke-width='1.8'></line>
-            <line x1='96' y1='158' x2='96' y2='307' stroke='#64748b' stroke-width='2.2'></line>
-            <line x1='86' y1='198' x2='86' y2='307' stroke='#475569' stroke-width='2.5'></line>
-            <line x1='76' y1='238' x2='76' y2='307' stroke='#334155' stroke-width='2.8'></line>
+            <g clip-path='url(#stratBodyClip)' fill='none' stroke='#80532f' stroke-opacity='0.2'>
+              <path d='M 70,310 C 78,250 74,210 91,165 S 114,80 117,20' stroke-width='1.2'></path>
+              <path d='M 81,315 C 88,255 84,218 101,169 S 126,78 129,20' stroke-width='1.8'></path>
+              <path d='M 94,315 C 100,257 96,220 112,170 S 140,78 143,20' stroke-width='1'></path>
+              <path d='M 108,315 C 114,257 108,220 125,170 S 153,83 158,25' stroke-width='1.4'
+              ></path>
+              <path d='M 124,315 C 130,256 123,222 139,175 S 168,93 177,43' stroke-width='1'></path>
+            </g>
 
-            {/* Tuning Post Peg Circles */}
-            <circle cx='126' cy='38' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
-            ></circle>
-            <circle cx='116' cy='78' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
-            ></circle>
-            <circle cx='106' cy='118' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
-            ></circle>
-            <circle cx='96' cy='158' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
-            ></circle>
-            <circle cx='86' cy='198' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
-            ></circle>
-            <circle cx='76' cy='238' r='4.5' fill='#b5b5b5' stroke='#777' stroke-width='1.5'
-            ></circle>
+            <path
+              d='M 101,25 C 121,19 141,20 154,29 C 169,41 177,61 177,82 C 177,94 172,104 164,116 C 154,128 152,140 158,153 C 165,173 171,191 173,217 C 175,239 171,263 163,280 C 155,291 146,298 136,300 L 71,300 L 71,278 C 71,270 76,258 80,245 C 85,228 81,210 76,196 C 72,181 70,166 74,152 L 99,41 C 101,34 98,28 101,25 Z'
+              fill='rgba(255,255,255,0.12)'
+              pointer-events='none'></path>
 
-            {/* Headstock Nut at Base */}
-            <rect x='70' y='305' width='63' height='6' fill='#1e293b' rx='1'></rect>
+            <g stroke-linecap='round'>
+              <line
+                x1='126'
+                y1='28'
+                x2='126'
+                y2='307'
+                stroke='#3f3932'
+                stroke-opacity='0.55'
+                stroke-width='2.4'></line>
+              <line
+                x1='116'
+                y1='74'
+                x2='116'
+                y2='307'
+                stroke='#3f3932'
+                stroke-opacity='0.5'
+                stroke-width='2.5'></line>
+              <line
+                x1='106'
+                y1='120'
+                x2='106'
+                y2='307'
+                stroke='#3f3932'
+                stroke-opacity='0.45'
+                stroke-width='2.8'></line>
+              <line
+                x1='96'
+                y1='167'
+                x2='96'
+                y2='307'
+                stroke='#3f3932'
+                stroke-opacity='0.4'
+                stroke-width='3'></line>
+              <line
+                x1='86'
+                y1='213'
+                x2='86'
+                y2='307'
+                stroke='#3f3932'
+                stroke-opacity='0.35'
+                stroke-width='3.2'></line>
+              <line
+                x1='76'
+                y1='259'
+                x2='76'
+                y2='307'
+                stroke='#3f3932'
+                stroke-opacity='0.3'
+                stroke-width='3.4'></line>
+              <line x1='126' y1='28' x2='126' y2='307' stroke='#fff9eb' stroke-width='1'></line>
+              <line x1='116' y1='74' x2='116' y2='307' stroke='#f4f1e9' stroke-width='1'></line>
+              <line x1='106' y1='120' x2='106' y2='307' stroke='#e6e4df' stroke-width='1'></line>
+              <line x1='96' y1='167' x2='96' y2='307' stroke='#d5d4d0' stroke-width='1'></line>
+              <line x1='86' y1='213' x2='86' y2='307' stroke='#c7c6c2' stroke-width='1'></line>
+              <line x1='76' y1='259' x2='76' y2='307' stroke='#b8b7b4' stroke-width='1'></line>
+            </g>
+
+            <g transform='translate(126 28) scale(-1 1)'>
+              <path d='M 4,0 H 25' stroke='#555b60' stroke-width='3'></path>
+              <rect
+                x='24'
+                y='-4.5'
+                width='26'
+                height='9'
+                rx='4.5'
+                fill='url(#stratHardwareGrad)'
+                stroke='#62696d'
+                stroke-width='1'></rect>
+              <circle r='6' fill='url(#stratHardwareGrad)' stroke='#555b60' stroke-width='1.2'
+              ></circle>
+              <circle r='2.2' fill='#70777a' stroke='#f7f4eb' stroke-width='0.8'></circle>
+            </g>
+            <g transform='translate(116 74) scale(-1 1)'>
+              <path d='M 4,0 H 25' stroke='#555b60' stroke-width='3'></path>
+              <rect
+                x='24'
+                y='-4.5'
+                width='26'
+                height='9'
+                rx='4.5'
+                fill='url(#stratHardwareGrad)'
+                stroke='#62696d'
+                stroke-width='1'></rect>
+              <circle r='6' fill='url(#stratHardwareGrad)' stroke='#555b60' stroke-width='1.2'
+              ></circle>
+              <circle r='2.2' fill='#70777a' stroke='#f7f4eb' stroke-width='0.8'></circle>
+            </g>
+            <g transform='translate(106 120) scale(-1 1)'>
+              <path d='M 4,0 H 25' stroke='#555b60' stroke-width='3'></path>
+              <rect
+                x='24'
+                y='-4.5'
+                width='26'
+                height='9'
+                rx='4.5'
+                fill='url(#stratHardwareGrad)'
+                stroke='#62696d'
+                stroke-width='1'></rect>
+              <circle r='6' fill='url(#stratHardwareGrad)' stroke='#555b60' stroke-width='1.2'
+              ></circle>
+              <circle r='2.2' fill='#70777a' stroke='#f7f4eb' stroke-width='0.8'></circle>
+            </g>
+            <g transform='translate(96 167) scale(-1 1)'>
+              <path d='M 4,0 H 25' stroke='#555b60' stroke-width='3'></path>
+              <rect
+                x='24'
+                y='-4.5'
+                width='26'
+                height='9'
+                rx='4.5'
+                fill='url(#stratHardwareGrad)'
+                stroke='#62696d'
+                stroke-width='1'></rect>
+              <circle r='6' fill='url(#stratHardwareGrad)' stroke='#555b60' stroke-width='1.2'
+              ></circle>
+              <circle r='2.2' fill='#70777a' stroke='#f7f4eb' stroke-width='0.8'></circle>
+            </g>
+            <g transform='translate(86 213) scale(-1 1)'>
+              <path d='M 4,0 H 25' stroke='#555b60' stroke-width='3'></path>
+              <rect
+                x='24'
+                y='-4.5'
+                width='26'
+                height='9'
+                rx='4.5'
+                fill='url(#stratHardwareGrad)'
+                stroke='#62696d'
+                stroke-width='1'></rect>
+              <circle r='6' fill='url(#stratHardwareGrad)' stroke='#555b60' stroke-width='1.2'
+              ></circle>
+              <circle r='2.2' fill='#70777a' stroke='#f7f4eb' stroke-width='0.8'></circle>
+            </g>
+            <g transform='translate(76 259) scale(-1 1)'>
+              <path d='M 4,0 H 25' stroke='#555b60' stroke-width='3'></path>
+              <rect
+                x='24'
+                y='-4.5'
+                width='26'
+                height='9'
+                rx='4.5'
+                fill='url(#stratHardwareGrad)'
+                stroke='#62696d'
+                stroke-width='1'></rect>
+              <circle r='6' fill='url(#stratHardwareGrad)' stroke='#555b60' stroke-width='1.2'
+              ></circle>
+              <circle r='2.2' fill='#70777a' stroke='#f7f4eb' stroke-width='0.8'></circle>
+            </g>
+
+            <rect
+              x='70'
+              y='304'
+              width='63'
+              height='8'
+              rx='1.5'
+              fill='#272a2d'
+              stroke='#d8d1c3'
+              stroke-width='1'></rect>
+            <path d='M 74,306 H 129' stroke='#f4f0e7' stroke-opacity='0.72' stroke-width='1'></path>
           </svg>
         </div>
       </div>
@@ -299,32 +517,38 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       class='bg-[#1e192f] border border-purple-900/60 w-full max-w-md rounded-xl p-6 shadow-2xl flex flex-col'
     >
       <div class='flex justify-between items-center mb-4'>
-        <h3 class='text-lg font-bold text-amber-400'>Tuner Settings</h3>
+        <h3 class='text-lg font-bold text-amber-400 flex items-center gap-2'>
+          <Icon name='material-symbols:tune' class='w-[20px] h-[20px]' />
+          Tuner Settings
+        </h3>
         <button
           type='button'
           id='close-config-btn'
           class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
         >
-          <span class='material-symbols-outlined text-[20px]'>close</span>
+          <Icon name='material-symbols:close' class='w-[16px] h-[16px]' />
         </button>
       </div>
 
       <div class='mb-5 bg-deep-charcoal/50 p-3.5 rounded-lg border border-purple-900/40'>
-        <label class='block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-2'>
+        <label
+          class='block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-2 flex items-center gap-1'
+        >
+          <Icon name='material-symbols:graphic-eq' class='w-[16px] h-[16px]' />
           Headstock Style
         </label>
         <div class='grid grid-cols-2 gap-2'>
           <button
             type='button'
             id='style-btn-3x3'
-            class='py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow'
+            class='py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow flex items-center justify-center gap-1.5'
           >
             Acoustic (3x3)
           </button>
           <button
             type='button'
             id='style-btn-strat'
-            class='py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950'
+            class='py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950 flex items-center justify-center gap-1.5'
           >
             Strat (6-in-line)
           </button>
@@ -334,8 +558,9 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       <div class='mb-3 bg-deep-charcoal/50 p-3.5 rounded-lg border border-purple-900/40'>
         <label
           for='tuning-variant-select'
-          class='block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-2'
+          class='block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-2 flex items-center gap-1'
         >
+          <Icon name='material-symbols:queue-music' class='w-[16px] h-[16px]' />
           Tuning Variant
         </label>
         <select
@@ -518,19 +743,19 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       hsStrat?.classList.add('hidden');
       if (btn3x3)
         btn3x3.className =
-          'py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow';
+          'py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow flex items-center justify-center gap-1.5';
       if (btnStrat)
         btnStrat.className =
-          'py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950';
+          'py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950 flex items-center justify-center gap-1.5';
     } else {
       hs3x3?.classList.add('hidden');
       hsStrat?.classList.remove('hidden');
       if (btnStrat)
         btnStrat.className =
-          'py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow';
+          'py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow flex items-center justify-center gap-1.5';
       if (btn3x3)
         btn3x3.className =
-          'py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950';
+          'py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950 flex items-center justify-center gap-1.5';
     }
     highlightActiveStringButton();
   }
@@ -574,7 +799,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   }
 
   async function toggleTuner() {
-    const btnText = document.getElementById('tuner-btn-text');
+    const btn = document.getElementById('tuner-toggle-btn');
     const btnIcon = document.getElementById('tuner-btn-icon');
 
     if (!isRunning) {
@@ -587,13 +812,16 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
         source.connect(analyser);
 
         isRunning = true;
-        if (btnText) btnText.textContent = 'Stop Mic';
-        if (btnIcon) btnIcon.textContent = 'mic_off';
+        if (btn) {
+          btn.className =
+            'px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5';
+        }
+        if (btnIcon) btnIcon.textContent = 'mic';
 
         detectPitch();
       } catch (err) {
-        alert('Microphone access is required for the guitar tuner.');
-        console.error(err);
+        console.error('Microphone auto-start wait or access denied:', err);
+        stopTuner();
       }
     } else {
       stopTuner();
@@ -606,10 +834,14 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     if (mediaStream) mediaStream.getTracks().forEach(track => track.stop());
     if (audioCtx && audioCtx.state !== 'closed') audioCtx.close();
 
-    const btnText = document.getElementById('tuner-btn-text');
+    const btn = document.getElementById('tuner-toggle-btn');
     const btnIcon = document.getElementById('tuner-btn-icon');
-    if (btnText) btnText.textContent = 'Start Mic';
-    if (btnIcon) btnIcon.textContent = 'mic';
+
+    if (btn) {
+      btn.className =
+        'px-3 py-1.5 bg-gray-800/70 hover:bg-gray-700/70 text-xs font-semibold rounded-md transition-colors text-gray-400 border border-gray-700 cursor-pointer flex items-center gap-1.5';
+    }
+    if (btnIcon) btnIcon.textContent = 'mic_off';
 
     const noteDisplay = document.getElementById('detected-note-display');
     const freqDisplay = document.getElementById('detected-freq-display');
@@ -723,6 +955,9 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   document.addEventListener('DOMContentLoaded', () => {
     initTunerUI();
     initAudio();
+
+    // Auto-start tuner on page load
+    toggleTuner();
 
     document
       .getElementById('open-config-btn')
