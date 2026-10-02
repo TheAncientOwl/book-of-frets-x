@@ -6,17 +6,28 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NotePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Single-note Practice game panel.
  */
+
 import { Icon } from 'astro-icon/components';
+import Fretboard from '#components/common/Fretboard.astro';
 ---
 
 <div id='game-notes' class='w-full flex-1 flex flex-col items-center'>
-  <div
+  <section
     class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-4 flex flex-col items-center border border-purple-900/40 relative shadow-inner'
   >
-    <div class='flex justify-center w-full mb-6'>
+    <!-- Target -->
+    <div
+      id='notes-status'
+      class='mb-6 text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center'
+    >
+      Find Note on All Strings
+    </div>
+
+    <!-- Start Button -->
+    <div class='flex justify-center w-full mb-4'>
       <button
         id='notes-start-btn'
         onclick='startNotesGame()'
@@ -29,21 +40,127 @@ import { Icon } from 'astro-icon/components';
       </button>
     </div>
 
-    <div id='notes-prompt-container' class='flex flex-col items-center justify-center w-full my-1'>
-      <div class='h-6 flex items-center justify-center mb-3'>
-        <span
-          id='notes-status'
-          class='text-xs uppercase tracking-widest text-purple-400 font-semibold text-center'
-        >
-          Find Note on All Strings
-        </span>
-      </div>
-      <div
-        id='notes-display'
-        class='text-3xl sm:text-4xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap px-2 text-center min-h-[88px]'
+    <!-- Content -->
+    <div
+      id='notes-display'
+      class='text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap px-2 text-center min-h-[88px]'
+    >
+      ?
+    </div>
+  </section>
+</div>
+
+<!-- ========================================================= -->
+<!-- MODAL: NOTE CONFIGURATION                                 -->
+<!-- ========================================================= -->
+<div
+  id='notes-modal'
+  class='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
+>
+  <div
+    class='bg-[#1e192f] border border-purple-900/60 w-full max-w-lg rounded-xl p-6 shadow-2xl flex flex-col'
+  >
+    <div class='flex justify-between items-center mb-4'>
+      <h3 class='text-lg font-bold text-amber-400'>Configure Notes</h3>
+      <button
+        onclick='closeModal("notes-modal")'
+        class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
       >
-        -
+        <Icon name='material-symbols:close' class='w-[20px] h-[20px]' />
+      </button>
+    </div>
+
+    {/* Notes Count Configuration Input */}
+    <div class='mb-5 bg-deep-charcoal/50 p-3.5 rounded-lg border border-purple-900/40'>
+      <label
+        for='notes-count-input'
+        class='mb-1 block text-xs font-semibold text-gray-300 uppercase tracking-wide'
+      >
+        Max Notes Per Prompt
+      </label>
+      <div class='flex w-full'>
+        <button
+          type='button'
+          data-step-target='notes-count-input'
+          data-step-direction='-1'
+          aria-label='Decrease max notes per prompt'
+          title='Decrease max notes per prompt'
+          class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+        >
+          <Icon name='material-symbols:remove' class='w-5 h-5' />
+        </button>
+        <input
+          type='number'
+          id='notes-count-input'
+          min='1'
+          max='17'
+          step='1'
+          value='1'
+          onchange='updateNotesCount(this.value)'
+          class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+        />
+        <button
+          type='button'
+          data-step-target='notes-count-input'
+          data-step-direction='1'
+          aria-label='Increase max notes per prompt'
+          title='Increase max notes per prompt'
+          class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+        >
+          <Icon name='material-symbols:add' class='w-5 h-5' />
+        </button>
       </div>
+    </div>
+
+    <div class='flex justify-between items-center mb-2'>
+      <span class='text-xs font-semibold text-gray-300 uppercase tracking-wide'
+        >Configure Available Notes</span
+      >
+      <div class='space-x-2 text-xs'>
+        <button onclick='toggleAllNotes(true)' class='text-amber-400 hover:underline cursor-pointer'
+          >All</button
+        >
+        <span class='text-gray-500'>/</span>
+        <button
+          onclick='toggleAllNotes(false)'
+          class='text-amber-400 hover:underline cursor-pointer'>None</button
+        >
+      </div>
+    </div>
+
+    <div id='notes-checkboxes' class='grid grid-cols-3 gap-2 mb-2'></div>
+  </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- MODAL: CONFIGURATION                                      -->
+<!-- ========================================================= -->
+<div
+  id='practice-fretboard-modal'
+  class='fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-5'
+>
+  <div
+    role='dialog'
+    aria-modal='true'
+    aria-label='Fretboard'
+    class='relative w-full max-w-lg max-h-[92dvh] bg-deep-purple border border-purple-900/60 rounded-xl shadow-2xl flex flex-col overflow-hidden'
+  >
+    <button
+      type='button'
+      data-close-practice-fretboard
+      aria-label='Close fretboard popup'
+      class='absolute top-2 right-2 z-10 flex h-9 w-9 items-center justify-center rounded-md text-gray-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+    >
+      <Icon name='material-symbols:close' class='w-5 h-5' />
+    </button>
+    <div class='min-h-0 overflow-y-auto px-2 pb-2 pt-12 sm:px-3 sm:pb-3'>
+      <Fretboard
+        id='practice-fretboard'
+        showControls={false}
+        compact={true}
+        persist={false}
+        interactive={false}
+      />
     </div>
   </div>
 </div>
