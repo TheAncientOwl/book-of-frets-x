@@ -1,4 +1,15 @@
 ---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file Fretboard.astro
+ * @author Alexandru Delegeanu
+ * @version 1.2
+ * @description Fretboard component
+ */
+
 import Checkbox from '#components/common/Checkbox.astro';
 
 interface Props {
@@ -359,15 +370,15 @@ const sharpToFlatMap: Record<string, string> = {
 
     const persist = root.dataset.persist === 'true';
     const interactive = root.dataset.interactive !== 'false';
-    let selectedNote: string | null = persist ? localStorage.getItem('bofx-selected-note') : null;
-    let selectedFret: string | null = persist ? localStorage.getItem('bofx-selected-fret') : null;
+    let selectedNote: string | null = persist ? localStorage.getItem('v1-bfx-selected-note') : null;
+    let selectedFret: string | null = persist ? localStorage.getItem('v1-bfx-selected-fret') : null;
     let selectedString: string | null = persist
-      ? localStorage.getItem('bofx-selected-string')
+      ? localStorage.getItem('v1-bfx-selected-string')
       : null;
     let targetSelection: { note: string; stringIndex: string | null } | null = null;
-    let hideAccidentals = persist && localStorage.getItem('bofx-hide-accidentals') === 'true';
-    let useFlats = persist && localStorage.getItem('bofx-use-flats') === 'true';
-    let soundModeEnabled = persist && localStorage.getItem('bofx-sound-mode') === 'true';
+    let hideAccidentals = persist && localStorage.getItem('v1-bfx-hide-accidentals') === 'true';
+    let useFlats = persist && localStorage.getItem('v1-bfx-use-flats') === 'true';
+    let soundModeEnabled = persist && localStorage.getItem('v1-bfx-sound-mode') === 'true';
 
     const noteBadges = root.querySelectorAll<HTMLButtonElement>('.note-badge');
     const fretSelectors = root.querySelectorAll<HTMLButtonElement>('.fret-selector');
@@ -383,12 +394,12 @@ const sharpToFlatMap: Record<string, string> = {
 
     function saveSelectionState() {
       if (!persist) return;
-      if (selectedNote !== null) localStorage.setItem('bofx-selected-note', selectedNote);
-      else localStorage.removeItem('bofx-selected-note');
-      if (selectedFret !== null) localStorage.setItem('bofx-selected-fret', selectedFret);
-      else localStorage.removeItem('bofx-selected-fret');
-      if (selectedString !== null) localStorage.setItem('bofx-selected-string', selectedString);
-      else localStorage.removeItem('bofx-selected-string');
+      if (selectedNote !== null) localStorage.setItem('v1-bfx-selected-note', selectedNote);
+      else localStorage.removeItem('v1-bfx-selected-note');
+      if (selectedFret !== null) localStorage.setItem('v1-bfx-selected-fret', selectedFret);
+      else localStorage.removeItem('v1-bfx-selected-fret');
+      if (selectedString !== null) localStorage.setItem('v1-bfx-selected-string', selectedString);
+      else localStorage.removeItem('v1-bfx-selected-string');
     }
 
     function updateFretboardState() {
@@ -554,7 +565,7 @@ const sharpToFlatMap: Record<string, string> = {
 
     hideAccidentalsCb?.addEventListener('change', event => {
       hideAccidentals = (event.target as HTMLInputElement).checked;
-      if (persist) localStorage.setItem('bofx-hide-accidentals', hideAccidentals.toString());
+      if (persist) localStorage.setItem('v1-bfx-hide-accidentals', hideAccidentals.toString());
       if (hideAccidentals && selectedNote?.includes('#')) {
         selectedNote = null;
         saveSelectionState();
@@ -564,13 +575,13 @@ const sharpToFlatMap: Record<string, string> = {
 
     useFlatsCb?.addEventListener('change', event => {
       useFlats = (event.target as HTMLInputElement).checked;
-      if (persist) localStorage.setItem('bofx-use-flats', useFlats.toString());
+      if (persist) localStorage.setItem('v1-bfx-use-flats', useFlats.toString());
       updateFretboardState();
     });
 
     soundModeCb?.addEventListener('change', event => {
       soundModeEnabled = (event.target as HTMLInputElement).checked;
-      if (persist) localStorage.setItem('bofx-sound-mode', soundModeEnabled.toString());
+      if (persist) localStorage.setItem('v1-bfx-sound-mode', soundModeEnabled.toString());
       if (soundModeEnabled) void initAudio();
     });
 

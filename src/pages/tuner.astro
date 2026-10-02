@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file tuner.astro
  * @author Alexandru Delegeanu
- * @version 2.00
+ * @version 2.1
  * @description Interactive guitar tuner featuring realistic electric guitar samples + distortion for the Strat headstock and acoustic samples for the 3x3, with smoothed pitch detection.
  */
 
@@ -628,7 +628,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     ],
   };
 
-  let currentVariant = localStorage.getItem('bof_tuner_variant') || 'standard';
+  let currentVariant = localStorage.getItem('v1-bfx-tuner-variant') || 'standard';
   let currentNotes = tuningPresets[currentVariant] || tuningPresets.standard;
   let activeStringIndex = 0;
   let isRunning = false;
@@ -636,7 +636,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   let analyser: AnalyserNode | null = null;
   let mediaStream: MediaStream | null = null;
   let animationFrameId: number | null = null;
-  let currentHeadstock = localStorage.getItem('bof_headstock_style') || '3x3';
+  let currentHeadstock = localStorage.getItem('v1-bfx-headstock-style') || '3x3';
 
   let smoothedCents = 0;
   let smoothedFreq = 0;
@@ -731,7 +731,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   function setHeadstockStyle(style: string, save = true) {
     currentHeadstock = style;
-    if (save) localStorage.setItem('bof_headstock_style', style);
+    if (save) localStorage.setItem('v1-bfx-headstock-style', style);
 
     const hs3x3 = document.getElementById('headstock-3x3');
     const hsStrat = document.getElementById('headstock-strat');
@@ -762,7 +762,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   function changeTuningVariant(variantKey: string) {
     currentVariant = variantKey;
-    localStorage.setItem('bof_tuner_variant', variantKey);
+    localStorage.setItem('v1-bfx-tuner-variant', variantKey);
     currentNotes = tuningPresets[variantKey] || tuningPresets.standard;
     activeStringIndex = 0;
     updateStringButtonsLabels();

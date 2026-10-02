@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file FretCoordinatePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description Quiz the note at a random guitar string and fret coordinate.
  */
 
@@ -284,7 +284,7 @@ import { Icon } from 'astro-icon/components';
 
   const coordinateNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   const openStringMidi = [40, 45, 50, 55, 59, 64];
-  const stringNames = ['Low E', 'A', 'D', 'G', 'B', 'High E'];
+  const stringNames = ['E', 'A', 'D', 'G', 'B', 'e'];
   const notePitchClasses: Record<string, number> = {
     C: 0,
     'C#': 1,
@@ -325,19 +325,19 @@ import { Icon } from 'astro-icon/components';
   let hasAnswered = false;
 
   function getQuestionCount(): number {
-    const savedCount = Number(localStorage.getItem('bof_coordinate_question_count') ?? 10);
+    const savedCount = Number(localStorage.getItem('v1-bfx-coordinate-question-count') ?? 10);
     return Number.isInteger(savedCount) ? Math.max(1, Math.min(50, savedCount)) : 10;
   }
 
   function getQuestionPool(): { stringIndex: number; fret: number; pitchClass: number }[] {
-    const maxFretValue = Number(localStorage.getItem('bof_coordinate_max_fret') ?? 24);
+    const maxFretValue = Number(localStorage.getItem('v1-bfx-coordinate-max-fret') ?? 24);
     const maxFret = Number.isInteger(maxFretValue) ? Math.max(0, Math.min(24, maxFretValue)) : 24;
 
     let selectedStringIndexes = openStringMidi.map((_, index) => index);
     let selectedNotes = coordinateNotes;
 
     try {
-      const savedStrings = localStorage.getItem('bof_coordinate_strings_state');
+      const savedStrings = localStorage.getItem('v1-bfx-coordinate-strings-state');
       if (savedStrings !== null) {
         const stringStates = JSON.parse(savedStrings) as { checked?: boolean }[];
         selectedStringIndexes = stringStates.flatMap((stringState, index) =>
@@ -345,7 +345,7 @@ import { Icon } from 'astro-icon/components';
         );
       }
 
-      const savedNotes = localStorage.getItem('bof_coordinate_notes_state');
+      const savedNotes = localStorage.getItem('v1-bfx-coordinate-notes-state');
       if (savedNotes !== null) {
         const noteStates = JSON.parse(savedNotes) as { label?: string; checked?: boolean }[];
         selectedNotes = noteStates

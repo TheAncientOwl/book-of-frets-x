@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file practice.astro
  * @author Alexandru Delegeanu
- * @version 1.12
+ * @version 1.13
  * @description Practice helpers with compact action buttons and scaled display text
  */
 
@@ -112,8 +112,8 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   const defaultStrings: StringConfig[] = [
     {
-      label: 'E <span class="text-[10px] text-gray-400">(low)</span>',
-      name: 'E <span class="text-[0.5em] opacity-75 font-normal">(low)</span>',
+      label: 'E',
+      name: 'E',
       checked: true,
     },
     { label: 'A', name: 'A', checked: true },
@@ -121,47 +121,53 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     { label: 'G', name: 'G', checked: true },
     { label: 'B', name: 'B', checked: true },
     {
-      label: 'E <span class="text-[10px] text-gray-400">(high)</span>',
-      name: 'E <span class="text-[0.5em] opacity-75 font-normal">(high)</span>',
+      label: 'e',
+      name: 'e',
       checked: true,
     },
   ];
 
-  let notesState: NoteConfig[] = loadState('bof_notes_state', defaultNotes);
+  let notesState: NoteConfig[] = loadState('v1-bfx-notes-state', defaultNotes);
 
-  let stringNotesState: NoteConfig[] = loadState('bof_string_notes_state', defaultNotes);
+  let stringNotesState: NoteConfig[] = loadState('v1-bfx-string-notes-state', defaultNotes);
 
-  let stringsState: StringConfig[] = loadState('bof_strings_state', defaultStrings);
+  let stringsState: StringConfig[] = loadState('v1-bfx-strings-state', defaultStrings);
 
-  let coordinateNotesState: NoteConfig[] = loadState('bof_coordinate_notes_state', defaultNotes);
+  let coordinateNotesState: NoteConfig[] = loadState('v1-bfx-coordinate-notes-state', defaultNotes);
 
   let coordinateStringsState: StringConfig[] = loadState(
-    'bof_coordinate_strings_state',
+    'v1-bfx-coordinate-strings-state',
     defaultStrings,
   );
 
   let notesCountSetting: number = parseInt(
-    localStorage.getItem('bof_notes_count_setting') || '1',
+    localStorage.getItem('v1-bfx-notes-count-setting') || '1',
     10,
   );
 
-  const savedStringsCount = parseInt(localStorage.getItem('bof_strings_count_setting') || '1', 10);
+  const savedStringsCount = parseInt(
+    localStorage.getItem('v1-bfx-strings-count-setting') || '1',
+    10,
+  );
   let stringsCountSetting = Number.isNaN(savedStringsCount)
     ? 1
     : Math.max(1, Math.min(20, savedStringsCount));
 
   let pitchToleranceSetting: number = parseInt(
-    localStorage.getItem('bof_pitch_tolerance_setting') || '35',
+    localStorage.getItem('v1-bfx-pitch-tolerance-setting') || '35',
     10,
   );
 
   let coordinateQuestionCountSetting = Math.max(
     1,
-    Math.min(50, parseInt(localStorage.getItem('bof_coordinate_question_count') || '10', 10) || 10),
+    Math.min(
+      50,
+      parseInt(localStorage.getItem('v1-bfx-coordinate-question-count') || '10', 10) || 10,
+    ),
   );
 
   const savedCoordinateMaxFret = parseInt(
-    localStorage.getItem('bof_coordinate_max_fret') ?? '24',
+    localStorage.getItem('v1-bfx-coordinate-max-fret') ?? '24',
     10,
   );
 
@@ -305,7 +311,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     updateStringsMicToggle();
 
-    const savedTab = localStorage.getItem('bof_active_tab') as
+    const savedTab = localStorage.getItem('v1-bfx-active-tab') as
       'notes' | 'strings' | 'coordinates' | null;
 
     if (savedTab === 'strings') {
@@ -373,7 +379,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     });
 
     if (save) {
-      localStorage.setItem('bof_active_tab', tab);
+      localStorage.setItem('v1-bfx-active-tab', tab);
     }
   };
 
@@ -485,7 +491,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   (window as any).updateNoteState = (idx: number, val: boolean): void => {
     notesState[idx].checked = val;
 
-    saveState('bof_notes_state', notesState);
+    saveState('v1-bfx-notes-state', notesState);
   };
 
   (window as any).updateNotesCount = (val: string): void => {
@@ -493,7 +499,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     notesCountSetting = isNaN(parsed) || parsed < 1 ? 1 : parsed;
 
-    localStorage.setItem('bof_notes_count_setting', notesCountSetting.toString());
+    localStorage.setItem('v1-bfx-notes-count-setting', notesCountSetting.toString());
   };
 
   (window as any).updateStringsCount = (val: string): void => {
@@ -501,7 +507,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     stringsCountSetting = isNaN(parsed) || parsed < 1 ? 1 : parsed;
 
-    localStorage.setItem('bof_strings_count_setting', stringsCountSetting.toString());
+    localStorage.setItem('v1-bfx-strings-count-setting', stringsCountSetting.toString());
   };
 
   (window as any).updatePitchTolerance = (val: string): void => {
@@ -509,14 +515,14 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     pitchToleranceSetting = isNaN(parsed) || parsed < 5 ? 35 : parsed;
 
-    localStorage.setItem('bof_pitch_tolerance_setting', pitchToleranceSetting.toString());
+    localStorage.setItem('v1-bfx-pitch-tolerance-setting', pitchToleranceSetting.toString());
   };
 
   (window as any).updateCoordinateQuestionCount = (val: string): void => {
     const parsed = parseInt(val, 10);
     coordinateQuestionCountSetting = isNaN(parsed) ? 10 : Math.max(1, Math.min(50, parsed));
     localStorage.setItem(
-      'bof_coordinate_question_count',
+      'v1-bfx-coordinate-question-count',
       coordinateQuestionCountSetting.toString(),
     );
 
@@ -527,7 +533,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   (window as any).updateCoordinateMaxFret = (val: string): void => {
     const parsed = parseInt(val, 10);
     coordinateMaxFretSetting = Number.isNaN(parsed) ? 24 : Math.max(0, Math.min(24, parsed));
-    localStorage.setItem('bof_coordinate_max_fret', coordinateMaxFretSetting.toString());
+    localStorage.setItem('v1-bfx-coordinate-max-fret', coordinateMaxFretSetting.toString());
 
     const input = document.getElementById('coordinate-max-fret') as HTMLInputElement | null;
     if (input) input.value = coordinateMaxFretSetting.toString();
@@ -536,24 +542,24 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   (window as any).updateCoordinateStringState = (index: number, checked: boolean): void => {
     if (!coordinateStringsState[index]) return;
     coordinateStringsState[index].checked = checked;
-    saveState('bof_coordinate_strings_state', coordinateStringsState);
+    saveState('v1-bfx-coordinate-strings-state', coordinateStringsState);
   };
 
   (window as any).updateCoordinateNoteState = (index: number, checked: boolean): void => {
     if (!coordinateNotesState[index]) return;
     coordinateNotesState[index].checked = checked;
-    saveState('bof_coordinate_notes_state', coordinateNotesState);
+    saveState('v1-bfx-coordinate-notes-state', coordinateNotesState);
   };
 
   (window as any).toggleAllCoordinateStrings = (checked: boolean): void => {
     coordinateStringsState.forEach(stringConfig => (stringConfig.checked = checked));
-    saveState('bof_coordinate_strings_state', coordinateStringsState);
+    saveState('v1-bfx-coordinate-strings-state', coordinateStringsState);
     renderCoordinateStringCheckboxes();
   };
 
   (window as any).toggleAllCoordinateNotes = (checked: boolean): void => {
     coordinateNotesState.forEach(note => (note.checked = checked));
-    saveState('bof_coordinate_notes_state', coordinateNotesState);
+    saveState('v1-bfx-coordinate-notes-state', coordinateNotesState);
     renderCheckboxesIntoColumns(
       coordinateNotesState,
       'updateCoordinateNoteState',
@@ -564,19 +570,19 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   (window as any).updateStringState = (idx: number, val: boolean): void => {
     stringsState[idx].checked = val;
 
-    saveState('bof_strings_state', stringsState);
+    saveState('v1-bfx-strings-state', stringsState);
   };
 
   (window as any).updateStringNoteState = (idx: number, val: boolean): void => {
     stringNotesState[idx].checked = val;
 
-    saveState('bof_string_notes_state', stringNotesState);
+    saveState('v1-bfx-string-notes-state', stringNotesState);
   };
 
   (window as any).toggleAllNotes = (val: boolean): void => {
     notesState.forEach((n: NoteConfig) => (n.checked = val));
 
-    saveState('bof_notes_state', notesState);
+    saveState('v1-bfx-notes-state', notesState);
 
     renderNotesModalCheckboxes();
   };
@@ -584,7 +590,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   (window as any).toggleAllStrings = (val: boolean): void => {
     stringsState.forEach((s: StringConfig) => (s.checked = val));
 
-    saveState('bof_strings_state', stringsState);
+    saveState('v1-bfx-strings-state', stringsState);
 
     renderStringModalCheckboxes();
   };
@@ -592,7 +598,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
   (window as any).toggleAllStringNotes = (val: boolean): void => {
     stringNotesState.forEach((n: NoteConfig) => (n.checked = val));
 
-    saveState('bof_string_notes_state', stringNotesState);
+    saveState('v1-bfx-string-notes-state', stringNotesState);
 
     renderStringModalCheckboxes();
   };
@@ -694,7 +700,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
   let stringsPracticeRunning = false;
 
-  let stringsMicEnabled = localStorage.getItem('bof_strings_mic_enabled') !== 'false';
+  let stringsMicEnabled = localStorage.getItem('v1-bfx-strings-mic-enabled') !== 'false';
 
   let micStream: MediaStream | null = null;
 
@@ -1003,7 +1009,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
     stringsMicEnabled = !stringsMicEnabled;
 
-    localStorage.setItem('bof_strings_mic_enabled', stringsMicEnabled.toString());
+    localStorage.setItem('v1-bfx-strings-mic-enabled', stringsMicEnabled.toString());
 
     updateStringsMicToggle();
 
