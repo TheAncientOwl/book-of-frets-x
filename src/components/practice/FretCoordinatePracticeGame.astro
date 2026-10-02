@@ -6,14 +6,16 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file FretCoordinatePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Quiz the note at a random guitar string and fret coordinate.
  */
 import { Icon } from 'astro-icon/components';
 ---
 
-<div id='game-coordinates' class='w-full flex-col items-center' style='display: none'>
-  <section class='w-full rounded-xl border border-purple-900/40 bg-deep-charcoal/80 p-5 sm:p-6'>
+<div id='game-coordinates' class='w-full flex-1 flex-col items-center' style='display: none'>
+  <section
+    class='w-full flex-1 flex flex-col rounded-xl border border-purple-900/40 bg-deep-charcoal/80 p-5 sm:p-6'
+  >
     <div class='mb-6 flex items-center justify-between gap-3'>
       <div>
         <p id='coordinate-progress' class='mt-1 text-xs text-gray-500'>Ready</p>
