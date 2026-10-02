@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file AppMenu.astro
  * @author Alexandru Delegeanu
- * @version 1.5
+ * @version 1.6
  * @description Drawer menu with styled card-based navigation links.
  */
 
@@ -80,6 +80,68 @@ import NavigationList from '#components/app-menu/NavigationList.astro';
     </a>
   </footer>
 </dialog>
+
+<script is:inline define:vars={{ baseUrl: import.meta.env.BASE_URL }}>
+  const lastPageKey = 'bof-last-visited-page';
+  const explicitHomeKey = 'bof-explicit-home-navigation';
+  const basePath = new URL(baseUrl, window.location.origin).pathname;
+  const currentPath = window.location.pathname;
+  const homePaths = new Set([basePath, `${basePath}index.html`]);
+  const isHome = homePaths.has(currentPath);
+  const isNotFound = currentPath.endsWith('/404') || currentPath.endsWith('/404.html');
+
+  document.addEventListener(
+    'click',
+    event => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (target.closest('[data-resume-home]')) {
+        sessionStorage.setItem(explicitHomeKey, 'true');
+      }
+    },
+    true,
+  );
+
+  if (isHome) {
+    const navigationType = performance.getEntriesByType('navigation')[0]?.type;
+    const skipResume =
+      sessionStorage.getItem(explicitHomeKey) === 'true' || navigationType === 'back_forward';
+    sessionStorage.removeItem(explicitHomeKey);
+
+    if (!skipResume) {
+      const savedPage = localStorage.getItem(lastPageKey);
+      if (savedPage) {
+        try {
+          const destination = new URL(savedPage, window.location.origin);
+          const isInBase = basePath === '/' || destination.pathname.startsWith(basePath);
+          const destinationIsHome = homePaths.has(destination.pathname);
+          const destinationIsNotFound =
+            destination.pathname.endsWith('/404') || destination.pathname.endsWith('/404.html');
+
+          if (
+            destination.origin === window.location.origin &&
+            isInBase &&
+            !destinationIsHome &&
+            !destinationIsNotFound
+          ) {
+            window.location.replace(
+              `${destination.pathname}${destination.search}${destination.hash}`,
+            );
+          } else {
+            localStorage.removeItem(lastPageKey);
+          }
+        } catch {
+          localStorage.removeItem(lastPageKey);
+        }
+      }
+    }
+  } else if (!isNotFound && (basePath === '/' || currentPath.startsWith(basePath))) {
+    localStorage.setItem(
+      lastPageKey,
+      `${window.location.pathname}${window.location.search}${window.location.hash}`,
+    );
+  }
+</script>
 
 <script>
   const drawer = document.getElementById('app-menu-drawer') as HTMLDialogElement;
