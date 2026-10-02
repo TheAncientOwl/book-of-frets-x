@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file practice.astro
  * @author Alexandru Delegeanu
- * @version 1.11
+ * @version 1.12
  * @description Practice helpers with compact action buttons and scaled display text
  */
 
@@ -663,6 +663,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     note: string;
     stringName: string;
     stringIndex: number;
+    foundFret?: number;
   }
 
   const STRING_BASE_MIDI: number[] = [40, 45, 50, 55, 59, 64];
@@ -1074,6 +1075,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
         }
 
         const stringNumber = 6 - combo.stringIndex;
+        const hasFret = isCompleted && combo.foundFret !== undefined;
 
         return `
             <button
@@ -1083,7 +1085,14 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               aria-label="Show ${combo.note} on string ${stringNumber} on the fretboard"
               class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150 cursor-pointer hover:border-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
             >
-                <span class="${isCompleted ? 'text-green-300' : 'text-amber-400'}">${combo.note}</span>
+                <span class="relative inline-flex items-baseline">
+                  <span class="${isCompleted ? 'text-green-300' : 'text-amber-400'}">${combo.note}</span>
+                  ${
+                    hasFret
+                      ? `<sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-gray-400/80 font-bold select-none pointer-events-none">${combo.foundFret}</sub>`
+                      : ''
+                  }
+                </span>
                 <span class="text-gray-500 font-light text-xs">on</span>
               <span class="relative inline-flex items-baseline">
                 <span class="${isCompleted ? 'text-green-300' : 'text-cyan-400'}">${combo.stringName}</span>
@@ -1285,7 +1294,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           }
 
           if (result.correct && stableFrames >= 3) {
-            advanceStringPractice();
+            const baseMidi = STRING_BASE_MIDI[combo.stringIndex];
+            const detectedFret = result.midi - baseMidi;
+
+            advanceStringPractice(detectedFret);
 
             stableFrames = 0;
             stableMidi = -1;
@@ -1307,8 +1319,12 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
     micAnimationFrame = requestAnimationFrame(processMicrophonePitch);
   }
 
-  function advanceStringPractice(): void {
+  function advanceStringPractice(fret?: number): void {
     const completedIndex = stringsPracticeIndex;
+
+    if (stringsPracticeSequence[completedIndex] && fret !== undefined) {
+      stringsPracticeSequence[completedIndex].foundFret = fret;
+    }
 
     stringsPracticeIndex++;
 
@@ -1324,14 +1340,6 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       setStringsButtonState(false);
 
       updateStringsMicStatus('Sequence complete', 'text-green-400');
-
-      stopStringsMicrophone();
-
-      renderStringPracticeSequence();
-    }
-
-    if (stringsPracticeIndex >= stringsPracticeSequence.length) {
-      stringsPracticeRunning = false;
 
       stopStringsMicrophone();
 
