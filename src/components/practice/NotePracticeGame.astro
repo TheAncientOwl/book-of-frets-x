@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NotePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description Single-note Practice game panel.
  */
 
@@ -164,3 +164,227 @@ import Fretboard from '#components/common/Fretboard.astro';
     </div>
   </div>
 </div>
+
+<script>
+  declare global {
+    interface Window {
+      updateNoteState: (idx: number, val: boolean) => void;
+      updateNotesCount: (val: string) => void;
+      toggleAllNotes: (val: boolean) => void;
+      startNotesGame: () => void;
+    }
+  }
+
+  interface NoteConfig {
+    label: string;
+    checked: boolean;
+  }
+
+  const ICONS = {
+    refresh: `<svg class="w-[16px] h-[16px] fill-current" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 7.99 7.99 7.99c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>`,
+  };
+
+  const defaultNotes: NoteConfig[] = [
+    { label: 'A', checked: true },
+    { label: 'A♯', checked: true },
+    { label: 'B♭', checked: true },
+    { label: 'B', checked: true },
+    { label: 'C', checked: true },
+    { label: 'C♯', checked: true },
+    { label: 'D♭', checked: true },
+    { label: 'D', checked: true },
+    { label: 'D♯', checked: true },
+    { label: 'E♭', checked: true },
+    { label: 'E', checked: true },
+    { label: 'F', checked: true },
+    { label: 'F♯', checked: true },
+    { label: 'G♭', checked: true },
+    { label: 'G', checked: true },
+    { label: 'G♯', checked: true },
+    { label: 'A♭', checked: true },
+  ];
+
+  let notesState: NoteConfig[] = loadState('v1-bfx-notes-state', defaultNotes);
+  let notesCountSetting = Number(localStorage.getItem('v1-bfx-notes-count-setting') || '1');
+
+  function loadState<T>(key: string, fallback: T): T {
+    try {
+      const saved = localStorage.getItem(key);
+      return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(fallback));
+    } catch {
+      return JSON.parse(JSON.stringify(fallback));
+    }
+  }
+
+  function saveState(key: string, data: unknown): void {
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+      console.error('Failed to save state to localStorage', error);
+    }
+  }
+
+  function renderNotesModalCheckboxes(): void {
+    const container = document.getElementById('notes-checkboxes');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const numCols = 3;
+    const itemsPerCol = Math.ceil(notesState.length / numCols);
+    const colLists: { item: NoteConfig; originalIndex: number }[][] =
+      Array.from({ length: numCols }, () => []);
+
+    notesState.forEach((item, idx) => {
+      const colIdx = Math.floor(idx / itemsPerCol);
+      colLists[colIdx]?.push({ item, originalIndex: idx });
+    });
+
+    colLists.forEach(colItems => {
+      let colHtml = `<div class="flex flex-col gap-2">`;
+
+      colItems.forEach(({ item, originalIndex }) => {
+        colHtml += `
+          <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="updateNoteState(${originalIndex}, this.checked)" class="bof-checkbox bof-checkbox--standard">
+            <span class="text-xs font-medium text-gray-200 cursor-pointer">${item.label}</span>
+          </label>
+        `;
+      });
+
+      colHtml += `</div>`;
+      container.innerHTML += colHtml;
+    });
+  }
+
+  window.updateNoteState = (idx: number, val: boolean): void => {
+    if (!notesState[idx]) return;
+    notesState[idx].checked = val;
+    saveState('v1-bfx-notes-state', notesState);
+  };
+
+  window.updateNotesCount = (val: string): void => {
+    const parsed = parseInt(val, 10);
+    notesCountSetting = Number.isNaN(parsed) ? 1 : Math.max(1, Math.min(17, parsed));
+    localStorage.setItem('v1-bfx-notes-count-setting', notesCountSetting.toString());
+
+    const input = document.getElementById('notes-count-input') as HTMLInputElement | null;
+    if (input) input.value = notesCountSetting.toString();
+  };
+
+  window.toggleAllNotes = (val: boolean): void => {
+    notesState.forEach(note => (note.checked = val));
+    saveState('v1-bfx-notes-state', notesState);
+    renderNotesModalCheckboxes();
+  };
+
+  window.startNotesGame = function (): void {
+    const activePool = notesState.filter(note => note.checked).map(note => note.label);
+
+    if (activePool.length === 0) {
+      alert('Please select at least one note in the configuration popup!');
+      return;
+    }
+
+    const btnIcon = document.getElementById('notes-btn-icon');
+    const btnText = document.getElementById('notes-btn-text');
+
+    if (btnIcon) btnIcon.innerHTML = ICONS.refresh;
+    if (btnText) btnText.textContent = 'Refresh';
+
+    showRandomNotes();
+  };
+
+  function showRandomNotes(): void {
+    const activePool = notesState.filter(note => note.checked).map(note => note.label);
+    if (activePool.length === 0) return;
+
+    const targetCount = Math.min(notesCountSetting, activePool.length);
+    const actualCount = Math.floor(Math.random() * targetCount) + 1;
+    const shuffled = [...activePool].sort(() => 0.5 - Math.random());
+    const selectedNotes = shuffled.slice(0, actualCount);
+
+    const display = document.getElementById('notes-display');
+    const status = document.getElementById('notes-status');
+
+    if (display) {
+      display.innerHTML = selectedNotes
+        .map(note =>
+          `<button type="button" data-practice-fretboard-note="${note}" aria-label="Show ${note} on the fretboard" class="rounded-sm cursor-pointer transition-colors hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">${note}</button>`,
+        )
+        .join('<span class="text-gray-600 font-light mx-1">/</span>');
+    }
+
+    if (status) {
+      status.textContent = actualCount > 1 ? 'Find Notes on All Strings' : 'Find Note on All Strings';
+    }
+  }
+
+  function initNotesGame(): void {
+    const input = document.getElementById('notes-count-input') as HTMLInputElement | null;
+    if (input) input.value = notesCountSetting.toString();
+
+    renderNotesModalCheckboxes();
+
+    const stringsDisplay = document.getElementById('strings-display');
+    const notesDisplay = document.getElementById('notes-display');
+    const fretboardModal = document.getElementById('practice-fretboard-modal');
+    const closeButton = fretboardModal?.querySelector<HTMLButtonElement>('[data-close-practice-fretboard]');
+    let popupOpener: HTMLButtonElement | null = null;
+
+    const closeFretboardPopup = (): void => {
+      fretboardModal?.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      popupOpener?.focus();
+      popupOpener = null;
+    };
+
+    const openFretboardPopup = (promptButton: HTMLButtonElement): void => {
+      if (!fretboardModal) return;
+
+      const note = promptButton.dataset.practiceFretboardNote;
+      const stringValue = promptButton.dataset.practiceFretboardString;
+      const stringIndex = stringValue === undefined ? null : Number(stringValue);
+
+      if (!note || (stringValue !== undefined && !Number.isInteger(stringIndex))) return;
+
+      popupOpener = promptButton;
+      fretboardModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      closeButton?.focus();
+
+      window.dispatchEvent(
+        new CustomEvent('fretboard:highlight', {
+          detail: {
+            rootId: 'practice-fretboard',
+            note,
+            stringIndex,
+            useFlats: note.includes('♭') || note.endsWith('b'),
+          },
+        }),
+      );
+    };
+
+    const handleFretboardPromptClick = (event: Event): void => {
+      const target = event.target as HTMLElement;
+      const promptButton = target.closest<HTMLButtonElement>('[data-practice-fretboard-note]');
+      if (promptButton) openFretboardPopup(promptButton);
+    };
+
+    notesDisplay?.addEventListener('click', handleFretboardPromptClick);
+    stringsDisplay?.addEventListener('click', handleFretboardPromptClick);
+    closeButton?.addEventListener('click', closeFretboardPopup);
+
+    fretboardModal?.addEventListener('click', event => {
+      if (event.target === fretboardModal) closeFretboardPopup();
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !fretboardModal?.classList.contains('hidden')) {
+        closeFretboardPopup();
+      }
+    });
+  }
+
+  initNotesGame();
+</script>

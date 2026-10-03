@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file FretCoordinatePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.3
+ * @version 1.4
  * @description Quiz the note at a random guitar string and fret coordinate.
  */
 
@@ -279,6 +279,12 @@ import { Icon } from 'astro-icon/components';
     interface Window {
       startCoordinateQuiz: () => void;
       nextCoordinateQuestion: () => void;
+      updateCoordinateQuestionCount: (val: string) => void;
+      updateCoordinateMaxFret: (val: string) => void;
+      updateCoordinateStringState: (index: number, checked: boolean) => void;
+      updateCoordinateNoteState: (index: number, checked: boolean) => void;
+      toggleAllCoordinateStrings: (checked: boolean) => void;
+      toggleAllCoordinateNotes: (checked: boolean) => void;
     }
   }
 
@@ -508,4 +514,169 @@ import { Icon } from 'astro-icon/components';
     if (answeredQuestions >= totalQuestions) finishQuiz();
     else renderQuestion();
   });
+</script>
+
+<script>
+  interface NoteConfig {
+    label: string;
+    checked: boolean;
+  }
+
+  interface StringConfig {
+    label: string;
+    name: string;
+    checked: boolean;
+  }
+
+  const defaultCoordinateNotes: NoteConfig[] = [
+    { label: 'A', checked: true },
+    { label: 'A♯', checked: true },
+    { label: 'B♭', checked: true },
+    { label: 'B', checked: true },
+    { label: 'C', checked: true },
+    { label: 'C♯', checked: true },
+    { label: 'D♭', checked: true },
+    { label: 'D', checked: true },
+    { label: 'D♯', checked: true },
+    { label: 'E♭', checked: true },
+    { label: 'E', checked: true },
+    { label: 'F', checked: true },
+    { label: 'F♯', checked: true },
+    { label: 'G♭', checked: true },
+    { label: 'G', checked: true },
+    { label: 'G♯', checked: true },
+    { label: 'A♭', checked: true },
+  ];
+
+  const defaultCoordinateStrings: StringConfig[] = [
+    { label: 'E', name: 'E', checked: true },
+    { label: 'A', name: 'A', checked: true },
+    { label: 'D', name: 'D', checked: true },
+    { label: 'G', name: 'G', checked: true },
+    { label: 'B', name: 'B', checked: true },
+    { label: 'e', name: 'e', checked: true },
+  ];
+
+  let coordinateNotesState: NoteConfig[] = loadCoordinateState(
+    'v1-bfx-coordinate-notes-state',
+    defaultCoordinateNotes,
+  );
+  let coordinateStringsState: StringConfig[] = loadCoordinateState(
+    'v1-bfx-coordinate-strings-state',
+    defaultCoordinateStrings,
+  );
+
+  let coordinateQuestionCountSetting = Math.max(
+    1,
+    Math.min(
+      50,
+      parseInt(localStorage.getItem('v1-bfx-coordinate-question-count') || '10', 10) || 10,
+    ),
+  );
+
+  let coordinateMaxFretSetting = Math.max(
+    0,
+    Math.min(24, parseInt(localStorage.getItem('v1-bfx-coordinate-max-fret') || '24', 10) || 24),
+  );
+
+  function loadCoordinateState<T>(key: string, fallback: T): T {
+    try {
+      const saved = localStorage.getItem(key);
+      return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(fallback));
+    } catch {
+      return JSON.parse(JSON.stringify(fallback));
+    }
+  }
+
+  function saveCoordinateState(key: string, data: unknown): void {
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+      console.error('Failed to save coordinate state to localStorage', error);
+    }
+  }
+
+  function renderCoordinateSettings(): void {
+    const stringContainer = document.getElementById('coordinate-string-checkboxes');
+    const noteContainer = document.getElementById('coordinate-note-checkboxes');
+
+    if (stringContainer) {
+      stringContainer.innerHTML = coordinateStringsState
+        .map(
+          (stringConfig, index) => `
+            <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+              <input type="checkbox" ${
+                stringConfig.checked ? 'checked' : ''
+              } onchange="updateCoordinateStringState(${index}, this.checked)" class="bof-checkbox bof-checkbox--standard">
+              <span class="text-xs font-medium text-gray-200 cursor-pointer">${stringConfig.label}</span>
+            </label>
+          `,
+        )
+        .join('');
+    }
+
+    if (noteContainer) {
+      noteContainer.innerHTML = coordinateNotesState
+        .map(
+          (noteConfig, index) => `
+            <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+              <input type="checkbox" ${
+                noteConfig.checked ? 'checked' : ''
+              } onchange="updateCoordinateNoteState(${index}, this.checked)" class="bof-checkbox bof-checkbox--standard">
+              <span class="text-xs font-medium text-gray-200 cursor-pointer">${noteConfig.label}</span>
+            </label>
+          `,
+        )
+        .join('');
+    }
+
+    const questionCountInput = document.getElementById(
+      'coordinate-question-count',
+    ) as HTMLInputElement | null;
+    const maxFretInput = document.getElementById('coordinate-max-fret') as HTMLInputElement | null;
+
+    if (questionCountInput) questionCountInput.value = coordinateQuestionCountSetting.toString();
+    if (maxFretInput) maxFretInput.value = coordinateMaxFretSetting.toString();
+  }
+
+  window.updateCoordinateQuestionCount = (val: string): void => {
+    const parsed = parseInt(val, 10);
+    coordinateQuestionCountSetting = Number.isNaN(parsed) ? 10 : Math.max(1, Math.min(50, parsed));
+    localStorage.setItem(
+      'v1-bfx-coordinate-question-count',
+      coordinateQuestionCountSetting.toString(),
+    );
+  };
+
+  window.updateCoordinateMaxFret = (val: string): void => {
+    const parsed = parseInt(val, 10);
+    coordinateMaxFretSetting = Number.isNaN(parsed) ? 24 : Math.max(0, Math.min(24, parsed));
+    localStorage.setItem('v1-bfx-coordinate-max-fret', coordinateMaxFretSetting.toString());
+  };
+
+  window.updateCoordinateStringState = (index: number, checked: boolean): void => {
+    if (!coordinateStringsState[index]) return;
+    coordinateStringsState[index].checked = checked;
+    saveCoordinateState('v1-bfx-coordinate-strings-state', coordinateStringsState);
+  };
+
+  window.updateCoordinateNoteState = (index: number, checked: boolean): void => {
+    if (!coordinateNotesState[index]) return;
+    coordinateNotesState[index].checked = checked;
+    saveCoordinateState('v1-bfx-coordinate-notes-state', coordinateNotesState);
+  };
+
+  window.toggleAllCoordinateStrings = (checked: boolean): void => {
+    coordinateStringsState.forEach(stringConfig => (stringConfig.checked = checked));
+    saveCoordinateState('v1-bfx-coordinate-strings-state', coordinateStringsState);
+    renderCoordinateSettings();
+  };
+
+  window.toggleAllCoordinateNotes = (checked: boolean): void => {
+    coordinateNotesState.forEach(noteConfig => (noteConfig.checked = checked));
+    saveCoordinateState('v1-bfx-coordinate-notes-state', coordinateNotesState);
+    renderCoordinateSettings();
+  };
+
+  renderCoordinateSettings();
 </script>

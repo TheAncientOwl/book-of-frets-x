@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file PracticeGameTabs.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Navigation tabs for Practice minigames.
  */
 ---
@@ -34,3 +34,110 @@
     Fret Quiz
   </button>
 </div>
+
+<script>
+  declare global {
+    interface Window {
+      openModal: (id: string) => void;
+      closeModal: (id: string) => void;
+      openActiveSettingsModal: () => void;
+      switchTab: (tab: 'notes' | 'strings' | 'coordinates', save?: boolean) => void;
+    }
+  }
+
+  function initPracticeTabs(): void {
+    document.querySelectorAll<HTMLButtonElement>('[data-step-target]').forEach(button => {
+      button.addEventListener('click', () => {
+        const input = document.getElementById(button.dataset.stepTarget ?? '') as HTMLInputElement | null;
+        if (!input) return;
+
+        const minimum = Number(input.min);
+        const maximum = Number(input.max);
+        const step = Number(input.step) || 1;
+        const direction = Number(button.dataset.stepDirection);
+        const nextValue = Math.max(
+          minimum,
+          Math.min(maximum, Number(input.value) + direction * step),
+        );
+
+        input.value = nextValue.toString();
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+    });
+
+    const savedTab = localStorage.getItem('v1-bfx-active-tab') as
+      | 'notes'
+      | 'strings'
+      | 'coordinates'
+      | null;
+
+    if (savedTab) {
+      window.switchTab(savedTab, false);
+    }
+  }
+
+  window.openModal = function (id: string): void {
+    document.getElementById(id)?.classList.remove('hidden');
+  };
+
+  window.closeModal = function (id: string): void {
+    document.getElementById(id)?.classList.add('hidden');
+  };
+
+  window.openActiveSettingsModal = function (): void {
+    const gameNotes = document.getElementById('game-notes');
+    const gameStrings = document.getElementById('game-strings');
+    const gameCoordinates = document.getElementById('game-coordinates');
+
+    if (gameCoordinates?.style.display !== 'none') {
+      window.openModal('coordinate-modal');
+    } else if (gameStrings?.style.display !== 'none') {
+      window.openModal('strings-modal');
+    } else if (gameNotes && !gameNotes.classList.contains('hidden')) {
+      window.openModal('notes-modal');
+    }
+  };
+
+  window.switchTab = function (
+    tab: 'notes' | 'strings' | 'coordinates',
+    save: boolean = true,
+  ): void {
+    const tabNotes = document.getElementById('tab-notes');
+    const tabStrings = document.getElementById('tab-strings');
+    const tabCoordinates = document.getElementById('tab-coordinates');
+    const gameNotes = document.getElementById('game-notes');
+    const gameStrings = document.getElementById('game-strings');
+    const gameCoordinates = document.getElementById('game-coordinates');
+
+    if (
+      !tabNotes ||
+      !tabStrings ||
+      !tabCoordinates ||
+      !gameNotes ||
+      !gameStrings ||
+      !gameCoordinates
+    ) {
+      return;
+    }
+
+    const tabs = [
+      { id: 'notes', button: tabNotes, panel: gameNotes },
+      { id: 'strings', button: tabStrings, panel: gameStrings },
+      { id: 'coordinates', button: tabCoordinates, panel: gameCoordinates },
+    ] as const;
+
+    tabs.forEach(({ id, button, panel }) => {
+      const isActive = id === tab;
+      button.className = isActive
+        ? 'min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer'
+        : 'min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
+      panel.style.display = isActive ? 'flex' : 'none';
+    });
+
+    if (save) {
+      localStorage.setItem('v1-bfx-active-tab', tab);
+    }
+  };
+
+  initPracticeTabs();
+</script>
