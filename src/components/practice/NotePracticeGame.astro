@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NotePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.6
+ * @version 1.7
  * @description Single-note Practice game panel with completion feedback.
  */
 
@@ -268,6 +268,10 @@ import Fretboard from '#components/common/Fretboard.astro';
   let currentPromptNotes: string[] = [];
   let remainingTargetBadgesCount = 0;
 
+  // Accuracy tracking variables
+  let totalAttempts = 0;
+  let correctAttempts = 0;
+
   function loadState<T>(key: string, fallback: T): T {
     try {
       const saved = localStorage.getItem(key);
@@ -350,7 +354,6 @@ import Fretboard from '#components/common/Fretboard.astro';
     const fretboard = document.getElementById('interactive-game-fretboard');
     if (!fretboard) return;
 
-    // Target the entire .fret-space row elements directly
     const fretRows = fretboard.querySelectorAll<HTMLElement>('.fret-space');
     fretRows.forEach(row => {
       const fretNum = Number(row.dataset.fret ?? -1);
@@ -479,6 +482,10 @@ import Fretboard from '#components/common/Fretboard.astro';
     const activePool = notesState.filter(note => note.checked).map(note => note.label);
     if (activePool.length === 0) return;
 
+    // Reset accuracy metrics for the new round
+    totalAttempts = 0;
+    correctAttempts = 0;
+
     const targetCount = Math.min(notesCountSetting, activePool.length);
     const actualCount = Math.floor(Math.random() * targetCount) + 1;
     const shuffled = [...activePool].sort(() => 0.5 - Math.random());
@@ -541,8 +548,11 @@ import Fretboard from '#components/common/Fretboard.astro';
     const status = document.getElementById('notes-status');
     const container = document.getElementById('notes-game-container');
 
+    // Calculate accuracy percentage
+    const accuracy = totalAttempts > 0 ? Math.round((correctAttempts / totalAttempts) * 100) : 100;
+
     if (status) {
-      status.textContent = '🎉 Complete! All Notes Found!';
+      status.textContent = `🎉 Complete! Accuracy: ${accuracy}%`;
       status.className =
         'text-xs sm:text-sm uppercase tracking-widest text-emerald-400 font-extrabold text-center scale-105 transition-all duration-300';
     }
@@ -572,7 +582,11 @@ import Fretboard from '#components/common/Fretboard.astro';
     badge.setAttribute('data-revealed', 'true');
     badge.style.cursor = 'default';
 
+    // Track user clicks for accuracy
+    totalAttempts++;
+
     if (isCorrect) {
+      correctAttempts++;
       badge.style.setProperty('background-color', '#16a34a', 'important');
       badge.style.setProperty('border-color', '#4ade80', 'important');
       badge.style.setProperty('color', '#ffffff', 'important');
