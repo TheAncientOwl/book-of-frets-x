@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file FretCoordinatePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.4
+ * @version 1.5
  * @description Quiz the note at a random guitar string and fret coordinate.
  */
 
@@ -596,39 +596,68 @@ import { Icon } from 'astro-icon/components';
     }
   }
 
+  function renderCheckboxesIntoColumns(
+    items: NoteConfig[],
+    updateFnName: string,
+    containerId: string,
+  ): void {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = '';
+    const numCols = 3;
+    const colLists: { item: NoteConfig; originalIndex: number }[][] = Array.from(
+      { length: numCols },
+      () => [],
+    );
+    const itemsPerCol = Math.ceil(items.length / numCols);
+
+    items.forEach((item, idx) => {
+      const colIdx = Math.floor(idx / itemsPerCol);
+      colLists[colIdx]?.push({ item, originalIndex: idx });
+    });
+
+    colLists.forEach(colItems => {
+      let colHtml = `<div class="flex flex-col gap-2">`;
+      colItems.forEach(({ item, originalIndex }) => {
+        colHtml += `
+        <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+          <input type="checkbox" ${
+            item.checked ? 'checked' : ''
+          } onchange="${updateFnName}(${originalIndex}, this.checked)" class="bof-checkbox bof-checkbox--standard">
+          <span class="text-xs font-medium text-gray-200 cursor-pointer">${item.label}</span>
+        </label>
+      `;
+      });
+      colHtml += `</div>`;
+      container.innerHTML += colHtml;
+    });
+  }
+
   function renderCoordinateSettings(): void {
     const stringContainer = document.getElementById('coordinate-string-checkboxes');
-    const noteContainer = document.getElementById('coordinate-note-checkboxes');
 
     if (stringContainer) {
       stringContainer.innerHTML = coordinateStringsState
         .map(
           (stringConfig, index) => `
-            <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
-              <input type="checkbox" ${
-                stringConfig.checked ? 'checked' : ''
-              } onchange="updateCoordinateStringState(${index}, this.checked)" class="bof-checkbox bof-checkbox--standard">
-              <span class="text-xs font-medium text-gray-200 cursor-pointer">${stringConfig.label}</span>
-            </label>
-          `,
+          <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+            <input type="checkbox" ${
+              stringConfig.checked ? 'checked' : ''
+            } onchange="updateCoordinateStringState(${index}, this.checked)" class="bof-checkbox bof-checkbox--standard">
+            <span class="text-xs font-medium text-gray-200 cursor-pointer">${stringConfig.label}</span>
+          </label>
+        `,
         )
         .join('');
     }
 
-    if (noteContainer) {
-      noteContainer.innerHTML = coordinateNotesState
-        .map(
-          (noteConfig, index) => `
-            <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
-              <input type="checkbox" ${
-                noteConfig.checked ? 'checked' : ''
-              } onchange="updateCoordinateNoteState(${index}, this.checked)" class="bof-checkbox bof-checkbox--standard">
-              <span class="text-xs font-medium text-gray-200 cursor-pointer">${noteConfig.label}</span>
-            </label>
-          `,
-        )
-        .join('');
-    }
+    // Render note checkboxes in 3 vertical columns
+    renderCheckboxesIntoColumns(
+      coordinateNotesState,
+      'updateCoordinateNoteState',
+      'coordinate-note-checkboxes',
+    );
 
     const questionCountInput = document.getElementById(
       'coordinate-question-count',
