@@ -7,17 +7,17 @@
  *
  * @file fretboard.astro
  * @author Alexandru Delegeanu
- * @version 1.5
+ * @version 1.6
  * @description Neck notes cheat sheet with exclusive highlighting, LocalStorage, Wood Grain Texture, and Tone.js Audio
  */
 import '#styles/global.css';
 import { Icon } from 'astro-icon/components';
 import PageHeader from '#components/common/PageHeader.astro';
 import Fretboard from '#components/common/Fretboard.astro';
-import FretboardLayout from '#layouts/FretboardLayout.astro';
+import GeneralLayout from '#layouts/GeneralLayout.astro';
 ---
 
-<FretboardLayout>
+<GeneralLayout>
   <div class='bg-deep-charcoal min-h-dvh flex justify-center text-white'>
     <div
       class='w-full max-w-xl flex flex-col items-center bg-deep-purple p-6 rounded-xl shadow-2xl'
@@ -29,4 +29,4 @@ import FretboardLayout from '#layouts/FretboardLayout.astro';
       <Fretboard id='fretboard' />
     </div>
   </div>
-</FretboardLayout>
+</GeneralLayout>
