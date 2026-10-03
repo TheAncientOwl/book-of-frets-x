@@ -6,12 +6,12 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file PracticeGameTabs.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Navigation tabs for Practice minigames.
  */
 ---
 
-<div class='flex w-full bg-deep-charcoal p-1 rounded-lg mb-6 border border-purple-900/50'>
+<div class='flex w-full bg-deep-charcoal p-1 rounded-lg mb-3 sm:mb-6 border border-purple-900/50'>
   <button
     id='tab-notes'
     class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer'
@@ -48,7 +48,9 @@
   function initPracticeTabs(): void {
     document.querySelectorAll<HTMLButtonElement>('[data-step-target]').forEach(button => {
       button.addEventListener('click', () => {
-        const input = document.getElementById(button.dataset.stepTarget ?? '') as HTMLInputElement | null;
+        const input = document.getElementById(
+          button.dataset.stepTarget ?? '',
+        ) as HTMLInputElement | null;
         if (!input) return;
 
         const minimum = Number(input.min);
@@ -66,10 +68,7 @@
     });
 
     const savedTab = localStorage.getItem('v1-bfx-active-tab') as
-      | 'notes'
-      | 'strings'
-      | 'coordinates'
-      | null;
+      'notes' | 'strings' | 'coordinates' | null;
 
     if (savedTab) {
       window.switchTab(savedTab, false);
