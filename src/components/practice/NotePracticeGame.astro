@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NotePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.3
+ * @version 1.4
  * @description Single-note Practice game panel.
  */
 
@@ -71,10 +71,10 @@ import Fretboard from '#components/common/Fretboard.astro';
     </div>
 
     {/* Notes Count Configuration Input */}
-    <div class='mb-5 bg-deep-charcoal/50 p-3.5 rounded-lg border border-purple-900/40'>
+    <div class='mb-4'>
       <label
         for='notes-count-input'
-        class='mb-1 block text-xs font-semibold text-gray-300 uppercase tracking-wide'
+        class='mb-2 block text-xs font-semibold text-gray-300 uppercase tracking-wide'
       >
         Max Notes Per Prompt
       </label>
@@ -113,7 +113,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     </div>
 
     <div class='flex justify-between items-center mb-2'>
-      <span class='text-xs font-semibold text-gray-300 uppercase tracking-wide'
+      <span class='mb-2 text-xs font-semibold text-gray-300 uppercase tracking-wide'
         >Configure Available Notes</span
       >
       <div class='space-x-2 text-xs'>
@@ -232,8 +232,10 @@ import Fretboard from '#components/common/Fretboard.astro';
 
     const numCols = 3;
     const itemsPerCol = Math.ceil(notesState.length / numCols);
-    const colLists: { item: NoteConfig; originalIndex: number }[][] =
-      Array.from({ length: numCols }, () => []);
+    const colLists: { item: NoteConfig; originalIndex: number }[][] = Array.from(
+      { length: numCols },
+      () => [],
+    );
 
     notesState.forEach((item, idx) => {
       const colIdx = Math.floor(idx / itemsPerCol);
@@ -309,14 +311,16 @@ import Fretboard from '#components/common/Fretboard.astro';
 
     if (display) {
       display.innerHTML = selectedNotes
-        .map(note =>
-          `<button type="button" data-practice-fretboard-note="${note}" aria-label="Show ${note} on the fretboard" class="rounded-sm cursor-pointer transition-colors hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">${note}</button>`,
+        .map(
+          note =>
+            `<button type="button" data-practice-fretboard-note="${note}" aria-label="Show ${note} on the fretboard" class="rounded-sm cursor-pointer transition-colors hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">${note}</button>`,
         )
         .join('<span class="text-gray-600 font-light mx-1">/</span>');
     }
 
     if (status) {
-      status.textContent = actualCount > 1 ? 'Find Notes on All Strings' : 'Find Note on All Strings';
+      status.textContent =
+        actualCount > 1 ? 'Find Notes on All Strings' : 'Find Note on All Strings';
     }
   }
 
@@ -329,7 +333,9 @@ import Fretboard from '#components/common/Fretboard.astro';
     const stringsDisplay = document.getElementById('strings-display');
     const notesDisplay = document.getElementById('notes-display');
     const fretboardModal = document.getElementById('practice-fretboard-modal');
-    const closeButton = fretboardModal?.querySelector<HTMLButtonElement>('[data-close-practice-fretboard]');
+    const closeButton = fretboardModal?.querySelector<HTMLButtonElement>(
+      '[data-close-practice-fretboard]',
+    );
     let popupOpener: HTMLButtonElement | null = null;
 
     const closeFretboardPopup = (): void => {
