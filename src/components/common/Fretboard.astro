@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file Fretboard.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description Fretboard component
  */
 
@@ -18,6 +18,7 @@ interface Props {
   compact?: boolean;
   persist?: boolean;
   interactive?: boolean;
+  maxFret?: number;
 }
 
 const {
@@ -26,6 +27,7 @@ const {
   compact = false,
   persist = true,
   interactive = true,
+  maxFret = 24,
 } = Astro.props;
 
 const fretboardData = [
@@ -54,7 +56,7 @@ const fretboardData = [
   { fret: 22, notes: ['D', 'G', 'C', 'F', 'A', 'D'] },
   { fret: 23, notes: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'] },
   { fret: 24, notes: ['E', 'A', 'D', 'G', 'B', 'E'], marker: 'double' },
-];
+].filter(f => f.fret <= maxFret);
 
 const stringLabels = ['E', 'A', 'D', 'G', 'B', 'e'];
 const sharpToFlatMap: Record<string, string> = {
@@ -136,13 +138,13 @@ const sharpToFlatMap: Record<string, string> = {
 
           return (
             <div
+              data-fret={fretInfo.fret}
               style={`--fret-height: ${fretHeight}px;`}
               class={`fret-space relative flex items-center justify-between transition-colors ${isNutOrOctave ? 'fret-octave' : 'hover:bg-white/3'}`}
             >
               <button
                 type='button'
                 data-select-fret={fretInfo.fret}
-                disabled={!interactive}
                 class='fret-selector absolute -left-8 text-xs font-mono font-semibold text-stone-500 w-6 text-right hover:text-amber-300 transition-all cursor-pointer'
               >
                 {isNut ? '' : fretInfo.fret}
@@ -183,7 +185,6 @@ const sharpToFlatMap: Record<string, string> = {
                       data-string={stringIndex}
                       data-accidental={isAccidental ? 'true' : 'false'}
                       data-nut={isNutOrOctave ? 'true' : 'false'}
-                      disabled={!interactive}
                       class={`note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer ${isNutOrOctave ? 'bg-amber-400/90 text-stone-950 font-extrabold' : 'bg-slate-950/90 text-amber-200 border border-amber-400/40'}`}
                     >
                       {note}
@@ -296,11 +297,6 @@ const sharpToFlatMap: Record<string, string> = {
     box-shadow:
       inset 0 1px 2px rgba(255, 255, 255, 0.75),
       0 1px 3px rgba(0, 0, 0, 0.8);
-  }
-
-  [data-fretboard-root][data-interactive='false'] .fretboard-container button {
-    cursor: default;
-    pointer-events: none;
   }
 </style>
 

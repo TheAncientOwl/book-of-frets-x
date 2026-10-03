@@ -6,8 +6,8 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NotePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.4
- * @description Single-note Practice game panel.
+ * @version 1.5
+ * @description Single-note Practice game panel with completion feedback.
  */
 
 import { Icon } from 'astro-icon/components';
@@ -16,18 +16,19 @@ import Fretboard from '#components/common/Fretboard.astro';
 
 <div id='game-notes' class='w-full flex-1 flex flex-col items-center'>
   <section
-    class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-4 flex flex-col items-center border border-purple-900/40 relative shadow-inner'
+    id='notes-game-container'
+    class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-4 flex flex-col items-center border border-purple-900/40 relative shadow-inner gap-4 transition-all duration-300'
   >
-    <!-- Target -->
+    <!-- Target / Status Banner -->
     <div
       id='notes-status'
-      class='mb-6 text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center'
+      class='text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300'
     >
       Find Note on All Strings
     </div>
 
     <!-- Start Button -->
-    <div class='flex justify-center w-full mb-4'>
+    <div class='flex justify-center w-full'>
       <button
         id='notes-start-btn'
         onclick='startNotesGame()'
@@ -43,9 +44,21 @@ import Fretboard from '#components/common/Fretboard.astro';
     <!-- Content -->
     <div
       id='notes-display'
-      class='text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap px-2 text-center min-h-[88px]'
+      class='text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap px-2 text-center'
     >
       ?
+    </div>
+
+    <!-- Interactive Fretboard Area -->
+    <div class='w-full max-w-md flex justify-center'>
+      <Fretboard
+        id='interactive-game-fretboard'
+        showControls={false}
+        compact={true}
+        persist={false}
+        interactive={false}
+        maxFret={24}
+      />
     </div>
   </section>
 </div>
@@ -112,6 +125,48 @@ import Fretboard from '#components/common/Fretboard.astro';
       </div>
     </div>
 
+    {/* Max Fret Configuration Input */}
+    <div class='mb-4'>
+      <label
+        for='max-fret-input'
+        class='mb-2 block text-xs font-semibold text-gray-300 uppercase tracking-wide'
+      >
+        Max Display Fret
+      </label>
+      <div class='flex w-full'>
+        <button
+          type='button'
+          data-step-target='max-fret-input'
+          data-step-direction='-1'
+          aria-label='Decrease max fret'
+          title='Decrease max fret'
+          class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+        >
+          <Icon name='material-symbols:remove' class='w-5 h-5' />
+        </button>
+        <input
+          type='number'
+          id='max-fret-input'
+          min='1'
+          max='24'
+          step='1'
+          value='12'
+          onchange='updateMaxFret(this.value)'
+          class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+        />
+        <button
+          type='button'
+          data-step-target='max-fret-input'
+          data-step-direction='1'
+          aria-label='Increase max fret'
+          title='Increase max fret'
+          class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+        >
+          <Icon name='material-symbols:add' class='w-5 h-5' />
+        </button>
+      </div>
+    </div>
+
     <div class='flex justify-between items-center mb-2'>
       <span class='mb-2 text-xs font-semibold text-gray-300 uppercase tracking-wide'
         >Configure Available Notes</span
@@ -132,46 +187,15 @@ import Fretboard from '#components/common/Fretboard.astro';
   </div>
 </div>
 
-<!-- ========================================================= -->
-<!-- MODAL: CONFIGURATION                                      -->
-<!-- ========================================================= -->
-<div
-  id='practice-fretboard-modal'
-  class='fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center hidden p-3 sm:p-5'
->
-  <div
-    role='dialog'
-    aria-modal='true'
-    aria-label='Fretboard'
-    class='relative w-full max-w-lg max-h-[92dvh] bg-deep-purple border border-purple-900/60 rounded-xl shadow-2xl flex flex-col overflow-hidden'
-  >
-    <button
-      type='button'
-      data-close-practice-fretboard
-      aria-label='Close fretboard popup'
-      class='absolute top-2 right-2 z-10 flex h-9 w-9 items-center justify-center rounded-md text-gray-300 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
-    >
-      <Icon name='material-symbols:close' class='w-5 h-5' />
-    </button>
-    <div class='min-h-0 overflow-y-auto px-2 pb-2 pt-12 sm:px-3 sm:pb-3'>
-      <Fretboard
-        id='practice-fretboard'
-        showControls={false}
-        compact={true}
-        persist={false}
-        interactive={false}
-      />
-    </div>
-  </div>
-</div>
-
 <script>
   declare global {
     interface Window {
       updateNoteState: (idx: number, val: boolean) => void;
       updateNotesCount: (val: string) => void;
+      updateMaxFret: (val: string) => void;
       toggleAllNotes: (val: boolean) => void;
       startNotesGame: () => void;
+      revealAllPromptNotes: (noteLabel: string) => void;
     }
   }
 
@@ -183,6 +207,40 @@ import Fretboard from '#components/common/Fretboard.astro';
   const ICONS = {
     refresh: `<svg class="w-[16px] h-[16px] fill-current" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 7.99 7.99 7.99c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>`,
   };
+
+  const NOTE_PITCH_MAP: Record<string, number> = {
+    C: 0,
+    'C♯': 1,
+    'C#': 1,
+    Db: 1,
+    'D♭': 1,
+    D: 2,
+    'D♯': 3,
+    'D#': 3,
+    Eb: 3,
+    'E♭': 3,
+    E: 4,
+    F: 5,
+    'F♯': 6,
+    'F#': 6,
+    Gb: 6,
+    'G♭': 6,
+    G: 7,
+    'G♯': 8,
+    'G#': 8,
+    Ab: 8,
+    'A♭': 8,
+    A: 9,
+    'A♯': 10,
+    'A#': 10,
+    Bb: 10,
+    'B♭': 10,
+    B: 11,
+  };
+
+  function normalizeNotePitch(note: string): number {
+    return NOTE_PITCH_MAP[note] ?? -1;
+  }
 
   const defaultNotes: NoteConfig[] = [
     { label: 'A', checked: true },
@@ -206,6 +264,9 @@ import Fretboard from '#components/common/Fretboard.astro';
 
   let notesState: NoteConfig[] = loadState('v1-bfx-notes-state', defaultNotes);
   let notesCountSetting = Number(localStorage.getItem('v1-bfx-notes-count-setting') || '1');
+  let maxFretSetting = Number(localStorage.getItem('v1-bfx-max-fret-setting') || '12');
+  let currentPromptNotes: string[] = [];
+  let remainingTargetBadgesCount = 0;
 
   function loadState<T>(key: string, fallback: T): T {
     try {
@@ -274,6 +335,44 @@ import Fretboard from '#components/common/Fretboard.astro';
     if (input) input.value = notesCountSetting.toString();
   };
 
+  window.updateMaxFret = (val: string): void => {
+    const parsed = parseInt(val, 10);
+    maxFretSetting = Number.isNaN(parsed) ? 12 : Math.max(1, Math.min(24, parsed));
+    localStorage.setItem('v1-bfx-max-fret-setting', maxFretSetting.toString());
+
+    const input = document.getElementById('max-fret-input') as HTMLInputElement | null;
+    if (input) input.value = maxFretSetting.toString();
+
+    applyMaxFretToFretboard();
+  };
+
+  function applyMaxFretToFretboard(): void {
+    const fretboard = document.getElementById('interactive-game-fretboard');
+    if (!fretboard) return;
+
+    // Target the entire .fret-space row elements directly
+    const fretRows = fretboard.querySelectorAll<HTMLElement>('.fret-space');
+    fretRows.forEach(row => {
+      const fretNum = Number(row.dataset.fret ?? -1);
+      if (fretNum > 0) {
+        if (fretNum > maxFretSetting) {
+          row.style.setProperty('display', 'none', 'important');
+        } else {
+          row.style.removeProperty('display');
+        }
+      }
+    });
+
+    window.dispatchEvent(
+      new CustomEvent('fretboard:config', {
+        detail: {
+          rootId: 'interactive-game-fretboard',
+          maxFret: maxFretSetting,
+        },
+      }),
+    );
+  }
+
   window.toggleAllNotes = (val: boolean): void => {
     notesState.forEach(note => (note.checked = val));
     saveState('v1-bfx-notes-state', notesState);
@@ -297,6 +396,85 @@ import Fretboard from '#components/common/Fretboard.astro';
     showRandomNotes();
   };
 
+  function hideFretboardNotes(): void {
+    const fretboard = document.getElementById('interactive-game-fretboard');
+    if (!fretboard) return;
+
+    const noteBadges = fretboard.querySelectorAll<HTMLButtonElement>('.note-badge');
+    noteBadges.forEach(badge => {
+      badge.textContent = '';
+      badge.removeAttribute('data-revealed');
+
+      badge.style.removeProperty('background-color');
+      badge.style.removeProperty('border-color');
+      badge.style.removeProperty('color');
+      badge.style.removeProperty('box-shadow');
+      badge.style.removeProperty('transform');
+      badge.style.opacity = '1';
+      badge.style.cursor = 'pointer';
+    });
+
+    const container = document.getElementById('notes-game-container');
+    if (container) {
+      container.classList.remove('ring-2', 'ring-emerald-400', 'border-emerald-500/60');
+    }
+  }
+
+  function countVisibleTargetBadges(): number {
+    const fretboard = document.getElementById('interactive-game-fretboard');
+    if (!fretboard) return 0;
+
+    const targetPitches = new Set(currentPromptNotes.map(normalizeNotePitch));
+    let count = 0;
+
+    const noteBadges = fretboard.querySelectorAll<HTMLButtonElement>('.note-badge');
+    noteBadges.forEach(badge => {
+      const fret = Number(badge.dataset.fret ?? -1);
+      if (fret > maxFretSetting) return;
+
+      const note = badge.dataset.note ?? '';
+      if (targetPitches.has(normalizeNotePitch(note))) {
+        count++;
+      }
+    });
+
+    return count;
+  }
+
+  window.revealAllPromptNotes = function (noteLabel: string): void {
+    const fretboard = document.getElementById('interactive-game-fretboard');
+    if (!fretboard) return;
+
+    const targetPitch = normalizeNotePitch(noteLabel);
+
+    const noteBadges = fretboard.querySelectorAll<HTMLButtonElement>('.note-badge');
+    noteBadges.forEach(badge => {
+      const fret = Number(badge.dataset.fret ?? -1);
+      if (fret > maxFretSetting) return;
+
+      const badgeNote = badge.dataset.note ?? '';
+      if (normalizeNotePitch(badgeNote) === targetPitch) {
+        if (!badge.hasAttribute('data-revealed')) {
+          badge.textContent = badgeNote;
+          badge.setAttribute('data-revealed', 'true');
+          badge.style.setProperty('background-color', '#16a34a', 'important');
+          badge.style.setProperty('border-color', '#4ade80', 'important');
+          badge.style.setProperty('color', '#ffffff', 'important');
+          badge.style.setProperty('box-shadow', '0 0 12px rgba(74, 222, 128, 0.6)', 'important');
+          badge.style.setProperty('transform', 'scale(1.15)', 'important');
+          badge.style.setProperty('opacity', '1', 'important');
+          badge.style.cursor = 'default';
+
+          remainingTargetBadgesCount--;
+        }
+      }
+    });
+
+    if (remainingTargetBadgesCount <= 0) {
+      handleCompletionFeedback();
+    }
+  };
+
   function showRandomNotes(): void {
     const activePool = notesState.filter(note => note.checked).map(note => note.label);
     if (activePool.length === 0) return;
@@ -304,23 +482,115 @@ import Fretboard from '#components/common/Fretboard.astro';
     const targetCount = Math.min(notesCountSetting, activePool.length);
     const actualCount = Math.floor(Math.random() * targetCount) + 1;
     const shuffled = [...activePool].sort(() => 0.5 - Math.random());
-    const selectedNotes = shuffled.slice(0, actualCount);
+    currentPromptNotes = shuffled.slice(0, actualCount);
+
+    hideFretboardNotes();
+
+    const isOnlyFlats = currentPromptNotes.every(note => note.includes('♭') || note.includes('b'));
+
+    window.dispatchEvent(
+      new CustomEvent('fretboard:highlight', {
+        detail: {
+          rootId: 'interactive-game-fretboard',
+          note: null,
+          stringIndex: null,
+          useFlats: isOnlyFlats,
+        },
+      }),
+    );
+
+    hideFretboardNotes();
+    applyMaxFretToFretboard();
+
+    remainingTargetBadgesCount = countVisibleTargetBadges();
 
     const display = document.getElementById('notes-display');
     const status = document.getElementById('notes-status');
 
     if (display) {
-      display.innerHTML = selectedNotes
+      display.innerHTML = currentPromptNotes
         .map(
-          note =>
-            `<button type="button" data-practice-fretboard-note="${note}" aria-label="Show ${note} on the fretboard" class="rounded-sm cursor-pointer transition-colors hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">${note}</button>`,
+          note => `
+          <div class="relative group inline-block">
+            <span
+              role="button"
+              tabindex="0"
+              onclick="revealAllPromptNotes('${note}')"
+              class="font-black text-amber-400 hover:text-amber-300 transition-colors cursor-help select-none"
+            >
+              ${note}
+            </span>
+            <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-stone-900 border border-purple-500/50 text-stone-200 text-[11px] font-medium py-1 px-2.5 rounded shadow-xl z-30">
+              Click to reveal all ${note} notes
+            </div>
+          </div>
+        `,
         )
-        .join('<span class="text-gray-600 font-light mx-1">/</span>');
+        .join('<span class="text-gray-600 font-light mx-1 self-center select-none">/</span>');
     }
 
     if (status) {
+      status.className =
+        'text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300';
       status.textContent =
-        actualCount > 1 ? 'Find Notes on All Strings' : 'Find Note on All Strings';
+        actualCount > 1 ? 'Find Notes on the Fretboard' : 'Find Note on the Fretboard';
+    }
+  }
+
+  function handleCompletionFeedback(): void {
+    const status = document.getElementById('notes-status');
+    const container = document.getElementById('notes-game-container');
+
+    if (status) {
+      status.textContent = '🎉 Complete! All Notes Found!';
+      status.className =
+        'text-xs sm:text-sm uppercase tracking-widest text-emerald-400 font-extrabold text-center scale-105 transition-all duration-300';
+    }
+
+    if (container) {
+      container.classList.add('ring-2', 'ring-emerald-400', 'border-emerald-500/60');
+    }
+  }
+
+  function handleFretboardTap(event: Event): void {
+    if (currentPromptNotes.length === 0) return;
+
+    const target = event.target as HTMLElement;
+    const badge = target.closest<HTMLButtonElement>('.note-badge');
+    if (!badge || badge.hasAttribute('data-revealed')) return;
+
+    event.stopImmediatePropagation();
+
+    const tappedNote = badge.dataset.note ?? '';
+    const tappedPitch = normalizeNotePitch(tappedNote);
+
+    const isCorrect = currentPromptNotes.some(
+      promptNote => normalizeNotePitch(promptNote) === tappedPitch,
+    );
+
+    badge.textContent = tappedNote;
+    badge.setAttribute('data-revealed', 'true');
+    badge.style.cursor = 'default';
+
+    if (isCorrect) {
+      badge.style.setProperty('background-color', '#16a34a', 'important');
+      badge.style.setProperty('border-color', '#4ade80', 'important');
+      badge.style.setProperty('color', '#ffffff', 'important');
+      badge.style.setProperty('box-shadow', '0 0 12px rgba(74, 222, 128, 0.6)', 'important');
+      badge.style.setProperty('transform', 'scale(1.15)', 'important');
+      badge.style.setProperty('opacity', '1', 'important');
+
+      remainingTargetBadgesCount--;
+      if (remainingTargetBadgesCount <= 0) {
+        handleCompletionFeedback();
+      }
+    } else {
+      badge.style.setProperty('background-color', '#dc2626', 'important');
+      badge.style.setProperty('border-color', '#f87171', 'important');
+      badge.style.setProperty('color', '#ffffff', 'important');
+      badge.style.setProperty('box-shadow', '0 0 12px rgba(248, 113, 113, 0.6)', 'important');
+      badge.style.setProperty('transform', 'scale(0.95)', 'important');
+      badge.style.setProperty('opacity', '1', 'important');
     }
   }
 
@@ -328,68 +598,15 @@ import Fretboard from '#components/common/Fretboard.astro';
     const input = document.getElementById('notes-count-input') as HTMLInputElement | null;
     if (input) input.value = notesCountSetting.toString();
 
+    const maxFretInput = document.getElementById('max-fret-input') as HTMLInputElement | null;
+    if (maxFretInput) maxFretInput.value = maxFretSetting.toString();
+
     renderNotesModalCheckboxes();
+    hideFretboardNotes();
+    applyMaxFretToFretboard();
 
-    const stringsDisplay = document.getElementById('strings-display');
-    const notesDisplay = document.getElementById('notes-display');
-    const fretboardModal = document.getElementById('practice-fretboard-modal');
-    const closeButton = fretboardModal?.querySelector<HTMLButtonElement>(
-      '[data-close-practice-fretboard]',
-    );
-    let popupOpener: HTMLButtonElement | null = null;
-
-    const closeFretboardPopup = (): void => {
-      fretboardModal?.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-      popupOpener?.focus();
-      popupOpener = null;
-    };
-
-    const openFretboardPopup = (promptButton: HTMLButtonElement): void => {
-      if (!fretboardModal) return;
-
-      const note = promptButton.dataset.practiceFretboardNote;
-      const stringValue = promptButton.dataset.practiceFretboardString;
-      const stringIndex = stringValue === undefined ? null : Number(stringValue);
-
-      if (!note || (stringValue !== undefined && !Number.isInteger(stringIndex))) return;
-
-      popupOpener = promptButton;
-      fretboardModal.classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
-      closeButton?.focus();
-
-      window.dispatchEvent(
-        new CustomEvent('fretboard:highlight', {
-          detail: {
-            rootId: 'practice-fretboard',
-            note,
-            stringIndex,
-            useFlats: note.includes('♭') || note.endsWith('b'),
-          },
-        }),
-      );
-    };
-
-    const handleFretboardPromptClick = (event: Event): void => {
-      const target = event.target as HTMLElement;
-      const promptButton = target.closest<HTMLButtonElement>('[data-practice-fretboard-note]');
-      if (promptButton) openFretboardPopup(promptButton);
-    };
-
-    notesDisplay?.addEventListener('click', handleFretboardPromptClick);
-    stringsDisplay?.addEventListener('click', handleFretboardPromptClick);
-    closeButton?.addEventListener('click', closeFretboardPopup);
-
-    fretboardModal?.addEventListener('click', event => {
-      if (event.target === fretboardModal) closeFretboardPopup();
-    });
-
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape' && !fretboardModal?.classList.contains('hidden')) {
-        closeFretboardPopup();
-      }
-    });
+    const gameFretboard = document.getElementById('interactive-game-fretboard');
+    gameFretboard?.addEventListener('click', handleFretboardTap, true);
   }
 
   initNotesGame();
