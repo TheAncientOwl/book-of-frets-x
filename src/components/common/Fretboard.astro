@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file Fretboard.astro
  * @author Alexandru Delegeanu
- * @version 1.4
+ * @version 1.5
  * @description Fretboard component
  */
 
@@ -112,6 +112,7 @@ const sharpToFlatMap: Record<string, string> = {
             <div class='flex-1 flex justify-center'>
               <button
                 type='button'
+                aria-label={`Select string ${stringLabel}`}
                 data-select-string={stringIndex}
                 disabled={!interactive}
                 class='string-selector text-xs font-bold text-stone-500 hover:text-amber-300 transition-all cursor-pointer p-1 rounded-md'
@@ -144,6 +145,7 @@ const sharpToFlatMap: Record<string, string> = {
               <button
                 type='button'
                 data-select-fret={fretInfo.fret}
+                aria-label={`Select ${fretInfo.fret}`}
                 class='fret-selector absolute -left-8 top-1/2 -translate-y-1/2 text-xs font-mono font-semibold text-stone-500 w-5 text-right hover:text-amber-300 transition-all cursor-pointer select-none pointer-events-auto'
               >
                 {isNut ? '' : fretInfo.fret}
@@ -178,6 +180,7 @@ const sharpToFlatMap: Record<string, string> = {
                     <div class={`guitar-string absolute inset-y-0 ${stringThicknessClass} z-0`} />
                     <button
                       type='button'
+                      aria-label={`Select ${note} note on fret ${fretInfo.fret}, string ${stringIndex}`}
                       data-note={note}
                       data-flat={flatNote}
                       data-fret={fretInfo.fret}

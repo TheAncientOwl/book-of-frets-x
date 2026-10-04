@@ -7,7 +7,7 @@
  *
  * @file LineRenderer.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Measure parsing and grid renderer for chords v2 layout.
  */
 
@@ -159,6 +159,7 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                                 <button
                                   type='button'
                                   popovertarget={popoverUniqueId}
+                                  aria-label={`${chordConfig.name} chord`}
                                   class='chord-v2-popover-trigger appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-amber-300/90 hover:bg-dark-magenta/70 transition-colors relative border-none'
                                 >
                                   {chordId !== NO_CHORD_ID && chordConfig !== undefined ? (

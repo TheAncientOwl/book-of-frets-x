@@ -28,5 +28,10 @@
 
   "files.associations": {
     "*.css": "tailwindcss"
+  },
+
+  "[astro]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
   }
 }

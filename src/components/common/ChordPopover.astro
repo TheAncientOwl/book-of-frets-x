@@ -7,7 +7,7 @@
  *
  * @file ChordPopover.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Viewport-centered popover with fluid card wrapping to prevent layout clipping.
  */
 
@@ -31,6 +31,7 @@ const { id, chordConfig } = Astro.props;
     class='relative p-8 rounded-lg border border-solid border-amber-300/60 bg-deep-purple shadow-2xl overflow-visible cursor-default'
   >
     <button
+      aria-label='Close Chord'
       type='button'
       class='absolute top-2 right-2 text-amber-300/50 hover:text-amber-300/90 text-xs font-mono outline-none cursor-pointer z-40'
       popovertarget={id}

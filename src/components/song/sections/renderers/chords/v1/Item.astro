@@ -7,7 +7,7 @@
  *
  * @file ChordsChunkItem.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Render song pattern section.
  */
 
@@ -89,6 +89,7 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
                     <div class='relative inline-block select-none'>
                       <button
                         type='button'
+                        aria-label={`${chordConfig.name} chord`}
                         popovertarget={popoverUniqueId}
                         class='chord-popover-trigger appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-dark-magenta text-amber-300/90 hover:bg-dark-magenta/70 transition-colors relative border-none'
                       >

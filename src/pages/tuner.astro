@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file tuner.astro
  * @author Alexandru Delegeanu
- * @version 2.1
+ * @version 2.2
  * @description Interactive guitar tuner featuring realistic electric guitar samples + distortion for the Strat headstock and acoustic samples for the 3x3, with smoothed pitch detection.
  */
 
@@ -38,6 +38,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       >
         <div class='w-full flex justify-between items-center mb-3 px-2'>
           <button
+            aria-label='Toggle Microphone'
             type='button'
             id='tuner-toggle-btn'
             class='px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5'
@@ -102,18 +103,21 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
             <button
               type='button'
               data-string-index='0'
+              aria-label='Note 0'
               class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >E</button
             >
             <button
               type='button'
               data-string-index='1'
+              aria-label='Note 1'
               class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >A</button
             >
             <button
               type='button'
               data-string-index='2'
+              aria-label='Note 2'
               class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >D</button
             >
@@ -122,18 +126,21 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
             <button
               type='button'
               data-string-index='3'
+              aria-label='Note 3'
               class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >G</button
             >
             <button
               type='button'
               data-string-index='4'
+              aria-label='Note 4'
               class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >B</button
             >
             <button
               type='button'
               data-string-index='5'
+              aria-label='Note 5'
               class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >E</button
             >
@@ -263,36 +270,42 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
             <button
               type='button'
               data-string-index='5'
+              aria-label='Note 5'
               class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >E</button
             >
             <button
               type='button'
               data-string-index='4'
+              aria-label='Note 4'
               class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >B</button
             >
             <button
               type='button'
               data-string-index='3'
+              aria-label='Note 3'
               class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >G</button
             >
             <button
               type='button'
               data-string-index='2'
+              aria-label='Note 2'
               class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >D</button
             >
             <button
               type='button'
               data-string-index='1'
+              aria-label='Note 1'
               class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >A</button
             >
             <button
               type='button'
               data-string-index='0'
+              aria-label='Note 0'
               class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >E</button
             >
@@ -524,6 +537,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
         <button
           type='button'
           id='close-config-btn'
+          aria-label='Close Settings'
           class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
         >
           <Icon name='material-symbols:close' class='w-[16px] h-[16px]' />
@@ -539,6 +553,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
         </label>
         <div class='grid grid-cols-2 gap-2'>
           <button
+            aria-label='Select 3x3 Headstock'
             type='button'
             id='style-btn-3x3'
             class='py-2 px-3 bg-purple-700 text-white rounded text-xs font-semibold border border-purple-600 transition-all cursor-pointer shadow flex items-center justify-center gap-1.5'
@@ -547,6 +562,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           </button>
           <button
             type='button'
+            aria-label='Select 6-in-line Headstock'
             id='style-btn-strat'
             class='py-2 px-3 bg-deep-charcoal text-gray-300 rounded text-xs font-semibold border border-purple-900 transition-all cursor-pointer hover:bg-purple-950 flex items-center justify-center gap-1.5'
           >

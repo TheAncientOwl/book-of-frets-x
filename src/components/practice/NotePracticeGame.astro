@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NotePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.7
+ * @version 1.8
  * @description Single-note Practice game panel with completion feedback.
  */
 
@@ -32,6 +32,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <button
         id='notes-start-btn'
         onclick='startNotesGame()'
+        aria-label='Start Game'
         class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
       >
         <span id='notes-btn-icon' class='flex items-center justify-center'>
@@ -77,6 +78,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <h3 class='text-lg font-bold text-amber-400'>Configure Notes</h3>
       <button
         onclick='closeModal("notes-modal")'
+        aria-label='Close Settings'
         class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
       >
         <Icon name='material-symbols:close' class='w-[20px] h-[20px]' />
@@ -172,12 +174,15 @@ import Fretboard from '#components/common/Fretboard.astro';
         >Configure Available Notes</span
       >
       <div class='space-x-2 text-xs'>
-        <button onclick='toggleAllNotes(true)' class='text-amber-400 hover:underline cursor-pointer'
-          >All</button
+        <button
+          onclick='toggleAllNotes(true)'
+          aria-label='Enable All Notes'
+          class='text-amber-400 hover:underline cursor-pointer'>All</button
         >
         <span class='text-gray-500'>/</span>
         <button
           onclick='toggleAllNotes(false)'
+          aria-label='Disable All Notes'
           class='text-amber-400 hover:underline cursor-pointer'>None</button
         >
       </div>

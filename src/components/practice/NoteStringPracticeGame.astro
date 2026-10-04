@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NoteStringPracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.7
+ * @version 1.8
  * @description Note-and-string Practice game panel.
  */
 
@@ -22,6 +22,7 @@ import { Icon } from 'astro-icon/components';
       <button
         id='strings-mic-toggle'
         onclick='toggleStringsMic()'
+        aria-label='Toggle Strings Mic'
         class='px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5 z-10'
       >
         <span id='strings-mic-toggle-icon' class='flex items-center justify-center'>
@@ -43,6 +44,7 @@ import { Icon } from 'astro-icon/components';
       <button
         id='strings-start-btn'
         onclick='startStringsGame()'
+        aria-label='Start Game'
         class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
       >
         <span id='strings-btn-icon' class='flex items-center justify-center'>
@@ -110,6 +112,7 @@ import { Icon } from 'astro-icon/components';
       <h3 class='text-lg font-bold text-amber-400'>Configure Notes & Strings</h3>
       <button
         onclick='closeModal("strings-modal")'
+        aria-label='Close Settings'
         class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
       >
         <Icon name='material-symbols:close' class='w-[20px] h-[20px]' />
@@ -207,11 +210,13 @@ import { Icon } from 'astro-icon/components';
       <div class='space-x-2 text-xs'>
         <button
           onclick='toggleAllStrings(true)'
+          aria-label='Enable All Strings'
           class='text-amber-400 hover:underline cursor-pointer'>All</button
         >
         <span class='text-gray-500'>/</span>
         <button
           onclick='toggleAllStrings(false)'
+          aria-label='Disable All Strings'
           class='text-amber-400 hover:underline cursor-pointer'>None</button
         >
       </div>
@@ -225,11 +230,13 @@ import { Icon } from 'astro-icon/components';
       <div class='space-x-2 text-xs'>
         <button
           onclick='toggleAllStringNotes(true)'
+          aria-label='Enable All Notes'
           class='text-amber-400 hover:underline cursor-pointer'>All</button
         >
         <span class='text-gray-500'>/</span>
         <button
           onclick='toggleAllStringNotes(false)'
+          aria-label='Disable All Notes'
           class='text-amber-400 hover:underline cursor-pointer'>None</button
         >
       </div>
