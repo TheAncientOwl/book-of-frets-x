@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "2.1.1",
   "contributors": ["TheAncientOwl"],
   "title": "Adore You",
   "artists": ["Harry Styles"],
@@ -15,7 +15,7 @@
       "entries": [
         {
           "renderer": "chords-v2",
-          "data": ["x1 Am7 1 - 1 C 1 - 1 / 0 F7 1 - 1 G 1", "> 0"]
+          "data": ["x1 Am7 1 - 1 C 1 - 1 / 0 Ft 1 - 1 G 1", "> 0"]
         }
       ]
     },
