@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NotePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.8
+ * @version 1.9
  * @description Single-note Practice game panel with completion feedback.
  */
 
@@ -17,12 +17,12 @@ import Fretboard from '#components/common/Fretboard.astro';
 <div id='game-notes' class='w-full flex-1 flex flex-col items-center'>
   <section
     id='notes-game-container'
-    class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-4 flex flex-col items-center border border-purple-900/40 relative shadow-inner gap-3 sm:gap-4 transition-all duration-300'
+    class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-3 flex flex-col items-center border border-purple-900/40 relative shadow-inner transition-all duration-300'
   >
     <!-- Target / Status Banner -->
     <div
       id='notes-status'
-      class='text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300'
+      class='mb-2 text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300'
     >
       Find Note on All Strings
     </div>
@@ -33,7 +33,7 @@ import Fretboard from '#components/common/Fretboard.astro';
         id='notes-start-btn'
         onclick='startNotesGame()'
         aria-label='Start Game'
-        class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
+        class='mb-3 py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
       >
         <span id='notes-btn-icon' class='flex items-center justify-center'>
           <Icon name='material-symbols:play-arrow' class='w-[16px] h-[16px]' />
@@ -45,7 +45,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     <!-- Content -->
     <div
       id='notes-display'
-      class='text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap px-2 text-center'
+      class='mb-3 text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap text-center'
     >
       ?
     </div>
@@ -543,9 +543,9 @@ import Fretboard from '#components/common/Fretboard.astro';
 
     if (status) {
       status.className =
-        'text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300';
+        'mb-2 text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300';
       status.textContent =
-        actualCount > 1 ? 'Find Notes on the Fretboard' : 'Find Note on the Fretboard';
+        actualCount > 1 ? 'Find Notes on All Strings' : 'Find Note on All Strings';
     }
   }
 
@@ -559,7 +559,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     if (status) {
       status.textContent = `🎉 Complete! Accuracy: ${accuracy}%`;
       status.className =
-        'text-xs sm:text-sm uppercase tracking-widest text-emerald-400 font-extrabold text-center scale-105 transition-all duration-300';
+        'mb-2 text-xs sm:text-sm uppercase tracking-widest text-emerald-400 font-extrabold text-center scale-105 transition-all duration-300';
     }
 
     if (container) {

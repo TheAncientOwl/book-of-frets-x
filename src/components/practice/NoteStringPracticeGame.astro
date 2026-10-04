@@ -6,41 +6,45 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NoteStringPracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.8
- * @description Note-and-string Practice game panel.
+ * @version 1.9
+ * @description Note-and-string Practice game panel with Live and Silent modes configured in Settings.
  */
 
 import { Icon } from 'astro-icon/components';
+import Fretboard from '#components/common/Fretboard.astro';
 ---
 
 <div id='game-strings' class='w-full flex-1 flex-col items-center' style='display: none'>
   <section
-    class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-4 flex flex-col items-center border border-purple-900/40 relative shadow-inner'
+    class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-3 flex flex-col items-center border border-purple-900/40 relative shadow-inner transition-all duration-300'
   >
-    <!-- Microphone -->
-    <div class='absolute top-3 left-3'>
-      <button
-        id='strings-mic-toggle'
-        onclick='toggleStringsMic()'
-        aria-label='Toggle Strings Mic'
-        class='px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5 z-10'
-      >
-        <span id='strings-mic-toggle-icon' class='flex items-center justify-center'>
-          <Icon name='material-symbols:mic' class='w-3.75 h-3.75' />
-        </span>
-      </button>
-    </div>
+    <!-- Top Header Bar with Absolutely Positioned Mic Button -->
+    <div class='mb-2 relative w-full flex justify-center items-center'>
+      <!-- Microphone Toggle (Live Mode Only) -->
+      <div id='strings-mic-wrapper' class='absolute left-0 top-0 flex items-center'>
+        <button
+          id='strings-mic-toggle'
+          onclick='toggleStringsMic()'
+          aria-label='Toggle Strings Mic'
+          class='px-2.5 py-1 bg-green-900/50 hover:bg-green-800/60 text-[11px] font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1'
+        >
+          <span id='strings-mic-toggle-icon' class='flex items-center justify-center'>
+            <Icon name='material-symbols:mic' class='w-3.5 h-3.5' />
+          </span>
+        </button>
+      </div>
 
-    <!-- Target -->
-    <div
-      id='strings-status'
-      class='mb-3 sm:mb-4 text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center'
-    >
-      Find Note on String
+      <!-- Target / Status Header -->
+      <div
+        id='strings-status'
+        class='text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300'
+      >
+        Find Note on String
+      </div>
     </div>
 
     <!-- Start Button -->
-    <div class='flex justify-center w-full mb-4'>
+    <div class='mb-3 flex justify-center w-full'>
       <button
         id='strings-start-btn'
         onclick='startStringsGame()'
@@ -54,25 +58,26 @@ import { Icon } from 'astro-icon/components';
       </button>
     </div>
 
-    <!-- Content -->
+    <!-- Target Prompts Display -->
     <div
       id='strings-display'
-      class='text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap text-center min-h-22 mb-4'
+      class='mb-3 text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-2 flex-wrap text-center'
     >
       ?
     </div>
 
-    <div id='strings-prompt-container' class='flex flex-col items-center justify-center w-full'>
+    <!-- Live Playing Mode UI Controls -->
+    <div id='strings-live-controls' class='flex flex-col items-center justify-center w-full'>
       <!-- Microphone Status -->
       <div
         id='strings-mic-status'
-        class='mb-2 min-h-5 text-[11px] uppercase tracking-widest text-gray-500 font-semibold text-center'
+        class='mb-1 text-[10px] uppercase tracking-widest text-gray-500 font-semibold text-center'
       >
         Microphone inactive
       </div>
 
-      <!-- Input Status -->
-      <div class='mb-2 flex w-36 items-center gap-2' aria-label='Microphone input level'>
+      <!-- Input Status Bar -->
+      <div class='mb-1 flex w-36 items-center gap-2' aria-label='Microphone input level'>
         <div
           role='meter'
           aria-label='Microphone input level'
@@ -93,7 +98,22 @@ import { Icon } from 'astro-icon/components';
         >
       </div>
 
-      <div id='strings-pitch-display' class='min-h-5 text-xs text-gray-500 text-center'></div>
+      <div id='strings-pitch-display' class='text-[11px] text-gray-500 text-center'></div>
+    </div>
+
+    <!-- Silent Practice Interactive Fretboard -->
+    <div
+      id='strings-silent-fretboard-container'
+      class='w-full max-w-md hidden justify-center strings-silent-fretboard'
+    >
+      <Fretboard
+        id='strings-game-fretboard'
+        showControls={false}
+        compact={true}
+        persist={false}
+        interactive={false}
+        maxFret={12}
+      />
     </div>
   </section>
 </div>
@@ -119,13 +139,42 @@ import { Icon } from 'astro-icon/components';
       </button>
     </div>
 
-    <div class='mb-4 grid grid-cols-2 gap-3'>
+    <!-- Practice Game Mode Switcher inside Settings -->
+    <div class='mb-5'>
+      <label
+        class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
+      >
+        Practice Mode
+      </label>
+      <div
+        class='grid grid-cols-2 gap-2 bg-deep-charcoal/80 p-1 rounded-lg border border-purple-900/60'
+      >
+        <button
+          id='mode-btn-live'
+          type='button'
+          onclick='switchStringsGameMode("live")'
+          class='py-1.5 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer text-center bg-purple-900/80 text-amber-300'
+        >
+          Live Playing
+        </button>
+        <button
+          id='mode-btn-silent'
+          type='button'
+          onclick='switchStringsGameMode("silent")'
+          class='py-1.5 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer text-center text-gray-400 hover:text-gray-200'
+        >
+          Silent Practice
+        </button>
+      </div>
+    </div>
+
+    <div class='mb-4 grid grid-cols-3 gap-3'>
       <div class='min-w-0'>
         <label
           for='strings-count-input'
           class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
         >
-          Max Combos Per Prompt
+          Max Combos
         </label>
         <div class='flex w-full'>
           <button
@@ -166,7 +215,7 @@ import { Icon } from 'astro-icon/components';
           for='strings-tolerance-input'
           class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
         >
-          Pitch Tolerance
+          Tolerance
         </label>
         <div class='flex w-full'>
           <button
@@ -195,6 +244,47 @@ import { Icon } from 'astro-icon/components';
             data-step-direction='1'
             aria-label='Increase pitch tolerance'
             title='Increase pitch tolerance'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+          >
+            <Icon name='material-symbols:add' class='w-5 h-5' />
+          </button>
+        </div>
+      </div>
+
+      <div class='min-w-0'>
+        <label
+          for='strings-delay-input'
+          class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
+        >
+          Delay (ms)
+        </label>
+        <div class='flex w-full'>
+          <button
+            type='button'
+            data-step-target='strings-delay-input'
+            data-step-direction='-1'
+            aria-label='Decrease delay before next note'
+            title='Decrease delay before next note'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+          >
+            <Icon name='material-symbols:remove' class='w-5 h-5' />
+          </button>
+          <input
+            type='number'
+            id='strings-delay-input'
+            min='0'
+            max='3000'
+            step='100'
+            value='500'
+            onchange='updateNextNoteDelay(this.value)'
+            class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+          />
+          <button
+            type='button'
+            data-step-target='strings-delay-input'
+            data-step-direction='1'
+            aria-label='Increase delay before next note'
+            title='Increase delay before next note'
             class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
           >
             <Icon name='material-symbols:add' class='w-5 h-5' />
@@ -244,17 +334,20 @@ import { Icon } from 'astro-icon/components';
     <div id='string-notes-checkboxes' class='grid grid-cols-3 gap-2 mb-2'></div>
   </div>
 </div>
+
 <script>
   declare global {
     interface Window {
       updateStringsCount: (val: string) => void;
       updatePitchTolerance: (val: string) => void;
+      updateNextNoteDelay: (val: string) => void;
       updateStringState: (idx: number, val: boolean) => void;
       updateStringNoteState: (idx: number, val: boolean) => void;
       toggleAllStrings: (val: boolean) => void;
       toggleAllStringNotes: (val: boolean) => void;
       toggleStringsMic: () => void;
       startStringsGame: () => void | Promise<void>;
+      switchStringsGameMode: (mode: 'live' | 'silent') => void;
     }
   }
 
@@ -270,9 +363,9 @@ import { Icon } from 'astro-icon/components';
   }
 
   const ICONS = {
-    refresh: `<svg class="w-[16px] h-[16px] fill-current" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>`,
-    mic: `<svg class="w-[15px] h-[15px] fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>`,
-    micOff: `<svg class="w-[15px] h-[15px] fill-current" viewBox="0 0 24 24"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c1.33-.19 2.53-.73 3.52-1.5l2.21 2.21L20 17.36 4.27 3z"/></svg>`,
+    refresh: `<svg class="w-[15px] h-[15px] fill-current" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>`,
+    mic: `<svg class="w-[14px] h-[14px] fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>`,
+    micOff: `<svg class="w-[14px] h-[14px] fill-current" viewBox="0 0 24 24"><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c1.33-.19 2.53-.73 3.52-1.5l2.21 2.21L20 17.36 4.27 3z"/></svg>`,
   };
 
   const defaultNotes: NoteConfig[] = [
@@ -296,20 +389,12 @@ import { Icon } from 'astro-icon/components';
   ];
 
   const defaultStrings: StringConfig[] = [
-    {
-      label: 'E',
-      name: 'E',
-      checked: true,
-    },
+    { label: 'E', name: 'E', checked: true },
     { label: 'A', name: 'A', checked: true },
     { label: 'D', name: 'D', checked: true },
     { label: 'G', name: 'G', checked: true },
     { label: 'B', name: 'B', checked: true },
-    {
-      label: 'e',
-      name: 'e',
-      checked: true,
-    },
+    { label: 'e', name: 'e', checked: true },
   ];
 
   let stringNotesState: NoteConfig[] = loadState('v1-bfx-string-notes-state', defaultNotes);
@@ -327,6 +412,14 @@ import { Icon } from 'astro-icon/components';
     localStorage.getItem('v1-bfx-pitch-tolerance-setting') || '35',
     10,
   );
+
+  let nextNoteDelaySetting = parseInt(
+    localStorage.getItem('v1-bfx-strings-next-note-delay-setting') || '500',
+    10,
+  );
+
+  let stringsGameMode: 'live' | 'silent' =
+    (localStorage.getItem('v1-bfx-strings-game-mode') as 'live' | 'silent') || 'live';
 
   function loadState<T>(key: string, fallback: T): T {
     try {
@@ -416,6 +509,12 @@ import { Icon } from 'astro-icon/components';
     localStorage.setItem('v1-bfx-pitch-tolerance-setting', pitchToleranceSetting.toString());
   };
 
+  window.updateNextNoteDelay = (val: string): void => {
+    const parsed = parseInt(val, 10);
+    nextNoteDelaySetting = Number.isNaN(parsed) ? 500 : Math.max(0, Math.min(3000, parsed));
+    localStorage.setItem('v1-bfx-strings-next-note-delay-setting', nextNoteDelaySetting.toString());
+  };
+
   window.updateStringState = (idx: number, val: boolean): void => {
     if (!stringsState[idx]) return;
     stringsState[idx].checked = val;
@@ -452,46 +551,47 @@ import { Icon } from 'astro-icon/components';
   const NOTE_TO_SEMITONE: Record<string, number> = {
     C: 0,
     'C♯': 1,
+    'C#': 1,
     'D♭': 1,
+    Db: 1,
     D: 2,
     'D♯': 3,
+    'D#': 3,
     'E♭': 3,
+    Eb: 3,
     E: 4,
     F: 5,
     'F♯': 6,
+    'F#': 6,
     'G♭': 6,
+    Gb: 6,
     G: 7,
     'G♯': 8,
+    'G#': 8,
     'A♭': 8,
+    Ab: 8,
     A: 9,
     'A♯': 10,
+    'A#': 10,
     'B♭': 10,
+    Bb: 10,
     B: 11,
   };
+
   let stringsPracticeSequence: StringPracticeCombo[] = [];
-
   let stringsPracticeIndex = 0;
-
   let stringsPracticeRunning = false;
-
+  let isProcessingAdvance = false;
   let stringsMicEnabled = localStorage.getItem('v1-bfx-strings-mic-enabled') !== 'false';
 
   let micStream: MediaStream | null = null;
-
   let micAudioContext: AudioContext | null = null;
-
   let micAnalyser: AnalyserNode | null = null;
-
   let micSource: MediaStreamAudioSourceNode | null = null;
-
   let micBuffer: Float32Array<ArrayBuffer> | null = null;
-
   let micAnimationFrame = 0;
-
   let stableMidi = -1;
-
   let stableFrames = 0;
-
   let lastPitchTime = 0;
 
   function getNoteSemitone(note: string): number {
@@ -500,7 +600,6 @@ import { Icon } from 'astro-icon/components';
 
   function midiToNoteName(midi: number): string {
     const names = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
-
     return names[((midi % 12) + 12) % 12] ?? '';
   }
 
@@ -514,59 +613,38 @@ import { Icon } from 'astro-icon/components';
 
   function getTargetMidiCandidates(combo: StringPracticeCombo): number[] {
     const targetSemitone = getNoteSemitone(combo.note);
-
-    if (targetSemitone < 0) {
-      return [];
-    }
+    if (targetSemitone < 0) return [];
 
     const baseMidi = STRING_BASE_MIDI[combo.stringIndex];
-
-    if (baseMidi === undefined) {
-      return [];
-    }
+    if (baseMidi === undefined) return [];
 
     const candidates: number[] = [];
-
     for (let fret = 0; fret <= 24; fret++) {
       const midi = baseMidi + fret;
-
-      if (midi % 12 === targetSemitone) {
-        candidates.push(midi);
-      }
+      if (midi % 12 === targetSemitone) candidates.push(midi);
     }
-
     return candidates;
   }
 
   function combosCanSoundTheSame(first: StringPracticeCombo, second: StringPracticeCombo): boolean {
     const firstCandidates = getTargetMidiCandidates(first);
-
     const secondCandidates = getTargetMidiCandidates(second);
-
     return firstCandidates.some(midi => secondCandidates.includes(midi));
   }
 
   function isPitchCorrect(
     frequency: number,
     combo: StringPracticeCombo,
-  ): {
-    correct: boolean;
-    midi: number;
-    cents: number;
-  } {
+  ): { correct: boolean; midi: number; cents: number } {
     const detectedMidiFloat = 69 + 12 * Math.log2(frequency / 440);
-
     const detectedMidi = Math.round(detectedMidiFloat);
-
     const candidates = getTargetMidiCandidates(combo);
 
     let bestCents = Number.POSITIVE_INFINITY;
-
     let bestMidi = detectedMidi;
 
     for (const candidate of candidates) {
       const cents = centsFromMidi(frequency, candidate);
-
       if (Math.abs(cents) < Math.abs(bestCents)) {
         bestCents = cents;
         bestMidi = candidate;
@@ -580,45 +658,27 @@ import { Icon } from 'astro-icon/components';
     };
   }
 
-  /**
-   * Lightweight monophonic guitar pitch detector.
-   *
-   * Autocorrelation is used instead of FFT peak-picking because the fundamental
-   * frequency of a plucked guitar string is often weaker than its harmonics.
-   */
   function detectPitch(
     buffer: Float32Array,
     sampleRate: number,
   ): { frequency: number | null; rms: number } {
     const size = buffer.length;
-
     let mean = 0;
-
-    for (let i = 0; i < size; i++) {
-      mean += buffer[i];
-    }
-
+    for (let i = 0; i < size; i++) mean += buffer[i];
     mean /= size;
 
     let rms = 0;
-
     for (let i = 0; i < size; i++) {
       const sample = buffer[i] - mean;
-
       rms += sample * sample;
     }
-
     rms = Math.sqrt(rms / size);
 
-    if (rms < 0.0015) {
-      return { frequency: null, rms };
-    }
+    if (rms < 0.0015) return { frequency: null, rms };
 
     const minFrequency = 70;
     const maxFrequency = 1400;
-
     const minLag = Math.floor(sampleRate / maxFrequency);
-
     const maxLag = Math.min(Math.floor(sampleRate / minFrequency), size - 2);
 
     let bestLag = -1;
@@ -631,66 +691,42 @@ import { Icon } from 'astro-icon/components';
 
       for (let i = 0; i < size - lag; i++) {
         const a = buffer[i] - mean;
-
         const b = buffer[i + lag] - mean;
-
         correlation += a * b;
-
         energyA += a * a;
-
         energyB += b * b;
       }
 
-      if (energyA === 0 || energyB === 0) {
-        continue;
-      }
-
+      if (energyA === 0 || energyB === 0) continue;
       const normalized = correlation / Math.sqrt(energyA * energyB);
-
       if (normalized > bestCorrelation) {
         bestCorrelation = normalized;
-
         bestLag = lag;
       }
     }
 
-    if (bestLag < 0 || bestCorrelation < 0.55) {
-      return { frequency: null, rms };
-    }
+    if (bestLag < 0 || bestCorrelation < 0.55) return { frequency: null, rms };
 
     let refinedLag = bestLag;
-
     if (bestLag > minLag && bestLag < maxLag) {
       const correlationAt = (lag: number): number => {
         let correlation = 0;
         let energyA = 0;
         let energyB = 0;
-
         for (let i = 0; i < size - lag; i++) {
           const a = buffer[i] - mean;
-
           const b = buffer[i + lag] - mean;
-
           correlation += a * b;
-
           energyA += a * a;
-
           energyB += b * b;
         }
-
-        if (energyA === 0 || energyB === 0) {
-          return 0;
-        }
-
+        if (energyA === 0 || energyB === 0) return 0;
         return correlation / Math.sqrt(energyA * energyB);
       };
 
       const left = correlationAt(bestLag - 1);
-
       const center = correlationAt(bestLag);
-
       const right = correlationAt(bestLag + 1);
-
       const denominator = 2 * (2 * center - left - right);
 
       if (Math.abs(denominator) > 0.000001) {
@@ -699,7 +735,6 @@ import { Icon } from 'astro-icon/components';
     }
 
     const frequency = sampleRate / refinedLag;
-
     return {
       frequency: frequency >= minFrequency && frequency <= maxFrequency ? frequency : null,
       rms,
@@ -708,11 +743,8 @@ import { Icon } from 'astro-icon/components';
 
   function updateStringsMicStatus(text: string, className = 'text-gray-500'): void {
     const status = document.getElementById('strings-mic-status');
-
     if (!status) return;
-
-    status.className = `mt-4 min-h-5 text-[11px] uppercase tracking-widest font-semibold text-center ${className}`;
-
+    status.className = `mb-1 text-[10px] uppercase tracking-widest font-semibold text-center ${className}`;
     status.textContent = text;
   }
 
@@ -735,58 +767,104 @@ import { Icon } from 'astro-icon/components';
     cents = 0,
   ): void {
     const display = document.getElementById('strings-pitch-display');
-
     if (!display) return;
-
     if (frequency === null || midi === null) {
       display.textContent = '';
-
       return;
     }
-
     const note = midiToNoteName(midi);
-
     const centsText = `${cents >= 0 ? '+' : ''}${Math.round(cents)}¢`;
-
     display.textContent = `${note} · ${frequency.toFixed(1)} Hz · ${centsText}`;
   }
 
   function updateStringsMicToggle(): void {
     const button = document.getElementById('strings-mic-toggle');
-
     const icon = document.getElementById('strings-mic-toggle-icon');
-
-    if (!button || !icon) {
-      return;
-    }
+    if (!button || !icon) return;
 
     if (stringsMicEnabled) {
       button.className =
-        'px-3 py-1.5 bg-green-900/50 hover:bg-green-800/60 text-xs font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1.5';
-
+        'px-2.5 py-1 bg-green-900/50 hover:bg-green-800/60 text-[11px] font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1';
       icon.innerHTML = ICONS.mic;
     } else {
       button.className =
-        'px-3 py-1.5 bg-gray-800/70 hover:bg-gray-700/70 text-xs font-semibold rounded-md transition-colors text-gray-400 border border-gray-700 cursor-pointer flex items-center gap-1.5';
-
+        'px-2.5 py-1 bg-gray-800/70 hover:bg-gray-700/70 text-[11px] font-semibold rounded-md transition-colors text-gray-400 border border-gray-700 cursor-pointer flex items-center gap-1';
       icon.innerHTML = ICONS.micOff;
     }
   }
 
-  (window as any).toggleStringsMic = function (): void {
+  window.switchStringsGameMode = (mode: 'live' | 'silent'): void => {
+    stringsGameMode = mode;
+    localStorage.setItem('v1-bfx-strings-game-mode', mode);
+
+    const liveBtn = document.getElementById('mode-btn-live');
+    const silentBtn = document.getElementById('mode-btn-silent');
+    const micWrapper = document.getElementById('strings-mic-wrapper');
+    const liveControls = document.getElementById('strings-live-controls');
+    const fretboardContainer = document.getElementById('strings-silent-fretboard-container');
+
+    if (mode === 'live') {
+      liveBtn?.classList.add('bg-purple-900/80', 'text-amber-300');
+      liveBtn?.classList.remove('text-gray-400');
+      silentBtn?.classList.remove('bg-purple-900/80', 'text-amber-300');
+      silentBtn?.classList.add('text-gray-400');
+
+      micWrapper?.classList.remove('hidden');
+      liveControls?.classList.remove('hidden');
+      fretboardContainer?.classList.add('hidden');
+      fretboardContainer?.classList.remove('flex');
+    } else {
+      silentBtn?.classList.add('bg-purple-900/80', 'text-amber-300');
+      silentBtn?.classList.remove('text-gray-400');
+      liveBtn?.classList.remove('bg-purple-900/80', 'text-amber-300');
+      liveBtn?.classList.add('text-gray-400');
+
+      micWrapper?.classList.add('hidden');
+      liveControls?.classList.add('hidden');
+      fretboardContainer?.classList.remove('hidden');
+      fretboardContainer?.classList.add('flex');
+
+      stopStringsMicrophone();
+      stringsPracticeRunning = false;
+    }
+
+    resetSilentFretboardNotes();
+    if (stringsPracticeSequence.length > 0) {
+      void (window as any).startStringsGame();
+    } else {
+      renderStringPracticeSequence();
+    }
+  };
+
+  function resetSilentFretboardNotes(): void {
+    const fretboard = document.getElementById('strings-game-fretboard');
+    if (!fretboard) return;
+
+    const noteBadges = fretboard.querySelectorAll<HTMLButtonElement>('.note-badge');
+    noteBadges.forEach(badge => {
+      badge.textContent = '';
+      badge.removeAttribute('data-revealed');
+      badge.style.removeProperty('background-color');
+      badge.style.removeProperty('border-color');
+      badge.style.removeProperty('color');
+      badge.style.removeProperty('box-shadow');
+      badge.style.removeProperty('transform');
+      badge.style.opacity = '1';
+      badge.style.cursor = 'pointer';
+    });
+  }
+
+  window.toggleStringsMic = function (): void {
     if (stringsPracticeRunning) {
       stringsPracticeRunning = false;
-
       stopStringsMicrophone();
       setStringsButtonState(false);
     }
 
     stringsMicEnabled = !stringsMicEnabled;
-
     localStorage.setItem('v1-bfx-strings-mic-enabled', stringsMicEnabled.toString());
 
     updateStringsMicToggle();
-
     updateStringsMicStatus(
       stringsMicEnabled ? 'Microphone enabled' : 'Microphone disabled',
       stringsMicEnabled ? 'text-green-400' : 'text-gray-500',
@@ -794,38 +872,26 @@ import { Icon } from 'astro-icon/components';
     if (!stringsMicEnabled) updateStringsMicInput(0, false);
 
     updateStringsPitchDisplay(null);
-
     renderStringPracticeSequence();
   };
 
   function setStringsButtonState(_running: boolean): void {
     const btnIcon = document.getElementById('strings-btn-icon');
-
     const btnText = document.getElementById('strings-btn-text');
 
-    if (btnIcon) {
-      btnIcon.innerHTML = ICONS.refresh;
-    }
-
-    if (btnText) {
-      btnText.textContent = 'Refresh';
-    }
+    if (btnIcon) btnIcon.innerHTML = ICONS.refresh;
+    if (btnText) btnText.textContent = 'Refresh';
   }
 
   function renderStringPracticeSequence(): void {
     const display = document.getElementById('strings-display');
-
     const status = document.getElementById('strings-status');
 
     if (!display) return;
 
     if (stringsPracticeSequence.length === 0) {
       display.textContent = '?';
-
-      if (status) {
-        status.textContent = 'Find Note on String';
-      }
-
+      if (status) status.textContent = 'Find Note on String';
       return;
     }
 
@@ -833,22 +899,17 @@ import { Icon } from 'astro-icon/components';
       .map((combo, index) => {
         const isCurrent =
           index === stringsPracticeIndex && stringsPracticeIndex < stringsPracticeSequence.length;
-
-        const isCompleted = stringsMicEnabled && index < stringsPracticeIndex;
+        const isCompleted = index < stringsPracticeIndex;
 
         let borderClass = 'border-purple-900/40';
-
         let backgroundClass = 'bg-deep-charcoal/60';
-
         let opacityClass = '';
 
         if (isCompleted) {
-          borderClass = 'border-green-500';
-
-          backgroundClass = 'bg-green-950/30';
+          borderClass = 'border-emerald-500';
+          backgroundClass = 'bg-emerald-950/30';
         } else if (isCurrent) {
           borderClass = 'border-amber-400';
-
           backgroundClass = 'bg-amber-950/20';
         } else {
           opacityClass = 'opacity-45';
@@ -858,42 +919,39 @@ import { Icon } from 'astro-icon/components';
         const hasFret = isCompleted && combo.foundFret !== undefined;
 
         return `
-            <button
-              type="button"
-              data-practice-fretboard-note="${combo.note}"
-              data-practice-fretboard-string="${combo.stringIndex}"
-              aria-label="Show ${combo.note} on string ${stringNumber} on the fretboard"
-              class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150 cursor-pointer hover:border-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
-            >
-                <span class="relative inline-flex items-baseline">
-                  <span class="${isCompleted ? 'text-green-300' : 'text-amber-400'}">${combo.note}</span>
-                  ${
-                    hasFret
-                      ? `<sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-gray-400/80 font-bold select-none pointer-events-none">${combo.foundFret}</sub>`
-                      : ''
-                  }
-                </span>
-                <span class="text-gray-500 font-light text-xs">on</span>
+          <button
+            type="button"
+            data-practice-fretboard-note="${combo.note}"
+            data-practice-fretboard-string="${combo.stringIndex}"
+            aria-label="Show ${combo.note} on string ${stringNumber} on the fretboard"
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150 cursor-pointer hover:border-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
+          >
               <span class="relative inline-flex items-baseline">
-                <span class="${isCompleted ? 'text-green-300' : 'text-cyan-400'}">${combo.stringName}</span>
-                <sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-gray-400/80 font-bold select-none pointer-events-none">${stringNumber}</sub>
+                <span class="${isCompleted ? 'text-emerald-300' : 'text-amber-400'}">${combo.note}</span>
+                ${
+                  hasFret
+                    ? `<sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-gray-400/80 font-bold select-none pointer-events-none">${combo.foundFret}</sub>`
+                    : ''
+                }
               </span>
-            </button>
-            `;
+              <span class="text-gray-500 font-light text-[11px]">on</span>
+            <span class="relative inline-flex items-baseline">
+              <span class="${isCompleted ? 'text-emerald-300' : 'text-cyan-400'}">${combo.stringName}</span>
+              <sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-gray-400/80 font-bold select-none pointer-events-none">${stringNumber}</sub>
+            </span>
+          </button>
+          `;
       })
       .join('');
 
     if (status) {
-      if (!stringsPracticeRunning) {
-        status.textContent =
-          stringsPracticeIndex >= stringsPracticeSequence.length
-            ? 'Sequence Complete'
-            : 'Find Note on String';
+      if (stringsPracticeIndex >= stringsPracticeSequence.length) {
+        status.textContent = '🎉 Sequence Complete';
       } else {
         status.textContent =
           stringsPracticeSequence.length > 1
-            ? `Play ${stringsPracticeIndex + 1} of ${stringsPracticeSequence.length}`
-            : 'Play the Target';
+            ? `Find note on string ${stringsPracticeIndex + 1} of ${stringsPracticeSequence.length}`
+            : 'Find note on string';
       }
     }
   }
@@ -910,9 +968,7 @@ import { Icon } from 'astro-icon/components';
       .filter((note: NoteConfig) => note.checked)
       .map((note: NoteConfig) => note.label);
 
-    if (activeStrings.length === 0 || activeNotes.length === 0) {
-      return [];
-    }
+    if (activeStrings.length === 0 || activeNotes.length === 0) return [];
 
     const availableCombos: StringPracticeCombo[] = [];
 
@@ -926,66 +982,31 @@ import { Icon } from 'astro-icon/components';
       }
     }
 
-    const targetCount = Math.min(stringsCountSetting, availableCombos.length);
-
+    const requestedCount = stringsGameMode === 'silent' ? 1 : stringsCountSetting;
+    const targetCount = Math.min(requestedCount, availableCombos.length);
     let bestSequence: StringPracticeCombo[] = [];
 
-    /*
-     * Retry the randomized construction so
-     * we can usually reach the requested count
-     * even when the adjacency constraint makes
-     * some random paths dead-end.
-     */
     for (let attempt = 0; attempt < 100; attempt++) {
       const remaining = [...availableCombos].sort(() => Math.random() - 0.5);
-
       const sequence: StringPracticeCombo[] = [];
 
       while (sequence.length < targetCount && remaining.length > 0) {
         const previous = sequence.length > 0 ? sequence[sequence.length - 1] : null;
-
-        /*
-         * Only reject a candidate when it can
-         * produce the exact same pitch as the
-         * immediately previous combo.
-         *
-         * Example:
-         *
-         * A on high E -> A4 / MIDI 69
-         * A on B      -> A4 / MIDI 69
-         *
-         * These cannot appear next to each
-         * other.
-         *
-         * But the same pitch may appear again
-         * later in the sequence.
-         */
         const candidates = previous
           ? remaining.filter(combo => !combosCanSoundTheSame(previous, combo))
           : remaining;
 
-        if (candidates.length === 0) {
-          break;
-        }
+        if (candidates.length === 0) break;
 
         const next = candidates[Math.floor(Math.random() * candidates.length)];
-
         sequence.push(next);
 
         const remainingIndex = remaining.indexOf(next);
-
-        if (remainingIndex >= 0) {
-          remaining.splice(remainingIndex, 1);
-        }
+        if (remainingIndex >= 0) remaining.splice(remainingIndex, 1);
       }
 
-      if (sequence.length > bestSequence.length) {
-        bestSequence = sequence;
-      }
-
-      if (bestSequence.length === targetCount) {
-        break;
-      }
+      if (sequence.length > bestSequence.length) bestSequence = sequence;
+      if (bestSequence.length === targetCount) break;
     }
 
     return bestSequence;
@@ -994,7 +1015,6 @@ import { Icon } from 'astro-icon/components';
   async function startStringsMicrophone(): Promise<boolean> {
     if (!navigator.mediaDevices?.getUserMedia) {
       updateStringsMicStatus('Microphone is not supported by this browser', 'text-red-400');
-
       return false;
     }
 
@@ -1008,19 +1028,14 @@ import { Icon } from 'astro-icon/components';
       });
 
       micAudioContext = new AudioContext();
-
       await micAudioContext.resume();
 
       micAnalyser = micAudioContext.createAnalyser();
-
       micAnalyser.fftSize = 4096;
-
       micAnalyser.smoothingTimeConstant = 0;
 
       micSource = micAudioContext.createMediaStreamSource(micStream);
-
       micSource.connect(micAnalyser);
-
       micBuffer = new Float32Array(micAnalyser.fftSize);
 
       stableMidi = -1;
@@ -1028,38 +1043,29 @@ import { Icon } from 'astro-icon/components';
       lastPitchTime = 0;
 
       updateStringsMicStatus('Listening · play the highlighted note', 'text-green-400');
-
       processMicrophonePitch();
-
       return true;
     } catch (error) {
       console.error('Failed to start microphone', error);
-
       stopStringsMicrophone();
-
       updateStringsMicStatus('Microphone permission was denied or unavailable', 'text-red-400');
-
       return false;
     }
   }
 
   function processMicrophonePitch(): void {
-    if (!stringsPracticeRunning || !micAnalyser || !micAudioContext || !micBuffer) {
-      return;
-    }
+    if (!stringsPracticeRunning || !micAnalyser || !micAudioContext || !micBuffer) return;
 
     micAnalyser.getFloatTimeDomainData(micBuffer);
-
     const detection = detectPitch(micBuffer, micAudioContext.sampleRate);
     const { frequency, rms } = detection;
     updateStringsMicInput(rms, frequency !== null);
 
-    if (frequency !== null) {
+    if (frequency !== null && !isProcessingAdvance) {
       const combo = stringsPracticeSequence[stringsPracticeIndex];
 
       if (combo) {
         const result = isPitchCorrect(frequency, combo);
-
         updateStringsPitchDisplay(frequency, result.midi, result.cents);
 
         const detectedMidi = Math.round(69 + 12 * Math.log2(frequency / 440));
@@ -1069,7 +1075,6 @@ import { Icon } from 'astro-icon/components';
             stableFrames++;
           } else {
             stableMidi = detectedMidi;
-
             stableFrames = 1;
           }
 
@@ -1091,7 +1096,6 @@ import { Icon } from 'astro-icon/components';
       }
     } else if (performance.now() - lastPitchTime > 250) {
       updateStringsPitchDisplay(null);
-
       stableFrames = 0;
       stableMidi = -1;
     }
@@ -1100,54 +1104,58 @@ import { Icon } from 'astro-icon/components';
   }
 
   function advanceStringPractice(fret?: number): void {
+    if (isProcessingAdvance) return;
+    isProcessingAdvance = true;
+
     const completedIndex = stringsPracticeIndex;
 
     if (stringsPracticeSequence[completedIndex] && fret !== undefined) {
       stringsPracticeSequence[completedIndex].foundFret = fret;
     }
 
-    stringsPracticeIndex++;
-
-    renderStringPracticeSequence();
-
     const completedCard = document.querySelectorAll('#strings-display > button')[completedIndex];
-
-    completedCard?.classList.add('border-green-400');
-
-    if (stringsPracticeIndex >= stringsPracticeSequence.length) {
-      stringsPracticeRunning = false;
-
-      setStringsButtonState(false);
-
-      updateStringsMicStatus('Sequence complete', 'text-green-400');
-
-      stopStringsMicrophone();
-
-      // Automatically generate a fresh sequence.
-      void (window as any).startStringsGame();
+    if (completedCard) {
+      completedCard.classList.remove('border-amber-400', 'bg-amber-950/20');
+      completedCard.classList.add('border-emerald-500', 'bg-emerald-950/30');
     }
+
+    setTimeout(() => {
+      stringsPracticeIndex++;
+      resetSilentFretboardNotes();
+      renderStringPracticeSequence();
+
+      if (stringsPracticeIndex >= stringsPracticeSequence.length) {
+        stringsPracticeRunning = false;
+        setStringsButtonState(false);
+
+        if (stringsGameMode === 'live') {
+          updateStringsMicStatus('Sequence complete', 'text-emerald-400');
+          stopStringsMicrophone();
+        }
+
+        void (window as any).startStringsGame();
+      }
+
+      isProcessingAdvance = false;
+    }, nextNoteDelaySetting);
   }
 
   function stopStringsMicrophone(): void {
     if (micAnimationFrame) {
       cancelAnimationFrame(micAnimationFrame);
-
       micAnimationFrame = 0;
     }
 
     micSource?.disconnect();
     micSource = null;
-
     micAnalyser = null;
     micBuffer = null;
 
     micStream?.getTracks().forEach(track => track.stop());
-
     micStream = null;
 
     if (micAudioContext) {
       void micAudioContext.close();
-
       micAudioContext = null;
     }
 
@@ -1156,29 +1164,67 @@ import { Icon } from 'astro-icon/components';
     lastPitchTime = 0;
   }
 
+  function handleSilentFretboardTap(event: Event): void {
+    if (stringsGameMode !== 'silent' || stringsPracticeSequence.length === 0 || isProcessingAdvance)
+      return;
+    if (stringsPracticeIndex >= stringsPracticeSequence.length) return;
+
+    const target = event.target as HTMLElement;
+    const badge = target.closest<HTMLButtonElement>('.note-badge');
+    if (!badge || badge.hasAttribute('data-revealed')) return;
+
+    event.stopImmediatePropagation();
+
+    const currentCombo = stringsPracticeSequence[stringsPracticeIndex];
+    if (!currentCombo) return;
+
+    const tappedNote = badge.dataset.note ?? '';
+    const tappedString = Number(badge.dataset.string ?? -1);
+    const tappedFret = Number(badge.dataset.fret ?? -1);
+
+    const isCorrectNote = getNoteSemitone(tappedNote) === getNoteSemitone(currentCombo.note);
+    const isCorrectString = tappedString === currentCombo.stringIndex;
+
+    badge.textContent = tappedNote;
+    badge.setAttribute('data-revealed', 'true');
+    badge.style.cursor = 'default';
+
+    if (isCorrectNote && isCorrectString) {
+      badge.style.setProperty('background-color', '#16a34a', 'important');
+      badge.style.setProperty('border-color', '#4ade80', 'important');
+      badge.style.setProperty('color', '#ffffff', 'important');
+      badge.style.setProperty('box-shadow', '0 0 12px rgba(74, 222, 128, 0.6)', 'important');
+      badge.style.setProperty('transform', 'scale(1.15)', 'important');
+      badge.style.setProperty('opacity', '1', 'important');
+
+      advanceStringPractice(tappedFret);
+    } else {
+      badge.style.setProperty('background-color', '#dc2626', 'important');
+      badge.style.setProperty('border-color', '#f87171', 'important');
+      badge.style.setProperty('color', '#ffffff', 'important');
+      badge.style.setProperty('box-shadow', '0 0 12px rgba(248, 113, 113, 0.6)', 'important');
+      badge.style.setProperty('transform', 'scale(0.95)', 'important');
+      badge.style.setProperty('opacity', '1', 'important');
+    }
+  }
+
   (window as any).startStringsGame = async function (): Promise<void> {
-    /*
-     * Refresh always creates a new sequence.
-     * If the microphone is active, restart
-     * its capture so the new sequence starts
-     * cleanly.
-     */
+    isProcessingAdvance = false;
+
     if (stringsPracticeRunning) {
       stringsPracticeRunning = false;
-
       stopStringsMicrophone();
     }
 
     const activeStrings = stringsState.filter((s: StringConfig) => s.checked);
-
     const activeNotes = stringNotesState.filter((n: NoteConfig) => n.checked);
 
     if (activeStrings.length === 0 || activeNotes.length === 0) {
       alert('Please select at least one string and one note in your configuration!');
-
       return;
     }
 
+    resetSilentFretboardNotes();
     stringsPracticeSequence = createStringPracticeSequence();
 
     if (stringsPracticeSequence.length === 0) {
@@ -1191,42 +1237,46 @@ import { Icon } from 'astro-icon/components';
 
     stringsPracticeIndex = 0;
     stringsPracticeRunning = false;
-
     setStringsButtonState(false);
-
     renderStringPracticeSequence();
+
+    if (stringsGameMode === 'silent') {
+      return;
+    }
 
     if (!stringsMicEnabled) {
       updateStringsMicStatus('Microphone disabled · sequence ready', 'text-gray-500');
-
       return;
     }
 
     stringsPracticeRunning = true;
-
     updateStringsMicStatus('Requesting microphone access…', 'text-amber-400');
 
     const microphoneStarted = await startStringsMicrophone();
-
     if (!microphoneStarted) {
       stringsPracticeRunning = false;
-
       setStringsButtonState(false);
-
       renderStringPracticeSequence();
     }
   };
+
   function initStringsGame(): void {
     const countInput = document.getElementById('strings-count-input') as HTMLInputElement | null;
     const toleranceInput = document.getElementById(
       'strings-tolerance-input',
     ) as HTMLInputElement | null;
+    const delayInput = document.getElementById('strings-delay-input') as HTMLInputElement | null;
 
     if (countInput) countInput.value = stringsCountSetting.toString();
     if (toleranceInput) toleranceInput.value = pitchToleranceSetting.toString();
+    if (delayInput) delayInput.value = nextNoteDelaySetting.toString();
 
     renderStringModalCheckboxes();
     updateStringsMicToggle();
+    window.switchStringsGameMode(stringsGameMode);
+
+    const gameFretboard = document.getElementById('strings-game-fretboard');
+    gameFretboard?.addEventListener('click', handleSilentFretboardTap, true);
   }
 
   initStringsGame();
