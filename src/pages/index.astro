@@ -7,7 +7,7 @@
  *
  * @file index.astro
  * @author Alexandru Delegeanu
- * @version 1.9
+ * @version 1.10
  * @description App entry point.
  */
 
@@ -31,7 +31,8 @@ import AppMenu from '#components/app-menu/AppMenu.astro';
         rounded-xl max-sm:rounded-none
         flex flex-col gap-4 justify-center items-center
         bg-deep-purple
-        p-[1em] max-sm:pt-[1em] max-sm:px-0 max-sm:pb-[0.2em]'
+        p-[1em] max-sm:px-0 max-sm:pb-[0.2em]
+        pt-8'
     >
       <div class='flex-none w-[250px] relative flex items-center'>
         <div class='w-full'>
@@ -83,7 +84,7 @@ import AppMenu from '#components/app-menu/AppMenu.astro';
         </button>
       </div>
 
-      <div class='flex-1 w-full overflow-y-auto min-h-0 pr-1'>
+      <div class='flex-1 w-full overflow-y-auto min-h-0'>
         <SongsList />
       </div>
     </div>
