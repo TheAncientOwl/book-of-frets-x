@@ -1,0 +1,75 @@
+{
+  "version": "2.0.0",
+  "contributors": ["TheAncientOwl"],
+  "title": "Love Again",
+  "artists": ["The Kid LAROI"],
+  "type": ["acoustic"],
+  "notes": [],
+  "capo": 2,
+  "chordIDs": ["Am", "C", "F", "E", "Em"],
+  "strumms": [["D", "-", "D", "-", "-", "U", "D", "U"], ["D"]],
+  "sections": {
+    "intro": {
+      "name": "intro",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x2 Am 1 C 1 F 1 E 1", "> 0"]
+        }
+      ]
+    },
+    "verse": {
+      "name": "verse",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v3",
+          "data": {
+            "times": 5,
+            "items": [["x1 Am 1 C 1 F 1 E 1"]]
+          }
+        },
+        {
+          "renderer": "chords-v2",
+          "data": ["x1 Am 1 C 1 F 1 - 1", "> 0"]
+        }
+      ]
+    },
+    "chorus": {
+      "name": "chorus",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x4 F 2 C 2 Em 2 Am 2", "> 0"]
+        }
+      ]
+    },
+    "outro": {
+      "name": "outro",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "chords-v2",
+          "data": ["x1 F 1 C 1 Em 1 Am 1", "> 1"]
+        }
+      ]
+    }
+  },
+  "order": ["intro", "verse", "chorus", "verse", "chorus", "outro"],
+  "lyrics": false,
+  "pdf": false,
+  "res": [
+    {
+      "alias": "Love Again Guitar Tutorial - The Kid LAROI Guitar Lesson |Chords + Strumming|",
+      "author": "GuitarZero2Hero ~ YouTube",
+      "link": "https://youtu.be/y5zl6ZZTu18"
+    },
+    {
+      "alias": "Love Again Guitar Cover The Kid LAROI 🎸|Tabs + Chords|",
+      "author": "GuitarZero2Hero Express ~ YouTube",
+      "link": "https://youtu.be/wOZSUNiM3Zg"
+    }
+  ]
+}

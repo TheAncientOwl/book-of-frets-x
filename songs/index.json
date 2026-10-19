@@ -393,6 +393,13 @@
       "chordIDs": []
     },
     {
+      "title": "Love Again",
+      "artists": ["The Kid LAROI"],
+      "directory": "love-again",
+      "type": ["acoustic"],
+      "chordIDs": ["Am", "C", "F", "E"]
+    },
+    {
       "title": "Without You",
       "artists": ["The Kid LAROI"],
       "directory": "without-you",
