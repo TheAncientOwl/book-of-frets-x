@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file AppMenu.astro
  * @author Alexandru Delegeanu
- * @version 1.11
+ * @version 1.12
  * @description Drawer menu with styled card-based navigation links.
  */
 
@@ -88,8 +88,21 @@ import NavigationList from '#components/app-menu/NavigationList.astro';
   const lastPageKey = 'v1-bfx-last-visited-page';
   const explicitHomeKey = 'v1-bfx-explicit-home-navigation';
   const basePath = new URL(baseUrl, window.location.origin).pathname;
-  const currentPath = window.location.pathname;
   const homePaths = new Set([basePath, `${basePath}index.html`]);
+
+  const updateLastVisited = pathname => {
+    const isNotFound = pathname.endsWith('/404') || pathname.endsWith('/404.html');
+    if (!isNotFound && (basePath === '/' || pathname.startsWith(basePath))) {
+      const fullUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+      if (!homePaths.has(pathname)) {
+        localStorage.setItem(lastPageKey, fullUrl);
+      } else {
+        localStorage.removeItem(lastPageKey);
+      }
+    }
+  };
+
+  const currentPath = window.location.pathname;
   const isHome = homePaths.has(currentPath);
   const isNotFound = currentPath.endsWith('/404') || currentPath.endsWith('/404.html');
 
@@ -100,10 +113,15 @@ import NavigationList from '#components/app-menu/NavigationList.astro';
       if (!(target instanceof Element)) return;
       if (target.closest('[data-resume-home]')) {
         sessionStorage.setItem(explicitHomeKey, 'true');
+        localStorage.removeItem(lastPageKey);
       }
     },
     true,
   );
+
+  window.addEventListener('popstate', () => {
+    updateLastVisited(window.location.pathname);
+  });
 
   if (isHome) {
     const navigationType = performance.getEntriesByType('navigation')[0]?.type;
@@ -138,11 +156,8 @@ import NavigationList from '#components/app-menu/NavigationList.astro';
         }
       }
     }
-  } else if (!isNotFound && (basePath === '/' || currentPath.startsWith(basePath))) {
-    localStorage.setItem(
-      lastPageKey,
-      `${window.location.pathname}${window.location.search}${window.location.hash}`,
-    );
+  } else {
+    updateLastVisited(currentPath);
   }
 </script>
 
