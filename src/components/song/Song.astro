@@ -7,7 +7,7 @@
  *
  * @file Song.astro
  * @author Alexandru Delegeanu
- * @version 1.8
+ * @version 1.9
  * @description Song renderer.
  */
 
@@ -17,6 +17,7 @@ import SongHeader from '#components/song/Header.astro';
 import SongNotes from './Notes.astro';
 import SongChordsList from '#components/song/ChordsLists.astro';
 import SongSections from '#components/song/sections/Sections.astro';
+import { Icon } from 'astro-icon/components';
 // import SongResources from './SongResources.astro';
 
 interface Props extends TSong {
@@ -51,7 +52,20 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
         res={props.res}
       />
 
-      <div class='rounded-xl overflow-hidden bg-black/20 md:p-3 mt-3'>
+      <div class='rounded-xl bg-black/20 md:p-3 mt-3 relative'>
+        <div class='absolute right-4 -top-8'>
+          <a
+            href=`${import.meta.env.BASE_URL}index.html`
+            data-resume-home
+            class='block w-full h-full hover:opacity-80 transition-opacity'
+          >
+            <Icon
+              name='material-symbols:library-music'
+              class='w-[22px] h-[22px] text-purple-500/80'
+            />
+          </a>
+        </div>
+
         <SongNotes notes={props.notes} />
         <SongChordsList chordIDs={props.chordIDs} />
 
