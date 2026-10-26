@@ -17,6 +17,10 @@
       "url": "./project/schemas/chords-index.schema.json"
     },
     {
+      "fileMatch": ["public/chords/ukulele/index.json"],
+      "url": "./project/schemas/ukulele-chords-index.schema.json"
+    },
+    {
       "fileMatch": ["public/themes/index.json"],
       "url": "./project/schemas/themes-index.schema.json"
     },

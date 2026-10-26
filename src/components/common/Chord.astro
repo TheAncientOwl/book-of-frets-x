@@ -4,34 +4,37 @@
  *                     Copyright (c) by BookOfFretsX 2026                      *
  * --------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
- *
  * @file Chord.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 1.3
  * @description Render chord block based on given config.
  */
 
 import Fret from './Fret.astro';
-import type { TIsOpenFret } from './Fret.astro';
 import type { TChord, TFret } from '#types/chord';
-import type { TGuitarString } from '#types/common';
+import type { TGuitarString, TUkuleleString } from '#types/common';
 import ChordDisplay from '#components/song/sections/renderers/chords/v2/Display.astro';
 
 interface Props extends TChord {
   class?: string;
+  type?: 'guitar' | 'ukulele';
 }
+
+type TStringKey = TGuitarString | TUkuleleString;
 
 const props = Astro.props;
 const className = props.class || '';
+const type = props.type || 'guitar';
 
-const GuitarStrings: TGuitarString[] = ['E', 'A', 'D', 'G', 'B', 'e'] as const;
+const InstrumentStrings: TStringKey[] =
+  type === 'guitar' ? (['E', 'A', 'D', 'G', 'B', 'e'] as const) : (['G', 'C', 'E', 'A'] as const);
 
-const computeOpenFrets = (frets: TFret[]): TIsOpenFret => {
-  const out = [true, true, true, true, true, true] as TIsOpenFret;
+const computeOpenFrets = (frets: TFret[]): boolean[] => {
+  const out = InstrumentStrings.map(() => true);
 
-  GuitarStrings.forEach((stringName, stringIdx) => {
+  InstrumentStrings.forEach((stringName, stringIdx) => {
     for (const fret of frets) {
-      if (fret[stringName] !== undefined) {
+      if (fret[stringName as keyof TFret] !== undefined) {
         out[stringIdx] = false;
         break;
       }
@@ -43,8 +46,8 @@ const computeOpenFrets = (frets: TFret[]): TIsOpenFret => {
 
 // Explicit type casting handles the strict Map constructor iterable requirements cleanly
 const computedFretsData = props.frets.map(fret => {
-  return new Map<TGuitarString, number>(
-    Object.entries(fret).map(([key, value]) => [key as TGuitarString, value as number]),
+  return new Map<TStringKey, number>(
+    Object.entries(fret).map(([key, value]) => [key as TStringKey, value as number]),
   );
 });
 ---
@@ -78,6 +81,7 @@ const computedFretsData = props.frets.map(fret => {
             <Fret
               stringsToFingers={stringToFingersMap}
               isOpenFret={idx !== 0 ? undefined : computeOpenFrets(props.frets)}
+              type={type}
             />
             {idx < props.frets.length && <hr class='border-t border-solid border-amber-300/60' />}
           </>

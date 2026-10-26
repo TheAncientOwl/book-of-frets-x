@@ -4,23 +4,37 @@
  *                     Copyright (c) by BookOfFretsX 2026                      *
  * --------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
- *
  * @file Fret.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Render fret row based on given config.
  */
 
 import { Icon } from 'astro-icon/components';
-import type { TGuitarString } from '#types/common';
+import type { TGuitarString, TUkuleleString } from '#types/common';
 
-export const GuitarStrings: TGuitarString[] = ['E', 'A', 'D', 'G', 'B', 'e'] as const;
-const GuitarStringsWidths: string[] = ['3.3px', '3px', '2.8px', '2.3px', '1.8px', '1.5px'] as const;
+type TStringKey = TGuitarString | TUkuleleString;
+
+type Props = {
+  stringsToFingers: Map<TStringKey, number>;
+  isOpenFret?: boolean[];
+  showFinger?: boolean; // Managed via component props or Astro.locals from layout state
+  type?: 'guitar' | 'ukulele';
+};
+
+const { stringsToFingers, isOpenFret, showFinger = true, type = 'guitar' } = Astro.props;
+
+const GuitarStrings =
+  type === 'guitar' ? (['E', 'A', 'D', 'G', 'B', 'e'] as const) : (['G', 'C', 'E', 'A'] as const);
+
+const GuitarStringsWidths =
+  type === 'guitar'
+    ? ['3.3px', '3px', '2.8px', '2.3px', '1.8px', '1.5px']
+    : ['3px', '2.5px', '2.5px', '3px'];
+
 const THUMB_STRING_ID = 7;
 const MUTED_STRING_ID = -1;
-const DISTANCE_BETWEEN_CHORDS = 20;
-
-export type TIsOpenFret = [boolean, boolean, boolean, boolean, boolean, boolean];
+const DISTANCE_BETWEEN_CHORDS = type === 'guitar' ? 20 : 33.3333;
 
 export type TBarreChordLine = {
   begin: number;
@@ -28,15 +42,13 @@ export type TBarreChordLine = {
   finger: number;
 };
 
-type TStringsToFingersMap = Map<TGuitarString, number>;
-
-const getBarreChordLine = (stringsToFingers: TStringsToFingersMap): TBarreChordLine | undefined => {
+const getBarreChordLine = (map: Map<TStringKey, number>): TBarreChordLine | undefined => {
   const barre: TBarreChordLine = { begin: -1, span: -1, finger: -1 };
   let lastIdx = -1;
 
   for (let stringIdx = 0; stringIdx < GuitarStrings.length; stringIdx++) {
     const stringName = GuitarStrings[stringIdx];
-    const fingerId = stringsToFingers.get(stringName);
+    const fingerId = map.get(stringName);
 
     if (fingerId !== undefined && fingerId !== MUTED_STRING_ID) {
       if (barre.begin === -1) {
@@ -56,19 +68,11 @@ const getBarreChordLine = (stringsToFingers: TStringsToFingersMap): TBarreChordL
   return barre.span > 1 ? barre : undefined;
 };
 
-type Props = {
-  stringsToFingers: TStringsToFingersMap;
-  isOpenFret?: TIsOpenFret;
-  showFinger?: boolean; // Managed via component props or Astro.locals from layout state
-};
-
-const { stringsToFingers, isOpenFret, showFinger = true } = Astro.props;
-
 const circleColorClass = showFinger ? 'bg-[#181426]' : 'bg-transparent';
 const barre = getBarreChordLine(stringsToFingers);
 ---
 
-<div class='flex flex-row h-[5em] relative bg-black/40 w-full'>
+<div class=`flex flex-row ${type === 'guitar' ? 'h-[5em]' : 'h-[3em]'} relative bg-black/40 w-full`>
   <!-- Barre Chord Line Frame Indicator Overlay -->
   {
     barre && (

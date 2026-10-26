@@ -6,8 +6,9 @@
  *
  * @file common.d.ts
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Common types for json mapping.
  */
 
 export type TGuitarString = 'E' | 'A' | 'D' | 'G' | 'B' | 'e';
+export type TUkuleleString = 'G' | 'C' | 'E' | 'A';
