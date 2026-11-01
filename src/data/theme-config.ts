@@ -16,6 +16,15 @@ export interface ThemeColors {
   onAccent: string;
   overlay: string;
   scrollbar: string;
+  black: string;
+  success: string;
+  successStrong: string;
+  successSurface: string;
+  successSurfaceRaised: string;
+  error: string;
+  errorStrong: string;
+  errorSurface: string;
+  info: string;
 }
 
 export interface AppTheme {

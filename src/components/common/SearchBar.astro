@@ -26,18 +26,18 @@ const { placeholder = 'Search items...' } = Astro.props;
     aria-label='Search items'
     placeholder={placeholder}
     class=`w-full rounded-lg py-2 pl-4 pr-16
-        text-magenta bg-deep-purple-900 border border-magenta
-        focus:outline-none focus:ring-2 focus:ring-magenta-700 focus:border-transparent
-        placeholder-magenta-500 transition-all`
+        text-(--theme-highlight) bg-(--theme-surface) border border-(--theme-highlight)
+        focus:outline-none focus:ring-2 focus:ring-(--theme-surface-hover) focus:border-(--theme-transparent)
+        placeholder:text-(--theme-highlight) transition-all`
   />
 
-  <div class='absolute inset-y-0 right-0 flex items-center pr-3 gap-1.5 text-magenta'>
+  <div class='absolute inset-y-0 right-0 flex items-center pr-3 gap-1.5 text-(--theme-highlight)'>
     <!-- Clear 'X' button (hidden by default via opacity/pointer-events) -->
     <button
       type='button'
       data-clear-btn
       aria-label='Clear search'
-      class='opacity-0 pointer-events-none hover:text-white transition-opacity cursor-pointer p-0.5 flex items-center justify-center'
+      class='opacity-0 pointer-events-none hover:text-(--theme-text) transition-opacity cursor-pointer p-0.5 flex items-center justify-center'
     >
       <Icon name='tabler:x' class='w-4 h-4' />
     </button>

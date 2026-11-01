@@ -11,11 +11,11 @@
  */
 ---
 
-<div class='flex w-full bg-deep-charcoal p-1 rounded-lg mb-3 sm:mb-6 border border-purple-900/50'>
+<div class='flex w-full bg-(--theme-page) p-1 rounded-lg mb-3 sm:mb-6 border border-(--theme-surface-hover)/50'>
   <button
     id='tab-notes'
     aria-label='Switch to Note game'
-    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer'
+    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-(--theme-surface-hover) text-(--theme-text) shadow cursor-pointer'
     onclick='switchTab("notes")'
   >
     Note
@@ -23,7 +23,7 @@
   <button
     id='tab-strings'
     aria-label='Switch to Note & String game'
-    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer'
+    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-(--theme-muted) hover:text-(--theme-text) cursor-pointer'
     onclick='switchTab("strings")'
   >
     Note & String
@@ -31,7 +31,7 @@
   <button
     id='tab-coordinates'
     aria-label='Switch to Fret Quiz game'
-    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer'
+    class='min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-(--theme-muted) hover:text-(--theme-text) cursor-pointer'
     onclick='switchTab("coordinates")'
   >
     Fret Quiz
@@ -131,8 +131,8 @@
     tabs.forEach(({ id, button, panel }) => {
       const isActive = id === tab;
       button.className = isActive
-        ? 'min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-purple-700 text-white shadow cursor-pointer'
-        : 'min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-gray-400 hover:text-white cursor-pointer';
+        ? 'min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors bg-(--theme-surface-hover) text-(--theme-text) shadow cursor-pointer'
+        : 'min-w-0 flex-1 px-1 py-2 text-xs sm:text-sm font-semibold rounded-md transition-colors text-(--theme-muted) hover:text-(--theme-text) cursor-pointer';
       panel.style.display = isActive ? 'flex' : 'none';
     });
 

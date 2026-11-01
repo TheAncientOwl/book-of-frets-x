@@ -27,15 +27,15 @@ const { directory, available } = Astro.props;
     disabled={!available}
     data-directory={directory}
     data-available={available ? 'true' : 'false'}
-    class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-amber-300/90 text-amber-300/90 transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 hover:bg-black'
+    class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-(--theme-accent-text)/90 text-(--theme-accent-text)/90 transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 hover:bg-(--theme-black)'
     aria-label='open-pdf-button'
   >
-    <Icon name='fa6-solid:file-pdf' class='w-[16px] h-[16px] text-amber-300/90' />
+    <Icon name='fa6-solid:file-pdf' class='w-[16px] h-[16px] text-(--theme-accent-text)/90' />
   </button>
 
   <!-- Projecting downwards and expanding rightward toward the center layout track -->
   <div
-    class='absolute left-0 top-full mt-2 px-2.5 py-1.5 text-xs rounded-lg border border-solid border-amber-300/90 bg-deep-purple text-amber-300/90 opacity-0 pointer-events-none group-hover/pdf-btn:opacity-100 transition-opacity whitespace-nowrap z-40 shadow-xl text-center'
+    class='absolute left-0 top-full mt-2 px-2.5 py-1.5 text-xs rounded-lg border border-solid border-(--theme-accent-text)/90 bg-(--theme-surface) text-(--theme-accent-text)/90 opacity-0 pointer-events-none group-hover/pdf-btn:opacity-100 transition-opacity whitespace-nowrap z-40 shadow-xl text-center'
   >
     {
       available ? (
@@ -43,7 +43,7 @@ const { directory, available } = Astro.props;
       ) : (
         <div>
           PDF not available for this song... :( <br />
-          <span class='text-magenta font-semibold'>Feel free to contribute :D</span>
+          <span class='text-(--theme-highlight) font-semibold'>Feel free to contribute :D</span>
         </div>
       )
     }

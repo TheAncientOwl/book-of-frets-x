@@ -24,19 +24,19 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 ---
 
 <GeneralLayout>
-  <div class='bg-deep-charcoal min-h-dvh flex flex-col items-center text-theme-text'>
+  <div class='bg-(--theme-page) min-h-dvh flex flex-col items-center text-(--theme-text)'>
     <div
-      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-deep-purple p-3 sm:p-6 pt-6 rounded-xl shadow-2xl'
+      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-(--theme-surface) p-3 sm:p-6 pt-6 rounded-xl shadow-2xl'
     >
       <PageHeader>
-        <Icon name='material-symbols:track-changes' class='w-[22px] h-[22px] text-purple-500/80' />
+        <Icon name='material-symbols:track-changes' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
         Practice
         <IconButton slot='action' label='Settings' onclick='openActiveSettingsModal()'>
           <Icon name='material-symbols:settings' class='w-[20px] h-[20px]' />
         </IconButton>
       </PageHeader>
 
-      <p class='text-gray-400 text-sm mb-3 sm:mb-6 text-center'>
+      <p class='text-(--theme-muted) text-sm mb-3 sm:mb-6 text-center'>
         Sharpen your fretboard fluency with focused minigames!
       </p>
 

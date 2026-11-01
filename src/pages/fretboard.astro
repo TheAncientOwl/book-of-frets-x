@@ -18,12 +18,12 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 ---
 
 <GeneralLayout>
-  <div class='bg-deep-charcoal min-h-dvh flex justify-center text-theme-text'>
+  <div class='bg-(--theme-page) min-h-dvh flex justify-center text-(--theme-text)'>
     <div
-      class='w-full max-w-xl flex flex-col items-center bg-deep-purple p-6 rounded-xl shadow-2xl'
+      class='w-full max-w-xl flex flex-col items-center bg-(--theme-surface) p-6 rounded-xl shadow-2xl'
     >
       <PageHeader>
-        <Icon name='game-icons:guitar' class='w-5.5 h-5.5 text-purple-500/80' />
+        <Icon name='game-icons:guitar' class='w-5.5 h-5.5 text-(--theme-accent-strong)/80' />
         Fretboard
       </PageHeader>
       <Fretboard id='fretboard' />

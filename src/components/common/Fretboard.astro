@@ -77,23 +77,23 @@ const sharpToFlatMap: Record<string, string> = {
 >
   {
     showControls && (
-      <div class='flex gap-2 text-xs font-medium text-stone-400 whitespace-nowrap overflow-x-auto max-w-full pb-1'>
+      <div class='flex gap-2 text-xs font-medium text-(--theme-subtle) whitespace-nowrap overflow-x-auto max-w-full pb-1'>
         <label
           for={`${id}-sound-mode`}
-          class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-stone-300 transition-all'
+          class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-(--theme-muted) transition-all'
         >
           <Checkbox id={`${id}-sound-mode`} />
           <span>Sound Mode</span>
         </label>
-        <div class='w-px h-5 bg-stone-700 mx-1 shrink-0' />
-        <label class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-stone-300 transition-colors'>
+        <div class='w-px h-5 bg-(--theme-surface-hover) mx-1 shrink-0' />
+        <label class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-(--theme-muted) transition-colors'>
           <Checkbox id={`${id}-hide-accidentals`} />
           <span>Hide Accidentals</span>
         </label>
-        <div class='w-px h-5 bg-stone-700 mx-1 shrink-0' />
+        <div class='w-px h-5 bg-(--theme-surface-hover) mx-1 shrink-0' />
         <label
           data-use-flats-label
-          class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-stone-300 transition-all'
+          class='flex items-center gap-2 shrink-0 cursor-pointer hover:text-(--theme-muted) transition-all'
         >
           <Checkbox id={`${id}-use-flats`} />
           <span>Use Flats (b)</span>
@@ -115,7 +115,7 @@ const sharpToFlatMap: Record<string, string> = {
                 aria-label={`Select string ${stringLabel}`}
                 data-select-string={stringIndex}
                 disabled={!interactive}
-                class='string-selector text-xs font-bold text-stone-500 hover:text-amber-300 transition-all cursor-pointer p-1 rounded-md'
+                class='string-selector text-xs font-bold text-(--theme-subtle) hover:text-(--theme-accent-text) transition-all cursor-pointer p-1 rounded-md'
               >
                 {stringLabel}
               </button>
@@ -140,13 +140,13 @@ const sharpToFlatMap: Record<string, string> = {
             <div
               data-fret={fretInfo.fret}
               style={`--fret-height: ${fretHeight}px;`}
-              class={`fret-space relative flex items-center justify-between transition-colors ${isNutOrOctave ? 'fret-octave' : 'hover:bg-white/3'}`}
+              class={`fret-space relative flex items-center justify-between transition-colors ${isNutOrOctave ? 'fret-octave' : 'hover:bg-(--theme-text)/3'}`}
             >
               <button
                 type='button'
                 data-select-fret={fretInfo.fret}
                 aria-label={`Select ${fretInfo.fret}`}
-                class='fret-selector absolute -left-8 top-1/2 -translate-y-1/2 text-xs font-mono font-semibold text-stone-500 w-5 text-right hover:text-amber-300 transition-all cursor-pointer select-none pointer-events-auto'
+                class='fret-selector absolute -left-8 top-1/2 -translate-y-1/2 text-xs font-mono font-semibold text-(--theme-subtle) w-5 text-right hover:text-(--theme-accent-text) transition-all cursor-pointer select-none pointer-events-auto'
               >
                 {isNut ? '' : fretInfo.fret}
               </button>
@@ -187,7 +187,7 @@ const sharpToFlatMap: Record<string, string> = {
                       data-string={stringIndex}
                       data-accidental={isAccidental ? 'true' : 'false'}
                       data-nut={isNutOrOctave ? 'true' : 'false'}
-                      class={`note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer ${isNutOrOctave ? 'bg-amber-400/90 text-stone-950 font-extrabold' : 'bg-slate-950/90 text-amber-200 border border-amber-400/40'}`}
+                      class={`note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer ${isNutOrOctave ? 'bg-(--theme-accent)/90 text-(--theme-page) font-extrabold' : 'bg-(--theme-page)/90 text-(--theme-accent) border border-(--theme-accent)/40'}`}
                     >
                       {note}
                     </button>
@@ -443,28 +443,28 @@ const sharpToFlatMap: Record<string, string> = {
           badge.style.opacity = '1';
           badge.style.transform = '';
           badge.className = isNut
-            ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-amber-500/90 text-stone-950 font-extrabold'
-            : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-slate-950/90 text-amber-200 border border-amber-400/40';
+            ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-(--theme-accent)/90 text-(--theme-page) font-extrabold'
+            : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all hover:scale-110 shadow-md cursor-pointer bg-(--theme-page)/90 text-(--theme-accent) border border-(--theme-accent)/40';
         } else if (isHighlighted) {
           badge.style.opacity = '1';
           badge.style.transform = 'scale(1.15)';
           badge.className =
-            'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all shadow-lg cursor-pointer bg-green-600 text-stone-950 border-2 border-green-400 font-extrabold ring-4 ring-green-600/30';
+            'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all shadow-lg cursor-pointer bg-(--theme-success-strong) text-(--theme-page) border-2 border-(--theme-success) font-extrabold ring-4 ring-(--theme-success-strong)/30';
         } else {
           badge.style.opacity = '0.4';
           badge.style.transform = 'scale(0.9)';
           badge.className = isNut
-            ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-amber-500/90 text-stone-950 font-extrabold'
-            : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-slate-950/90 text-amber-200 border border-amber-400/40';
+            ? 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-(--theme-accent)/90 text-(--theme-page) font-extrabold'
+            : 'note-badge z-10 flex items-center justify-center w-7 h-7 rounded-full text-[11px] font-bold transition-all cursor-pointer bg-(--theme-page)/90 text-(--theme-accent) border border-(--theme-accent)/40';
         }
       });
 
       fretSelectors.forEach(button => {
         if (selectedFret === button.dataset.selectFret) {
-          button.classList.replace('text-stone-500', 'text-amber-400');
+          button.classList.replace('text-(--theme-subtle)', 'text-(--theme-accent)');
           button.classList.add('scale-125');
         } else {
-          button.classList.replace('text-amber-400', 'text-stone-500');
+          button.classList.replace('text-(--theme-accent)', 'text-(--theme-subtle)');
           button.classList.remove('scale-125');
         }
       });
@@ -475,10 +475,10 @@ const sharpToFlatMap: Record<string, string> = {
           (targetSelection?.stringIndex !== null &&
             targetSelection?.stringIndex === button.dataset.selectString);
         if (isSelected) {
-          button.classList.replace('text-stone-500', 'text-amber-400');
+          button.classList.replace('text-(--theme-subtle)', 'text-(--theme-accent)');
           button.classList.add('scale-125');
         } else {
-          button.classList.replace('text-amber-400', 'text-stone-500');
+          button.classList.replace('text-(--theme-accent)', 'text-(--theme-subtle)');
           button.classList.remove('scale-125');
         }
       });
@@ -488,18 +488,18 @@ const sharpToFlatMap: Record<string, string> = {
       element.classList.add(
         'scale-125',
         'ring-4',
-        'ring-green-400',
-        '!bg-green-400',
-        '!text-stone-950',
+        'ring-(--theme-success)',
+        '!bg-(--theme-success)',
+        '!text-(--theme-page)',
         'z-30',
       );
       setTimeout(() => {
         element.classList.remove(
           'scale-125',
           'ring-4',
-          'ring-green-400',
-          '!bg-green-400',
-          '!text-stone-950',
+          'ring-(--theme-success)',
+          '!bg-(--theme-success)',
+          '!text-(--theme-page)',
           'z-30',
         );
         updateFretboardState();

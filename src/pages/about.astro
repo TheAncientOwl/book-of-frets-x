@@ -16,13 +16,13 @@ import AboutLayout from '#layouts/AboutLayout.astro';
 ---
 
 <AboutLayout>
-  <div class='bg-deep-charcoal min-h-dvh flex flex-col'>
+  <div class='bg-(--theme-page) min-h-dvh flex flex-col'>
     <div
       id='about-page-container'
-      class='w-full h-full min-h-dvh px-4 py-6 flex flex-col md:rounded-xl max-w-full md:max-w-4xl mx-auto bg-deep-purple shadow-2xl overflow-y-auto text-magenta/90'
+      class='w-full h-full min-h-dvh px-4 py-6 flex flex-col md:rounded-xl max-w-full md:max-w-4xl mx-auto bg-(--theme-surface) shadow-2xl overflow-y-auto text-(--theme-highlight)/90'
     >
       <h1
-        class='text-center font-bold text-2xl sm:text-3xl md:text-4xl mb-6 text-amber-300 tracking-wide'
+        class='text-center font-bold text-2xl sm:text-3xl md:text-4xl mb-6 text-(--theme-accent-text) tracking-wide'
       >
         Book Of Frets
       </h1>
@@ -35,35 +35,35 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             of songs with detailed frets, strumming patterns, chords,{' '}
             <a
               href='/chords'
-              class='text-amber-300 font-medium no-underline hover:opacity-80 transition-opacity'
+              class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               chords list
             </a>
             ,{' '}
             <a
               href='/'
-              class='text-amber-300 font-medium no-underline hover:opacity-80 transition-opacity'
+              class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               songs list
             </a>
             ,{' '}
             <a
               href='/fretboard'
-              class='text-amber-300 font-medium no-underline hover:opacity-80 transition-opacity'
+              class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               fretboard
             </a>
             ,{' '}
             <a
               href='/practice'
-              class='text-amber-300 font-medium no-underline hover:opacity-80 transition-opacity'
+              class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               practice pages
             </a>
             , and customizable{' '}
             <a
               href='/settings'
-              class='text-amber-300 font-medium no-underline hover:opacity-80 transition-opacity'
+              class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               themes
             </a>
@@ -71,108 +71,108 @@ import AboutLayout from '#layouts/AboutLayout.astro';
           </p>
         </div>
 
-        <hr class='border-purple-900/40 w-full' />
+        <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-4 text-amber-300 flex items-center gap-2'>
+          <h2 class='text-lg sm:text-xl font-bold mb-4 text-(--theme-accent-text) flex items-center gap-2'>
             <span>✨</span> Features
           </h2>
           <div class='grid grid-cols-1 sm:grid-cols-2 gap-3 w-full'>
             <div
-              class='bg-deep-charcoal/30 p-3.5 rounded-lg border border-purple-950/40 flex items-start gap-2.5'
+              class='bg-(--theme-page)/30 p-3.5 rounded-lg border border-(--theme-surface)/40 flex items-start gap-2.5'
             >
-              <span class='text-amber-300 text-sm mt-0.5'>🎵</span>
-              <p class='text-magenta/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-magenta/90'>Songs with Frets:</span> Visualize songs with
+              <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎵</span>
+              <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
+                <span class='font-semibold text-(--theme-highlight)/90'>Songs with Frets:</span> Visualize songs with
                 precise fret positions to help you learn finger placements.
               </p>
             </div>
             <div
-              class='bg-deep-charcoal/30 p-3.5 rounded-lg border border-purple-950/40 flex items-start gap-2.5'
+              class='bg-(--theme-page)/30 p-3.5 rounded-lg border border-(--theme-surface)/40 flex items-start gap-2.5'
             >
-              <span class='text-amber-300 text-sm mt-0.5'>🎼</span>
-              <p class='text-magenta/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-magenta/90'>Chords:</span> Access a rich library of chords
+              <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎼</span>
+              <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
+                <span class='font-semibold text-(--theme-highlight)/90'>Chords:</span> Access a rich library of chords
                 with clear diagrams.
               </p>
             </div>
             <div
-              class='bg-deep-charcoal/30 p-3.5 rounded-lg border border-purple-950/40 flex items-start gap-2.5'
+              class='bg-(--theme-page)/30 p-3.5 rounded-lg border border-(--theme-surface)/40 flex items-start gap-2.5'
             >
-              <span class='text-amber-300 text-sm mt-0.5'>📖</span>
-              <p class='text-magenta/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-magenta/90'>Chords List:</span> Browse and search through
+              <span class='text-(--theme-accent-text) text-sm mt-0.5'>📖</span>
+              <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
+                <span class='font-semibold text-(--theme-highlight)/90'>Chords List:</span> Browse and search through
                 a curated list of chords.
               </p>
             </div>
             <div
-              class='bg-deep-charcoal/30 p-3.5 rounded-lg border border-purple-950/40 flex items-start gap-2.5'
+              class='bg-(--theme-page)/30 p-3.5 rounded-lg border border-(--theme-surface)/40 flex items-start gap-2.5'
             >
-              <span class='text-amber-300 text-sm mt-0.5'>📂</span>
-              <p class='text-magenta/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-magenta/90'>Songs List:</span> Easily navigate through
+              <span class='text-(--theme-accent-text) text-sm mt-0.5'>📂</span>
+              <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
+                <span class='font-semibold text-(--theme-highlight)/90'>Songs List:</span> Easily navigate through
                 a growing collection of songs.
               </p>
             </div>
             <div
-              class='bg-deep-charcoal/30 p-3.5 rounded-lg border border-purple-950/40 flex items-start gap-2.5'
+              class='bg-(--theme-page)/30 p-3.5 rounded-lg border border-(--theme-surface)/40 flex items-start gap-2.5'
             >
-              <span class='text-amber-300 text-sm mt-0.5'>🎸</span>
-              <p class='text-magenta/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-magenta/90'>Interactive Fretboard:</span> Explore notes,
+              <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎸</span>
+              <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
+                <span class='font-semibold text-(--theme-highlight)/90'>Interactive Fretboard:</span> Explore notes,
                 scales, and fingerings directly on an interactive fretboard layout.
               </p>
             </div>
             <div
-              class='bg-deep-charcoal/30 p-3.5 rounded-lg border border-purple-950/40 flex items-start gap-2.5'
+              class='bg-(--theme-page)/30 p-3.5 rounded-lg border border-(--theme-surface)/40 flex items-start gap-2.5'
             >
-              <span class='text-amber-300 text-sm mt-0.5'>🎯</span>
-              <p class='text-magenta/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-magenta/90'>Practice Tools:</span> Enhance your skills
+              <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎯</span>
+              <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
+                <span class='font-semibold text-(--theme-highlight)/90'>Practice Tools:</span> Enhance your skills
                 with dedicated training modes and practice views.
               </p>
             </div>
             <div
-              class='bg-deep-charcoal/30 p-3.5 rounded-lg border border-purple-950/40 flex items-start gap-2.5'
+              class='bg-(--theme-page)/30 p-3.5 rounded-lg border border-(--theme-surface)/40 flex items-start gap-2.5'
             >
-              <span class='text-amber-300 text-sm mt-0.5'>🎨</span>
-              <p class='text-magenta/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-magenta/90'>Themes:</span> Customize the look and feel
+              <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎨</span>
+              <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
+                <span class='font-semibold text-(--theme-highlight)/90'>Themes:</span> Customize the look and feel
                 of the app with various themes.
               </p>
             </div>
             <div
-              class='bg-deep-charcoal/30 p-3.5 rounded-lg border border-purple-950/40 flex items-start gap-2.5'
+              class='bg-(--theme-page)/30 p-3.5 rounded-lg border border-(--theme-surface)/40 flex items-start gap-2.5'
             >
-              <span class='text-amber-300 text-sm mt-0.5'>📺</span>
-              <p class='text-magenta/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-magenta/90'>Video Resources:</span> Learn how to play
+              <span class='text-(--theme-accent-text) text-sm mt-0.5'>📺</span>
+              <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
+                <span class='font-semibold text-(--theme-highlight)/90'>Video Resources:</span> Learn how to play
                 songs with helpful video tutorials.
               </p>
             </div>
           </div>
         </div>
 
-        <hr class='border-purple-900/40 w-full' />
+        <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-3 text-amber-300 flex items-center gap-2'>
+          <h2 class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'>
             <span>🛠️</span> Main Feature
           </h2>
-          <p class='text-magenta/80 break-words w-full'>
+          <p class='text-(--theme-highlight)/80 break-words w-full'>
             BookOfFrets is easily configurable via JSON files, allowing users and contributors to
             add new songs, chords, and themes without modifying the core code. This extensibility
             makes it simple to expand the app's content and tailor it to your preferences.
           </p>
         </div>
 
-        <hr class='border-purple-900/40 w-full' />
+        <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-3 text-amber-300 flex items-center gap-2'>
+          <h2 class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'>
             <span>🎶</span> Motivation
           </h2>
-          <p class='text-magenta/80 break-words w-full'>
+          <p class='text-(--theme-highlight)/80 break-words w-full'>
             As a guitar learner, I found myself frustrated with the tedious process of writing
             chords and songs by hand. I wanted a prettier, more extensible solution that could grow
             with my learning journey. BookOfFrets was born out of this desire to create an intuitive
@@ -180,18 +180,18 @@ import AboutLayout from '#layouts/AboutLayout.astro';
           </p>
         </div>
 
-        <hr class='border-purple-900/40 w-full' />
+        <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-3 text-amber-300 flex items-center gap-2'>
+          <h2 class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'>
             <span>🤝</span> Contribution
           </h2>
-          <p class='text-magenta/80 break-words w-full'>
+          <p class='text-(--theme-highlight)/80 break-words w-full'>
             <a
               href='https://github.com/TheAncientOwl/book-of-frets-x/blob/main/CONTRIBUTING.md'
               target='_blank'
               rel='noopener noreferrer'
-              class='text-amber-300 font-medium no-underline mr-1 hover:opacity-80 transition-opacity'
+              class='text-(--theme-accent-text) font-medium no-underline mr-1 hover:opacity-80 transition-opacity'
             >
               Contributions
             </a>
@@ -201,19 +201,19 @@ import AboutLayout from '#layouts/AboutLayout.astro';
           </p>
         </div>
 
-        <hr class='border-purple-900/40 w-full' />
+        <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-3 text-amber-300 flex items-center gap-2'>
+          <h2 class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'>
             <span>📜</span> License
           </h2>
-          <p class='text-magenta/80 break-words w-full'>
+          <p class='text-(--theme-highlight)/80 break-words w-full'>
             This project is licensed under the{' '}
             <a
               href='https://github.com/TheAncientOwl/book-of-frets/blob/main/LICENSE'
               target='_blank'
               rel='noopener noreferrer'
-              class='text-amber-300 font-medium no-underline hover:opacity-80 transition-opacity'
+              class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               MIT License
             </a>

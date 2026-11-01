@@ -22,10 +22,10 @@ const initialTheme = themeConfig.themes.find(theme => theme.id === themeConfig.d
   id='menu-trigger-btn'
   aria-label='App Menu'
   class='fixed top-8 left-4 z-[200] w-[45px] h-[45px] p-[3px] rounded-[10px]
-        border border-solid border-neon-purple cursor-pointer
+        border border-solid border-(--theme-accent-strong) cursor-pointer
         transition-colors duration-200
-        bg-deep-purple hover:bg-black/40
-        text-amber-300/90'
+        bg-(--theme-surface) hover:bg-(--theme-black)/40
+        text-(--theme-accent-text)/90'
 >
   <img
     src={`${import.meta.env.BASE_URL}${initialTheme?.logo ?? 'logo.svg'}`}
@@ -42,13 +42,13 @@ const initialTheme = themeConfig.themes.find(theme => theme.id === themeConfig.d
   id='app-menu-drawer'
   class='fixed left-0 m-0 top-0 bottom-0 w-full max-w-xs h-dvh max-h-none
         flex flex-col
-        bg-deep-purple p-0 shadow-2xl
+        bg-(--theme-surface) p-0 shadow-2xl
         transition-transform duration-300 -translate-x-full
-        backdrop:bg-black/60 open:translate-x-0'
+        backdrop:bg-(--theme-black)/60 open:translate-x-0'
 >
   <!-- Header -->
   <header
-    class='flex items-center justify-between p-4 sticky top-0 z-[110] bg-deep-purple border-b border-neon-purple/20'
+    class='flex items-center justify-between p-4 sticky top-0 z-[110] bg-(--theme-surface) border-b border-(--theme-accent-strong)/20'
   >
     <div class='flex items-center gap-2'>
       <img
@@ -58,11 +58,11 @@ const initialTheme = themeConfig.themes.find(theme => theme.id === themeConfig.d
         width='25'
         height='25'
       />
-      <span class='font-bold text-amber-300/90 text-xl'>Book Of Frets</span>
+      <span class='font-bold text-(--theme-accent-text)/90 text-xl'>Book Of Frets</span>
     </div>
     <button
       id='menu-close-btn'
-      class='p-1 text-amber-300/90 hover:text-magenta transition-colors cursor-pointer'
+      class='p-1 text-(--theme-accent-text)/90 hover:text-(--theme-highlight) transition-colors cursor-pointer'
       aria-label='Close menu'
     >
       <Icon name='material-symbols:close' class='w-6 h-6' />
@@ -76,13 +76,13 @@ const initialTheme = themeConfig.themes.find(theme => theme.id === themeConfig.d
 
   <!-- Footer -->
   <footer
-    class='p-4 border-t border-solid border-neon-purple/20 flex justify-center bg-deep-purple'
+    class='p-4 border-t border-solid border-(--theme-accent-strong)/20 flex justify-center bg-(--theme-surface)'
   >
     <a
       href='https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE'
       target='_blank'
       rel='noopener noreferrer'
-      class='flex items-center gap-1 text-sm text-amber-300/90 hover:text-magenta transition-colors duration-200'
+      class='flex items-center gap-1 text-sm text-(--theme-accent-text)/90 hover:text-(--theme-highlight) transition-colors duration-200'
     >
       Copyright <Icon name='material-symbols:copyright-outline' class='w-4 h-4' /> 2026 BookOfFrets
     </a>

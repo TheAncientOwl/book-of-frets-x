@@ -18,8 +18,8 @@ import PageNotFound404Layout from '#layouts/PageNotFound404Layout.astro';
 
 <PageNotFound404Layout directory=''>
   <div class='flex items-center justify-center min-h-dvh p-6'>
-    <div class='flex flex-col items-center justify-center text-center p-6 bg-black/30 gap-1'>
-      <h1 class='text-3xl font-bold mb-5 text-magenta italic'>
+    <div class='flex flex-col items-center justify-center text-center p-6 bg-(--theme-black)/30 gap-1'>
+      <h1 class='text-3xl font-bold mb-5 text-(--theme-highlight) italic'>
         These are not the frets <br />
         you’re looking for 🎸
       </h1>
@@ -35,8 +35,8 @@ import PageNotFound404Layout from '#layouts/PageNotFound404Layout.astro';
         <!-- Tooltip -->
         <div
           class='absolute top-full left-1/2 -translate-x-1/2 w-max p-3 rounded-lg
-                border border-magenta
-                 bg-black text-magenta opacity-0 transition-opacity
+                border border-(--theme-highlight)
+                 bg-(--theme-black) text-(--theme-highlight) opacity-0 transition-opacity
                  group-hover:opacity-100 pointer-events-none z-50'
         >
           <p>sad...</p>
@@ -45,12 +45,12 @@ import PageNotFound404Layout from '#layouts/PageNotFound404Layout.astro';
         </div>
       </div>
 
-      <div class='text-md font-bold text-magenta mb-10'>Page Not Found</div>
+      <div class='text-md font-bold text-(--theme-highlight) mb-10'>Page Not Found</div>
 
       <a
         href={`${import.meta.env.BASE_URL}`}
         data-resume-home
-        class='px-4 py-2 rounded transition-colors border border-magenta text-magenta'
+        class='px-4 py-2 rounded transition-colors border border-(--theme-highlight) text-(--theme-highlight)'
       >
         Take me home, country roads
       </a>

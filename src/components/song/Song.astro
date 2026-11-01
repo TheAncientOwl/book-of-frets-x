@@ -33,10 +33,10 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
 
 <div
   id='song-viewport-container'
-  class='w-full min-h-dvh overflow-y-auto bg-deep-charcoal md:p-3 flex flex-col items-center justify-start overflow-x-hidden'
+  class='w-full min-h-dvh overflow-y-auto bg-(--theme-page) md:p-3 flex flex-col items-center justify-start overflow-x-hidden'
 >
   <div
-    class='rounded-xl bg-deep-purple md:p-4 min-h-dvh w-full max-w-5xl flex flex-col justify-between gap-6'
+    class='rounded-xl bg-(--theme-surface) md:p-4 min-h-dvh w-full max-w-5xl flex flex-col justify-between gap-6'
   >
     <div>
       <SongHeader
@@ -52,7 +52,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
         res={props.res}
       />
 
-      <div class='rounded-xl bg-black/20 md:p-3 mt-3 relative'>
+      <div class='rounded-xl bg-(--theme-black)/20 md:p-3 mt-3 relative'>
         <div class='absolute right-4 -top-8'>
           <a
             href=`${import.meta.env.BASE_URL}index.html`
@@ -61,7 +61,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
           >
             <Icon
               name='material-symbols:library-music'
-              class='w-[22px] h-[22px] text-purple-500/80'
+              class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
             />
           </a>
         </div>
@@ -89,7 +89,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
 
     <!-- <div
       id='lazy-resources-wrapper'
-      class='mt-auto pt-6 border-t border-solid border-white/5 min-h-[200px]'
+      class='mt-auto pt-6 border-t border-solid border-(--theme-text)/5 min-h-[200px]'
     >
       <template id='song-resources-template'>
         <SongResources res={props.res} />

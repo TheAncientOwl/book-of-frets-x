@@ -17,12 +17,12 @@ import Fretboard from '#components/common/Fretboard.astro';
 <div id='game-notes' class='w-full flex-1 flex flex-col items-center'>
   <section
     id='notes-game-container'
-    class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-3 flex flex-col items-center border border-purple-900/40 relative shadow-inner transition-all duration-300'
+    class='w-full flex-1 bg-(--theme-page)/80 rounded-xl py-6 px-3 flex flex-col items-center border border-(--theme-surface-hover)/40 relative shadow-inner transition-all duration-300'
   >
     <!-- Target / Status Banner -->
     <div
       id='notes-status'
-      class='mb-2 text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300'
+      class='mb-2 text-xs sm:text-sm uppercase tracking-widest text-(--theme-highlight) font-semibold text-center transition-all duration-300'
     >
       Find Note on All Strings
     </div>
@@ -33,7 +33,7 @@ import Fretboard from '#components/common/Fretboard.astro';
         id='notes-start-btn'
         onclick='startNotesGame()'
         aria-label='Start Game'
-        class='mb-3 py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
+        class='mb-3 py-2 px-5 bg-(--theme-accent) hover:bg-(--theme-accent-text) text-(--theme-page) font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
       >
         <span id='notes-btn-icon' class='flex items-center justify-center'>
           <Icon name='material-symbols:play-arrow' class='w-[16px] h-[16px]' />
@@ -45,7 +45,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     <!-- Content -->
     <div
       id='notes-display'
-      class='mb-3 text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-3 flex-wrap text-center'
+      class='mb-3 text-2xl sm:text-3xl font-black text-(--theme-accent) tracking-wider flex items-center justify-center gap-3 flex-wrap text-center'
     >
       ?
     </div>
@@ -69,17 +69,17 @@ import Fretboard from '#components/common/Fretboard.astro';
 <!-- ========================================================= -->
 <div
   id='notes-modal'
-  class='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
+  class='fixed inset-0 bg-(--theme-black)/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
 >
   <div
-    class='bg-[#1e192f] border border-purple-900/60 w-full max-w-lg rounded-xl p-6 shadow-2xl flex flex-col'
+    class='bg-(--theme-surface) border border-(--theme-surface-hover)/60 w-full max-w-lg rounded-xl p-6 shadow-2xl flex flex-col'
   >
     <div class='flex justify-between items-center mb-4'>
-      <h3 class='text-lg font-bold text-amber-400'>Configure Notes</h3>
+      <h3 class='text-lg font-bold text-(--theme-accent)'>Configure Notes</h3>
       <button
         onclick='closeModal("notes-modal")'
         aria-label='Close Settings'
-        class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
+        class='text-(--theme-muted) hover:text-(--theme-text) text-lg cursor-pointer flex items-center'
       >
         <Icon name='material-symbols:close' class='w-[20px] h-[20px]' />
       </button>
@@ -90,7 +90,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <div class='min-w-0'>
         <label
           for='notes-count-input'
-          class='mb-2 block text-xs font-semibold text-gray-300 uppercase tracking-wide'
+          class='mb-2 block text-xs font-semibold text-(--theme-muted) uppercase tracking-wide'
         >
           Max Notes Per Prompt
         </label>
@@ -101,7 +101,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='-1'
             aria-label='Decrease max notes per prompt'
             title='Decrease max notes per prompt'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:remove' class='w-5 h-5' />
           </button>
@@ -113,7 +113,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             step='1'
             value='1'
             onchange='updateNotesCount(this.value)'
-            class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+            class='number-stepper-input min-w-0 w-full appearance-none bg-(--theme-page) border-y border-(--theme-surface-hover)/60 p-1 text-center text-xs font-medium text-(--theme-accent-text) focus:z-10 focus:outline-none focus:border-(--theme-accent)'
           />
           <button
             type='button'
@@ -121,7 +121,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='1'
             aria-label='Increase max notes per prompt'
             title='Increase max notes per prompt'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:add' class='w-5 h-5' />
           </button>
@@ -132,7 +132,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <div class='min-w-0'>
         <label
           for='max-fret-input'
-          class='mb-2 block text-xs font-semibold text-gray-300 uppercase tracking-wide'
+          class='mb-2 block text-xs font-semibold text-(--theme-muted) uppercase tracking-wide'
         >
           Max Display Fret
         </label>
@@ -143,7 +143,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='-1'
             aria-label='Decrease max fret'
             title='Decrease max fret'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:remove' class='w-5 h-5' />
           </button>
@@ -155,7 +155,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             step='1'
             value='12'
             onchange='updateMaxFret(this.value)'
-            class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+            class='number-stepper-input min-w-0 w-full appearance-none bg-(--theme-page) border-y border-(--theme-surface-hover)/60 p-1 text-center text-xs font-medium text-(--theme-accent-text) focus:z-10 focus:outline-none focus:border-(--theme-accent)'
           />
           <button
             type='button'
@@ -163,7 +163,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='1'
             aria-label='Increase max fret'
             title='Increase max fret'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:add' class='w-5 h-5' />
           </button>
@@ -172,20 +172,20 @@ import Fretboard from '#components/common/Fretboard.astro';
     </div>
 
     <div class='flex justify-between items-center mb-2'>
-      <span class='mb-2 text-xs font-semibold text-gray-300 uppercase tracking-wide'
+      <span class='mb-2 text-xs font-semibold text-(--theme-muted) uppercase tracking-wide'
         >Configure Available Notes</span
       >
       <div class='space-x-2 text-xs'>
         <button
           onclick='toggleAllNotes(true)'
           aria-label='Enable All Notes'
-          class='text-amber-400 hover:underline cursor-pointer'>All</button
+          class='text-(--theme-accent) hover:underline cursor-pointer'>All</button
         >
-        <span class='text-gray-500'>/</span>
+        <span class='text-(--theme-subtle)'>/</span>
         <button
           onclick='toggleAllNotes(false)'
           aria-label='Disable All Notes'
-          class='text-amber-400 hover:underline cursor-pointer'>None</button
+          class='text-(--theme-accent) hover:underline cursor-pointer'>None</button
         >
       </div>
     </div>
@@ -319,9 +319,9 @@ import Fretboard from '#components/common/Fretboard.astro';
 
       colItems.forEach(({ item, originalIndex }) => {
         colHtml += `
-          <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+          <label class="flex items-center gap-2 bg-(--theme-page)/60 p-2 rounded border border-(--theme-surface-hover)/40 cursor-pointer hover:border-(--theme-surface-hover)">
             <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="updateNoteState(${originalIndex}, this.checked)" class="bof-checkbox bof-checkbox--standard">
-            <span class="text-xs font-medium text-gray-200 cursor-pointer">${item.label}</span>
+            <span class="text-xs font-medium text-(--theme-muted) cursor-pointer">${item.label}</span>
           </label>
         `;
       });
@@ -426,7 +426,7 @@ import Fretboard from '#components/common/Fretboard.astro';
 
     const container = document.getElementById('notes-game-container');
     if (container) {
-      container.classList.remove('ring-2', 'ring-emerald-400', 'border-emerald-500/60');
+      container.classList.remove('ring-2', 'ring-(--theme-success)', 'border-(--theme-success-strong)/60');
     }
   }
 
@@ -467,10 +467,10 @@ import Fretboard from '#components/common/Fretboard.astro';
         if (!badge.hasAttribute('data-revealed')) {
           badge.textContent = badgeNote;
           badge.setAttribute('data-revealed', 'true');
-          badge.style.setProperty('background-color', '#16a34a', 'important');
-          badge.style.setProperty('border-color', '#4ade80', 'important');
-          badge.style.setProperty('color', '#ffffff', 'important');
-          badge.style.setProperty('box-shadow', '0 0 12px rgba(74, 222, 128, 0.6)', 'important');
+          badge.style.setProperty('background-color', 'var(--theme-success-strong)', 'important');
+          badge.style.setProperty('border-color', 'var(--theme-success)', 'important');
+          badge.style.setProperty('color', 'var(--theme-text)', 'important');
+          badge.style.setProperty('box-shadow', '0 0 12px color-mix(in srgb, var(--theme-success) 60%, transparent)', 'important');
           badge.style.setProperty('transform', 'scale(1.15)', 'important');
           badge.style.setProperty('opacity', '1', 'important');
           badge.style.cursor = 'default';
@@ -530,22 +530,22 @@ import Fretboard from '#components/common/Fretboard.astro';
               role="button"
               tabindex="0"
               onclick="revealAllPromptNotes('${note}')"
-              class="font-black text-amber-400 hover:text-amber-300 transition-colors cursor-help select-none"
+              class="font-black text-(--theme-accent) hover:text-(--theme-accent-text) transition-colors cursor-help select-none"
             >
               ${note}
             </span>
-            <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-stone-900 border border-purple-500/50 text-stone-200 text-[11px] font-medium py-1 px-2.5 rounded shadow-xl z-30">
+            <div class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-(--theme-surface) border border-(--theme-accent-strong)/50 text-(--theme-muted) text-[11px] font-medium py-1 px-2.5 rounded shadow-xl z-30">
               Click to reveal all ${note} notes
             </div>
           </div>
         `,
         )
-        .join('<span class="text-gray-600 font-light mx-1 self-center select-none">/</span>');
+        .join('<span class="text-(--theme-subtle) font-light mx-1 self-center select-none">/</span>');
     }
 
     if (status) {
       status.className =
-        'mb-2 text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300';
+        'mb-2 text-xs sm:text-sm uppercase tracking-widest text-(--theme-highlight) font-semibold text-center transition-all duration-300';
       status.textContent =
         actualCount > 1 ? 'Find Notes on All Strings' : 'Find Note on All Strings';
     }
@@ -561,11 +561,11 @@ import Fretboard from '#components/common/Fretboard.astro';
     if (status) {
       status.textContent = `🎉 Complete! Accuracy: ${accuracy}%`;
       status.className =
-        'mb-2 text-xs sm:text-sm uppercase tracking-widest text-emerald-400 font-extrabold text-center scale-105 transition-all duration-300';
+        'mb-2 text-xs sm:text-sm uppercase tracking-widest text-(--theme-success) font-extrabold text-center scale-105 transition-all duration-300';
     }
 
     if (container) {
-      container.classList.add('ring-2', 'ring-emerald-400', 'border-emerald-500/60');
+      container.classList.add('ring-2', 'ring-(--theme-success)', 'border-(--theme-success-strong)/60');
     }
   }
 
@@ -594,10 +594,10 @@ import Fretboard from '#components/common/Fretboard.astro';
 
     if (isCorrect) {
       correctAttempts++;
-      badge.style.setProperty('background-color', '#16a34a', 'important');
-      badge.style.setProperty('border-color', '#4ade80', 'important');
-      badge.style.setProperty('color', '#ffffff', 'important');
-      badge.style.setProperty('box-shadow', '0 0 12px rgba(74, 222, 128, 0.6)', 'important');
+      badge.style.setProperty('background-color', 'var(--theme-success-strong)', 'important');
+      badge.style.setProperty('border-color', 'var(--theme-success)', 'important');
+      badge.style.setProperty('color', 'var(--theme-text)', 'important');
+      badge.style.setProperty('box-shadow', '0 0 12px color-mix(in srgb, var(--theme-success) 60%, transparent)', 'important');
       badge.style.setProperty('transform', 'scale(1.15)', 'important');
       badge.style.setProperty('opacity', '1', 'important');
 
@@ -606,10 +606,10 @@ import Fretboard from '#components/common/Fretboard.astro';
         handleCompletionFeedback();
       }
     } else {
-      badge.style.setProperty('background-color', '#dc2626', 'important');
-      badge.style.setProperty('border-color', '#f87171', 'important');
-      badge.style.setProperty('color', '#ffffff', 'important');
-      badge.style.setProperty('box-shadow', '0 0 12px rgba(248, 113, 113, 0.6)', 'important');
+      badge.style.setProperty('background-color', 'var(--theme-error-strong)', 'important');
+      badge.style.setProperty('border-color', 'var(--theme-error)', 'important');
+      badge.style.setProperty('color', 'var(--theme-text)', 'important');
+      badge.style.setProperty('box-shadow', '0 0 12px color-mix(in srgb, var(--theme-error) 60%, transparent)', 'important');
       badge.style.setProperty('transform', 'scale(0.95)', 'important');
       badge.style.setProperty('opacity', '1', 'important');
     }

@@ -41,7 +41,16 @@
             "highlight": { "type": "string" },
             "onAccent": { "type": "string" },
             "overlay": { "type": "string" },
-            "scrollbar": { "type": "string" }
+            "scrollbar": { "type": "string" },
+            "black": { "type": "string" },
+            "success": { "type": "string" },
+            "successStrong": { "type": "string" },
+            "successSurface": { "type": "string" },
+            "successSurfaceRaised": { "type": "string" },
+            "error": { "type": "string" },
+            "errorStrong": { "type": "string" },
+            "errorSurface": { "type": "string" },
+            "info": { "type": "string" }
           },
           "required": [
             "page",
@@ -57,7 +66,16 @@
             "highlight",
             "onAccent",
             "overlay",
-            "scrollbar"
+            "scrollbar",
+            "black",
+            "success",
+            "successStrong",
+            "successSurface",
+            "successSurfaceRaised",
+            "error",
+            "errorStrong",
+            "errorSurface",
+            "info"
           ]
         }
       },

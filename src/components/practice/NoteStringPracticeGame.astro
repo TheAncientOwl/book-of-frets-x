@@ -16,7 +16,7 @@ import Fretboard from '#components/common/Fretboard.astro';
 
 <div id='game-strings' class='w-full flex-1 flex-col items-center' style='display: none'>
   <section
-    class='w-full flex-1 bg-deep-charcoal/80 rounded-xl py-6 px-3 flex flex-col items-center border border-purple-900/40 relative shadow-inner transition-all duration-300'
+    class='w-full flex-1 bg-(--theme-page)/80 rounded-xl py-6 px-3 flex flex-col items-center border border-(--theme-surface-hover)/40 relative shadow-inner transition-all duration-300'
   >
     <!-- Top Header Bar with Absolutely Positioned Mic Button -->
     <div class='mb-2 relative w-full flex justify-center items-center'>
@@ -26,7 +26,7 @@ import Fretboard from '#components/common/Fretboard.astro';
           id='strings-mic-toggle'
           onclick='toggleStringsMic()'
           aria-label='Toggle Strings Mic'
-          class='px-2.5 py-1 bg-green-900/50 hover:bg-green-800/60 text-[11px] font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1'
+          class='px-2.5 py-1 bg-(--theme-success-surface)/50 hover:bg-(--theme-success-surface-raised)/60 text-[11px] font-semibold rounded-md transition-colors text-(--theme-success) border border-(--theme-success-strong)/60 cursor-pointer flex items-center gap-1'
         >
           <span id='strings-mic-toggle-icon' class='flex items-center justify-center'>
             <Icon name='material-symbols:mic' class='w-3.5 h-3.5' />
@@ -37,7 +37,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <!-- Target / Status Header -->
       <div
         id='strings-status'
-        class='text-xs sm:text-sm uppercase tracking-widest text-purple-400 font-semibold text-center transition-all duration-300'
+        class='text-xs sm:text-sm uppercase tracking-widest text-(--theme-highlight) font-semibold text-center transition-all duration-300'
       >
         Find Note on String
       </div>
@@ -49,7 +49,7 @@ import Fretboard from '#components/common/Fretboard.astro';
         id='strings-start-btn'
         onclick='startStringsGame()'
         aria-label='Start Game'
-        class='py-2 px-5 bg-amber-400 hover:bg-amber-300 text-deep-charcoal font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
+        class='py-2 px-5 bg-(--theme-accent) hover:bg-(--theme-accent-text) text-(--theme-page) font-bold rounded-lg shadow transition-all text-xs uppercase tracking-wider cursor-pointer flex items-center justify-center gap-1.5'
       >
         <span id='strings-btn-icon' class='flex items-center justify-center'>
           <Icon name='material-symbols:play-arrow' class='w-4 h-4' />
@@ -61,7 +61,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     <!-- Target Prompts Display -->
     <div
       id='strings-display'
-      class='mb-3 text-2xl sm:text-3xl font-black text-amber-400 tracking-wider flex items-center justify-center gap-2 flex-wrap text-center'
+      class='mb-3 text-2xl sm:text-3xl font-black text-(--theme-accent) tracking-wider flex items-center justify-center gap-2 flex-wrap text-center'
     >
       ?
     </div>
@@ -71,7 +71,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <!-- Microphone Status -->
       <div
         id='strings-mic-status'
-        class='mb-1 text-[10px] uppercase tracking-widest text-gray-500 font-semibold text-center'
+        class='mb-1 text-[10px] uppercase tracking-widest text-(--theme-subtle) font-semibold text-center'
       >
         Microphone inactive
       </div>
@@ -84,21 +84,21 @@ import Fretboard from '#components/common/Fretboard.astro';
           aria-valuemin='0'
           aria-valuemax='100'
           aria-valuenow='0'
-          class='h-1.5 flex-1 overflow-hidden rounded-full bg-gray-700'
+          class='h-1.5 flex-1 overflow-hidden rounded-full bg-(--theme-surface-hover)'
         >
           <div
             id='strings-mic-level'
-            class='h-full w-0 rounded-full bg-emerald-400 transition-[width] duration-75'
+            class='h-full w-0 rounded-full bg-(--theme-success) transition-[width] duration-75'
           >
           </div>
         </div>
 
-        <span id='strings-mic-level-label' class='w-14 text-right text-[9px] text-gray-500'
+        <span id='strings-mic-level-label' class='w-14 text-right text-[9px] text-(--theme-subtle)'
           >No input</span
         >
       </div>
 
-      <div id='strings-pitch-display' class='text-[11px] text-gray-500 text-center'></div>
+      <div id='strings-pitch-display' class='text-[11px] text-(--theme-subtle) text-center'></div>
     </div>
 
     <!-- Silent Practice Interactive Fretboard -->
@@ -123,17 +123,17 @@ import Fretboard from '#components/common/Fretboard.astro';
 <!-- ========================================================= -->
 <div
   id='strings-modal'
-  class='fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
+  class='fixed inset-0 bg-(--theme-black)/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4'
 >
   <div
-    class='bg-[#1e192f] border border-purple-900/60 w-full max-w-lg rounded-xl p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto'
+    class='bg-(--theme-surface) border border-(--theme-surface-hover)/60 w-full max-w-lg rounded-xl p-6 shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto'
   >
     <div class='flex justify-between items-center mb-4'>
-      <h3 class='text-lg font-bold text-amber-400'>Configure Notes & Strings</h3>
+      <h3 class='text-lg font-bold text-(--theme-accent)'>Configure Notes & Strings</h3>
       <button
         onclick='closeModal("strings-modal")'
         aria-label='Close Settings'
-        class='text-gray-400 hover:text-white text-lg cursor-pointer flex items-center'
+        class='text-(--theme-muted) hover:text-(--theme-text) text-lg cursor-pointer flex items-center'
       >
         <Icon name='material-symbols:close' class='w-[20px] h-[20px]' />
       </button>
@@ -142,18 +142,18 @@ import Fretboard from '#components/common/Fretboard.astro';
     <!-- Practice Game Mode Switcher inside Settings -->
     <div class='mb-5'>
       <label
-        class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
+        class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-(--theme-muted) uppercase sm:text-xs'
       >
         Practice Mode
       </label>
       <div
-        class='grid grid-cols-2 gap-2 bg-deep-charcoal/80 p-1 rounded-lg border border-purple-900/60'
+        class='grid grid-cols-2 gap-2 bg-(--theme-page)/80 p-1 rounded-lg border border-(--theme-surface-hover)/60'
       >
         <button
           id='mode-btn-live'
           type='button'
           onclick='switchStringsGameMode("live")'
-          class='py-1.5 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer text-center bg-purple-900/80 text-amber-300'
+          class='py-1.5 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer text-center bg-(--theme-surface-hover)/80 text-(--theme-accent-text)'
         >
           Live Playing
         </button>
@@ -161,7 +161,7 @@ import Fretboard from '#components/common/Fretboard.astro';
           id='mode-btn-silent'
           type='button'
           onclick='switchStringsGameMode("silent")'
-          class='py-1.5 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer text-center text-gray-400 hover:text-gray-200'
+          class='py-1.5 px-3 rounded-md text-xs font-semibold transition-all cursor-pointer text-center text-(--theme-muted) hover:text-(--theme-muted)'
         >
           Silent Practice
         </button>
@@ -172,7 +172,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <div class='min-w-0'>
         <label
           for='strings-count-input'
-          class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
+          class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-(--theme-muted) uppercase sm:text-xs'
         >
           Max Combos
         </label>
@@ -183,7 +183,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='-1'
             aria-label='Decrease max combos per prompt'
             title='Decrease max combos per prompt'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:remove' class='w-5 h-5' />
           </button>
@@ -195,7 +195,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             step='1'
             value='1'
             onchange='updateStringsCount(this.value)'
-            class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+            class='number-stepper-input min-w-0 w-full appearance-none bg-(--theme-page) border-y border-(--theme-surface-hover)/60 p-1 text-center text-xs font-medium text-(--theme-accent-text) focus:z-10 focus:outline-none focus:border-(--theme-accent)'
           />
           <button
             type='button'
@@ -203,7 +203,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='1'
             aria-label='Increase max combos per prompt'
             title='Increase max combos per prompt'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:add' class='w-5 h-5' />
           </button>
@@ -213,7 +213,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <div class='min-w-0'>
         <label
           for='strings-tolerance-input'
-          class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
+          class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-(--theme-muted) uppercase sm:text-xs'
         >
           Tolerance
         </label>
@@ -224,7 +224,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='-1'
             aria-label='Decrease pitch tolerance'
             title='Decrease pitch tolerance'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:remove' class='w-5 h-5' />
           </button>
@@ -236,7 +236,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             step='5'
             value='35'
             onchange='updatePitchTolerance(this.value)'
-            class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+            class='number-stepper-input min-w-0 w-full appearance-none bg-(--theme-page) border-y border-(--theme-surface-hover)/60 p-1 text-center text-xs font-medium text-(--theme-accent-text) focus:z-10 focus:outline-none focus:border-(--theme-accent)'
           />
           <button
             type='button'
@@ -244,7 +244,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='1'
             aria-label='Increase pitch tolerance'
             title='Increase pitch tolerance'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:add' class='w-5 h-5' />
           </button>
@@ -254,7 +254,7 @@ import Fretboard from '#components/common/Fretboard.astro';
       <div class='min-w-0'>
         <label
           for='strings-delay-input'
-          class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-gray-300 uppercase sm:text-xs'
+          class='mb-2 block text-[10px] font-semibold leading-4 tracking-wide text-(--theme-muted) uppercase sm:text-xs'
         >
           Delay (ms)
         </label>
@@ -265,7 +265,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='-1'
             aria-label='Decrease delay before next note'
             title='Decrease delay before next note'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-l-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:remove' class='w-5 h-5' />
           </button>
@@ -277,7 +277,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             step='100'
             value='500'
             onchange='updateNextNoteDelay(this.value)'
-            class='number-stepper-input min-w-0 w-full appearance-none bg-deep-charcoal border-y border-purple-800/60 p-1 text-center text-xs font-medium text-amber-300 focus:z-10 focus:outline-none focus:border-amber-400'
+            class='number-stepper-input min-w-0 w-full appearance-none bg-(--theme-page) border-y border-(--theme-surface-hover)/60 p-1 text-center text-xs font-medium text-(--theme-accent-text) focus:z-10 focus:outline-none focus:border-(--theme-accent)'
           />
           <button
             type='button'
@@ -285,7 +285,7 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-step-direction='1'
             aria-label='Increase delay before next note'
             title='Increase delay before next note'
-            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-purple-800/60 bg-deep-charcoal text-gray-300 transition-colors hover:bg-purple-900/70 hover:text-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400'
+            class='flex h-8 w-8 shrink-0 items-center justify-center rounded-r-md border border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) transition-colors hover:bg-(--theme-surface-hover)/70 hover:text-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)'
           >
             <Icon name='material-symbols:add' class='w-5 h-5' />
           </button>
@@ -294,40 +294,40 @@ import Fretboard from '#components/common/Fretboard.astro';
     </div>
 
     <div class='flex justify-between items-center mb-2'>
-      <span class='text-xs font-semibold text-gray-300 uppercase tracking-wide'
+      <span class='text-xs font-semibold text-(--theme-muted) uppercase tracking-wide'
         >Configure Strings</span
       >
       <div class='space-x-2 text-xs'>
         <button
           onclick='toggleAllStrings(true)'
           aria-label='Enable All Strings'
-          class='text-amber-400 hover:underline cursor-pointer'>All</button
+          class='text-(--theme-accent) hover:underline cursor-pointer'>All</button
         >
-        <span class='text-gray-500'>/</span>
+        <span class='text-(--theme-subtle)'>/</span>
         <button
           onclick='toggleAllStrings(false)'
           aria-label='Disable All Strings'
-          class='text-amber-400 hover:underline cursor-pointer'>None</button
+          class='text-(--theme-accent) hover:underline cursor-pointer'>None</button
         >
       </div>
     </div>
     <div id='string-checkboxes' class='grid grid-cols-3 gap-2 mb-4'></div>
 
     <div class='flex justify-between items-center mb-2'>
-      <span class='text-xs font-semibold text-gray-300 uppercase tracking-wide'
+      <span class='text-xs font-semibold text-(--theme-muted) uppercase tracking-wide'
         >Configure Notes</span
       >
       <div class='space-x-2 text-xs'>
         <button
           onclick='toggleAllStringNotes(true)'
           aria-label='Enable All Notes'
-          class='text-amber-400 hover:underline cursor-pointer'>All</button
+          class='text-(--theme-accent) hover:underline cursor-pointer'>All</button
         >
-        <span class='text-gray-500'>/</span>
+        <span class='text-(--theme-subtle)'>/</span>
         <button
           onclick='toggleAllStringNotes(false)'
           aria-label='Disable All Notes'
-          class='text-amber-400 hover:underline cursor-pointer'>None</button
+          class='text-(--theme-accent) hover:underline cursor-pointer'>None</button
         >
       </div>
     </div>
@@ -463,9 +463,9 @@ import Fretboard from '#components/common/Fretboard.astro';
       let colHtml = `<div class="flex flex-col gap-2">`;
       colItems.forEach(({ item, originalIndex }) => {
         colHtml += `
-          <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+          <label class="flex items-center gap-2 bg-(--theme-page)/60 p-2 rounded border border-(--theme-surface-hover)/40 cursor-pointer hover:border-(--theme-surface-hover)">
             <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="${updateFnName}(${originalIndex}, this.checked)" class="bof-checkbox bof-checkbox--standard">
-            <span class="text-xs font-medium text-gray-200 cursor-pointer">${item.label}</span>
+            <span class="text-xs font-medium text-(--theme-muted) cursor-pointer">${item.label}</span>
           </label>
         `;
       });
@@ -482,9 +482,9 @@ import Fretboard from '#components/common/Fretboard.astro';
 
       stringsState.forEach((str: StringConfig, idx: number) => {
         sContainer.innerHTML += `
-          <label class="flex items-center gap-2 bg-deep-charcoal/60 p-2 rounded border border-purple-900/40 cursor-pointer hover:border-purple-700">
+          <label class="flex items-center gap-2 bg-(--theme-page)/60 p-2 rounded border border-(--theme-surface-hover)/40 cursor-pointer hover:border-(--theme-surface-hover)">
             <input type="checkbox" ${str.checked ? 'checked' : ''} onchange="updateStringState(${idx}, this.checked)" class="bof-checkbox bof-checkbox--standard">
-            <span class="text-xs font-medium text-gray-200 cursor-pointer">${str.label}</span>
+            <span class="text-xs font-medium text-(--theme-muted) cursor-pointer">${str.label}</span>
           </label>
         `;
       });
@@ -741,7 +741,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     };
   }
 
-  function updateStringsMicStatus(text: string, className = 'text-gray-500'): void {
+  function updateStringsMicStatus(text: string, className = 'text-(--theme-subtle)'): void {
     const status = document.getElementById('strings-mic-status');
     if (!status) return;
     status.className = `mb-1 text-[10px] uppercase tracking-widest font-semibold text-center ${className}`;
@@ -784,11 +784,11 @@ import Fretboard from '#components/common/Fretboard.astro';
 
     if (stringsMicEnabled) {
       button.className =
-        'px-2.5 py-1 bg-green-900/50 hover:bg-green-800/60 text-[11px] font-semibold rounded-md transition-colors text-green-300 border border-green-700/60 cursor-pointer flex items-center gap-1';
+        'px-2.5 py-1 bg-(--theme-success-surface)/50 hover:bg-(--theme-success-surface-raised)/60 text-[11px] font-semibold rounded-md transition-colors text-(--theme-success) border border-(--theme-success-strong)/60 cursor-pointer flex items-center gap-1';
       icon.innerHTML = ICONS.mic;
     } else {
       button.className =
-        'px-2.5 py-1 bg-gray-800/70 hover:bg-gray-700/70 text-[11px] font-semibold rounded-md transition-colors text-gray-400 border border-gray-700 cursor-pointer flex items-center gap-1';
+        'px-2.5 py-1 bg-(--theme-surface-raised)/70 hover:bg-(--theme-surface-hover)/70 text-[11px] font-semibold rounded-md transition-colors text-(--theme-muted) border border-(--theme-surface-hover) cursor-pointer flex items-center gap-1';
       icon.innerHTML = ICONS.micOff;
     }
   }
@@ -804,20 +804,20 @@ import Fretboard from '#components/common/Fretboard.astro';
     const fretboardContainer = document.getElementById('strings-silent-fretboard-container');
 
     if (mode === 'live') {
-      liveBtn?.classList.add('bg-purple-900/80', 'text-amber-300');
-      liveBtn?.classList.remove('text-gray-400');
-      silentBtn?.classList.remove('bg-purple-900/80', 'text-amber-300');
-      silentBtn?.classList.add('text-gray-400');
+      liveBtn?.classList.add('bg-(--theme-surface-hover)/80', 'text-(--theme-accent-text)');
+      liveBtn?.classList.remove('text-(--theme-muted)');
+      silentBtn?.classList.remove('bg-(--theme-surface-hover)/80', 'text-(--theme-accent-text)');
+      silentBtn?.classList.add('text-(--theme-muted)');
 
       micWrapper?.classList.remove('hidden');
       liveControls?.classList.remove('hidden');
       fretboardContainer?.classList.add('hidden');
       fretboardContainer?.classList.remove('flex');
     } else {
-      silentBtn?.classList.add('bg-purple-900/80', 'text-amber-300');
-      silentBtn?.classList.remove('text-gray-400');
-      liveBtn?.classList.remove('bg-purple-900/80', 'text-amber-300');
-      liveBtn?.classList.add('text-gray-400');
+      silentBtn?.classList.add('bg-(--theme-surface-hover)/80', 'text-(--theme-accent-text)');
+      silentBtn?.classList.remove('text-(--theme-muted)');
+      liveBtn?.classList.remove('bg-(--theme-surface-hover)/80', 'text-(--theme-accent-text)');
+      liveBtn?.classList.add('text-(--theme-muted)');
 
       micWrapper?.classList.add('hidden');
       liveControls?.classList.add('hidden');
@@ -867,7 +867,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     updateStringsMicToggle();
     updateStringsMicStatus(
       stringsMicEnabled ? 'Microphone enabled' : 'Microphone disabled',
-      stringsMicEnabled ? 'text-green-400' : 'text-gray-500',
+      stringsMicEnabled ? 'text-(--theme-success)' : 'text-(--theme-subtle)',
     );
     if (!stringsMicEnabled) updateStringsMicInput(0, false);
 
@@ -901,16 +901,16 @@ import Fretboard from '#components/common/Fretboard.astro';
           index === stringsPracticeIndex && stringsPracticeIndex < stringsPracticeSequence.length;
         const isCompleted = index < stringsPracticeIndex;
 
-        let borderClass = 'border-purple-900/40';
-        let backgroundClass = 'bg-deep-charcoal/60';
+        let borderClass = 'border-(--theme-surface-hover)/40';
+        let backgroundClass = 'bg-(--theme-page)/60';
         let opacityClass = '';
 
         if (isCompleted) {
-          borderClass = 'border-emerald-500';
-          backgroundClass = 'bg-emerald-950/30';
+          borderClass = 'border-(--theme-success-strong)';
+          backgroundClass = 'bg-(--theme-success-surface)/30';
         } else if (isCurrent) {
-          borderClass = 'border-amber-400';
-          backgroundClass = 'bg-amber-950/20';
+          borderClass = 'border-(--theme-accent)';
+          backgroundClass = 'bg-(--theme-surface)/20';
         } else {
           opacityClass = 'opacity-45';
         }
@@ -924,20 +924,20 @@ import Fretboard from '#components/common/Fretboard.astro';
             data-practice-fretboard-note="${combo.note}"
             data-practice-fretboard-string="${combo.stringIndex}"
             aria-label="Show ${combo.note} on string ${stringNumber} on the fretboard"
-            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150 cursor-pointer hover:border-amber-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400"
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border-2 ${borderClass} ${backgroundClass} ${opacityClass} transition-all duration-150 cursor-pointer hover:border-(--theme-accent-text) focus-visible:outline focus-visible:outline-2 focus-visible:outline-(--theme-accent)"
           >
               <span class="relative inline-flex items-baseline">
-                <span class="${isCompleted ? 'text-emerald-300' : 'text-amber-400'}">${combo.note}</span>
+                <span class="${isCompleted ? 'text-(--theme-success)' : 'text-(--theme-accent)'}">${combo.note}</span>
                 ${
                   hasFret
-                    ? `<sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-gray-400/80 font-bold select-none pointer-events-none">${combo.foundFret}</sub>`
+                    ? `<sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-(--theme-muted)/80 font-bold select-none pointer-events-none">${combo.foundFret}</sub>`
                     : ''
                 }
               </span>
-              <span class="text-gray-500 font-light text-[11px]">on</span>
+              <span class="text-(--theme-subtle) font-light text-[11px]">on</span>
             <span class="relative inline-flex items-baseline">
-              <span class="${isCompleted ? 'text-emerald-300' : 'text-cyan-400'}">${combo.stringName}</span>
-              <sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-gray-400/80 font-bold select-none pointer-events-none">${stringNumber}</sub>
+              <span class="${isCompleted ? 'text-(--theme-success)' : 'text-(--theme-info)'}">${combo.stringName}</span>
+              <sub class="absolute left-full bottom-1 ml-0.5 text-[9px] font-mono text-(--theme-muted)/80 font-bold select-none pointer-events-none">${stringNumber}</sub>
             </span>
           </button>
           `;
@@ -1014,7 +1014,7 @@ import Fretboard from '#components/common/Fretboard.astro';
 
   async function startStringsMicrophone(): Promise<boolean> {
     if (!navigator.mediaDevices?.getUserMedia) {
-      updateStringsMicStatus('Microphone is not supported by this browser', 'text-red-400');
+      updateStringsMicStatus('Microphone is not supported by this browser', 'text-(--theme-error)');
       return false;
     }
 
@@ -1042,13 +1042,13 @@ import Fretboard from '#components/common/Fretboard.astro';
       stableFrames = 0;
       lastPitchTime = 0;
 
-      updateStringsMicStatus('Listening · play the highlighted note', 'text-green-400');
+      updateStringsMicStatus('Listening · play the highlighted note', 'text-(--theme-success)');
       processMicrophonePitch();
       return true;
     } catch (error) {
       console.error('Failed to start microphone', error);
       stopStringsMicrophone();
-      updateStringsMicStatus('Microphone permission was denied or unavailable', 'text-red-400');
+      updateStringsMicStatus('Microphone permission was denied or unavailable', 'text-(--theme-error)');
       return false;
     }
   }
@@ -1115,8 +1115,8 @@ import Fretboard from '#components/common/Fretboard.astro';
 
     const completedCard = document.querySelectorAll('#strings-display > button')[completedIndex];
     if (completedCard) {
-      completedCard.classList.remove('border-amber-400', 'bg-amber-950/20');
-      completedCard.classList.add('border-emerald-500', 'bg-emerald-950/30');
+      completedCard.classList.remove('border-(--theme-accent)', 'bg-(--theme-surface)/20');
+      completedCard.classList.add('border-(--theme-success-strong)', 'bg-(--theme-success-surface)/30');
     }
 
     setTimeout(() => {
@@ -1129,7 +1129,7 @@ import Fretboard from '#components/common/Fretboard.astro';
         setStringsButtonState(false);
 
         if (stringsGameMode === 'live') {
-          updateStringsMicStatus('Sequence complete', 'text-emerald-400');
+          updateStringsMicStatus('Sequence complete', 'text-(--theme-success)');
           stopStringsMicrophone();
         }
 
@@ -1190,19 +1190,19 @@ import Fretboard from '#components/common/Fretboard.astro';
     badge.style.cursor = 'default';
 
     if (isCorrectNote && isCorrectString) {
-      badge.style.setProperty('background-color', '#16a34a', 'important');
-      badge.style.setProperty('border-color', '#4ade80', 'important');
-      badge.style.setProperty('color', '#ffffff', 'important');
-      badge.style.setProperty('box-shadow', '0 0 12px rgba(74, 222, 128, 0.6)', 'important');
+      badge.style.setProperty('background-color', 'var(--theme-success-strong)', 'important');
+      badge.style.setProperty('border-color', 'var(--theme-success)', 'important');
+      badge.style.setProperty('color', 'var(--theme-text)', 'important');
+      badge.style.setProperty('box-shadow', '0 0 12px color-mix(in srgb, var(--theme-success) 60%, transparent)', 'important');
       badge.style.setProperty('transform', 'scale(1.15)', 'important');
       badge.style.setProperty('opacity', '1', 'important');
 
       advanceStringPractice(tappedFret);
     } else {
-      badge.style.setProperty('background-color', '#dc2626', 'important');
-      badge.style.setProperty('border-color', '#f87171', 'important');
-      badge.style.setProperty('color', '#ffffff', 'important');
-      badge.style.setProperty('box-shadow', '0 0 12px rgba(248, 113, 113, 0.6)', 'important');
+      badge.style.setProperty('background-color', 'var(--theme-error-strong)', 'important');
+      badge.style.setProperty('border-color', 'var(--theme-error)', 'important');
+      badge.style.setProperty('color', 'var(--theme-text)', 'important');
+      badge.style.setProperty('box-shadow', '0 0 12px color-mix(in srgb, var(--theme-error) 60%, transparent)', 'important');
       badge.style.setProperty('transform', 'scale(0.95)', 'important');
       badge.style.setProperty('opacity', '1', 'important');
     }
@@ -1230,7 +1230,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     if (stringsPracticeSequence.length === 0) {
       updateStringsMicStatus(
         'No valid questions available. Check your selected strings and notes.',
-        'text-red-400',
+        'text-(--theme-error)',
       );
       return;
     }
@@ -1245,12 +1245,12 @@ import Fretboard from '#components/common/Fretboard.astro';
     }
 
     if (!stringsMicEnabled) {
-      updateStringsMicStatus('Microphone disabled · sequence ready', 'text-gray-500');
+      updateStringsMicStatus('Microphone disabled · sequence ready', 'text-(--theme-subtle)');
       return;
     }
 
     stringsPracticeRunning = true;
-    updateStringsMicStatus('Requesting microphone access…', 'text-amber-400');
+    updateStringsMicStatus('Requesting microphone access…', 'text-(--theme-accent)');
 
     const microphoneStarted = await startStringsMicrophone();
     if (!microphoneStarted) {

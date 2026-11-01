@@ -25,7 +25,7 @@ const { id = 'main-nav-list' } = Astro.props;
 <nav id={id}>
   {/* Unified routing pipeline */}
   <ul
-    class='flex flex-col gap-[0.5em] font-bold text-center mt-[1em] text-amber-300/90 list-none p-0'
+    class='flex flex-col gap-[0.5em] font-bold text-center mt-[1em] text-(--theme-accent-text)/90 list-none p-0'
   >
     <li data-nav-item class='cursor-pointer'>
       <a
@@ -33,7 +33,7 @@ const { id = 'main-nav-list' } = Astro.props;
         class='block w-full h-full hover:opacity-80 transition-opacity'
       >
         <span class='flex items-center justify-center gap-2'>
-          <Icon name='material-symbols:menu-book' class='w-[22px] h-[22px] text-purple-500/80' />
+          <Icon name='material-symbols:menu-book' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
           About
         </span>
       </a>
@@ -44,7 +44,7 @@ const { id = 'main-nav-list' } = Astro.props;
         class='block w-full h-full hover:opacity-80 transition-opacity'
       >
         <span class='flex items-center justify-center gap-2'>
-          <Icon name='material-symbols:palette-outline' class='w-[22px] h-[22px] text-purple-500/80' />
+          <Icon name='material-symbols:palette-outline' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
           Themes
         </span>
       </a>
@@ -59,7 +59,7 @@ const { id = 'main-nav-list' } = Astro.props;
         <span class='flex items-center justify-center gap-2'>
           <Icon
             name='material-symbols:library-music'
-            class='w-[22px] h-[22px] text-purple-500/80'
+            class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
           />
           Songs
         </span>
@@ -71,7 +71,7 @@ const { id = 'main-nav-list' } = Astro.props;
         class='block w-full h-full hover:opacity-80 transition-opacity'
       >
         <span class='flex items-center justify-center gap-2'>
-          <Icon name='game-icons:guitar' class='w-[22px] h-[22px] text-purple-500/80' />
+          <Icon name='game-icons:guitar' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
           Fretboard
         </span>
       </a>
@@ -82,7 +82,7 @@ const { id = 'main-nav-list' } = Astro.props;
         class='block w-full h-full hover:opacity-80 transition-opacity'
       >
         <span class='flex items-center justify-center gap-2'>
-          <Icon name='material-symbols:music-note' class='w-[22px] h-[22px] text-purple-500/80' />
+          <Icon name='material-symbols:music-note' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
           Guitar Chords
         </span>
       </a>
@@ -93,7 +93,7 @@ const { id = 'main-nav-list' } = Astro.props;
         class='block w-full h-full hover:opacity-80 transition-opacity'
       >
         <span class='flex items-center justify-center gap-2'>
-          <Icon name='material-symbols:music-note' class='w-[22px] h-[22px] text-purple-500/80' />
+          <Icon name='material-symbols:music-note' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
           Ukulele Chords
         </span>
       </a>
@@ -112,7 +112,7 @@ const { id = 'main-nav-list' } = Astro.props;
         class='block w-full h-full hover:opacity-80 transition-opacity'
       >
         <div class='flex justify-center items-center gap-2'>
-          <Icon name='material-symbols:tune' class='w-[22px] h-[22px] text-purple-500/80' />
+          <Icon name='material-symbols:tune' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
           Tuner
         </div>
       </a>
@@ -125,7 +125,7 @@ const { id = 'main-nav-list' } = Astro.props;
         <span class='flex items-center justify-center gap-2'>
           <Icon
             name='material-symbols:track-changes'
-            class='w-[22px] h-[22px] text-purple-500/80'
+            class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
           />
           Practice
         </span>

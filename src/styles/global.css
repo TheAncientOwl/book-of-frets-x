@@ -12,34 +12,6 @@
 
 @import 'tailwindcss';
 
-@theme {
-  --color-deep-charcoal: var(--theme-page);
-  --color-deep-purple: var(--theme-surface);
-  --color-medium-purple: var(--theme-surface-raised);
-  --color-neon-purple: var(--theme-accent-strong);
-  --color-gold: var(--theme-accent);
-  --color-magenta: var(--theme-highlight);
-  --color-dark-magenta: var(--theme-surface-hover);
-  --color-hover-black: var(--theme-overlay);
-  --color-theme-text: var(--theme-text);
-  --color-amber-300: var(--theme-accent-text);
-  --color-amber-400: var(--theme-accent);
-  --color-purple-400: var(--theme-highlight);
-  --color-purple-500: var(--theme-accent-strong);
-  --color-purple-600: var(--theme-accent-strong);
-  --color-purple-700: var(--theme-surface-hover);
-  --color-purple-800: var(--theme-surface-hover);
-  --color-purple-900: var(--theme-surface-hover);
-  --color-purple-950: var(--theme-surface);
-  --color-gray-300: var(--theme-muted);
-  --color-gray-400: var(--theme-muted);
-  --color-gray-500: var(--theme-subtle);
-  --color-gray-700: var(--theme-surface-hover);
-  --color-gray-800: var(--theme-surface-raised);
-  --color-gray-900: var(--theme-surface);
-  --color-white: var(--theme-text);
-}
-
 :root {
   color-scheme: dark;
   --theme-page: #1a1a1a;
@@ -56,6 +28,16 @@
   --theme-on-accent: #ffffff;
   --theme-overlay: rgba(0, 0, 0, 0.4);
   --theme-scrollbar: #e1b55c;
+  --theme-black: #000000;
+  --theme-transparent: transparent;
+  --theme-success: #4ade80;
+  --theme-success-strong: #16a34a;
+  --theme-success-surface: #052e16;
+  --theme-success-surface-raised: #14532d;
+  --theme-error: #f87171;
+  --theme-error-strong: #ef4444;
+  --theme-error-surface: #261414;
+  --theme-info: #22d3ee;
 }
 
 html,

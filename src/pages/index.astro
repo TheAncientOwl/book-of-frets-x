@@ -23,14 +23,14 @@ import AppMenu from '#components/app-menu/AppMenu.astro';
   <AppMenu />
   <div
     id='songs-list-container'
-    class='bg-deep-charcoal w-dvw h-dvh overflow-hidden flex justify-center items-center'
+    class='bg-(--theme-page) w-dvw h-dvh overflow-hidden flex justify-center items-center'
   >
     <div
       class='w-xl h-[100dvh]
         max-sm:w-dvw
         rounded-xl max-sm:rounded-none
         flex flex-col gap-4 justify-center items-center
-        bg-deep-purple
+        bg-(--theme-surface)
         p-[1em] max-sm:px-0 max-sm:pb-[0.2em]
         pt-8'
     >
@@ -43,7 +43,7 @@ import AppMenu from '#components/app-menu/AppMenu.astro';
           id='filter-favorites-btn'
           aria-label='Toggle Favorites Only'
           type='button'
-          class='absolute left-full ml-2 top-1/2 -translate-y-1/2 p-2 rounded bg-black/5 hover:bg-dark-magenta text-amber-300/90 hover:text-amber-300/90 border border-solid border-neon-purple transition-colors cursor-pointer select-none z-10'
+          class='absolute left-full ml-2 top-1/2 -translate-y-1/2 p-2 rounded bg-(--theme-black)/5 hover:bg-(--theme-surface-hover) text-(--theme-accent-text)/90 hover:text-(--theme-accent-text)/90 border border-solid border-(--theme-accent-strong) transition-colors cursor-pointer select-none z-10'
           title='Toggle Favorites Only'
           data-active='false'
         >
@@ -76,7 +76,7 @@ import AppMenu from '#components/app-menu/AppMenu.astro';
             stroke-width='2'
             stroke-linecap='round'
             stroke-linejoin='round'
-            class='hidden text-amber-300/90'
+            class='hidden text-(--theme-accent-text)/90'
             ><polygon
               points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'
             ></polygon></svg

@@ -68,16 +68,16 @@ const getBarreChordLine = (map: Map<TStringKey, number>): TBarreChordLine | unde
   return barre.span > 1 ? barre : undefined;
 };
 
-const circleColorClass = showFinger ? 'bg-deep-purple' : 'bg-transparent';
+const circleColorClass = showFinger ? 'bg-(--theme-surface)' : 'bg-(--theme-transparent)';
 const barre = getBarreChordLine(stringsToFingers);
 ---
 
-<div class=`flex flex-row ${type === 'guitar' ? 'h-[5em]' : 'h-[3em]'} relative bg-black/40 w-full`>
+<div class=`flex flex-row ${type === 'guitar' ? 'h-[5em]' : 'h-[3em]'} relative bg-(--theme-black)/40 w-full`>
   <!-- Barre Chord Line Frame Indicator Overlay -->
   {
     barre && (
       <div
-        class={`absolute top-1/2 font-bold h-[1.5em] -translate-y-1/2 z-10 rounded-full text-center flex items-center justify-center border border-solid border-neon-purple text-amber-300/90 ${circleColorClass}`}
+        class={`absolute top-1/2 font-bold h-[1.5em] -translate-y-1/2 z-10 rounded-full text-center flex items-center justify-center border border-solid border-(--theme-accent-strong) text-(--theme-accent-text)/90 ${circleColorClass}`}
         style={{
           left: `${barre.begin * DISTANCE_BETWEEN_CHORDS - 7}%`,
           width: `${barre.span * DISTANCE_BETWEEN_CHORDS * 0.95}%`,
@@ -104,7 +104,7 @@ const barre = getBarreChordLine(stringsToFingers);
           {/* Muted String Indicator Circle */}
           {muted && (
             <div
-              class='w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-red-500/50 bg-[#261414] text-red-400 absolute -top-[45%] -translate-x-1/2 p-[0.75em] z-[1] flex items-center justify-center'
+              class='w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-(--theme-error-strong)/50 bg-(--theme-error-surface) text-(--theme-error) absolute -top-[45%] -translate-x-1/2 p-[0.75em] z-[1] flex items-center justify-center'
               style={{ left: `${leftPercent}%` }}
             >
               x
@@ -114,14 +114,14 @@ const barre = getBarreChordLine(stringsToFingers);
           {/* Open String Open Circle Marker */}
           {isOpen && (
             <div
-              class='w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-neon-purple text-amber-300/90 absolute -top-[45%] -translate-x-1/2 p-[0.75em] z-[1] bg-transparent'
+              class='w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-(--theme-accent-strong) text-(--theme-accent-text)/90 absolute -top-[45%] -translate-x-1/2 p-[0.75em] z-[1] bg-(--theme-transparent)'
               style={{ left: `${leftPercent}%` }}
             />
           )}
 
           {/* Vertical Guitar String Line Segment */}
           <div
-            class='h-full border-s border-solid border-amber-300/60'
+            class='h-full border-s border-solid border-(--theme-accent-text)/60'
             style={{ borderLeftWidth: GuitarStringsWidths[stringIdx] }}
           />
 
@@ -131,7 +131,7 @@ const barre = getBarreChordLine(stringsToFingers);
           {/* Standard Note Finger Node Indicator */}
           {!barre && hasFinger && (
             <div
-              class={`w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-neon-purple text-amber-300/90 absolute top-1/2 -translate-x-1/2 -translate-y-1/2 p-[0.75em] z-[100] flex items-center justify-center ${circleColorClass}`}
+              class={`w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-(--theme-accent-strong) text-(--theme-accent-text)/90 absolute top-1/2 -translate-x-1/2 -translate-y-1/2 p-[0.75em] z-[100] flex items-center justify-center ${circleColorClass}`}
               style={{ left: `${leftPercent}%` }}
             >
               {showFinger && <span>{finger === THUMB_STRING_ID ? 'T' : finger}</span>}

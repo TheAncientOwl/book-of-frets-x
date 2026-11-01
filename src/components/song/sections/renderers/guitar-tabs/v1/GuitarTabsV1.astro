@@ -135,7 +135,7 @@ const tuningStrings: Array<{ name: keyof TStringToFrets }> = [
     {/* Mapped dynamic chord names above the tab lines */}
     {
       chords.length > 0 && (
-        <p class='ml-[3ch] font-mono whitespace-pre text-amber-300/90'>{mappedChords}</p>
+        <p class='ml-[3ch] font-mono whitespace-pre text-(--theme-accent-text)/90'>{mappedChords}</p>
       )
     }
 
@@ -143,10 +143,10 @@ const tuningStrings: Array<{ name: keyof TStringToFrets }> = [
     {
       tuningStrings.map(stringItem => (
         <div class='flex items-center'>
-          <div class='sticky left-0 z-10 bg-black/50 px-1 font-bold font-mono text-amber-300/90'>
+          <div class='sticky left-0 z-10 bg-(--theme-black)/50 px-1 font-bold font-mono text-(--theme-accent-text)/90'>
             {stringItem.name}
           </div>
-          <span class='bg-black/10 font-mono whitespace-pre text-amber-300/90'>
+          <span class='bg-(--theme-black)/10 font-mono whitespace-pre text-(--theme-accent-text)/90'>
             {stringsToFrets[stringItem.name].join('')}
           </span>
         </div>
@@ -154,6 +154,6 @@ const tuningStrings: Array<{ name: keyof TStringToFrets }> = [
     }
 
     {/* Section bottom break marker */}
-    <!-- <hr class='mt-[1em] border-t border-solid border-amber-300/60' /> -->
+    <!-- <hr class='mt-[1em] border-t border-solid border-(--theme-accent-text)/60' /> -->
   </div>
 </div>
