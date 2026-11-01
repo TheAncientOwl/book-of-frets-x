@@ -99,7 +99,7 @@
   },
   "order": ["i", "v", "c", "v", "c", "vp", "cp", "o"],
   "lyrics": false,
-  "pdf": false,
+  "pdf": true,
   "res": [
     {
       "alias": "Feliz Navidad Guitar Tutorial - José Feliciano Guitar Lesson |Easy Chords + Lead Guitar|",

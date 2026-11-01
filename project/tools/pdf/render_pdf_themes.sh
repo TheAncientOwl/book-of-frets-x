@@ -10,21 +10,15 @@
 # @description Runs @see make_pdf.py for a song with all themes
 #
 
-set -eo pipefail
+set -euo pipefail
 
 if [ -z "$1" ]; then
-    echo "Usage: $0 <config_path>"
+    echo "Usage: $0 <song-config.json>"
     exit 1
 fi
 
-config="$1"
+config_path="$(cd "$(dirname "$1")" && pwd)/$(basename "$1")"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+cd "$ROOT"
 
-themes=("banana" "bright-sky" "bubble-gum" "catpuccin" "cherry" "hazbin" "lavander" "nature" "peach" "pop-n-lock")
-
-echo ">> Making \"$config\" with theme \"default-dark\""
-python3 project/tools/pdf/render.py "$config" --chords public/chords/index.json
-
-for theme in "${themes[@]}"; do
-    echo ">> Making \"$config\" with theme \"$theme\""
-    python3 project/tools/pdf/render.py "$config" --chords public/chords/index.json --theme public/themes/"$theme"/config.json
-done
+python3 project/tools/pdf/render.py "$config_path" --all-themes

@@ -10,16 +10,13 @@
 # @description Runs @see make_pdf.py for all songs with all themes
 #
 
-set -eo pipefail
+set -euo pipefail
 
-themes=("banana" "bright-sky" "bubble-gum" "catpuccin" "cherry" "hazbin" "lavander" "nature" "peach" "pop-n-lock")
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+cd "$ROOT"
 
-find public/songs -type f -name "config.json" | while read config; do
-    echo ">> Making \"$config\" with theme \"defalt-dark\""
-    python3 project/tools/pdf/render.py "$config" --chords public/chords/index.json
-
-    for theme in "${themes[@]}"; do
-        echo ">> Making \"$config\" with theme \"$theme\""
-        python3 project/tools/pdf/render.py "$config" --chords public/chords/index.json --theme public/themes/"$theme"/config.json
+find public/songs -type f -name "config.json" -print0 |
+    while IFS= read -r -d '' config; do
+        echo ">> Rendering all theme PDFs for \"$config\""
+        python3 project/tools/pdf/render.py "$config" --all-themes
     done
-done

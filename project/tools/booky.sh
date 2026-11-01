@@ -47,17 +47,18 @@ Commands:
       Example:
         ./booky.sh --song my-song ./cover.png
 
-  --render-pdf <config_path> [--theme <theme_config_path>]
-      Render a single song PDF (optionally themed).
+  --render-pdf <config_path> [--theme <theme_id>]
+      Render a song PDF using the active theme's palette.
       Example:
         ./booky.sh --render-pdf public/songs/my-song/config.json
-        ./booky.sh --render-pdf public/songs/my-song/config.json --theme public/themes/banana/config.json
+        ./booky.sh --render-pdf public/songs/my-song/config.json --theme graphite
+        ./booky.sh --render-pdf public/songs/my-song/config.json --all-themes
 
   --render-pdf-all
-      Render PDFs for all songs with all themes.
+      Render PDFs for every song config and every theme.
 
   --render-pdf-themes <config_path>
-      Render PDFs for a single song with all themes.
+      Render PDFs for a single song config with every theme.
 
   --help
       Show this help message.
@@ -111,7 +112,7 @@ case "$command" in
 
   --render-pdf)
     if [ $# -lt 1 ]; then
-      echo "❌ Usage: ./booky.sh --render-pdf <config_path> [--theme <theme_config_path>]"
+      echo "❌ Usage: ./booky.sh --render-pdf <config_path> [--theme <theme_id> | --all-themes]"
       exit 1
     fi
     python3 "$BOOK_OF_FRETS_X_ROOT/project/tools/pdf/render.py" "$@"

@@ -100,7 +100,7 @@
   },
   "order": ["i", "v1", "pc", "c", "v2", "pc", "c", "o"],
   "lyrics": false,
-  "pdf": false,
+  "pdf": true,
   "res": [
     {
       "alias": "Stay - The Kid LAROI, Justin Bieber - Instrumental Guitar Cover + TAB",

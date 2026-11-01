@@ -12,6 +12,7 @@
  */
 
 import { Icon } from 'astro-icon/components';
+import themeConfig from '../../../data/theme-config';
 
 interface Props {
   directory: string;
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const { directory, available } = Astro.props;
+const { defaultTheme } = themeConfig;
 ---
 
 <div class='relative group/pdf-btn inline-block'>
@@ -26,6 +28,7 @@ const { directory, available } = Astro.props;
     id='open-pdf-btn'
     disabled={!available}
     data-directory={directory}
+    data-default-theme={defaultTheme}
     data-available={available ? 'true' : 'false'}
     class='flex items-center justify-center w-8 h-8 rounded-md border border-solid border-(--theme-accent-text)/90 text-(--theme-accent-text)/90 transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 hover:bg-(--theme-black)'
     aria-label='open-pdf-button'
@@ -59,7 +62,12 @@ const { directory, available } = Astro.props;
     const directory = pdfBtn.getAttribute('data-directory');
     if (!directory) return;
 
-    const themeId = (window as any).__BOOK_OF_FRETS_THEME_ID__ || 'dark';
+    const themeId =
+      document.documentElement.dataset.theme ?? pdfBtn.dataset.defaultTheme;
+    if (!themeId) {
+      console.error('Unable to determine the active theme for the song PDF.');
+      return;
+    }
     const baseUrl = import.meta.env.BASE_URL;
 
     window.open(`${baseUrl}songs/${directory}/pdf/${directory}.${themeId}.pdf`, '_blank');

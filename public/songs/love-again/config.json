@@ -59,7 +59,7 @@
   },
   "order": ["intro", "verse", "chorus", "verse", "chorus", "outro"],
   "lyrics": false,
-  "pdf": false,
+  "pdf": true,
   "res": [
     {
       "alias": "Love Again Guitar Tutorial - The Kid LAROI Guitar Lesson |Chords + Strumming|",

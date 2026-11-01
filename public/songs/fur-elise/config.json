@@ -53,6 +53,6 @@
   },
   "order": ["a", "b", "c", "a", "b2"],
   "lyrics": false,
-  "pdf": false,
+  "pdf": true,
   "res": []
 }
