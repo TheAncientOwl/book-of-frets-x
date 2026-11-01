@@ -22,7 +22,16 @@
         "highlight": "#947ff9",
         "onAccent": "#ffffff",
         "overlay": "rgba(0, 0, 0, 0.4)",
-        "scrollbar": "#e1b55c"
+        "scrollbar": "#e1b55c",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -45,7 +54,16 @@
         "highlight": "#89dceb",
         "onAccent": "#11111b",
         "overlay": "rgba(0, 0, 0, 0.3)",
-        "scrollbar": "#6c7086"
+        "scrollbar": "#6c7086",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -68,7 +86,16 @@
         "highlight": "#d7b19d",
         "onAccent": "#0d0d0d",
         "overlay": "rgba(0, 0, 0, 0.35)",
-        "scrollbar": "#fea53d"
+        "scrollbar": "#fea53d",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -91,7 +118,16 @@
         "highlight": "#72c484",
         "onAccent": "#ffffff",
         "overlay": "rgba(0, 0, 0, 0.22)",
-        "scrollbar": "#226a34"
+        "scrollbar": "#226a34",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -114,7 +150,16 @@
         "highlight": "#f5df43",
         "onAccent": "#1a1a1a",
         "overlay": "rgba(0, 0, 0, 0.18)",
-        "scrollbar": "#a89119"
+        "scrollbar": "#a89119",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -137,7 +182,16 @@
         "highlight": "#48cae4",
         "onAccent": "#ffffff",
         "overlay": "rgba(0, 0, 0, 0.22)",
-        "scrollbar": "#0989a4"
+        "scrollbar": "#0989a4",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -160,7 +214,16 @@
         "highlight": "#ff9dce",
         "onAccent": "#ffffff",
         "overlay": "rgba(0, 0, 0, 0.2)",
-        "scrollbar": "#c25b8f"
+        "scrollbar": "#c25b8f",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
 
@@ -184,7 +247,16 @@
         "highlight": "#e84747",
         "onAccent": "#ffffff",
         "overlay": "rgba(0, 0, 0, 0.22)",
-        "scrollbar": "#9e1313"
+        "scrollbar": "#9e1313",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -207,7 +279,16 @@
         "highlight": "#a5a5df",
         "onAccent": "#ffffff",
         "overlay": "rgba(0, 0, 0, 0.22)",
-        "scrollbar": "#575799"
+        "scrollbar": "#575799",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -230,7 +311,16 @@
         "highlight": "#ffb17a",
         "onAccent": "#ffffff",
         "overlay": "rgba(0, 0, 0, 0.2)",
-        "scrollbar": "#c26f37"
+        "scrollbar": "#c26f37",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -253,7 +343,16 @@
         "highlight": "#38e0b8",
         "onAccent": "#17210b",
         "overlay": "rgba(2, 12, 12, 0.42)",
-        "scrollbar": "#6d9d32"
+        "scrollbar": "#6d9d32",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -276,7 +375,16 @@
         "highlight": "#f7c6ff",
         "onAccent": "#2a0a1c",
         "overlay": "rgba(14, 3, 12, 0.42)",
-        "scrollbar": "#b72e76"
+        "scrollbar": "#b72e76",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -299,7 +407,16 @@
         "highlight": "#ffd166",
         "onAccent": "#2a1006",
         "overlay": "rgba(15, 5, 2, 0.44)",
-        "scrollbar": "#b34320"
+        "scrollbar": "#b34320",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -322,7 +439,16 @@
         "highlight": "#38d9ff",
         "onAccent": "#071328",
         "overlay": "rgba(2, 7, 18, 0.46)",
-        "scrollbar": "#2861c5"
+        "scrollbar": "#2861c5",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     },
     {
@@ -345,7 +471,16 @@
         "highlight": "#ff5b2e",
         "onAccent": "#241702",
         "overlay": "rgba(12, 7, 1, 0.46)",
-        "scrollbar": "#a87308"
+        "scrollbar": "#a87308",
+        "black": "#000000",
+        "success": "#4ade80",
+        "successStrong": "#16a34a",
+        "successSurface": "#052e16",
+        "successSurfaceRaised": "#14532d",
+        "error": "#f87171",
+        "errorStrong": "#ef4444",
+        "errorSurface": "#261414",
+        "info": "#22d3ee"
       }
     }
   ]
