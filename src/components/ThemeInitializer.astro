@@ -1,0 +1,99 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file ThemeInitializer.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Theme initializer logic.
+ */
+
+import themeConfig from '../data/theme-config';
+
+const { defaultTheme, themes } = themeConfig;
+---
+
+<script is:inline define:vars={{ defaultTheme, themes, baseUrl: import.meta.env.BASE_URL }}>
+  const THEME_STORAGE_KEY = 'book-of-frets-theme';
+  const THEME_PALETTE_PROPERTIES = [
+    'page',
+    'surface',
+    'surfaceRaised',
+    'surfaceHover',
+    'text',
+    'muted',
+    'subtle',
+    'accent',
+    'accentText',
+    'accentStrong',
+    'highlight',
+    'onAccent',
+    'overlay',
+    'scrollbar',
+  ];
+
+  function getPreferredTheme() {
+    let storedTheme = null;
+    try {
+      storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    } catch (error) {
+      console.error('Unable to read the saved theme preference:', error);
+    }
+
+    const savedTheme = themes.find(theme => theme.id === storedTheme);
+    if (savedTheme) return savedTheme;
+
+    return themes.find(theme => theme.id === defaultTheme) ?? themes[0];
+  }
+
+  function applyTheme(theme) {
+    const root = document.documentElement;
+    const logoUrl = `${baseUrl}${theme.logo}`;
+    let themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+    if (!themeColorMeta) {
+      themeColorMeta = document.createElement('meta');
+      themeColorMeta.setAttribute('name', 'theme-color');
+      document.head.append(themeColorMeta);
+    }
+
+    themeColorMeta.setAttribute('content', theme.mainColor);
+    themeColorMeta.setAttribute('data-theme-color', '');
+    root.setAttribute('data-theme', theme.id);
+    root.style.colorScheme = theme.colorScheme;
+    root.style.backgroundColor = theme.colors.surface;
+    if (document.body) {
+      document.body.style.backgroundColor = theme.colors.surface;
+    }
+    THEME_PALETTE_PROPERTIES.forEach(property => {
+      const cssProperty = property.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
+      root.style.setProperty(`--theme-${cssProperty}`, theme.colors[property]);
+    });
+
+    document.querySelectorAll('img[data-theme-logo]').forEach(image => {
+      image.setAttribute('src', logoUrl);
+    });
+    document.querySelectorAll('[data-theme-favicon]').forEach(icon => {
+      icon.setAttribute('href', logoUrl);
+      icon.setAttribute('type', 'image/svg+xml');
+      icon.removeAttribute('sizes');
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', applyPreferredTheme, { once: true });
+
+  function applyPreferredTheme() {
+    applyTheme(getPreferredTheme());
+  }
+
+  applyPreferredTheme();
+  document.addEventListener('astro:after-swap', applyPreferredTheme);
+  document.addEventListener('book-of-frets:theme-change', event => {
+    const themeId = event.detail?.themeId;
+    const theme = themes.find(candidate => candidate.id === themeId);
+    if (theme) applyTheme(theme);
+  });
+</script>

@@ -7,7 +7,7 @@
  *
  * @file SongResource.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Display song resource data.
  */
 
@@ -69,7 +69,7 @@ const resolvedLink = props.link.replaceAll('{book-of-frets}', import.meta.env.BA
 
     <!-- YouTube Responsive Embed Container -->
     {videoId && (
-      <div class="w-full max-w-[400px] my-2 overflow-hidden rounded-[10px] bg-[#181426] border border-solid border-amber-300/20">
+      <div class="w-full max-w-[400px] my-2 overflow-hidden rounded-[10px] bg-deep-purple border border-solid border-amber-300/20">
         <div class="relative w-full aspect-video">
           <!-- The native CSS-only approach replaces the hydration overhead of runtime skeleton state flags -->
           <div class="absolute inset-0 animate-pulse bg-amber-300/10" id={`skeleton-${videoId}`}></div>

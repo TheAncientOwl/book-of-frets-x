@@ -7,7 +7,7 @@
  *
  * @file Header.astro
  * @author Alexandru Delegeanu
- * @version 1.4
+ * @version 1.5
  * @description Song Header component with tight hover scopes and global toast listeners.
  */
 
@@ -87,7 +87,7 @@ const typeToIcon: Record<string, string> = {
 
     <!-- Capo Floating Circle Badge -->
     <div
-      class='absolute right-0 top-0 z-10 translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[30px] h-[30px] rounded-full border border-solid border-neon-purple bg-[#181426] text-amber-300/90 font-bold text-xs p-1'
+      class='absolute right-0 top-0 z-10 translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[30px] h-[30px] rounded-full border border-solid border-neon-purple bg-deep-purple text-amber-300/90 font-bold text-xs p-1'
     >
       <span class='text-xs leading-none'>C</span>
       <span class='text-[10px] leading-none'>{props.capo}</span>
@@ -102,7 +102,7 @@ const typeToIcon: Record<string, string> = {
               name={typeToIcon[instrument] || 'game-icons:guitar'}
               class='w-4 h-4 text-amber-300/90'
             />
-            <span class='absolute left-1/2 -translate-x-1/2 bottom-full mb-1 px-2 py-1 text-xs rounded border border-solid border-neon-purple bg-[#181426] text-amber-300/90 opacity-0 pointer-events-none group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap z-30'>
+            <span class='absolute left-1/2 -translate-x-1/2 bottom-full mb-1 px-2 py-1 text-xs rounded border border-solid border-neon-purple bg-deep-purple text-amber-300/90 opacity-0 pointer-events-none group-hover/tooltip:opacity-100 transition-opacity whitespace-nowrap z-30'>
               {instrument}
             </span>
           </div>
@@ -113,7 +113,7 @@ const typeToIcon: Record<string, string> = {
       <div class='relative group/contrib-tooltip cursor-help'>
         <Icon name='ph:finn-the-human-duotone' class='w-4 h-4 text-amber-300/90' />
         <div
-          class='absolute left-1/2 -translate-x-1/2 bottom-full mb-1 p-2 text-xs rounded border border-solid border-magenta bg-[#181426] text-white opacity-0 pointer-events-none group-hover/contrib-tooltip:opacity-100 transition-opacity whitespace-nowrap z-30 flex items-center gap-1.5'
+          class='absolute left-1/2 -translate-x-1/2 bottom-full mb-1 p-2 text-xs rounded border border-solid border-magenta bg-deep-purple text-theme-text opacity-0 pointer-events-none group-hover/contrib-tooltip:opacity-100 transition-opacity whitespace-nowrap z-30 flex items-center gap-1.5'
         >
           <Icon name='ph:finn-the-human-duotone' class='w-4 h-4 text-magenta' />
           <strong class='text-magenta'>Contributors:</strong>
@@ -217,7 +217,7 @@ const typeToIcon: Record<string, string> = {
     const toast = document.createElement('div');
 
     toast.className = `flex items-center gap-2.5 p-3.5 rounded-lg border border-solid shadow-xl pointer-events-auto transition-all duration-300 transform translate-y-[-20px] opacity-0 text-sm font-medium
-      ${type === 'success' ? 'bg-[#181426] border-magenta text-amber-300/90' : 'bg-[#261414] border-red-500 text-red-200'}`;
+      ${type === 'success' ? 'bg-deep-purple border-magenta text-amber-300/90' : 'bg-[#261414] border-red-500 text-red-200'}`;
 
     toast.innerHTML = `
       <span class="flex items-center justify-center w-5 h-5 ${type === 'success' ? 'text-magenta' : 'text-red-500'}">

@@ -23,10 +23,6 @@
     {
       "fileMatch": ["public/themes/index.json"],
       "url": "./project/schemas/themes-index.schema.json"
-    },
-    {
-      "fileMatch": ["public/themes/*/*.json", "src/store/theme/default.json"],
-      "url": "./project/schemas/theme.schema.json"
     }
   ],
 

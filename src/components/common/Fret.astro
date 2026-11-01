@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file Fret.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Render fret row based on given config.
  */
 
@@ -68,7 +68,7 @@ const getBarreChordLine = (map: Map<TStringKey, number>): TBarreChordLine | unde
   return barre.span > 1 ? barre : undefined;
 };
 
-const circleColorClass = showFinger ? 'bg-[#181426]' : 'bg-transparent';
+const circleColorClass = showFinger ? 'bg-deep-purple' : 'bg-transparent';
 const barre = getBarreChordLine(stringsToFingers);
 ---
 

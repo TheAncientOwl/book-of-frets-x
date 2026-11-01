@@ -1,0 +1,163 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file ThemeSwitcher.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Theme switcher component.
+ */
+
+import themeConfig from '../data/theme-config';
+
+const { themes } = themeConfig;
+---
+
+<section aria-label='Appearance'>
+  <div class='theme-options' role='group' aria-label='Choose a color theme'>
+    {
+      themes.map(theme => (
+        <button
+          class='theme-option'
+          type='button'
+          data-theme-option={theme.id}
+          aria-pressed='false'
+          style={`--preview-page: ${theme.colors.page}; --preview-surface: ${theme.colors.surface}; --preview-accent: ${theme.colors.accent}; --preview-text: ${theme.colors.text};`}
+        >
+          <span class='theme-preview' aria-hidden='true'>
+            <span class='theme-swatch' />
+            <span class='theme-swatch' />
+            <span class='theme-swatch' />
+          </span>
+          <span class='theme-name'>{theme.name}</span>
+          <span class='theme-scheme'>{theme.colorScheme} appearance</span>
+        </button>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  function syncThemeOptions() {
+    const activeTheme = document.documentElement.getAttribute('data-theme');
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-option]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.themeOption === activeTheme));
+    });
+  }
+
+  document.addEventListener('click', event => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const button = target.closest<HTMLButtonElement>('[data-theme-option]');
+    const theme = button?.dataset.themeOption;
+    if (!button || !theme) return;
+
+    document.dispatchEvent(
+      new CustomEvent('book-of-frets:theme-change', {
+        detail: { themeId: theme },
+      }),
+    );
+    syncThemeOptions();
+
+    try {
+      localStorage.setItem('book-of-frets-theme', theme);
+    } catch (error) {
+      console.error('Unable to save the theme preference:', error);
+    }
+  });
+
+  syncThemeOptions();
+  document.addEventListener('astro:after-swap', syncThemeOptions);
+</script>
+
+<style>
+  .theme-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1rem;
+  }
+
+  .theme-option {
+    display: flex;
+    min-height: 8rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    border: 2px solid var(--theme-surface-raised);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    background: var(--theme-surface);
+    color: var(--theme-text);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      border-color 200ms,
+      transform 200ms;
+  }
+
+  .theme-option:hover {
+    transform: translateY(-2px);
+  }
+
+  .theme-option[aria-pressed='true'],
+  .theme-option:hover {
+    border-color: var(--preview-accent);
+  }
+
+  .theme-preview {
+    display: flex;
+    width: 100%;
+    height: 2.5rem;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--preview-text) 25%, transparent);
+    border-radius: 0.5rem;
+    background: var(--preview-page);
+  }
+
+  .theme-swatch {
+    flex: 1;
+    background: var(--preview-surface);
+  }
+
+  .theme-swatch + .theme-swatch {
+    border-left: 1px solid color-mix(in srgb, var(--preview-text) 25%, transparent);
+  }
+
+  .theme-swatch:nth-child(2) {
+    background: var(--preview-accent);
+  }
+
+  .theme-swatch:nth-child(3) {
+    background: var(--preview-text);
+  }
+
+  .theme-name {
+    font-weight: 700;
+  }
+
+  .theme-scheme {
+    color: var(--theme-muted);
+    font-size: 0.75rem;
+    text-transform: capitalize;
+  }
+
+  .theme-option:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 40rem) {
+    .theme-preview {
+      height: 1.5rem;
+    }
+
+    .theme-option {
+      min-height: 7rem;
+      padding: 0.75rem;
+    }
+  }
+</style>

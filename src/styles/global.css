@@ -6,19 +6,87 @@
  *
  * @file MainLayout.astro
  * @author Alexandru Delegeanu
- * @version 1.2
+ * @version 2.0
  * @description App layout. 
 */
 
 @import 'tailwindcss';
 
 @theme {
-  --color-deep-charcoal: #1a1a1a;
-  --color-deep-purple: #181426;
-  --color-medium-purple: #20213b;
-  --color-neon-purple: #6b46c0;
-  --color-gold: #e1b55c;
-  --color-magenta: #947ff9;
-  --color-dark-magenta: #45337a;
-  --color-hover-black: rgba(0, 0, 0, 0.4);
+  --color-deep-charcoal: var(--theme-page);
+  --color-deep-purple: var(--theme-surface);
+  --color-medium-purple: var(--theme-surface-raised);
+  --color-neon-purple: var(--theme-accent-strong);
+  --color-gold: var(--theme-accent);
+  --color-magenta: var(--theme-highlight);
+  --color-dark-magenta: var(--theme-surface-hover);
+  --color-hover-black: var(--theme-overlay);
+  --color-theme-text: var(--theme-text);
+  --color-amber-300: var(--theme-accent-text);
+  --color-amber-400: var(--theme-accent);
+  --color-purple-400: var(--theme-highlight);
+  --color-purple-500: var(--theme-accent-strong);
+  --color-purple-600: var(--theme-accent-strong);
+  --color-purple-700: var(--theme-surface-hover);
+  --color-purple-800: var(--theme-surface-hover);
+  --color-purple-900: var(--theme-surface-hover);
+  --color-purple-950: var(--theme-surface);
+  --color-gray-300: var(--theme-muted);
+  --color-gray-400: var(--theme-muted);
+  --color-gray-500: var(--theme-subtle);
+  --color-gray-700: var(--theme-surface-hover);
+  --color-gray-800: var(--theme-surface-raised);
+  --color-gray-900: var(--theme-surface);
+  --color-white: var(--theme-text);
+}
+
+:root {
+  color-scheme: dark;
+  --theme-page: #1a1a1a;
+  --theme-surface: #181426;
+  --theme-surface-raised: #20213b;
+  --theme-surface-hover: #45337a;
+  --theme-text: #ffffff;
+  --theme-muted: #9ca3af;
+  --theme-subtle: #6b7280;
+  --theme-accent: #e1b55c;
+  --theme-accent-text: #e1b55c;
+  --theme-accent-strong: #6b46c0;
+  --theme-highlight: #947ff9;
+  --theme-on-accent: #ffffff;
+  --theme-overlay: rgba(0, 0, 0, 0.4);
+  --theme-scrollbar: #e1b55c;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--theme-page);
+}
+
+body {
+  min-height: 100dvh;
+  color: var(--theme-text);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--theme-scrollbar);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--theme-scrollbar) var(--theme-page);
 }

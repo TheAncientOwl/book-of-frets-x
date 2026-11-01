@@ -1,0 +1,36 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file themes.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Themes page.
+ */
+
+import '#styles/global.css';
+
+import ThemeSwitcher from '#components/ThemeSwitcher.astro';
+import GeneralLayout from '#layouts/GeneralLayout.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<GeneralLayout>
+  <div class='min-h-dvh bg-deep-charcoal sm:px-4 text-theme-text'>
+    <section class='mx-auto w-full max-w-4xl rounded-xl bg-deep-purple shadow-2xl'>
+      <h1 class='pt-8 mb-8 text-center text-2xl font-bold text-amber-300 sm:text-3xl'>
+        <span class='flex items-center justify-center gap-2'>
+          <Icon
+            name='material-symbols:palette-outline'
+            class='w-[22px] h-[22px] text-purple-500/80'
+          />
+          Themes
+        </span>
+      </h1>
+      <ThemeSwitcher />
+    </section>
+  </div>
+</GeneralLayout>

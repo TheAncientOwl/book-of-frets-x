@@ -7,7 +7,7 @@
  *
  * @file FetchLyricsButton.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Fetch song lyrics button.
  */
 
@@ -45,7 +45,7 @@ const { available, lyricsShown, id = 'header-lyrics-btn' } = Astro.props;
 
   <!-- Clean Tailwind CSS Hover Tooltip Canvas -->
   <div
-    class='absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2.5 py-1.5 text-xs rounded-lg border border-solid bg-[#181426] border-amber-300/90 text-amber-300/90 opacity-0 pointer-events-none group-hover/lyrics-btn:opacity-100 transition-opacity whitespace-nowrap z-40 text-center shadow-xl'
+    class='absolute left-1/2 -translate-x-1/2 bottom-full mb-2 px-2.5 py-1.5 text-xs rounded-lg border border-solid bg-deep-purple border-amber-300/90 text-amber-300/90 opacity-0 pointer-events-none group-hover/lyrics-btn:opacity-100 transition-opacity whitespace-nowrap z-40 text-center shadow-xl'
   >
     {
       available ? (

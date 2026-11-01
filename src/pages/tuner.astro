@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file tuner.astro
  * @author Alexandru Delegeanu
- * @version 2.2
+ * @version 2.3
  * @description Interactive guitar tuner featuring realistic electric guitar samples + distortion for the Strat headstock and acoustic samples for the 3x3, with smoothed pitch detection.
  */
 
@@ -20,7 +20,7 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 ---
 
 <GeneralLayout>
-  <div class='bg-deep-charcoal min-h-dvh flex flex-col items-center text-white'>
+  <div class='bg-deep-charcoal min-h-dvh flex flex-col items-center text-theme-text'>
     <div
       class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-deep-purple p-6 rounded-xl shadow-2xl relative'
     >
@@ -104,21 +104,21 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               type='button'
               data-string-index='0'
               aria-label='Note 0'
-              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >E</button
             >
             <button
               type='button'
               data-string-index='1'
               aria-label='Note 1'
-              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >A</button
             >
             <button
               type='button'
               data-string-index='2'
               aria-label='Note 2'
-              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >D</button
             >
           </div>
@@ -127,21 +127,21 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               type='button'
               data-string-index='3'
               aria-label='Note 3'
-              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >G</button
             >
             <button
               type='button'
               data-string-index='4'
               aria-label='Note 4'
-              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >B</button
             >
             <button
               type='button'
               data-string-index='5'
               aria-label='Note 5'
-              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-11 h-11 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-sm flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >E</button
             >
           </div>
@@ -271,42 +271,42 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               type='button'
               data-string-index='5'
               aria-label='Note 5'
-              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >E</button
             >
             <button
               type='button'
               data-string-index='4'
               aria-label='Note 4'
-              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >B</button
             >
             <button
               type='button'
               data-string-index='3'
               aria-label='Note 3'
-              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >G</button
             >
             <button
               type='button'
               data-string-index='2'
               aria-label='Note 2'
-              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >D</button
             >
             <button
               type='button'
               data-string-index='1'
               aria-label='Note 1'
-              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >A</button
             >
             <button
               type='button'
               data-string-index='0'
               aria-label='Note 0'
-              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-white font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
+              class='string-selector-btn w-10 h-10 rounded-full bg-deep-charcoal border-2 border-purple-800 text-theme-text font-bold text-xs flex items-center justify-center shadow-lg transition-all hover:scale-110 cursor-pointer'
               >E</button
             >
           </div>

@@ -1,22 +1,67 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Themes Index Schema",
+  "title": "Themes Catalog Schema",
+  "description": "Theme palettes available in the BookOfFretsX app",
   "type": "object",
   "additionalProperties": false,
   "properties": {
-    "index": {
+    "$schema": { "type": "string" },
+    "defaultTheme": { "type": "string" },
+    "themes": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "title": { "type": "string" },
-          "directory": { "type": "string" },
-          "mainColor": { "type": "string" }
-        },
-        "required": ["title", "directory", "mainColor"]
-      }
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/theme" }
     }
   },
-  "required": ["index"]
+  "required": ["defaultTheme", "themes"],
+  "definitions": {
+    "theme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "name": { "type": "string", "minLength": 1 },
+        "colorScheme": { "type": "string", "const": "dark" },
+        "logo": { "type": "string", "pattern": "^themes/logos/[a-z0-9]+(?:-[a-z0-9]+)*\\.svg$" },
+        "mainColor": { "type": "string" },
+        "colors": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "page": { "type": "string" },
+            "surface": { "type": "string" },
+            "surfaceRaised": { "type": "string" },
+            "surfaceHover": { "type": "string" },
+            "text": { "type": "string" },
+            "muted": { "type": "string" },
+            "subtle": { "type": "string" },
+            "accent": { "type": "string" },
+            "accentText": { "type": "string" },
+            "accentStrong": { "type": "string" },
+            "highlight": { "type": "string" },
+            "onAccent": { "type": "string" },
+            "overlay": { "type": "string" },
+            "scrollbar": { "type": "string" }
+          },
+          "required": [
+            "page",
+            "surface",
+            "surfaceRaised",
+            "surfaceHover",
+            "text",
+            "muted",
+            "subtle",
+            "accent",
+            "accentText",
+            "accentStrong",
+            "highlight",
+            "onAccent",
+            "overlay",
+            "scrollbar"
+          ]
+        }
+      },
+      "required": ["id", "name", "colorScheme", "logo", "mainColor", "colors"]
+    }
+  }
 }

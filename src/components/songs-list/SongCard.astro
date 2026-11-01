@@ -7,7 +7,7 @@
  *
  * @file SongIndexCard.astro
  * @author Alexandru Delegeanu
- * @version 1.6
+ * @version 1.7
  * @description Song presentation card.
  */
 
@@ -128,13 +128,13 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
       </button>
 
       <!-- Hover / Click CSS Popover -->
-      <div class="absolute right-0 bottom-full mb-2 hidden group-hover/popover:block w-48 p-3 rounded-md shadow-xl border border-solid border-brand-amber-300/90 bg-[#181426] text-white">
+      <div class="absolute right-0 bottom-full mb-2 hidden group-hover/popover:block w-48 p-3 rounded-md shadow-xl border border-solid border-brand-amber-300/90 bg-deep-purple text-theme-text">
         <!-- Popover Arrow pointer -->
-        <div class="absolute top-full right-3 -mt-1.5 w-3 h-3 rotate-45 border-r border-b border-solid border-brand-amber-300/90 bg-[#181426]"></div>
+        <div class="absolute top-full right-3 -mt-1.5 w-3 h-3 rotate-45 border-r border-b border-solid border-brand-amber-300/90 bg-deep-purple"></div>
         
         <div class="flex gap-1.5 flex-wrap">
           {props.chordIDs.map((chordId) => (
-            <span class="text-xs px-2 py-1 border border-solid border-magenta bg-[#181426] text-amber-300/90 rounded font-mono">
+            <span class="text-xs px-2 py-1 border border-solid border-magenta bg-deep-purple text-amber-300/90 rounded font-mono">
               {chordId}
             </span>
           ))}

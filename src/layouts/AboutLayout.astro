@@ -7,11 +7,12 @@
  *
  * @file AboutLayout.astro
  * @author Alexandru Delegeanu
- * @version 1.4
+ * @version 1.5
  * @description About page layout.
  */
 
 import AppMenu from '#components/app-menu/AppMenu.astro';
+import ThemeInitializer from '#components/ThemeInitializer.astro';
 ---
 
 <!doctype html>
@@ -20,12 +21,15 @@ import AppMenu from '#components/app-menu/AppMenu.astro';
     <!-- Misc -->
     <meta charset='utf-8' />
     <link rel='manifest' href=`${import.meta.env.BASE_URL}favicon/site.webmanifest` />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover' />
+    <meta name='apple-mobile-web-app-capable' content='yes' />
     <meta name='apple-mobile-web-app-status-bar-style' content='default' />
+    <ThemeInitializer />
 
     <!-- Favicon -->
     <link
       id='dynamic-1'
+      data-theme-favicon
       rel='icon'
       type='image/png'
       href=`${import.meta.env.BASE_URL}favicon/favicon-96x96.png`
@@ -33,12 +37,14 @@ import AppMenu from '#components/app-menu/AppMenu.astro';
     />
     <link
       id='dynamic-2'
+      data-theme-favicon
       rel='icon'
       type='image/svg+xml'
       href=`${import.meta.env.BASE_URL}favicon/favicon.svg`
     />
     <link
       id='dynamic-3'
+      data-theme-favicon
       rel='shortcut icon'
       href=`${import.meta.env.BASE_URL}favicon/favicon.ico`
     />
@@ -68,34 +74,3 @@ import AppMenu from '#components/app-menu/AppMenu.astro';
     </main>
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: #181426;
-  }
-
-  /* Webkit browsers (Chrome, Edge, Safari) */
-  :global(::-webkit-scrollbar) {
-    width: 8px;
-    height: 8px;
-  }
-  :global(::-webkit-scrollbar-track) {
-    background-color: #e1b55c;
-  }
-  :global()::-webkit-scrollbar-thumb) {
-    background-color: #e1b55c;
-    border-radius: 4px;
-  }
-  :global(::-webkit-scrollbar-thumb:hover) {
-    background-color: #e1b55c;
-  }
-  /* Firefox */
-  :global(*) {
-    scrollbar-width: thin;
-    scrollbar-color: #e1b55c #e1b55c; /* thumb | track */
-  }
-</style>
