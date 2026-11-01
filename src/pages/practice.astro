@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file practice.astro
  * @author Alexandru Delegeanu
- * @version 1.16
+ * @version 1.17
  * @description Practice helpers with compact action buttons and scaled display text
  */
 
@@ -26,10 +26,13 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 <GeneralLayout>
   <div class='bg-(--theme-page) min-h-dvh flex flex-col items-center text-(--theme-text)'>
     <div
-      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-(--theme-surface) p-3 sm:p-6 pt-6 rounded-xl shadow-2xl'
+      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-(--theme-surface) p-3 sm:p-6 pt-6 sm:rounded-xl shadow-2xl'
     >
       <PageHeader>
-        <Icon name='material-symbols:track-changes' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
+        <Icon
+          name='material-symbols:track-changes'
+          class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
+        />
         Practice
         <IconButton slot='action' label='Settings' onclick='openActiveSettingsModal()'>
           <Icon name='material-symbols:settings' class='w-[20px] h-[20px]' />

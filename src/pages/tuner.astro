@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file tuner.astro
  * @author Alexandru Delegeanu
- * @version 2.3
+ * @version 2.4
  * @description Interactive guitar tuner featuring realistic electric guitar samples + distortion for the Strat headstock and acoustic samples for the 3x3, with smoothed pitch detection.
  */
 
@@ -22,10 +22,13 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 <GeneralLayout>
   <div class='bg-(--theme-page) min-h-dvh flex flex-col items-center text-(--theme-text)'>
     <div
-      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-(--theme-surface) p-6 rounded-xl shadow-2xl relative'
+      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-(--theme-surface) p-6 sm:rounded-xl shadow-2xl relative'
     >
       <PageHeader>
-        <Icon name='material-symbols:tune' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
+        <Icon
+          name='material-symbols:tune'
+          class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
+        />
         Tuner
         <IconButton slot='action' id='open-config-btn' label='Settings'>
           <Icon name='material-symbols:settings' class='w-[20px] h-[20px]' />
@@ -48,7 +51,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
 
           <div class='flex items-center gap-2'>
             <span class='text-xs text-(--theme-muted) font-medium flex items-center gap-1'>
-              <Icon name='material-symbols:sensors' class='w-[16px] h-[16px] text-(--theme-highlight)' />
+              <Icon
+                name='material-symbols:sensors'
+                class='w-[16px] h-[16px] text-(--theme-highlight)'
+              />
               Auto Detect
             </span>
             <label class='inline-flex items-center cursor-pointer'>
@@ -61,7 +67,10 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
           <div
             class='text-xs uppercase tracking-widest text-(--theme-highlight) font-semibold mb-1 flex items-center justify-center gap-1'
           >
-            <Icon name='material-symbols:track-changes' class='w-[16px] h-[16px] text-(--theme-highlight)' />
+            <Icon
+              name='material-symbols:track-changes'
+              class='w-[16px] h-[16px] text-(--theme-highlight)'
+            />
             <span id='tuner-target-label'>Target: E2 (82.41 Hz)</span>
           </div>
           <div
@@ -82,9 +91,14 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
               class='absolute top-0.5 bottom-0.5 w-1.5 bg-(--theme-accent) rounded-full transition-all duration-75 left-1/2 -translate-x-1/2'
             >
             </div>
-            <div class='absolute top-0 bottom-0 left-1/2 w-0.5 bg-(--theme-text)/40 -translate-x-1/2'></div>
+            <div
+              class='absolute top-0 bottom-0 left-1/2 w-0.5 bg-(--theme-text)/40 -translate-x-1/2'
+            >
+            </div>
           </div>
-          <div class='flex justify-between w-64 sm:w-80 text-[10px] text-(--theme-subtle) font-mono mt-1'>
+          <div
+            class='flex justify-between w-64 sm:w-80 text-[10px] text-(--theme-subtle) font-mono mt-1'
+          >
             <span>♭ Flat</span>
             <span class='text-(--theme-success) font-bold'>In Tune</span>
             <span>Sharp ♯</span>
@@ -544,7 +558,9 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
         </button>
       </div>
 
-      <div class='mb-5 bg-(--theme-page)/50 p-3.5 rounded-lg border border-(--theme-surface-hover)/40'>
+      <div
+        class='mb-5 bg-(--theme-page)/50 p-3.5 rounded-lg border border-(--theme-surface-hover)/40'
+      >
         <label
           class='block text-xs font-semibold text-(--theme-muted) uppercase tracking-wide mb-2 flex items-center gap-1'
         >
@@ -571,7 +587,9 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
         </div>
       </div>
 
-      <div class='mb-3 bg-(--theme-page)/50 p-3.5 rounded-lg border border-(--theme-surface-hover)/40'>
+      <div
+        class='mb-3 bg-(--theme-page)/50 p-3.5 rounded-lg border border-(--theme-surface-hover)/40'
+      >
         <label
           for='tuning-variant-select'
           class='block text-xs font-semibold text-(--theme-muted) uppercase tracking-wide mb-2 flex items-center gap-1'
@@ -797,7 +815,8 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       const isActive = idx === activeStringIndex;
       const activeClasses =
         'bg-(--theme-accent) text-(--theme-page) border-(--theme-text) scale-110 shadow-(--theme-accent)/50';
-      const inactiveClasses = 'bg-(--theme-page) text-(--theme-text) border-(--theme-surface-hover)';
+      const inactiveClasses =
+        'bg-(--theme-page) text-(--theme-text) border-(--theme-surface-hover)';
 
       const buttons = document.querySelectorAll(`[data-string-index="${idx}"]`);
       buttons.forEach(btn => {
