@@ -7,7 +7,7 @@
  *
  * @file ThemeSwitcher.astro
  * @author Alexandru Delegeanu
- * @version 1.1
+ * @version 1.2
  * @description Theme switcher component.
  */
 
@@ -17,13 +17,38 @@ const { themes } = themeConfig;
 ---
 
 <section aria-label='Appearance'>
-  <div class='theme-options' role='group' aria-label='Choose a color theme'>
+  <div class='theme-scheme-tabs' role='tablist' aria-label='Filter themes by appearance'>
+    <button
+      class='theme-scheme-tab'
+      type='button'
+      role='tab'
+      id='dark-themes-tab'
+      aria-controls='theme-options'
+      aria-selected='false'
+      data-theme-scheme-tab='dark'
+    >
+      Dark
+    </button>
+    <button
+      class='theme-scheme-tab'
+      type='button'
+      role='tab'
+      id='light-themes-tab'
+      aria-controls='theme-options'
+      aria-selected='false'
+      data-theme-scheme-tab='light'
+    >
+      Light
+    </button>
+  </div>
+  <div class='theme-options' id='theme-options' role='tabpanel' aria-labelledby='dark-themes-tab'>
     {
       themes.map(theme => (
         <button
           class='theme-option'
           type='button'
           data-theme-option={theme.id}
+          data-color-scheme={theme.colorScheme}
           aria-pressed='false'
           style={`--preview-page: ${theme.colors.page}; --preview-surface: ${theme.colors.surface}; --preview-accent: ${theme.colors.accent}; --preview-text: ${theme.colors.text};`}
         >
@@ -41,16 +66,48 @@ const { themes } = themeConfig;
 </section>
 
 <script>
-  function syncThemeOptions() {
+  let selectedScheme = 'dark';
+
+  function syncThemeOptions(followActiveTheme = true) {
     const activeTheme = document.documentElement.getAttribute('data-theme');
+    const activeScheme = document.documentElement.getAttribute('data-color-scheme');
+    if (followActiveTheme && (activeScheme === 'light' || activeScheme === 'dark')) {
+      selectedScheme = activeScheme;
+    }
+
     document.querySelectorAll<HTMLButtonElement>('[data-theme-option]').forEach(button => {
       button.setAttribute('aria-pressed', String(button.dataset.themeOption === activeTheme));
+      button.hidden = button.dataset.colorScheme !== selectedScheme;
     });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-scheme-tab]').forEach(tab => {
+      const selected = tab.dataset.themeSchemeTab === selectedScheme;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    document
+      .querySelector('.theme-options')
+      ?.setAttribute(
+        'aria-labelledby',
+        selectedScheme === 'light' ? 'light-themes-tab' : 'dark-themes-tab',
+      );
+  }
+
+  function selectScheme(scheme) {
+    if (scheme !== 'light' && scheme !== 'dark') return;
+    selectedScheme = scheme;
+    syncThemeOptions(false);
   }
 
   document.addEventListener('click', event => {
     const target = event.target;
     if (!(target instanceof Element)) return;
+
+    const tab = target.closest<HTMLButtonElement>('[data-theme-scheme-tab]');
+    if (tab?.dataset.themeSchemeTab) {
+      selectScheme(tab.dataset.themeSchemeTab);
+      return;
+    }
 
     const button = target.closest<HTMLButtonElement>('[data-theme-option]');
     const theme = button?.dataset.themeOption;
@@ -61,12 +118,33 @@ const { themes } = themeConfig;
         detail: { themeId: theme },
       }),
     );
+    selectedScheme = button.dataset.colorScheme ?? selectedScheme;
     syncThemeOptions();
 
     try {
       localStorage.setItem('book-of-frets-theme', theme);
     } catch (error) {
       console.error('Unable to save the theme preference:', error);
+    }
+  });
+
+  document.addEventListener('keydown', event => {
+    const tab = event.target instanceof Element
+      ? event.target.closest<HTMLButtonElement>('[data-theme-scheme-tab]')
+      : null;
+    if (!tab) return;
+
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'Home' || event.key === 'End') {
+      event.preventDefault();
+      const scheme = event.key === 'Home'
+        ? 'dark'
+        : event.key === 'End'
+          ? 'light'
+          : tab.dataset.themeSchemeTab === 'dark'
+            ? 'light'
+            : 'dark';
+      selectScheme(scheme);
+      document.querySelector<HTMLButtonElement>(`[data-theme-scheme-tab="${scheme}"]`)?.focus();
     }
   });
 
@@ -79,6 +157,35 @@ const { themes } = themeConfig;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
+  }
+
+  .theme-scheme-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 1rem 1rem;
+    border-bottom: 1px solid var(--theme-surface-raised);
+  }
+
+  .theme-scheme-tab {
+    border: 0;
+    border-bottom: 3px solid transparent;
+    padding: 0.75rem 1.25rem;
+    background: transparent;
+    color: var(--theme-muted);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .theme-scheme-tab[aria-selected='true'] {
+    border-bottom-color: var(--theme-accent);
+    color: var(--theme-accent-text);
+  }
+
+  .theme-scheme-tab:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: -2px;
   }
 
   .theme-option {
@@ -97,6 +204,10 @@ const { themes } = themeConfig;
     transition:
       border-color 200ms,
       transform 200ms;
+  }
+
+  .theme-option[hidden] {
+    display: none;
   }
 
   .theme-option:hover {

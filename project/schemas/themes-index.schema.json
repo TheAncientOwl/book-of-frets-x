@@ -21,7 +21,7 @@
       "properties": {
         "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
         "name": { "type": "string", "minLength": 1 },
-        "colorScheme": { "type": "string", "const": "dark" },
+        "colorScheme": { "type": "string", "enum": ["dark", "light"] },
         "logo": { "type": "string", "pattern": "^themes/logos/[a-z0-9]+(?:-[a-z0-9]+)*\\.svg$" },
         "mainColor": { "type": "string" },
         "colors": {

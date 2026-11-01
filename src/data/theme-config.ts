@@ -30,7 +30,7 @@ export interface ThemeColors {
 export interface AppTheme {
   id: string;
   name: string;
-  colorScheme: 'dark';
+  colorScheme: 'dark' | 'light';
   logo: string;
   mainColor: string;
   colors: ThemeColors;

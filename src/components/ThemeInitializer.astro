@@ -7,7 +7,7 @@
  *
  * @file ThemeInitializer.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Theme initializer logic.
  */
 
@@ -72,6 +72,7 @@ const { defaultTheme, themes } = themeConfig;
     themeColorMeta.setAttribute('content', theme.mainColor);
     themeColorMeta.setAttribute('data-theme-color', '');
     root.setAttribute('data-theme', theme.id);
+    root.setAttribute('data-color-scheme', theme.colorScheme);
     root.style.colorScheme = theme.colorScheme;
     root.style.backgroundColor = theme.colors.surface;
     if (document.body) {

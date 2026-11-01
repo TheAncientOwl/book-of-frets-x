@@ -7,7 +7,7 @@
  *
  * @file SongIndexCard.astro
  * @author Alexandru Delegeanu
- * @version 1.7
+ * @version 1.8
  * @description Song presentation card.
  */
 
@@ -39,7 +39,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
     data-artists={props.artists.map(artist=>artist.toLowerCase())}
     data-types={props.type.map(type=>type.toLocaleLowerCase())}
     data-instrument={props.instrument ?? 'guitar'}
-    class="grid grid-cols-[27px_90px_1fr_auto] sm:grid-cols-[27px_100px_1fr_auto] items-center sm:gap-1 
+    class="song-card grid grid-cols-[27px_90px_1fr_auto] sm:grid-cols-[27px_100px_1fr_auto] items-center sm:gap-1
         p-1.5 sm:p-2 border border-solid
         w-full
         cursor-pointer transition-colors duration-200
@@ -154,3 +154,13 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
     </div>
   </div>
 </a>
+
+<style>
+  :global(html[data-color-scheme='light']) .song-card {
+    background-color: var(--theme-surface-raised);
+  }
+
+  :global(html[data-color-scheme='light']) .song-card:hover {
+    background-color: var(--theme-surface-hover);
+  }
+</style>
