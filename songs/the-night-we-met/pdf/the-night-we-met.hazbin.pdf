@@ -2,7 +2,7 @@
 %“Œ‹ž ReportLab Generated PDF document (opensource)
 1 0 obj
 <<
-/F1 2 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R
+/F1 2 0 R /F2 4 0 R /F3 5 0 R /F4 6 0 R /F5 7 0 R
 >>
 endobj
 2 0 obj
@@ -30,12 +30,17 @@ endobj
 endobj
 6 0 obj
 <<
-/BaseFont /Helvetica-BoldOblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
+/BaseFont /Courier-Bold /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
 >>
 endobj
 7 0 obj
 <<
-/Contents 11 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 10 0 R /Resources <<
+/BaseFont /Courier /Encoding /WinAnsiEncoding /Name /F5 /Subtype /Type1 /Type /Font
+>>
+endobj
+8 0 obj
+<<
+/Contents 13 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 12 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] /XObject <<
 /FormXob.1e648e85f6573bfa462d6ab52b28a56d 3 0 R
 >>
@@ -45,53 +50,73 @@ endobj
   /Type /Page
 >>
 endobj
-8 0 obj
-<<
-/PageMode /UseNone /Pages 10 0 R /Type /Catalog
->>
-endobj
 9 0 obj
 <<
-/Author (\(anonymous\)) /CreationDate (D:20260212220201+02'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20260212220201+02'00') /Producer (ReportLab PDF Library - \(opensource\)) 
-  /Subject (\(unspecified\)) /Title (The Night We Met \(Strummed\)) /Trapped /False
+/Contents 14 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 12 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
 >>
 endobj
 10 0 obj
 <<
-/Count 1 /Kids [ 7 0 R ] /Type /Pages
+/PageMode /UseNone /Pages 12 0 R /Type /Catalog
 >>
 endobj
 11 0 obj
 <<
-/Filter [ /ASCII85Decode /FlateDecode ] /Length 854
+/Author (Lord Huron) /CreationDate (D:20261102010905+02'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20261102010905+02'00') /Producer (ReportLab PDF Library - \(opensource\)) 
+  /Subject (Song sheet in the Hazbin theme) /Title (The Night We Met \(Strummed\)) /Trapped /False
+>>
+endobj
+12 0 obj
+<<
+/Count 2 /Kids [ 8 0 R 9 0 R ] /Type /Pages
+>>
+endobj
+13 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 1187
 >>
 stream
-Gb"/f95E9I&BF8='Q[4T=msYMHd&gOZk07c*cgd<N`/d(-r0$Imq=:7.pK%65[%ZVOTkXWs(=ec%9`e&INn]NEe)UQqNh6d695.@R"FrK0%/TdO.e@C2)*=P8#/4=N?66ShF#qu]k4XeJ5_%[k8fd)S0%EBBX=XS"Bm.JG$n1mf8Oa=k$a^C(A9lCj3i=[+$n.q(_oO*)\)HnM_b<=%%51qEgbAiUTGM2#0PlV%#,[UkQ]b"iOkhFih25R?':#aCd#44Cis^@Hc)rfAsDE2"%0)U0XZ^=QCNi%P9tm#PpQ^[,b8Q:q>P7mK5VWTb%>U^I$p8GH(L"6O,b@]!U4Ucge7c8qUHi&:i7']c6JL3/<fCo*5fh[Z?Z/&]l5RsDfTdI3&qrU/3X':=l6=9(HT]h'n/a+b*;ENGjG&O"lko#V%CZ=##lc<03.s?FCtZsrPP]f+G:UjKH(Dr:QYK\7Xrk9?a$5(bY"<^3f]Ca-&&_el]i$H^X0ugf3i=X-hH!-*]^02U'mZ46V&j#3_9@'>9.b&jksBpLJ^$dX1$QYI<?X?'#0%)DXja\r$B7le56f+0;b]/U+/Tk<\uBgZ[Q5Yj;^oCPHT)!6l\+l/2b@l2+24`q(t]fnen.UasU(ck5#O7Ni#8@r3R?gL-[bkgA1oEq[0:1U'jd<Z.fbe,='0d!<&1J:K[pp.cN88?ft@7VQo-ElhBQURI^-uJ8SmG$=]PLj-Z%$#as<(@k=CYRoe%5]^;F`7:>M)H_Z@?BQ*e%hGeUn=IG<a]=ZkTUpc'Pp4(ec<1TopM&T2+]@,Q_*KCq_gYU;#*\U?,3aV/BHUIcC:)A]Zek-I6^\sl##IO4eH2~>endstream
+Gb"/'hc&9!&:X@\Z&_XlEnoO-mbL#Q+jbCq-@hKWJJSS9,ZEa&JbGpiHr_UtP-HQ(P/c,V+>dEup?/pB0oM^d)q48:'7a.%m-GmgJa<Hb.0nO1Ga"-d*[sfE#$?8t5)l_n=c0#6-\gPUKi%[rLPt=?'dIKIqWtkl#g1e5OQQk$oqch[hTZR?EIu.AbEnR)GD'qF5>hpib$c)#VPD]kNT:Bm5gCl#QlF^cE&:JL+L1\g=2nR"&lS4!\tR2'MW$<nO^_=Wg5A7.-jHZk"NK,+%_mMmFEmt<jR=e:JWoWOc0TU/aj3bS4bN)/AC']],%hVE^l*rOV0jCSDR:q'*2E(.#AHr\"4S/*V&32i(V1_<\JS;%T&E,*G<dO>9s1EnCJEX;\PEgZ:\)CUaf:\`G4qf>ae.$<KfQc,#J+=6p?^egYrV!r1GWSiS._I3mSjg5V]p\b<E'mNG;'qOFef7.Xn$3t"l7if;W,EhTu,s*41,p34T%q1m<ipePf@X>ZZGp'FuI&!EE1Oo"_Z3icoF/*_P;W>/:4\o4;2B?PGA*:?aH)Sn/o;lq;FK(-#X$rfAGZb1/]I'N10f<90Pi%`fc0m]L!O?"K+fn./?id;E=+r\R#j57^&YnD!'YN'cO^iXRY.JW998a/.=oo92l!:#rMf.+!*HS)Z7KL;"phR6&EG(=#[JM8cUho<GBqb&RTmC9`j>gC]&5Qlb9PV/Ub*.gWMKI[JKbG9\\*q7KIq<:T_-\!Hf!!=e&Hme:?(P_t_J%AQ2U9*5.*3WJ./PSYT(RkB=nXGLVp9p:IE<0'c>5[<;&P!o"e*m.KYZ\tIOe?ZUG]6OB3E20S[uBt(;<8(lkk].+4=e]4m%0B>,GhY.>roL">l!1#$05:I06VNJa9bN\BeHHTEAW11I>"bTUPYV&s!e;oA"W'sQ6'F(f&6L8=ga*Q3:iLbL@Sc;A]k^q%i-3Zoqm+j)"'tE<+gHUf6rkHj%-9e$KF(V?o7Lpp2cp)j-a%[MdXh9atGQ")>c95ISlXC$5mGhUYCV$^uQGO3!YkoO@Aqq/gVQmur?HC-1ZZi1[.r`$^(U@1G,HZ7`N#QMfZNCPX?u9NJ`i[Lonj:?i>mKrLhJ@&1JFnZkAk3#N1E>,bU)hmUU#*;mff!0X34.rVWD,QonV-=D7>gCJ4c`;kh)fIk/&:@!3,aVj~>endstream
+endobj
+14 0 obj
+<<
+/Filter [ /ASCII85Decode /FlateDecode ] /Length 316
+>>
+stream
+Gar'%bt\?q%#"(pME/+.QoH$HaV>,l!"q+$Qepr7"gLTt7D(h@T=0tPMPXiIO6nX6D'%!S%_/[O\n,hGh1-_=e9ftMpZ9JS0,^*b^NH.N.n(j3;<5f_F8sa!ZZ&m$qIFo3a\)YgV?GHpR%#q4:OG9Vg_4ElC+EF\;&IW'NYF\^a%SUg9dJ&J"<Aa7nlbX5pOT09'Nikt-'#D-V<"?FWSQ?R>:f<sXPNG(Q]k'M$<"1SUVj2$>!0N9G6bdfG\@Uic'F.`GLs7geU3DRNk5"P87E]YZ<ejbJ&G,@jKj0<9h?aYTC$\n!;?kGD-Q-~>endstream
 endobj
 xref
-0 12
+0 15
 0000000000 65535 f 
 0000000061 00000 n 
-0000000122 00000 n 
-0000000229 00000 n 
-0000619933 00000 n 
-0000620045 00000 n 
-0000620160 00000 n 
-0000620279 00000 n 
-0000620547 00000 n 
-0000620616 00000 n 
-0000620912 00000 n 
-0000620972 00000 n 
+0000000132 00000 n 
+0000000239 00000 n 
+0000619943 00000 n 
+0000620055 00000 n 
+0000620170 00000 n 
+0000620280 00000 n 
+0000620385 00000 n 
+0000620653 00000 n 
+0000620858 00000 n 
+0000620928 00000 n 
+0000621237 00000 n 
+0000621303 00000 n 
+0000622582 00000 n 
 trailer
 <<
 /ID 
-[<9d43b52a510d7fda7fcbc7576ece911d><9d43b52a510d7fda7fcbc7576ece911d>]
+[<1f1df44ce9be0b6d01382b337d8a1ffb><1f1df44ce9be0b6d01382b337d8a1ffb>]
 % ReportLab generated PDF document -- digest (opensource)
 
-/Info 9 0 R
-/Root 8 0 R
-/Size 12
+/Info 11 0 R
+/Root 10 0 R
+/Size 15
 >>
 startxref
-621917
+622989
 %%EOF

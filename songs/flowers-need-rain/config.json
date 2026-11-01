@@ -22,7 +22,7 @@
   },
   "order": ["m"],
   "lyrics": false,
-  "pdf": false,
+  "pdf": true,
   "res": [
     {
       "alias": "How to play Flowers Need Rain by Preston Pablo",
