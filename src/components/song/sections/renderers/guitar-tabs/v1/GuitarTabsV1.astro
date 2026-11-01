@@ -12,31 +12,32 @@
  */
 
 import type { TGTabV1SectionData } from '#types/song';
+import type { TChordInstrument } from '#types/chord';
+import type { TGuitarString, TUkuleleString } from '#types/common';
 
 interface Props {
   data: TGTabV1SectionData;
+  instrument?: TChordInstrument;
 }
 
-const { data } = Astro.props;
+const { data, instrument = 'guitar' } = Astro.props;
 
 type TFretNumber = number | string;
+type TStringKey = TGuitarString | TUkuleleString;
 
 type TDisplayChord = {
   name: string;
   offset: number;
 };
 
-type TStringToFrets = {
-  e: TFretNumber[];
-  B: TFretNumber[];
-  G: TFretNumber[];
-  D: TFretNumber[];
-  A: TFretNumber[];
-  E: TFretNumber[];
-};
+type TStringToFrets = Record<TStringKey, TFretNumber[]>;
+
+const tuningStrings: TStringKey[] =
+  instrument === 'ukulele' ? ['A', 'E', 'C', 'G'] : ['e', 'B', 'G', 'D', 'A', 'E'];
 
 const parseItems = (items: string): { stringsToFrets: TStringToFrets; chords: TDisplayChord[] } => {
   const stringsToFrets: TStringToFrets = {
+    C: ['|'] as TFretNumber[],
     E: ['|'] as TFretNumber[],
     A: ['|'] as TFretNumber[],
     D: ['|'] as TFretNumber[],
@@ -44,13 +45,12 @@ const parseItems = (items: string): { stringsToFrets: TStringToFrets; chords: TD
     B: ['|'] as TFretNumber[],
     e: ['|'] as TFretNumber[],
   };
-  const chords: TDisplayChord[] = [] as TDisplayChord[];
+  const chords: TDisplayChord[] = [];
+  const asValues = tuningStrings.map(stringName => stringsToFrets[stringName]);
 
-  const asValues = Object.values(stringsToFrets);
-
-  let chordOffset: number = 0;
-  items.split(' ').map((item, index) => {
-    try {
+  let chordOffset = 0;
+  if (items.trim()) {
+    items.trim().split(/\s+/).forEach((item, index) => {
       if (item === '-' || item === '|') {
         asValues.forEach(entry => entry.push(item));
         chordOffset += 1;
@@ -62,43 +62,38 @@ const parseItems = (items: string): { stringsToFrets: TStringToFrets; chords: TD
         return;
       }
 
-      let newStringSize: number | undefined = undefined;
-      let fillLength: number = 0;
-      const pushed = new Set<TFretNumber[]>();
-      item.split('+').map((chord, idx) => {
-        try {
-          const arr = stringsToFrets[chord.charAt(0) as keyof typeof stringsToFrets];
-          pushed.add(arr);
-
-          const fret = chord.slice(1);
-          fillLength = Math.max(fillLength, fret.length);
-
-          arr.push(fret);
-          newStringSize = arr.length;
-        } catch (err) {
-          console.log(`item-${index}+${idx}: "${item}" + "${chord}"`);
-          console.error(err);
+      const entries = item.split('+').map((chord, chordIndex) => {
+        const stringName = chord.charAt(0) as TStringKey;
+        if (!tuningStrings.includes(stringName) || chord.length < 2) {
+          console.error(`Invalid ${instrument} tab item-${index}+${chordIndex}: "${chord}"`);
+          return undefined;
         }
+        return { stringName, fret: chord.slice(1) };
       });
 
-      if (newStringSize !== undefined) {
-        asValues.forEach(entry => {
-          if (pushed.has(entry)) {
-            const localFilled = fillLength - entry[entry.length - 1].toString().length;
-            if (localFilled > 0) {
-              entry.push('-'.repeat(localFilled));
-            }
-          } else {
-            entry.push('-'.repeat(fillLength));
-          }
-        });
-        chordOffset += fillLength;
-      }
-    } catch (err) {
-      console.log(`item-${index}: ${item}`);
-      console.error(err);
-    }
-  });
+      if (entries.some(entry => entry === undefined)) return;
+
+      const validEntries = entries.filter(entry => entry !== undefined);
+      const pushed = new Set<TStringKey>();
+      let fillLength = 0;
+      validEntries.forEach(({ stringName, fret }) => {
+        stringsToFrets[stringName].push(fret);
+        pushed.add(stringName);
+        fillLength = Math.max(fillLength, fret.length);
+      });
+
+      asValues.forEach((entry, stringIndex) => {
+        const stringName = tuningStrings[stringIndex];
+        if (pushed.has(stringName)) {
+          const localFilled = fillLength - entry[entry.length - 1].toString().length;
+          if (localFilled > 0) entry.push('-'.repeat(localFilled));
+        } else {
+          entry.push('-'.repeat(fillLength));
+        }
+      });
+      chordOffset += fillLength;
+    });
+  }
 
   asValues.forEach(arr => arr.push('|'));
 
@@ -119,15 +114,6 @@ const mappedChords = chords
     );
   })
   .join('');
-
-const tuningStrings: Array<{ name: keyof TStringToFrets }> = [
-  { name: 'e' },
-  { name: 'B' },
-  { name: 'G' },
-  { name: 'D' },
-  { name: 'A' },
-  { name: 'E' },
-];
 ---
 
 <div class='flex flex-col w-full overflow-x-auto text-[1.2em] text-[15.5px] mb-2'>
@@ -141,13 +127,13 @@ const tuningStrings: Array<{ name: keyof TStringToFrets }> = [
 
     {/* Tab lines pipeline */}
     {
-      tuningStrings.map(stringItem => (
+      tuningStrings.map(stringName => (
         <div class='flex items-center'>
           <div class='sticky left-0 z-10 bg-(--theme-black)/50 px-1 font-bold font-mono text-(--theme-accent-text)/90'>
-            {stringItem.name}
+            {stringName}
           </div>
           <span class='bg-(--theme-black)/10 font-mono whitespace-pre text-(--theme-accent-text)/90'>
-            {stringsToFrets[stringItem.name].join('')}
+            {stringsToFrets[stringName].join('')}
           </span>
         </div>
       ))

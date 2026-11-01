@@ -12,6 +12,7 @@
  */
 
 import type { TChordsV3SectionData, TSongSectionLyrics, TStrummingPattern } from '#types/song';
+import type { TChordInstrument, TChord } from '#types/chord';
 import ChordsV2LineRenderer from '#components/song/sections/renderers/chords/v2/LineRenderer.astro';
 import ChordsV2LineDelimiter from '#components/song/sections/renderers/chords/v2/LineDelimiter.astro';
 import ChordsV2LineTimes from '#components/song/sections/renderers/chords/v2/LineTimes.astro';
@@ -22,7 +23,8 @@ interface Props {
   strummingPatterns: TStrummingPattern[];
   showLyrics: boolean;
   lyrics: TSongSectionLyrics;
-  chordsIndex: Record<string, any>;
+  chordsIndex: Record<string, TChord>;
+  chordType: TChordInstrument;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -32,7 +34,8 @@ interface Props {
   };
 }
 
-const { data, strummingPatterns, showLyrics, lyrics, chordsIndex, songSettings } = Astro.props;
+const { data, strummingPatterns, showLyrics, lyrics, chordsIndex, chordType, songSettings } =
+  Astro.props;
 
 const GAP_BETWEEN_CHORD_LINES = '1.25rem';
 ---
@@ -46,6 +49,7 @@ const GAP_BETWEEN_CHORD_LINES = '1.25rem';
           data={entry}
           strummingPatterns={strummingPatterns}
           chordsIndex={chordsIndex}
+          chordType={chordType}
           songSettings={songSettings}
         />
       ))

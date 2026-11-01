@@ -12,6 +12,7 @@
  */
 
 import type { TSongSection, TSongSectionLyrics, TStrummingPattern } from '#types/song';
+import type { TChordInstrument, TChord } from '#types/chord';
 import SongSectionEntry from '#components/song/sections/SectionEntry.astro';
 
 interface Props {
@@ -21,7 +22,8 @@ interface Props {
   showLyrics: boolean;
   lyrics: TSongSectionLyrics;
   strumms: TStrummingPattern[];
-  chordsIndex: Record<string, any>;
+  chordsIndex: Record<string, TChord>;
+  chordType: TChordInstrument;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -31,7 +33,7 @@ interface Props {
   };
 }
 
-const { name, times, entries, showLyrics, lyrics, strumms, chordsIndex, songSettings } =
+const { name, times, entries, showLyrics, lyrics, strumms, chordsIndex, chordType, songSettings } =
   Astro.props;
 
 // Exported layout metric matching the original static variable mapping
@@ -87,6 +89,7 @@ const GAP_BETWEEN_CHORD_LINES = '0.75em';
           showLyrics={showLyrics}
           lyrics={lyrics}
           chordsIndex={chordsIndex}
+          chordType={chordType}
           songSettings={songSettings}
         />
       ))

@@ -12,6 +12,7 @@
  */
 
 import type { TChordsV2SectionData, TSongSectionLyrics, TStrummingPattern } from '#types/song';
+import type { TChordInstrument, TChord } from '#types/chord';
 import ChordsV2LineRenderer from '#components/song/sections/renderers/chords/v2/LineRenderer.astro';
 import ChordsV1Lyrics from '#components/song/sections/renderers/chords/v1/Lyrics.astro';
 
@@ -20,7 +21,8 @@ interface Props {
   strummingPatterns: TStrummingPattern[];
   showLyrics: boolean;
   lyrics: TSongSectionLyrics;
-  chordsIndex: Record<string, any>;
+  chordsIndex: Record<string, TChord>;
+  chordType: TChordInstrument;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -30,7 +32,8 @@ interface Props {
   };
 }
 
-const { data, strummingPatterns, showLyrics, lyrics, chordsIndex, songSettings } = Astro.props;
+const { data, strummingPatterns, showLyrics, lyrics, chordsIndex, chordType, songSettings } =
+  Astro.props;
 ---
 
 <div class='flex flex-col justify-center items-center gap-[1em]'>
@@ -39,6 +42,7 @@ const { data, strummingPatterns, showLyrics, lyrics, chordsIndex, songSettings }
     data={data}
     strummingPatterns={strummingPatterns}
     chordsIndex={chordsIndex}
+    chordType={chordType}
     songSettings={songSettings}
   />
 

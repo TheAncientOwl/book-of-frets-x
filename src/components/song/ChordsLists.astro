@@ -12,18 +12,17 @@
  */
 
 import Chord from '#components/common/Chord.astro';
+import type { TChord, TChordInstrument } from '#types/chord';
 
 interface Props {
   chordIDs: string[];
+  chordsIndex: Record<string, TChord>;
+  type?: TChordInstrument;
 }
 
-const { chordIDs } = Astro.props;
+const { chordIDs, chordsIndex, type = 'guitar' } = Astro.props;
 
 const shouldRender = chordIDs.length > 0 && !(chordIDs.length === 1 && chordIDs[0] === '-');
-
-import type { TChord } from '#types/chord';
-import chordsIndexData from '#public/chords/index.json';
-const chordsIndex = chordsIndexData.index as Record<string, any>;
 ---
 
 {shouldRender && (
@@ -31,7 +30,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
     <!-- Accordion Button / Header -->
     <summary class="flex justify-center items-center relative pt-1 md:pt-2 md:pb-2 list-none cursor-pointer select-none bg-(--theme-black)/5">
       <h3 class="text-center font-bold text-lg w-full text-(--theme-accent-text)">
-        Chords
+        {type === 'ukulele' ? 'Ukulele Chords' : 'Chords'}
       </h3>
       
        {/* Chevron Icon built natively that reacts to the open state */}
@@ -66,7 +65,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
             return (
               <li>
                 {/* Responsive font scaling replacement for containerProps array scale */}
-                <Chord {...config} class="text-[7px] sm:text-[8px]" />
+                <Chord {...config} type={type} class="text-[7px] sm:text-[8px]" />
               </li>
             );
           })

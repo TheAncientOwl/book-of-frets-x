@@ -22,6 +22,14 @@
       "chordIDs": ["Am", "F", "C", "G", "Dm"]
     },
     {
+      "title": "Für Elise",
+      "artists": ["Ludwig van Beethoven"],
+      "directory": "fur-elise",
+      "type": ["acoustic"],
+      "instrument": "ukulele",
+      "chordIDs": []
+    },
+    {
       "title": "Birds Of A Feather (Easy)",
       "artists": ["Billie Eilish"],
       "directory": "birds-of-a-feather-easy",

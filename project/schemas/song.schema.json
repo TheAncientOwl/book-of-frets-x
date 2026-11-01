@@ -33,6 +33,11 @@
         "enum": ["acoustic", "electric"]
       }
     },
+    "instrument": {
+      "type": "string",
+      "enum": ["guitar", "ukulele"],
+      "default": "guitar"
+    },
     "notes": {
       "type": "array",
       "items": {
@@ -166,6 +171,15 @@
                   "additionalProperties": false,
                   "properties": {
                     "renderer": { "type": "string", "enum": ["gtab-v1"] },
+                    "data": { "type": "string" }
+                  },
+                  "required": ["renderer", "data"]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "renderer": { "type": "string", "enum": ["ukulele-tabs-v1"] },
                     "data": { "type": "string" }
                   },
                   "required": ["renderer", "data"]

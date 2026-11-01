@@ -12,6 +12,7 @@
  */
 
 import { Icon } from 'astro-icon/components';
+import UkuleleIcon from '#components/common/UkuleleIcon.astro';
 
 import type { TSongsIndexEntry } from '#types/song';
 
@@ -37,6 +38,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
     data-title={props.title.toLowerCase()}
     data-artists={props.artists.map(artist=>artist.toLowerCase())}
     data-types={props.type.map(type=>type.toLocaleLowerCase())}
+    data-instrument={props.instrument ?? 'guitar'}
     class="grid grid-cols-[27px_90px_1fr_auto] sm:grid-cols-[27px_100px_1fr_auto] items-center sm:gap-1 
         p-1.5 sm:p-2 border border-solid
         w-full
@@ -62,6 +64,7 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
       fetchpriority={props.preload ? 'high':'auto'}
       loading={props.preload?'eager':'lazy'}
       alt={`${props.title} cover`}
+      onerror={`this.onerror=null; this.removeAttribute('srcset'); this.src='${import.meta.env.BASE_URL}logo.svg'`}
       class="w-full h-full object-cover rounded-[10px] border-3 border-solid border-(--theme-highlight)"
     />
 
@@ -99,6 +102,14 @@ const songUrl = `${import.meta.env.BASE_URL}songs/${props.directory}/index.html`
           </span>
         </div>
       ))}
+      {props.instrument === 'ukulele' && (
+        <div class="relative group/ukulele-tooltip cursor-help">
+          <UkuleleIcon class="w-3 h-3 sm:w-4 sm:h-4" />
+          <span class="absolute left-1/2 -translate-x-1/2 bottom-full mb-1 px-2 py-1 text-xs rounded bg-(--theme-surface) text-(--theme-text) opacity-0 pointer-events-none group-hover/ukulele-tooltip:opacity-100 transition-opacity whitespace-nowrap z-30">
+            Ukulele
+          </span>
+        </div>
+      )}
     </div>
   </div>
 

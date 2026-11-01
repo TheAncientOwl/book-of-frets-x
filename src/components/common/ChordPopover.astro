@@ -12,14 +12,15 @@
  */
 
 import Chord from '#components/common/Chord.astro';
-import type { TChord } from '#types/chord';
+import type { TChord, TChordInstrument } from '#types/chord';
 
 interface Props {
   id: string;
   chordConfig: TChord;
+  type?: TChordInstrument;
 }
 
-const { id, chordConfig } = Astro.props;
+const { id, chordConfig, type = 'guitar' } = Astro.props;
 ---
 
 <div
@@ -41,7 +42,7 @@ const { id, chordConfig } = Astro.props;
     </button>
 
     <div class='flex items-center justify-center text-[0.7em] max-w-full h-auto mx-auto'>
-      <Chord {...chordConfig} />
+      <Chord {...chordConfig} type={type} />
     </div>
   </div>
 </div>

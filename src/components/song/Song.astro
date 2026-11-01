@@ -27,8 +27,12 @@ interface Props extends TSong {
 const props = Astro.props;
 
 import type { TChord } from '#types/chord';
-import chordsIndexData from '#public/chords/index.json';
-const chordsIndex = chordsIndexData.index as Record<string, any>;
+import guitarChordsIndexData from '#public/chords/index.json';
+import ukuleleChordsIndexData from '#public/chords/ukulele/index.json';
+const instrument = props.instrument ?? 'guitar';
+const chordsIndex = (
+  instrument === 'ukulele' ? ukuleleChordsIndexData.index : guitarChordsIndexData.index
+) as Record<string, TChord>;
 ---
 
 <div
@@ -41,6 +45,7 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
     <div>
       <SongHeader
         directory={props.directory}
+        instrument={instrument}
         title={props.title}
         artists={props.artists}
         capo={props.capo}
@@ -67,10 +72,11 @@ const chordsIndex = chordsIndexData.index as Record<string, any>;
         </div>
 
         <SongNotes notes={props.notes} />
-        <SongChordsList chordIDs={props.chordIDs} />
+        <SongChordsList chordIDs={props.chordIDs} chordsIndex={chordsIndex} type={instrument} />
 
         <SongSections
           chordsIndex={chordsIndex}
+          chordType={instrument}
           songSettings={{
             display: {
               strummingPattern: true,

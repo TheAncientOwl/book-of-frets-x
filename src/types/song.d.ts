@@ -25,6 +25,7 @@ export type TChordsV1SectionEntry = {
 export type TChordsV1SectionData = TChordsV1SectionEntry[];
 
 export type TGTabV1SectionData = string;
+export type TUkuleleTabsV1SectionData = string;
 
 export type TChordsV2SectionEntry = string[];
 export type TChordsV2SectionData = TChordsV2SectionEntry;
@@ -35,10 +36,16 @@ export type TChordsV3SectionEntry = {
 };
 export type TChordsV3SectionData = TChordsV3SectionEntry;
 
-export type TSongSectionEntryRendererType = 'chords-v1' | 'chords-v2' | 'chords-v3' | 'gtab-v1';
+export type TSongSectionEntryRendererType =
+  | 'chords-v1'
+  | 'chords-v2'
+  | 'chords-v3'
+  | 'gtab-v1'
+  | 'ukulele-tabs-v1';
 export type TSongSectionEntryData =
   | TChordsV1SectionData
   | TGTabV1SectionData
+  | TUkuleleTabsV1SectionData
   | TChordsV2SectionData
   | TChordsV3SectionData;
 
@@ -62,6 +69,7 @@ export type TResource = {
 export type TSong = {
   title: string;
   artists: string[];
+  instrument?: 'guitar' | 'ukulele';
   capo: number;
   chordIDs: string[];
   strumms: TStrummingPattern[];
@@ -84,4 +92,5 @@ export type TSongsIndexEntry = {
   chordIDs: string[];
   type: string[];
   index?: number;
+  instrument?: 'guitar' | 'ukulele';
 };

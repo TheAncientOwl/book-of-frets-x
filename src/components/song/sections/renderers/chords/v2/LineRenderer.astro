@@ -16,12 +16,13 @@ import ChordsV2LineDelimiter from '#components/song/sections/renderers/chords/v2
 import ChordsV2LineTimes from '#components/song/sections/renderers/chords/v2/LineTimes.astro';
 import ChordV2Display from '#components/song/sections/renderers/chords/v2/Display.astro';
 import ChordPopover from '#components/common/ChordPopover.astro';
-import type { TChord } from '#types/chord';
+import type { TChord, TChordInstrument } from '#types/chord';
 
 interface Props {
   data: TChordsV2SectionData;
   strummingPatterns: TStrummingPattern[];
   chordsIndex: Record<string, TChord>;
+  chordType: TChordInstrument;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -31,7 +32,7 @@ interface Props {
   };
 }
 
-const { data, strummingPatterns, chordsIndex, songSettings } = Astro.props;
+const { data, strummingPatterns, chordsIndex, chordType, songSettings } = Astro.props;
 
 const GAP_BETWEEN_CHORD_LINES = '1.25rem';
 const SEPARATOR_CHORD_CHAR = '|';
@@ -180,7 +181,11 @@ const { colsData, times, betweenSeparator } = chordsV2ParseData(data);
                                 </button>
 
                                 {chordConfig && (
-                                  <ChordPopover id={popoverUniqueId} chordConfig={chordConfig} />
+                                  <ChordPopover
+                                    id={popoverUniqueId}
+                                    chordConfig={chordConfig}
+                                    type={chordType}
+                                  />
                                 )}
                               </div>
                             );

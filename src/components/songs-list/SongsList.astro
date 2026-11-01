@@ -29,6 +29,7 @@ const AboveTheFoldCount = 12;
       artists={song.artists}
       directory={song.directory}
       type={song.type}
+      instrument={song.instrument}
       chordIDs={song.chordIDs}
     />
   ))
@@ -49,13 +50,15 @@ const AboveTheFoldCount = 12;
       const title = (htmlCard.dataset.title || '').toLowerCase();
       const artists = (htmlCard.dataset.artists || '').toLowerCase();
       const types = (htmlCard.dataset.types || '').toLowerCase();
+      const instrument = (htmlCard.dataset.instrument || '').toLowerCase();
       const isFavorited = htmlCard.getAttribute('data-favorited') === 'true';
 
       const matchesSearch =
         !currentSearchQuery ||
         title.includes(currentSearchQuery) ||
         artists.includes(currentSearchQuery) ||
-        types.includes(currentSearchQuery);
+        types.includes(currentSearchQuery) ||
+        instrument.includes(currentSearchQuery);
 
       const matchesFavorites = !filterOnlyFavorites || isFavorited;
 

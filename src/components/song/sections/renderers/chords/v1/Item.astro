@@ -13,12 +13,13 @@
 
 import type { TStrummingChordsItem, TStrummingPattern } from '#types/song';
 import ChordPopover from '#components/common/ChordPopover.astro';
-import type { TChord } from '#types/chord';
+import type { TChord, TChordInstrument } from '#types/chord';
 
 interface Props {
   items: TStrummingChordsItem;
   strumms: TStrummingPattern[];
   chordsIndex: Record<string, TChord>;
+  chordType: TChordInstrument;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -28,7 +29,7 @@ interface Props {
   };
 }
 
-const { items, strumms, chordsIndex, songSettings } = Astro.props;
+const { items, strumms, chordsIndex, chordType, songSettings } = Astro.props;
 
 const EMPHASIZE_STRUMS = ['De', 'Ue'];
 const EMPHASIZE_STRUM_CHAR = 'e';
@@ -109,7 +110,11 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
                       </button>
 
                       {chordConfig && (
-                        <ChordPopover id={popoverUniqueId} chordConfig={chordConfig} />
+                        <ChordPopover
+                          id={popoverUniqueId}
+                          chordConfig={chordConfig}
+                          type={chordType}
+                        />
                       )}
                     </div>
                   );

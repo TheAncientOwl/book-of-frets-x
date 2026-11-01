@@ -1,0 +1,24 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file UkuleleTabsV1.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Render ukulele tab patterns with four strings.
+ */
+
+import type { TUkuleleTabsV1SectionData } from '#types/song';
+import GuitarTabsV1 from '#components/song/sections/renderers/guitar-tabs/v1/GuitarTabsV1.astro';
+
+interface Props {
+  data: TUkuleleTabsV1SectionData;
+}
+
+const { data } = Astro.props;
+---
+
+<GuitarTabsV1 data={data} instrument='ukulele' />

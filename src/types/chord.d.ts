@@ -10,9 +10,11 @@
  * @description Chords types for json mapping.
  */
 
-import type { TGuitarString } from '@/common/types/common.types';
+import type { TGuitarString, TUkuleleString } from '#types/common';
 
-export type TFret = Partial<Record<TGuitarString, number>>;
+export type TChordInstrument = 'guitar' | 'ukulele';
+export type TChordString = TGuitarString | TUkuleleString;
+export type TFret = Partial<Record<TChordString, number>>;
 
 export type TChord = {
   name: string;

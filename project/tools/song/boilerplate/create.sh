@@ -56,6 +56,7 @@ cat > "$output_file" <<EOF
   "title": "${title}",
   "artists": [$(echo "$artists" | awk -F',' '{for(i=1;i<=NF;i++){gsub(/^ *| *$/,"",$i); printf "\"%s\"%s", $i, (i==NF?"":", ")}}')],
   "type": ["acoustic"],
+  "instrument": "guitar",
   "notes": [],
   "capo": ${capo},
   "chordIDs": [],
@@ -148,6 +149,7 @@ jq \
     artists: ($artists_raw | split(",") | map(gsub("^\\s+|\\s+$"; ""))),
     directory: $dir,
     type: ["acoustic"],
+    instrument: "guitar",
     chordIDs: []
   }]
   ' \

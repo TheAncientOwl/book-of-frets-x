@@ -16,22 +16,26 @@ import type {
   TChordsV2SectionData,
   TChordsV3SectionData,
   TGTabV1SectionData,
+  TUkuleleTabsV1SectionData,
   TSongSectionEntry,
   TSongSectionLyrics,
   TStrummingPattern,
 } from '#types/song';
+import type { TChord, TChordInstrument } from '#types/chord';
 
 import ChordsV1Renderer from '#components/song/sections/renderers/chords/v1/ChordsV1.astro';
 import ChordsV2Renderer from '#components/song/sections/renderers/chords/v2/ChordsV2.astro';
 import ChordsV3Renderer from '#components/song/sections/renderers/chords/v3/ChordsV3.astro';
 import GuitarTabsV1Renderer from '#components/song/sections/renderers/guitar-tabs/v1/GuitarTabsV1.astro';
+import UkuleleTabsV1Renderer from '#components/song/sections/renderers/ukulele-tabs/v1/UkuleleTabsV1.astro';
 
 interface Props {
   strumms: TStrummingPattern[];
   showLyrics: boolean;
   lyrics: TSongSectionLyrics;
   entry: TSongSectionEntry;
-  chordsIndex: Record<string, any>;
+  chordsIndex: Record<string, TChord>;
+  chordType: TChordInstrument;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -41,7 +45,7 @@ interface Props {
   };
 }
 
-const { strumms, showLyrics, lyrics, entry, chordsIndex, songSettings } = Astro.props;
+const { strumms, showLyrics, lyrics, entry, chordsIndex, chordType, songSettings } = Astro.props;
 
 const rendererType = entry.renderer;
 ---
@@ -54,6 +58,7 @@ const rendererType = entry.renderer;
           return (
             <ChordsV1Renderer
               chordsIndex={chordsIndex}
+              chordType={chordType}
               data={entry.data as TChordsV1SectionEntry[]}
               strumms={strumms}
               showLyrics={showLyrics}
@@ -69,6 +74,7 @@ const rendererType = entry.renderer;
               lyrics={lyrics}
               chordsIndex={chordsIndex}
               songSettings={songSettings}
+              chordType={chordType}
             />
           );
         case 'chords-v3':
@@ -80,10 +86,15 @@ const rendererType = entry.renderer;
               lyrics={lyrics}
               chordsIndex={chordsIndex}
               songSettings={songSettings}
+              chordType={chordType}
             />
           );
         case 'gtab-v1':
           return <GuitarTabsV1Renderer data={entry.data as TGTabV1SectionData} />;
+        case 'ukulele-tabs-v1':
+          return (
+            <UkuleleTabsV1Renderer data={entry.data as TUkuleleTabsV1SectionData} />
+          );
 
         default:
           console.error(`Unimplemented chords type "${rendererType}"`);

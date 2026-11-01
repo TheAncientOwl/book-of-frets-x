@@ -24,6 +24,11 @@
               "enum": ["acoustic", "electric"]
             }
           },
+          "instrument": {
+            "type": "string",
+            "enum": ["guitar", "ukulele"],
+            "default": "guitar"
+          },
           "chordIDs": {
             "type": "array",
             "items": {

@@ -1,0 +1,58 @@
+{
+  "version": "2.0.0",
+  "contributors": ["TheAncientOwl"],
+  "title": "Für Elise",
+  "artists": ["Ludwig van Beethoven"],
+  "type": ["acoustic"],
+  "instrument": "ukulele",
+  "notes": ["Ukulele tuning: G-C-E-A"],
+  "capo": 0,
+  "chordIDs": [],
+  "strumms": [],
+  "sections": {
+    "a": {
+      "name": "Theme A",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "ukulele-tabs-v1",
+          "data": "- A7 - A6 - A7 - A6 - A7 - A2 - A5 - A3 - A0 - C0 E0 A0 - A2 - - - E0 - E4 - A2 - A3 - - - - - - - - -"
+        }
+      ]
+    },
+    "b": {
+      "name": "Theme B",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "ukulele-tabs-v1",
+          "data": "- A7 - A6 - A7 - A6 - A7 - A2 - A5 - A3 - A0 - C0 E0 A0 - A2 - E0 - A3 - A2 - A0 - - - A2 - A3 - A5 - A7 -"
+        }
+      ]
+    },
+    "c": {
+      "name": "Theme C",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "ukulele-tabs-v1",
+          "data": "- G0 A8 - A7 - A5 - - C5 - A7 - A5 - A3 - E0 - A5- A3 - A2 - - - - - - - - - - - - - - - - - - -"
+        }
+      ]
+    },
+    "b2": {
+      "name": "Theme B",
+      "times": 1,
+      "entries": [
+        {
+          "renderer": "ukulele-tabs-v1",
+          "data": "- A7 - A6 - A7 - A6 - A7 - A2 - A5 - A3 - A0 - C0 E0 A0 - A2 - E0 - A3 - A2 - A0 - - - - - - - - - - -"
+        }
+      ]
+    }
+  },
+  "order": ["a", "b", "c", "a", "b2"],
+  "lyrics": false,
+  "pdf": false,
+  "res": []
+}

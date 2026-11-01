@@ -12,6 +12,7 @@
  */
 
 import type { TSongSection, TSongSectionLyrics, TStrummingPattern } from '#types/song';
+import type { TChordInstrument, TChord } from '#types/chord';
 import SongSection from '#components/song/sections/Section.astro';
 
 interface Props {
@@ -20,7 +21,8 @@ interface Props {
   strumms: TStrummingPattern[];
   showLyrics: boolean;
   lyrics: TSongSectionLyrics[];
-  chordsIndex: Record<string, any>;
+  chordsIndex: Record<string, TChord>;
+  chordType: TChordInstrument;
   songSettings: {
     display: {
       strummingPattern: boolean;
@@ -30,7 +32,8 @@ interface Props {
   };
 }
 
-const { sections, order, strumms, showLyrics, lyrics, chordsIndex, songSettings } = Astro.props;
+const { sections, order, strumms, showLyrics, lyrics, chordsIndex, chordType, songSettings } =
+  Astro.props;
 ---
 
 {
@@ -53,6 +56,7 @@ const { sections, order, strumms, showLyrics, lyrics, chordsIndex, songSettings 
         showLyrics={showLyrics}
         lyrics={lyrics[index]}
         chordsIndex={chordsIndex}
+        chordType={chordType}
         songSettings={songSettings}
       />
     );
