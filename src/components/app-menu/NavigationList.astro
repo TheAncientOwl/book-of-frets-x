@@ -117,6 +117,12 @@ const { id = 'main-nav-list' } = Astro.props;
         </li>
       </ul>
     </li>
+    <li>
+      <a data-nav-item href=`${import.meta.env.BASE_URL}settings` class='menu-link'>
+        <Icon name='material-symbols:settings' class='menu-icon' />
+        <span>Settings</span>
+      </a>
+    </li>
   </ul>
 </nav>
 

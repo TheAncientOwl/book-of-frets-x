@@ -60,9 +60,16 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               practice pages
             </a>
+            ,{' '}
+            <a
+              href=`${import.meta.env.BASE_URL}settings`
+              class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
+            >
+              app settings
+            </a>
             , and customizable{' '}
             <a
-              href='/settings'
+              href=`${import.meta.env.BASE_URL}themes`
               class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               themes

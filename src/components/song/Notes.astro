@@ -23,7 +23,7 @@ const hasNotes = notes && notes.length > 0;
 
 {
   hasNotes && (
-    <details open class="group border-t border-solid border-(--theme-accent-text)/90 w-full">
+    <details open data-song-setting='songNotes' class="group border-t border-solid border-(--theme-accent-text)/90 w-full">
       <!-- Accordion Button / Header -->
       <summary class="flex justify-center items-center relative pt-3 pb-2 list-none cursor-pointer select-none bg-(--theme-black)/20">
         <h3 class="text-center font-bold text-lg text-(--theme-accent-text)/90 capitalize flex flex-row items-center justify-center gap-[0.25em]">

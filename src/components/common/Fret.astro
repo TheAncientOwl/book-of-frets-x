@@ -83,7 +83,7 @@ const barre = getBarreChordLine(stringsToFingers);
           width: `${barre.span * DISTANCE_BETWEEN_CHORDS * 0.95}%`,
         }}
       >
-        {barre.finger}
+        <span data-song-setting='chordFingers'>{barre.finger}</span>
       </div>
     )
   }
@@ -134,7 +134,11 @@ const barre = getBarreChordLine(stringsToFingers);
               class={`w-[1.5em] h-[1.5em] rounded-full font-bold border border-solid border-(--theme-accent-strong) text-(--theme-accent-text)/90 absolute top-1/2 -translate-x-1/2 -translate-y-1/2 p-[0.75em] z-[100] flex items-center justify-center ${circleColorClass}`}
               style={{ left: `${leftPercent}%` }}
             >
-              {showFinger && <span>{finger === THUMB_STRING_ID ? 'T' : finger}</span>}
+              {showFinger && (
+                <span data-song-setting='chordFingers'>
+                  {finger === THUMB_STRING_ID ? 'T' : finger}
+                </span>
+              )}
             </div>
           )}
         </>

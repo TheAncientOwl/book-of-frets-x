@@ -90,3 +90,26 @@ const computedFretsData = props.frets.map(fret => {
     }
   </div>
 </div>
+
+<script>
+  import {
+    applySongSettings,
+    readSongSettings,
+    SONG_SETTINGS_STORAGE_KEY,
+  } from '#components/song/song-settings';
+
+  function applySavedChordSettings() {
+    try {
+      applySongSettings(document, readSongSettings());
+    } catch (error) {
+      console.error('Failed to apply saved chord settings.', error);
+    }
+  }
+
+  applySavedChordSettings();
+  document.addEventListener('astro:after-swap', applySavedChordSettings);
+  window.addEventListener('storage', event => {
+    if (event.key === SONG_SETTINGS_STORAGE_KEY) applySavedChordSettings();
+  });
+  window.addEventListener('song-settings-changed', applySavedChordSettings);
+</script>

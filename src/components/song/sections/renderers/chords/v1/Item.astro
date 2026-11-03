@@ -92,6 +92,7 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
                         type='button'
                         aria-label={`${chordConfig.name} chord`}
                         popovertarget={popoverUniqueId}
+                        data-song-setting-trigger='chordFingers'
                         class='chord-popover-trigger appearance-none outline-none mt-2.5 px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-(--theme-surface-hover) text-(--theme-accent-text)/90 hover:bg-(--theme-surface-hover)/70 transition-colors relative border-none'
                       >
                         {chordId !== NO_CHORD_ID && chordConfig !== undefined
@@ -101,6 +102,8 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
                         {songSettings.display.chordTimes &&
                           (times !== '1' || songSettings.display.chordTimesOne) && (
                             <span
+                              data-song-setting='chordTimes'
+                              data-song-setting-one={times === '1' ? 'chordTimesOne' : undefined}
                               class='absolute -top-2.5 right-0 translate-x-full text-xs font-bold text-(--theme-accent-text)/90'
                               title={`Strum ${times} times`}
                             >
@@ -124,7 +127,7 @@ const linesData = items.map(lineData => lineData.map(data => data.split(' ')));
           </div>
 
           {songSettings.display.strummingPattern && (
-            <div class='relative mt-[0.4em]'>
+            <div data-song-setting='strummingPattern' class='relative mt-[0.4em]'>
               <div class='flex flex-row gap-2 justify-center text-(--theme-accent-text)/90'>
                 {strummingPattern.map(pattern => (
                   <span

@@ -26,7 +26,7 @@ const shouldRender = chordIDs.length > 0 && !(chordIDs.length === 1 && chordIDs[
 ---
 
 {shouldRender && (
-  <details open class="group border-t border-solid border-(--theme-accent-text)/90 w-full">
+  <details open data-song-setting='songChordsList' class="group border-t border-solid border-(--theme-accent-text)/90 w-full">
     <!-- Accordion Button / Header -->
     <summary class="flex justify-center items-center relative pt-1 md:pt-2 md:pb-2 list-none cursor-pointer select-none bg-(--theme-black)/5">
       <h3 class="text-center font-bold text-lg w-full text-(--theme-accent-text)">

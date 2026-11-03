@@ -85,6 +85,7 @@ const {
           {/* Repeat Counter Overlay */}
           {showTimes && (
             <span
+              data-song-setting='sectionTimes'
               class='text-sm font-bold absolute top-1/2 right-0 translate-x-[150%] -translate-y-1/2 z-10 text-(--theme-accent-text)/90 select-none'
               title={`Repeat ${curr.times} times`}
             >

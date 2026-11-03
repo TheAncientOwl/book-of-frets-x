@@ -1,0 +1,137 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file settings.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Song display settings.
+ */
+
+import '#styles/global.css';
+import { Icon } from 'astro-icon/components';
+import GeneralLayout from '#layouts/GeneralLayout.astro';
+import { DEFAULT_SONG_SETTINGS, SONG_SETTING_DEFINITIONS } from '#components/song/song-settings';
+---
+
+<GeneralLayout>
+  <div class='min-h-dvh bg-(--theme-page) px-4 text-(--theme-text)'>
+    <section
+      class='mx-auto w-full max-w-2xl bg-(--theme-surface) p-5 shadow-2xl sm:my-6 sm:rounded-xl sm:p-8'
+    >
+      <h1 class='mb-2 text-center text-2xl font-bold text-(--theme-accent-text) sm:text-3xl'>
+        <span class='flex items-center justify-center gap-2'>
+          <Icon
+            name='material-symbols:settings'
+            class='h-[22px] w-[22px] text-(--theme-accent-strong)/80'
+          />
+          App Settings
+        </span>
+      </h1>
+      <p class='mb-6 text-center text-sm text-(--theme-muted)'>
+        Choose what to show on song pages.
+      </p>
+
+      <form id='song-settings-form' class='flex flex-col gap-2'>
+        {
+          SONG_SETTING_DEFINITIONS.map(({ key, label }) => (
+            <label
+              for={`song-setting-${key}`}
+              class='flex min-h-14 cursor-pointer items-center gap-4 rounded-lg border border-(--theme-accent-strong)/15 bg-(--theme-page)/50 px-4 py-3 text-(--theme-accent-text) transition-colors hover:bg-(--theme-accent)/10'
+            >
+              <input
+                id={`song-setting-${key}`}
+                name={key}
+                type='checkbox'
+                checked={DEFAULT_SONG_SETTINGS[key]}
+                data-song-setting-input={key}
+                class='h-5 w-5 shrink-0 accent-(--theme-accent)'
+              />
+              <span class='text-base font-semibold'>{label}</span>
+              {key === 'chordTimesOne' && (
+                <span class='ml-auto text-right text-xs text-(--theme-muted)'>
+                  Show “1” when a chord is played once
+                </span>
+              )}
+            </label>
+          ))
+        }
+      </form>
+
+      <p
+        id='song-settings-status'
+        role='status'
+        aria-live='polite'
+        class='mt-4 min-h-5 text-center text-sm text-(--theme-muted)'
+      >
+      </p>
+    </section>
+  </div>
+</GeneralLayout>
+
+<script>
+  import {
+    applySongSettings,
+    isSongSettingKey,
+    readSongSettings,
+    SONG_SETTINGS_STORAGE_KEY,
+    writeSongSettings,
+  } from '#components/song/song-settings';
+
+  const form = document.getElementById('song-settings-form');
+  const status = document.getElementById('song-settings-status');
+  const inputs = form?.querySelectorAll<HTMLInputElement>('[data-song-setting-input]');
+
+  function showError(message: string, error: unknown) {
+    console.error(message, error);
+    if (status) {
+      status.textContent = 'Could not save settings. Check your browser storage permissions.';
+      status.classList.add('text-(--theme-error)');
+    }
+  }
+
+  function initializeSettings() {
+    if (!inputs) return;
+
+    try {
+      const settings = readSongSettings();
+      inputs.forEach(input => {
+        const key = input.dataset.songSettingInput;
+        if (key && isSongSettingKey(key)) input.checked = settings[key];
+      });
+      applySongSettings(document, settings);
+    } catch (error) {
+      showError('Failed to load song settings.', error);
+    }
+  }
+
+  initializeSettings();
+
+  inputs?.forEach(input => {
+    input.addEventListener('change', () => {
+      const key = input.dataset.songSettingInput;
+      if (!key || !isSongSettingKey(key)) return;
+
+      try {
+        const settings = readSongSettings();
+        settings[key] = input.checked;
+        writeSongSettings(settings);
+        applySongSettings(document, settings);
+        if (status) {
+          status.textContent = 'Settings saved.';
+          status.classList.remove('text-(--theme-error)');
+        }
+        window.dispatchEvent(new CustomEvent('song-settings-changed', { detail: settings }));
+      } catch (error) {
+        showError('Failed to save song settings.', error);
+      }
+    });
+  });
+
+  window.addEventListener('storage', event => {
+    if (event.key === SONG_SETTINGS_STORAGE_KEY) initializeSettings();
+  });
+</script>
