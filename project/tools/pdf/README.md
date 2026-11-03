@@ -4,7 +4,8 @@
 the current palette definitions in `public/themes/index.json`, automatically
 uses the guitar or ukulele chord index from the song's `instrument`, and renders
 all supported section types: `chords-v1`, `chords-v2`, `chords-v3`, `gtab-v1`,
-and `ukulele-tabs-v1`.
+and `ukulele-tabs-v1`. Sections are centered and flow in order down the first
+column, then the second column, continuing on additional pages as needed.
 
 Render using a theme:
 

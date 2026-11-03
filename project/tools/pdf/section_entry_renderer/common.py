@@ -69,7 +69,6 @@ def render_chords_v2_lines(
                     raise ValueError(f"Strumming pattern index {index} is out of range")
                 patterns.append(" ".join(strumms[index]))
             paragraph = Paragraph(
-                f'<font color="{accent}"><b>STRUM</b></font>  '
                 f'<font name="Courier">{escape("    |    ".join(patterns))}</font>',
                 styles["StrumLine"],
             )

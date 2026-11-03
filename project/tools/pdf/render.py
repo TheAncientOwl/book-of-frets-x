@@ -9,11 +9,22 @@ from typing import Any
 from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
-from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import (
+    BaseDocTemplate,
+    Frame,
+    Image,
+    KeepTogether,
+    NextPageTemplate,
+    PageTemplate,
+    Paragraph,
+    Spacer,
+    Table,
+    TableStyle,
+)
 
 from section_entry_renderer import SectionEntryRenderer
 
@@ -90,8 +101,8 @@ def make_styles(theme: dict[str, Any]) -> dict[str, ParagraphStyle]:
             "CoverTitle",
             parent=normal,
             fontName="Helvetica-Bold",
-            fontSize=21,
-            leading=25,
+            fontSize=18,
+            leading=21,
             textColor=colors.HexColor(palette["text"]),
             alignment=TA_LEFT,
         ),
@@ -99,8 +110,8 @@ def make_styles(theme: dict[str, Any]) -> dict[str, ParagraphStyle]:
             "CoverArtists",
             parent=normal,
             fontName="Helvetica-Oblique",
-            fontSize=12,
-            leading=16,
+            fontSize=10,
+            leading=13,
             textColor=colors.HexColor(palette["accentText"]),
             alignment=TA_LEFT,
         ),
@@ -127,7 +138,8 @@ def make_styles(theme: dict[str, Any]) -> dict[str, ParagraphStyle]:
             fontName="Helvetica-Bold",
             fontSize=12,
             leading=15,
-            textColor=colors.HexColor(palette["text"]),
+            textColor=colors.HexColor(palette["accentText"]),
+            alignment=TA_CENTER,
         ),
         "SectionRepeat": ParagraphStyle(
             "SectionRepeat",
@@ -144,8 +156,7 @@ def make_styles(theme: dict[str, Any]) -> dict[str, ParagraphStyle]:
             fontName="Helvetica",
             fontSize=10,
             leading=15,
-            leftIndent=6,
-            rightIndent=6,
+            alignment=TA_CENTER,
         ),
         "StrumLine": ParagraphStyle(
             "StrumLine",
@@ -153,8 +164,7 @@ def make_styles(theme: dict[str, Any]) -> dict[str, ParagraphStyle]:
             fontName="Courier",
             fontSize=8,
             leading=11,
-            leftIndent=8,
-            rightIndent=8,
+            alignment=TA_CENTER,
         ),
         "Repeat": ParagraphStyle(
             "Repeat",
@@ -162,7 +172,7 @@ def make_styles(theme: dict[str, Any]) -> dict[str, ParagraphStyle]:
             fontName="Helvetica-Bold",
             fontSize=9,
             leading=12,
-            alignment=TA_LEFT,
+            alignment=TA_CENTER,
             spaceAfter=3,
         ),
     }
@@ -178,10 +188,12 @@ def render_section(
     available_width: float,
 ) -> None:
     palette = theme["colors"]
-    title = Paragraph(escape(section["name"]), styles["SectionTitle"])
     times = section.get("times", 1)
-    repeat = Paragraph(f"×{times}" if times > 1 else "", styles["SectionRepeat"])
-    heading = Table([[title, repeat]], colWidths=[available_width - 44, 44])
+    repeat = (
+        f' <font color="{palette["accent"]}">×{times}</font>' if times > 1 else ""
+    )
+    title = Paragraph(f'{escape(section["name"])}{repeat}', styles["SectionTitle"])
+    heading = Table([[title]], colWidths=[available_width])
     heading.setStyle(
         TableStyle(
             [
@@ -195,8 +207,7 @@ def render_section(
             ]
         )
     )
-    story.append(heading)
-    story.append(Spacer(1, 5))
+    section_story: list[Any] = [heading, Spacer(1, 5)]
 
     for entry in section["entries"]:
         renderer_name = entry["renderer"]
@@ -208,9 +219,11 @@ def render_section(
             song.get("strumms", []),
             styles,
             chords_map,
-            story,
+            section_story,
             theme,
         )
+    section_story.append(Spacer(1, 12))
+    story.append(KeepTogether(section_story))
 
 
 def cover_image_for(config_path: Path) -> Path | None:
@@ -242,7 +255,7 @@ def render_cover(
         note_text = "<br/>".join(escape(note) for note in notes)
         text_rows.append([Paragraph(note_text, styles["Notes"])])
 
-    text_table = Table(text_rows, colWidths=[available_width - 86])
+    text_table = Table(text_rows, colWidths=[available_width - 72])
     text_table.setStyle(
         TableStyle(
             [
@@ -257,8 +270,8 @@ def render_cover(
 
     image_path = cover_image_for(config_path)
     if image_path is not None:
-        cover_content: list[Any] = [Image(str(image_path), width=64, height=64), text_table]
-        widths = [76, available_width - 76]
+        cover_content: list[Any] = [Image(str(image_path), width=52, height=52), text_table]
+        widths = [62, available_width - 62]
     else:
         cover_content = [text_table]
         widths = [available_width]
@@ -270,14 +283,14 @@ def render_cover(
                 ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor(palette["surface"])),
                 ("BOX", (0, 0), (-1, -1), 0.8, colors.HexColor(palette["accentStrong"])),
                 ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-                ("LEFTPADDING", (0, 0), (-1, -1), 12),
-                ("RIGHTPADDING", (0, 0), (-1, -1), 12),
-                ("TOPPADDING", (0, 0), (-1, -1), 12),
-                ("BOTTOMPADDING", (0, 0), (-1, -1), 12),
+                ("LEFTPADDING", (0, 0), (-1, -1), 8),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+                ("TOPPADDING", (0, 0), (-1, -1), 8),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
             ]
         )
     )
-    story.extend([cover, Spacer(1, 18)])
+    story.extend([cover, Spacer(1, 7)])
 
 
 def render_song_pdf(
@@ -289,37 +302,92 @@ def render_song_pdf(
     validate_theme(theme)
     song = load_json(config_path)
     styles = make_styles(theme)
-    page_width, _ = A4
-    margin = 17 * mm
+    page_width, page_height = A4
+    margin = 12 * mm
+    column_gap = 8 * mm
     available_width = page_width - 2 * margin
-    document = SimpleDocTemplate(
+    column_width = (available_width - column_gap) / 2
+    top_margin = 8 * mm
+    bottom_margin = 18 * mm
+    header_height = 31 * mm
+
+    document = BaseDocTemplate(
         str(out_path),
         pagesize=A4,
         rightMargin=margin,
         leftMargin=margin,
-        topMargin=17 * mm,
-        bottomMargin=18 * mm,
+        topMargin=top_margin,
+        bottomMargin=bottom_margin,
         title=song["title"],
         author=", ".join(song["artists"]),
         subject=f"Song sheet in the {theme['name']} theme",
     )
+
+    def make_column_frames(top: float) -> list[Frame]:
+        frame_height = page_height - top - bottom_margin
+        left_x = margin
+        right_x = margin + column_width + column_gap
+        return [
+            Frame(
+                left_x,
+                bottom_margin,
+                column_width,
+                frame_height,
+                leftPadding=0,
+                rightPadding=0,
+                topPadding=0,
+                bottomPadding=0,
+                id="left-column",
+            ),
+            Frame(
+                right_x,
+                bottom_margin,
+                column_width,
+                frame_height,
+                leftPadding=0,
+                rightPadding=0,
+                topPadding=0,
+                bottomPadding=0,
+                id="right-column",
+            ),
+        ]
+
     story: list[Any] = []
     render_cover(song, config_path, styles, story, theme, available_width)
+    header_frame = Frame(
+        margin,
+        page_height - top_margin - header_height,
+        available_width,
+        header_height,
+        leftPadding=0,
+        rightPadding=0,
+        topPadding=0,
+        bottomPadding=0,
+        id="song-header",
+    )
+    first_page_frames = [
+        header_frame,
+        *make_column_frames(top_margin + header_height),
+    ]
 
     sections = song["sections"]
+    ordered_sections: list[dict[str, Any]] = []
     for section_id in song["order"]:
         if section_id not in sections:
             raise ValueError(f"Song order refers to missing section {section_id!r}")
+        ordered_sections.append(sections[section_id])
+
+    story.append(NextPageTemplate("SongColumns"))
+    for section in ordered_sections:
         render_section(
-            sections[section_id],
+            section,
             song,
             styles,
             chords_map,
             story,
             theme,
-            available_width,
+            column_width,
         )
-        story.append(Spacer(1, 12))
 
     page_color = colors.HexColor(theme["colors"]["page"])
     accent_color = colors.HexColor(theme["colors"]["accent"])
@@ -341,7 +409,17 @@ def render_song_pdf(
         canvas.restoreState()
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    document.build(story, onFirstPage=draw_page, onLaterPages=draw_page)
+    document.addPageTemplates(
+        [
+            PageTemplate("SongFirstPage", first_page_frames, onPage=draw_page),
+            PageTemplate(
+                "SongColumns",
+                make_column_frames(top_margin),
+                onPage=draw_page,
+            ),
+        ]
+    )
+    document.build(story)
 
 
 def load_chords_map(path: Path) -> dict[str, Any]:
