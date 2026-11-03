@@ -18,6 +18,7 @@ def render_chords_v3_section_entry(
     chords_map: dict[str, Any],
     story: list[Any],
     theme: dict[str, Any],
+    render_context: dict[str, Any] | None = None,
 ) -> None:
     times = data["times"]
     for line_group in data["items"]:
@@ -29,6 +30,6 @@ def render_chords_v3_section_entry(
                 )
             )
         render_chords_v2_lines(
-            line_group, strumms, styles, chords_map, story, theme
+            line_group, strumms, styles, chords_map, story, theme, render_context
         )
         story.append(Spacer(1, 3))

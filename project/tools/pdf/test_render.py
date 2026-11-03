@@ -13,9 +13,60 @@ from render import (
     make_styles,
     render_song_pdf,
 )
+from section_entry_renderer.chords_v1 import render_chords_v1_section_entry
+from section_entry_renderer.chords_v2 import render_chords_v2_section_entry
+from section_entry_renderer.common import render_queued_strumming_patterns
 
 
 class SongPdfRendererTests(unittest.TestCase):
+    def test_repeated_strumming_patterns_render_once_per_section(self) -> None:
+        catalog = load_theme_catalog(DEFAULT_THEMES_PATH)
+        theme = next(theme for theme in catalog["themes"] if theme["id"] == "graphite")
+        styles = make_styles(theme)
+        strumms = [["D", "U"]]
+        chords_map = {"C": {"name": "C"}, "G": {"name": "G"}}
+        render_context: dict[str, Any] = {
+            "strum_patterns": set(),
+            "pending_strum_patterns": [],
+        }
+        story: list[Any] = []
+
+        render_chords_v1_section_entry(
+            [{"times": 1, "items": [[["0 C 1", "0 G 1"]]]}],
+            strumms,
+            styles,
+            chords_map,
+            story,
+            theme,
+            render_context,
+        )
+        render_chords_v2_section_entry(
+            ["x1 C 1", "> 0", "x1 G 1", "> 0"],
+            strumms,
+            styles,
+            chords_map,
+            story,
+            theme,
+            render_context,
+        )
+
+        self.assertFalse(any(getattr(item, "style", None) == styles["StrumLine"] for item in story))
+        render_queued_strumming_patterns(render_context, styles, story, theme)
+
+        chord_line_indexes = [
+            index
+            for index, item in enumerate(story)
+            if getattr(item, "style", None) == styles["ChordLine"]
+        ]
+        strum_line_indexes = [
+            index
+            for index, item in enumerate(story)
+            if getattr(item, "style", None) == styles["StrumLine"]
+        ]
+        self.assertLess(max(chord_line_indexes), min(strum_line_indexes))
+        strum_lines = [story[index] for index in strum_line_indexes]
+        self.assertEqual(len(strum_lines), 1)
+
     def test_section_content_styles_are_centered(self) -> None:
         theme = load_theme_catalog(DEFAULT_THEMES_PATH)["themes"][0]
         styles = make_styles(theme)

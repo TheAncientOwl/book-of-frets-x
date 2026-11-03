@@ -16,5 +16,8 @@ def render_chords_v2_section_entry(
     chords_map: dict[str, Any],
     story: list[Any],
     theme: dict[str, Any],
+    render_context: dict[str, Any] | None = None,
 ) -> None:
-    render_chords_v2_lines(data, strumms, styles, chords_map, story, theme)
+    render_chords_v2_lines(
+        data, strumms, styles, chords_map, story, theme, render_context
+    )

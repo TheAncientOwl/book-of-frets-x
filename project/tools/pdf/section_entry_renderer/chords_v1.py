@@ -2,13 +2,12 @@
 Render the legacy chords-v1 line format.
 """
 
-from html import escape
 from typing import Any
 
 from reportlab.platypus import Paragraph, Spacer
 
 from . import register_section_entry_renderer
-from .common import chord_sequence_markup
+from .common import chord_sequence_markup, queue_strumming_patterns
 
 
 @register_section_entry_renderer("chords-v1")
@@ -19,8 +18,10 @@ def render_chords_v1_section_entry(
     chords_map: dict[str, Any],
     story: list[Any],
     theme: dict[str, Any],
+    render_context: dict[str, Any] | None = None,
 ) -> None:
     accent = theme["colors"]["accent"]
+    patterns: list[tuple[str, ...]] = []
     for repeated_block in data:
         times = repeated_block.get("times", 1)
         if times > 1:
@@ -45,12 +46,7 @@ def render_chords_v1_section_entry(
                         tokens[1:], chords_map, accent
                     )
                     story.append(Paragraph(chord_markup, styles["ChordLine"]))
-                    pattern = escape("   ".join(strumms[pattern_index]))
-                    story.append(
-                        Paragraph(
-                            f'<font color="{theme["colors"]["subtle"]}">'
-                            f"{pattern}</font>",
-                            styles["StrumLine"],
-                        )
-                    )
+                    pattern_tokens = tuple(strumms[pattern_index])
+                    patterns.append(pattern_tokens)
                     story.append(Spacer(1, 5))
+    queue_strumming_patterns(patterns, render_context)

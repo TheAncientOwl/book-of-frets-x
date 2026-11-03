@@ -10,6 +10,46 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Paragraph, Preformatted, Spacer, Table, TableStyle
 
 
+def queue_strumming_patterns(
+    patterns: list[tuple[str, ...]],
+    render_context: dict[str, Any] | None,
+) -> None:
+    if render_context is None:
+        return
+
+    seen_patterns: set[tuple[str, ...]] = render_context.setdefault(
+        "strum_patterns", set()
+    )
+    pending_patterns: list[str] = render_context.setdefault(
+        "pending_strum_patterns", []
+    )
+    unique_patterns: list[str] = []
+    for pattern in patterns:
+        if pattern in seen_patterns:
+            continue
+        seen_patterns.add(pattern)
+        unique_patterns.append(" ".join(pattern))
+
+    if unique_patterns:
+        pending_patterns.append("    |    ".join(unique_patterns))
+
+
+def render_queued_strumming_patterns(
+    render_context: dict[str, Any],
+    styles: dict[str, ParagraphStyle],
+    story: list[Any],
+    theme: dict[str, Any],
+) -> None:
+    for pattern in render_context["pending_strum_patterns"]:
+        story.append(
+            Paragraph(
+                f'<font name="Courier">{escape(pattern)}</font>',
+                styles["StrumLine"],
+            )
+        )
+        story.append(Spacer(1, 4))
+
+
 def chord_label(chord_id: str, chords_map: dict[str, Any]) -> str:
     chord = chords_map.get(chord_id, {})
     return str(chord.get("name", chord_id))
@@ -53,6 +93,7 @@ def render_chords_v2_lines(
     chords_map: dict[str, Any],
     story: list[Any],
     theme: dict[str, Any],
+    render_context: dict[str, Any] | None = None,
 ) -> None:
     accent = theme["colors"]["accent"]
     for line in data:
@@ -62,18 +103,13 @@ def render_chords_v2_lines(
 
         if tokens[0] == ">":
             pattern_ids = tokens[1:]
-            patterns: list[str] = []
+            patterns: list[tuple[str, ...]] = []
             for pattern_id in pattern_ids:
                 index = int(pattern_id)
                 if index < 0 or index >= len(strumms):
                     raise ValueError(f"Strumming pattern index {index} is out of range")
-                patterns.append(" ".join(strumms[index]))
-            paragraph = Paragraph(
-                f'<font name="Courier">{escape("    |    ".join(patterns))}</font>',
-                styles["StrumLine"],
-            )
-            story.append(paragraph)
-            story.append(Spacer(1, 4))
+                patterns.append(tuple(strumms[index]))
+            queue_strumming_patterns(patterns, render_context)
             continue
 
         if not tokens[0].startswith("x") or not tokens[0][1:].isdigit():

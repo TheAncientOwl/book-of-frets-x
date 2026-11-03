@@ -16,6 +16,7 @@ def render_ukulele_tabs_v1_section_entry(
     _chords_map: dict[str, Any],
     story: list[Any],
     theme: dict[str, Any],
+    _render_context: dict[str, Any] | None = None,
 ) -> None:
-    _ = (_strumms, _chords_map)
+    _ = (_strumms, _chords_map, _render_context)
     render_tabs(data, styles, story, theme, "ukulele")

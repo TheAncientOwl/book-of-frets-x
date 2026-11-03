@@ -27,6 +27,7 @@ from reportlab.platypus import (
 )
 
 from section_entry_renderer import SectionEntryRenderer
+from section_entry_renderer.common import render_queued_strumming_patterns
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
@@ -208,6 +209,10 @@ def render_section(
         )
     )
     section_story: list[Any] = [heading, Spacer(1, 5)]
+    render_context: dict[str, Any] = {
+        "strum_patterns": set(),
+        "pending_strum_patterns": [],
+    }
 
     for entry in section["entries"]:
         renderer_name = entry["renderer"]
@@ -221,7 +226,9 @@ def render_section(
             chords_map,
             section_story,
             theme,
+            render_context,
         )
+    render_queued_strumming_patterns(render_context, styles, section_story, theme)
     section_story.append(Spacer(1, 12))
     story.append(KeepTogether(section_story))
 
