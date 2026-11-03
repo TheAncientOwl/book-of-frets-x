@@ -1,0 +1,1 @@
+import{i as e,n as t}from"./song-settings.CXwY9MnM.js";function n(){try{t(document,e())}catch(e){console.error(`Failed to apply saved song settings.`,e)}}n(),document.addEventListener(`astro:after-swap`,n),window.addEventListener(`storage`,e=>{e.key===`book-of-frets-song-settings`&&n()}),window.addEventListener(`song-settings-changed`,n);
