@@ -7,7 +7,7 @@
  *
  * @file NavigationList.astro
  * @author Alexandru Delegeanu
- * @version 1.5
+ * @version 1.6
  * @description Native navigation links layer handling session storage metrics.
  */
 
@@ -60,25 +60,25 @@ const { id = 'main-nav-list' } = Astro.props;
       </h2>
       <ul class='m-0 grid list-none grid-cols-2 gap-2 p-0'>
         <li>
-          <a data-nav-item href=`${import.meta.env.BASE_URL}fretboard` class='menu-link'>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}guitar/fretboard` class='menu-link'>
             <Icon name='game-icons:guitar' class='menu-icon' />
             <span>Fretboard</span>
           </a>
         </li>
         <li>
-          <a data-nav-item href=`${import.meta.env.BASE_URL}chords` class='menu-link'>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}guitar/chords` class='menu-link'>
             <Icon name='material-symbols:music-note' class='menu-icon' />
             <span>Chords</span>
           </a>
         </li>
         <li>
-          <a data-nav-item href=`${import.meta.env.BASE_URL}tuner` class='menu-link'>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}guitar/tuner` class='menu-link'>
             <Icon name='material-symbols:tune' class='menu-icon' />
             <span>Tuner</span>
           </a>
         </li>
         <li>
-          <a data-nav-item href=`${import.meta.env.BASE_URL}practice` class='menu-link'>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}guitar/practice` class='menu-link'>
             <Icon name='material-symbols:track-changes' class='menu-icon' />
             <span>Practice</span>
           </a>
@@ -92,25 +92,25 @@ const { id = 'main-nav-list' } = Astro.props;
       </h2>
       <ul class='m-0 grid list-none grid-cols-2 gap-2 p-0'>
         <li>
-          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele-fretboard` class='menu-link'>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele/fretboard` class='menu-link'>
             <UkuleleIcon class='menu-icon' />
             <span>Fretboard</span>
           </a>
         </li>
         <li>
-          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele-chords` class='menu-link'>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele/chords` class='menu-link'>
             <Icon name='material-symbols:music-note' class='menu-icon' />
             <span>Chords</span>
           </a>
         </li>
         <li>
-          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele-tuner` class='menu-link'>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele/tuner` class='menu-link'>
             <Icon name='material-symbols:tune' class='menu-icon' />
             <span>Tuner</span>
           </a>
         </li>
         <li>
-          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele-practice` class='menu-link'>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele/practice` class='menu-link'>
             <Icon name='material-symbols:track-changes' class='menu-icon' />
             <span>Practice</span>
           </a>

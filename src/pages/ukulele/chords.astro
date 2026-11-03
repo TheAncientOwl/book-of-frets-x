@@ -5,10 +5,10 @@
  * --------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  *
- * @file chords.astro
+ * @file ukulele/chords.astro
  * @author Alexandru Delegeanu
- * @version 1.3
- * @description Native layout layer rendering searchable chord configurations with custom SearchBar.
+ * @version 1.2
+ * @description Native layout layer rendering searchable ukulele chord configurations with custom SearchBar.
  */
 
 import '#styles/global.css';
@@ -18,7 +18,7 @@ import SearchBar from '#components/common/SearchBar.astro';
 import Chord from '#components/common/Chord.astro';
 
 import type { TChord } from '#types/chord';
-import chordsIndexData from '#public/chords/index.json';
+import chordsIndexData from '#public/chords/ukulele/index.json';
 const chordsIndex = chordsIndexData.index as Record<string, TChord>;
 
 const sortedChords = Object.entries(chordsIndex)
@@ -50,7 +50,7 @@ const sortedChords = Object.entries(chordsIndex)
                 data-chord-key={chordKeyName}
                 class='chord-card-wrapper transition-opacity duration-200 w-[13em] p-[1em] text-[0.6em] flex items-center justify-center'
               >
-                <Chord {...chordConfig} />
+                <Chord {...chordConfig} type='ukulele' />
               </div>
             ))
           }

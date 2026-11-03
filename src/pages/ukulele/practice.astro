@@ -4,16 +4,17 @@
  *                       Copyright (c) by BookOfFretsX 2026                    *
  * --------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
- * @file practice.astro
+ * @file ukulele/practice.astro
  * @author Alexandru Delegeanu
- * @version 1.17
- * @description Practice helpers with compact action buttons and scaled display text
+ * @version 1.1
+ * @description Ukulele practice games for standard G-C-E-A tuning.
  */
 
 import '#styles/global.css';
 import '#components/common/checkbox.css';
 
 import { Icon } from 'astro-icon/components';
+import UkuleleIcon from '#components/common/UkuleleIcon.astro';
 import IconButton from '#components/common/IconButton.astro';
 import PageHeader from '#components/common/PageHeader.astro';
 import PracticeGameTabs from '#components/practice/PracticeGameTabs.astro';
@@ -29,24 +30,21 @@ import GeneralLayout from '#layouts/GeneralLayout.astro';
       class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-(--theme-surface) p-3 sm:p-6 pt-6 sm:rounded-xl shadow-2xl'
     >
       <PageHeader>
-        <Icon
-          name='material-symbols:track-changes'
-          class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
-        />
-        Practice
+        <UkuleleIcon class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
+        Ukulele Practice
         <IconButton slot='action' label='Settings' onclick='openActiveSettingsModal()'>
           <Icon name='material-symbols:settings' class='w-[20px] h-[20px]' />
         </IconButton>
       </PageHeader>
 
       <p class='text-(--theme-muted) text-sm mb-3 sm:mb-6 text-center'>
-        Sharpen your fretboard fluency with focused minigames!
+        Practice notes and fret positions in standard G-C-E-A tuning.
       </p>
 
       <PracticeGameTabs />
-      <NotePracticeGame />
-      <NoteStringPracticeGame />
-      <FretCoordinatePracticeGame />
+      <NotePracticeGame instrument='ukulele' />
+      <NoteStringPracticeGame instrument='ukulele' />
+      <FretCoordinatePracticeGame instrument='ukulele' />
     </div>
   </div>
 </GeneralLayout>

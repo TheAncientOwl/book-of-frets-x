@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file AboutPage.astro
  * @author Alexandru Delegeanu
- * @version 1.7
+ * @version 1.8
  * @description App homepage containing project details, features, and core motivations.
  */
 
@@ -34,7 +34,7 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             explore songs through an interactive fretboard. It features a comprehensive collection
             of songs with detailed frets, strumming patterns, chords,{' '}
             <a
-              href='/chords'
+              href=`${import.meta.env.BASE_URL}guitar/chords`
               class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               chords list
@@ -48,14 +48,14 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             </a>
             ,{' '}
             <a
-              href='/fretboard'
+              href=`${import.meta.env.BASE_URL}guitar/fretboard`
               class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               fretboard
             </a>
             ,{' '}
             <a
-              href='/practice'
+              href=`${import.meta.env.BASE_URL}guitar/practice`
               class='text-(--theme-accent-text) font-medium no-underline hover:opacity-80 transition-opacity'
             >
               practice pages
@@ -74,7 +74,9 @@ import AboutLayout from '#layouts/AboutLayout.astro';
         <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-4 text-(--theme-accent-text) flex items-center gap-2'>
+          <h2
+            class='text-lg sm:text-xl font-bold mb-4 text-(--theme-accent-text) flex items-center gap-2'
+          >
             <span>✨</span> Features
           </h2>
           <div class='grid grid-cols-1 sm:grid-cols-2 gap-3 w-full'>
@@ -83,8 +85,8 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎵</span>
               <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-(--theme-highlight)/90'>Songs with Frets:</span> Visualize songs with
-                precise fret positions to help you learn finger placements.
+                <span class='font-semibold text-(--theme-highlight)/90'>Songs with Frets:</span> Visualize
+                songs with precise fret positions to help you learn finger placements.
               </p>
             </div>
             <div
@@ -92,8 +94,8 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎼</span>
               <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-(--theme-highlight)/90'>Chords:</span> Access a rich library of chords
-                with clear diagrams.
+                <span class='font-semibold text-(--theme-highlight)/90'>Chords:</span> Access a rich library
+                of chords with clear diagrams.
               </p>
             </div>
             <div
@@ -101,8 +103,8 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               <span class='text-(--theme-accent-text) text-sm mt-0.5'>📖</span>
               <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-(--theme-highlight)/90'>Chords List:</span> Browse and search through
-                a curated list of chords.
+                <span class='font-semibold text-(--theme-highlight)/90'>Chords List:</span> Browse and
+                search through a curated list of chords.
               </p>
             </div>
             <div
@@ -110,8 +112,8 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               <span class='text-(--theme-accent-text) text-sm mt-0.5'>📂</span>
               <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-(--theme-highlight)/90'>Songs List:</span> Easily navigate through
-                a growing collection of songs.
+                <span class='font-semibold text-(--theme-highlight)/90'>Songs List:</span> Easily navigate
+                through a growing collection of songs.
               </p>
             </div>
             <div
@@ -119,8 +121,8 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎸</span>
               <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-(--theme-highlight)/90'>Interactive Fretboard:</span> Explore notes,
-                scales, and fingerings directly on an interactive fretboard layout.
+                <span class='font-semibold text-(--theme-highlight)/90'>Interactive Fretboard:</span
+                > Explore notes, scales, and fingerings directly on an interactive fretboard layout.
               </p>
             </div>
             <div
@@ -128,8 +130,8 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎯</span>
               <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-(--theme-highlight)/90'>Practice Tools:</span> Enhance your skills
-                with dedicated training modes and practice views.
+                <span class='font-semibold text-(--theme-highlight)/90'>Practice Tools:</span> Enhance
+                your skills with dedicated training modes and practice views.
               </p>
             </div>
             <div
@@ -137,8 +139,8 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               <span class='text-(--theme-accent-text) text-sm mt-0.5'>🎨</span>
               <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-(--theme-highlight)/90'>Themes:</span> Customize the look and feel
-                of the app with various themes.
+                <span class='font-semibold text-(--theme-highlight)/90'>Themes:</span> Customize the look
+                and feel of the app with various themes.
               </p>
             </div>
             <div
@@ -146,8 +148,8 @@ import AboutLayout from '#layouts/AboutLayout.astro';
             >
               <span class='text-(--theme-accent-text) text-sm mt-0.5'>📺</span>
               <p class='text-(--theme-highlight)/80 text-sm sm:text-base break-words m-0'>
-                <span class='font-semibold text-(--theme-highlight)/90'>Video Resources:</span> Learn how to play
-                songs with helpful video tutorials.
+                <span class='font-semibold text-(--theme-highlight)/90'>Video Resources:</span> Learn
+                how to play songs with helpful video tutorials.
               </p>
             </div>
           </div>
@@ -156,7 +158,9 @@ import AboutLayout from '#layouts/AboutLayout.astro';
         <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'>
+          <h2
+            class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'
+          >
             <span>🛠️</span> Main Feature
           </h2>
           <p class='text-(--theme-highlight)/80 break-words w-full'>
@@ -169,7 +173,9 @@ import AboutLayout from '#layouts/AboutLayout.astro';
         <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'>
+          <h2
+            class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'
+          >
             <span>🎶</span> Motivation
           </h2>
           <p class='text-(--theme-highlight)/80 break-words w-full'>
@@ -183,7 +189,9 @@ import AboutLayout from '#layouts/AboutLayout.astro';
         <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'>
+          <h2
+            class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'
+          >
             <span>🤝</span> Contribution
           </h2>
           <p class='text-(--theme-highlight)/80 break-words w-full'>
@@ -204,7 +212,9 @@ import AboutLayout from '#layouts/AboutLayout.astro';
         <hr class='border-(--theme-surface-hover)/40 w-full' />
 
         <div class='w-full'>
-          <h2 class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'>
+          <h2
+            class='text-lg sm:text-xl font-bold mb-3 text-(--theme-accent-text) flex items-center gap-2'
+          >
             <span>📜</span> License
           </h2>
           <p class='text-(--theme-highlight)/80 break-words w-full'>
