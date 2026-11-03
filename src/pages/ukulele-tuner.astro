@@ -1,0 +1,271 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file ukulele-practice.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Microphone tuner for the four standard ukulele strings.
+ */
+
+import '#styles/global.css';
+import { Icon } from 'astro-icon/components';
+import PageHeader from '#components/common/PageHeader.astro';
+import GeneralLayout from '#layouts/GeneralLayout.astro';
+---
+
+<GeneralLayout>
+  <div class='bg-(--theme-page) min-h-dvh flex flex-col items-center text-(--theme-text)'>
+    <div
+      class='w-full max-w-xl min-h-dvh flex flex-col items-center bg-(--theme-surface) p-6 sm:rounded-xl shadow-2xl'
+    >
+      <PageHeader>
+        <Icon
+          name='material-symbols:tune'
+          class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
+        />
+        Ukulele Tuner
+      </PageHeader>
+
+      <p class='mb-5 text-center text-sm text-(--theme-muted)'>
+        Tune each string to standard G-C-E-A tuning.
+      </p>
+
+      <div class='mb-5 grid w-full grid-cols-4 gap-2' aria-label='Select a ukulele string'>
+        {
+          ['G4', 'C4', 'E4', 'A4'].map((note, index) => (
+            <button
+              type='button'
+              data-tuner-string={index}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+              class={`rounded-lg border p-3 text-center font-bold transition-colors cursor-pointer ${index === 0 ? 'border-(--theme-accent) bg-(--theme-surface-hover) text-(--theme-accent)' : 'border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) hover:text-(--theme-text)'}`}
+            >
+              <span class='block text-lg'>{note.replace(/[0-9]/g, '')}</span>
+              <span class='block text-[10px] font-medium'>{note}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <section
+        class='flex w-full flex-col items-center rounded-xl border border-(--theme-surface-hover)/50 bg-(--theme-page)/80 p-6 shadow-inner'
+        aria-live='polite'
+      >
+        <div
+          id='ukulele-tuner-target'
+          class='mb-2 text-xs font-semibold uppercase tracking-widest text-(--theme-highlight)'
+        >
+          Target: G4 (392.00 Hz)
+        </div>
+        <div
+          id='ukulele-tuner-note'
+          class='min-h-16 text-5xl font-black tracking-wider text-(--theme-accent)'
+        >
+          —
+        </div>
+        <div id='ukulele-tuner-frequency' class='mb-5 text-xs font-mono text-(--theme-muted)'>
+          0.00 Hz · 0 cents
+        </div>
+
+        <div
+          class='relative h-3 w-full max-w-sm overflow-hidden rounded-full border border-(--theme-surface-hover)/60 bg-(--theme-surface)'
+        >
+          <div
+            id='ukulele-tuner-needle'
+            class='absolute bottom-0 top-0 left-1/2 w-1.5 -translate-x-1/2 rounded-full bg-(--theme-accent) transition-[left] duration-75'
+          >
+          </div>
+          <div class='absolute bottom-0 top-0 left-1/2 w-px -translate-x-1/2 bg-(--theme-text)/50'>
+          </div>
+        </div>
+        <div class='mt-1 flex w-full max-w-sm justify-between text-[10px] text-(--theme-subtle)'>
+          <span>Flat</span><span class='text-(--theme-success)'>In tune</span><span>Sharp</span>
+        </div>
+        <div
+          id='ukulele-tuner-status'
+          class='mt-4 min-h-5 text-center text-xs text-(--theme-muted)'
+        >
+          Select a string, then start the microphone.
+        </div>
+        <button
+          id='ukulele-tuner-toggle'
+          type='button'
+          class='mt-4 inline-flex items-center gap-2 rounded-lg border border-(--theme-accent-strong)/60 bg-(--theme-success-surface)/50 px-4 py-2 text-sm font-semibold text-(--theme-success) transition-colors hover:bg-(--theme-success-surface-raised)/60 cursor-pointer'
+        >
+          <Icon name='material-symbols:mic' class='h-4 w-4' />
+          Start microphone
+        </button>
+      </section>
+    </div>
+  </div>
+</GeneralLayout>
+
+<script>
+  interface TuningString {
+    name: string;
+    frequency: number;
+  }
+
+  const tuningStrings: TuningString[] = [
+    { name: 'G4', frequency: 392 },
+    { name: 'C4', frequency: 261.63 },
+    { name: 'E4', frequency: 329.63 },
+    { name: 'A4', frequency: 440 },
+  ];
+  const noteNames = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
+  let selectedStringIndex = 0;
+  let audioContext: AudioContext | null = null;
+  let stream: MediaStream | null = null;
+  let analyser: AnalyserNode | null = null;
+  let buffer: Float32Array<ArrayBuffer> | null = null;
+  let frameId = 0;
+
+  const targetDisplay = document.getElementById('ukulele-tuner-target');
+  const noteDisplay = document.getElementById('ukulele-tuner-note');
+  const frequencyDisplay = document.getElementById('ukulele-tuner-frequency');
+  const statusDisplay = document.getElementById('ukulele-tuner-status');
+  const needle = document.getElementById('ukulele-tuner-needle');
+  const toggleButton = document.getElementById('ukulele-tuner-toggle');
+
+  function setTarget(index: number): void {
+    selectedStringIndex = index;
+    const target = tuningStrings[index];
+    if (!target) return;
+
+    if (targetDisplay) {
+      targetDisplay.textContent = `Target: ${target.name} (${target.frequency.toFixed(2)} Hz)`;
+    }
+
+    document.querySelectorAll<HTMLButtonElement>('[data-tuner-string]').forEach(button => {
+      const active = Number(button.dataset.tunerString) === index;
+      button.setAttribute('aria-pressed', String(active));
+      button.className = `rounded-lg border p-3 text-center font-bold transition-colors cursor-pointer ${
+        active
+          ? 'border-(--theme-accent) bg-(--theme-surface-hover) text-(--theme-accent)'
+          : 'border-(--theme-surface-hover)/60 bg-(--theme-page) text-(--theme-muted) hover:text-(--theme-text)'
+      }`;
+    });
+  }
+
+  function detectFrequency(samples: Float32Array, sampleRate: number): number | null {
+    let mean = 0;
+    for (const sample of samples) mean += sample;
+    mean /= samples.length;
+
+    let energy = 0;
+    for (const sample of samples) energy += (sample - mean) ** 2;
+    if (Math.sqrt(energy / samples.length) < 0.004) return null;
+
+    const minLag = Math.floor(sampleRate / 1000);
+    const maxLag = Math.min(Math.floor(sampleRate / 160), samples.length - 2);
+    let bestLag = -1;
+    let bestCorrelation = 0;
+
+    for (let lag = minLag; lag <= maxLag; lag++) {
+      let correlation = 0;
+      let energyA = 0;
+      let energyB = 0;
+      for (let i = 0; i < samples.length - lag; i++) {
+        const a = samples[i] - mean;
+        const b = samples[i + lag] - mean;
+        correlation += a * b;
+        energyA += a * a;
+        energyB += b * b;
+      }
+
+      if (energyA === 0 || energyB === 0) continue;
+      const normalized = correlation / Math.sqrt(energyA * energyB);
+      if (normalized > bestCorrelation) {
+        bestCorrelation = normalized;
+        bestLag = lag;
+      }
+    }
+
+    if (bestLag < 0 || bestCorrelation < 0.55) return null;
+    return sampleRate / bestLag;
+  }
+
+  function updatePitch(): void {
+    if (!analyser || !audioContext || !buffer) return;
+    analyser.getFloatTimeDomainData(buffer);
+    const frequency = detectFrequency(buffer, audioContext.sampleRate);
+    const target = tuningStrings[selectedStringIndex];
+
+    if (frequency && target) {
+      const cents = 1200 * Math.log2(frequency / target.frequency);
+      const midi = Math.round(69 + 12 * Math.log2(frequency / 440));
+      const note = `${noteNames[((midi % 12) + 12) % 12]}${Math.floor(midi / 12) - 1}`;
+      const needlePosition = Math.max(0, Math.min(100, 50 + cents));
+      if (noteDisplay) noteDisplay.textContent = note;
+      if (frequencyDisplay) {
+        frequencyDisplay.textContent = `${frequency.toFixed(2)} Hz · ${cents >= 0 ? '+' : ''}${cents.toFixed(0)} cents`;
+      }
+      if (needle) needle.style.left = `${needlePosition}%`;
+      if (statusDisplay) {
+        statusDisplay.textContent =
+          Math.abs(cents) <= 5 ? 'In tune' : cents < 0 ? 'Tune up' : 'Tune down';
+        statusDisplay.className = `mt-4 min-h-5 text-center text-xs ${
+          Math.abs(cents) <= 5 ? 'text-(--theme-success)' : 'text-(--theme-muted)'
+        }`;
+      }
+    } else {
+      if (noteDisplay) noteDisplay.textContent = '—';
+      if (frequencyDisplay) frequencyDisplay.textContent = 'Listening for a clear note';
+      if (needle) needle.style.left = '50%';
+    }
+
+    frameId = requestAnimationFrame(updatePitch);
+  }
+
+  async function startTuner(): Promise<void> {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: true },
+      });
+      audioContext = new AudioContext();
+      await audioContext.resume();
+      analyser = audioContext.createAnalyser();
+      analyser.fftSize = 4096;
+      audioContext.createMediaStreamSource(stream).connect(analyser);
+      buffer = new Float32Array(analyser.fftSize);
+      if (toggleButton) toggleButton.textContent = 'Stop microphone';
+      if (statusDisplay) statusDisplay.textContent = 'Listening…';
+      updatePitch();
+    } catch (error) {
+      console.error('Failed to start ukulele tuner microphone', error);
+      stopTuner();
+      if (statusDisplay) {
+        statusDisplay.textContent = 'Microphone access was denied or is unavailable.';
+        statusDisplay.className = 'mt-4 min-h-5 text-center text-xs text-(--theme-error)';
+      }
+    }
+  }
+
+  function stopTuner(): void {
+    cancelAnimationFrame(frameId);
+    stream?.getTracks().forEach(track => track.stop());
+    stream = null;
+    analyser = null;
+    buffer = null;
+    if (audioContext && audioContext.state !== 'closed') void audioContext.close();
+    audioContext = null;
+    if (toggleButton) toggleButton.textContent = 'Start microphone';
+    if (noteDisplay) noteDisplay.textContent = '—';
+    if (frequencyDisplay) frequencyDisplay.textContent = '0.00 Hz · 0 cents';
+    if (needle) needle.style.left = '50%';
+    if (statusDisplay) {
+      statusDisplay.textContent = 'Select a string, then start the microphone.';
+      statusDisplay.className = 'mt-4 min-h-5 text-center text-xs text-(--theme-muted)';
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-tuner-string]').forEach(button => {
+    button.addEventListener('click', () => setTarget(Number(button.dataset.tunerString)));
+  });
+  toggleButton?.addEventListener('click', () => {
+    if (stream) stopTuner();
+    else void startTuner();
+  });
+</script>

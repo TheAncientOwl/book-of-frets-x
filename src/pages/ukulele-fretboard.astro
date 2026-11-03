@@ -1,0 +1,32 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                       Copyright (c) by BookOfFretsX 2026                    *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ * @file ukulele-fretboard.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Ukulele fretboard note explorer in standard G-C-E-A tuning.
+ */
+
+import '#styles/global.css';
+import UkuleleIcon from '#components/common/UkuleleIcon.astro';
+import PageHeader from '#components/common/PageHeader.astro';
+import Fretboard from '#components/common/Fretboard.astro';
+import GeneralLayout from '#layouts/GeneralLayout.astro';
+---
+
+<GeneralLayout>
+  <div class='bg-(--theme-page) min-h-dvh flex justify-center text-(--theme-text)'>
+    <div
+      class='w-full max-w-xl flex flex-col items-center bg-(--theme-surface) p-6 rounded-xl shadow-2xl'
+    >
+      <PageHeader>
+        <UkuleleIcon class='w-5.5 h-5.5 text-(--theme-accent-strong)/80' />
+        Ukulele Fretboard
+      </PageHeader>
+      <Fretboard id='ukulele-fretboard' instrument='ukulele' />
+    </div>
+  </div>
+</GeneralLayout>

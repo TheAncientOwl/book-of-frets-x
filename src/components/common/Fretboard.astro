@@ -6,7 +6,7 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file Fretboard.astro
  * @author Alexandru Delegeanu
- * @version 1.5
+ * @version 1.6
  * @description Fretboard component
  */
 
@@ -14,6 +14,7 @@ import Checkbox from '#components/common/Checkbox.astro';
 
 interface Props {
   id?: string;
+  instrument?: 'guitar' | 'ukulele';
   showControls?: boolean;
   compact?: boolean;
   persist?: boolean;
@@ -23,6 +24,7 @@ interface Props {
 
 const {
   id = 'fretboard',
+  instrument = 'guitar',
   showControls = true,
   compact = false,
   persist = true,
@@ -31,34 +33,40 @@ const {
 } = Astro.props;
 
 const fretboardData = [
-  { fret: 0, notes: ['E', 'A', 'D', 'G', 'B', 'E'] },
-  { fret: 1, notes: ['F', 'A#', 'D#', 'G#', 'C', 'F'] },
-  { fret: 2, notes: ['F#', 'B', 'E', 'A', 'C#', 'F#'] },
-  { fret: 3, notes: ['G', 'C', 'F', 'A#', 'D', 'G'], marker: 'single' },
-  { fret: 4, notes: ['G#', 'C#', 'F#', 'B', 'D#', 'G#'] },
-  { fret: 5, notes: ['A', 'D', 'G', 'C', 'E', 'A'], marker: 'single' },
-  { fret: 6, notes: ['A#', 'D#', 'G#', 'C#', 'F', 'A#'] },
-  { fret: 7, notes: ['B', 'E', 'A', 'D', 'F#', 'B'], marker: 'single' },
-  { fret: 8, notes: ['C', 'F', 'A#', 'D#', 'G', 'C'] },
-  { fret: 9, notes: ['C#', 'F#', 'B', 'E', 'G#', 'C#'], marker: 'single' },
-  { fret: 10, notes: ['D', 'G', 'C', 'F', 'A', 'D'] },
-  { fret: 11, notes: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'] },
-  { fret: 12, notes: ['E', 'A', 'D', 'G', 'B', 'E'], marker: 'double' },
-  { fret: 13, notes: ['F', 'A#', 'D#', 'G#', 'C', 'F'] },
-  { fret: 14, notes: ['F#', 'B', 'E', 'A', 'C#', 'F#'] },
-  { fret: 15, notes: ['G', 'C', 'F', 'A#', 'D', 'G'], marker: 'single' },
-  { fret: 16, notes: ['G#', 'C#', 'F#', 'B', 'D#', 'G#'] },
-  { fret: 17, notes: ['A', 'D', 'G', 'C', 'E', 'A'], marker: 'single' },
-  { fret: 18, notes: ['A#', 'D#', 'G#', 'C#', 'F', 'A#'] },
-  { fret: 19, notes: ['B', 'E', 'A', 'D', 'F#', 'B'], marker: 'single' },
-  { fret: 20, notes: ['C', 'F', 'A#', 'D#', 'G', 'C'] },
-  { fret: 21, notes: ['C#', 'F#', 'B', 'E', 'G#', 'C#'], marker: 'single' },
-  { fret: 22, notes: ['D', 'G', 'C', 'F', 'A', 'D'] },
-  { fret: 23, notes: ['D#', 'G#', 'C#', 'F#', 'A#', 'D#'] },
-  { fret: 24, notes: ['E', 'A', 'D', 'G', 'B', 'E'], marker: 'double' },
+  { fret: 0 },
+  { fret: 1 },
+  { fret: 2 },
+  { fret: 3, marker: 'single' },
+  { fret: 4 },
+  { fret: 5, marker: 'single' },
+  { fret: 6 },
+  { fret: 7, marker: 'single' },
+  { fret: 8 },
+  { fret: 9, marker: 'single' },
+  { fret: 10 },
+  { fret: 11 },
+  { fret: 12, marker: 'double' },
+  { fret: 13 },
+  { fret: 14 },
+  { fret: 15, marker: 'single' },
+  { fret: 16 },
+  { fret: 17, marker: 'single' },
+  { fret: 18 },
+  { fret: 19, marker: 'single' },
+  { fret: 20 },
+  { fret: 21, marker: 'single' },
+  { fret: 22 },
+  { fret: 23 },
+  { fret: 24, marker: 'double' },
 ].filter(f => f.fret <= maxFret);
 
-const stringLabels = ['E', 'A', 'D', 'G', 'B', 'e'];
+const openStringMidi = instrument === 'ukulele' ? [67, 60, 64, 69] : [40, 45, 50, 55, 59, 64];
+const stringLabels = instrument === 'ukulele' ? ['G', 'C', 'E', 'A'] : ['E', 'A', 'D', 'G', 'B', 'e'];
+const notesList = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const fretboardRows = fretboardData.map(fretInfo => ({
+  ...fretInfo,
+  notes: openStringMidi.map(midi => notesList[(midi + fretInfo.fret) % 12]),
+}));
 const sharpToFlatMap: Record<string, string> = {
   'A#': 'Bb',
   'C#': 'Db',
@@ -71,6 +79,7 @@ const sharpToFlatMap: Record<string, string> = {
 <div
   id={id}
   data-fretboard-root
+  data-instrument={instrument}
   data-persist={persist}
   data-interactive={interactive}
   class='w-full flex flex-col items-center'
@@ -104,6 +113,7 @@ const sharpToFlatMap: Record<string, string> = {
 
   <div
     class={`fretboard-container relative w-full px-8 ${compact ? 'max-w-sm py-1' : 'max-w-md rounded-lg py-3 sm:py-4'}`}
+    style={`--string-count: ${stringLabels.length};`}
   >
     <div class='fretboard-neck relative flex w-full flex-col items-center py-3'>
       <div class='relative flex items-center justify-between w-full mb-2'>
@@ -129,7 +139,7 @@ const sharpToFlatMap: Record<string, string> = {
       </div>
 
       {
-        fretboardData.map(fretInfo => {
+        fretboardRows.map(fretInfo => {
           const isNut = fretInfo.fret === 0;
           const isNutOrOctave = fretInfo.fret === 0 || fretInfo.fret === 12;
           const fretHeight = compact
@@ -164,14 +174,9 @@ const sharpToFlatMap: Record<string, string> = {
               )}
 
               {fretInfo.notes.map((note, stringIndex) => {
-                const stringThicknessClass = [
-                  'w-[3px]',
-                  'w-[2.5px]',
-                  'w-[2px]',
-                  'w-[1.5px]',
-                  'w-[1px]',
-                  'w-[1px]',
-                ][stringIndex];
+                const stringThicknessClass = stringLabels.length === 4
+                  ? ['w-[2.5px]', 'w-[2px]', 'w-[1.5px]', 'w-[1px]'][stringIndex]
+                  : ['w-[3px]', 'w-[2.5px]', 'w-[2px]', 'w-[1.5px]', 'w-[1px]', 'w-[1px]'][stringIndex];
                 const isAccidental = note.includes('#');
                 const flatNote = isAccidental ? sharpToFlatMap[note] : note;
 
@@ -234,7 +239,7 @@ const sharpToFlatMap: Record<string, string> = {
     display: grid;
     width: 100%;
     height: 8px;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--string-count), minmax(0, 1fr));
     border: 1px solid #8d8274;
     border-radius: 2px;
     background: linear-gradient(180deg, #f3e7cf 0%, #c5b79e 42%, #eee2ca 100%);
@@ -306,7 +311,10 @@ const sharpToFlatMap: Record<string, string> = {
   let ToneModule: typeof import('tone') | null = null;
   let sampler: any = null;
 
-  const STRING_BASE_MIDI = [40, 45, 50, 55, 59, 64];
+  const STRING_BASE_MIDI_BY_INSTRUMENT: Record<string, number[]> = {
+    guitar: [40, 45, 50, 55, 59, 64],
+    ukulele: [67, 60, 64, 69],
+  };
   const NOTES_LIST = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   const NOTE_TO_PITCH_CLASS: Record<string, number> = {
     C: 0,
@@ -332,8 +340,8 @@ const sharpToFlatMap: Record<string, string> = {
     return NOTE_TO_PITCH_CLASS[note.replace('♯', '#').replace('♭', 'b')] ?? -1;
   }
 
-  function getNoteWithOctave(stringIndex: number, fret: number): string {
-    const midi = STRING_BASE_MIDI[stringIndex] + fret;
+  function getNoteWithOctave(instrument: string, stringIndex: number, fret: number): string {
+    const midi = STRING_BASE_MIDI_BY_INSTRUMENT[instrument][stringIndex] + fret;
     return `${NOTES_LIST[midi % 12]}${Math.floor(midi / 12) - 1}`;
   }
 
@@ -355,11 +363,11 @@ const sharpToFlatMap: Record<string, string> = {
     }
   }
 
-  async function playGuitarNote(stringIndex: number, fret: number) {
+  async function playStringNote(instrument: string, stringIndex: number, fret: number) {
     await initAudio();
     if (!ToneModule) return;
     await ToneModule.start();
-    if (sampler) sampler.triggerAttackRelease(getNoteWithOctave(stringIndex, fret), '2n');
+    if (sampler) sampler.triggerAttackRelease(getNoteWithOctave(instrument, stringIndex, fret), '2n');
   }
 
   document.querySelectorAll<HTMLElement>('[data-fretboard-root]').forEach(root => {
@@ -368,15 +376,22 @@ const sharpToFlatMap: Record<string, string> = {
 
     const persist = root.dataset.persist === 'true';
     const interactive = root.dataset.interactive !== 'false';
-    let selectedNote: string | null = persist ? localStorage.getItem('v1-bfx-selected-note') : null;
-    let selectedFret: string | null = persist ? localStorage.getItem('v1-bfx-selected-fret') : null;
+    const instrument = root.dataset.instrument ?? 'guitar';
+    const storageKey = (key: string) => (instrument === 'ukulele' ? `ukulele-${key}` : key);
+    let selectedNote: string | null = persist
+      ? localStorage.getItem(storageKey('v1-bfx-selected-note'))
+      : null;
+    let selectedFret: string | null = persist
+      ? localStorage.getItem(storageKey('v1-bfx-selected-fret'))
+      : null;
     let selectedString: string | null = persist
-      ? localStorage.getItem('v1-bfx-selected-string')
+      ? localStorage.getItem(storageKey('v1-bfx-selected-string'))
       : null;
     let targetSelection: { note: string; stringIndex: string | null } | null = null;
-    let hideAccidentals = persist && localStorage.getItem('v1-bfx-hide-accidentals') === 'true';
-    let useFlats = persist && localStorage.getItem('v1-bfx-use-flats') === 'true';
-    let soundModeEnabled = persist && localStorage.getItem('v1-bfx-sound-mode') === 'true';
+    let hideAccidentals =
+      persist && localStorage.getItem(storageKey('v1-bfx-hide-accidentals')) === 'true';
+    let useFlats = persist && localStorage.getItem(storageKey('v1-bfx-use-flats')) === 'true';
+    let soundModeEnabled = persist && localStorage.getItem(storageKey('v1-bfx-sound-mode')) === 'true';
 
     const noteBadges = root.querySelectorAll<HTMLButtonElement>('.note-badge');
     const fretSelectors = root.querySelectorAll<HTMLButtonElement>('.fret-selector');
@@ -392,12 +407,13 @@ const sharpToFlatMap: Record<string, string> = {
 
     function saveSelectionState() {
       if (!persist) return;
-      if (selectedNote !== null) localStorage.setItem('v1-bfx-selected-note', selectedNote);
-      else localStorage.removeItem('v1-bfx-selected-note');
-      if (selectedFret !== null) localStorage.setItem('v1-bfx-selected-fret', selectedFret);
-      else localStorage.removeItem('v1-bfx-selected-fret');
-      if (selectedString !== null) localStorage.setItem('v1-bfx-selected-string', selectedString);
-      else localStorage.removeItem('v1-bfx-selected-string');
+      if (selectedNote !== null) localStorage.setItem(storageKey('v1-bfx-selected-note'), selectedNote);
+      else localStorage.removeItem(storageKey('v1-bfx-selected-note'));
+      if (selectedFret !== null) localStorage.setItem(storageKey('v1-bfx-selected-fret'), selectedFret);
+      else localStorage.removeItem(storageKey('v1-bfx-selected-fret'));
+      if (selectedString !== null)
+        localStorage.setItem(storageKey('v1-bfx-selected-string'), selectedString);
+      else localStorage.removeItem(storageKey('v1-bfx-selected-string'));
     }
 
     function updateFretboardState() {
@@ -516,14 +532,15 @@ const sharpToFlatMap: Record<string, string> = {
 
       if (soundModeEnabled) {
         if (noteButton) {
-          playGuitarNote(
+          playStringNote(
+            instrument,
             Number(noteButton.dataset.string ?? 0),
             Number(noteButton.dataset.fret ?? 0),
           );
           triggerPluckFeedback(noteButton);
         } else if (stringButton) {
           const stringIndex = Number(stringButton.dataset.selectString ?? 0);
-          playGuitarNote(stringIndex, 0);
+          playStringNote(instrument, stringIndex, 0);
           const openNutBadge = container.querySelector<HTMLButtonElement>(
             `.note-badge[data-string="${stringIndex}"][data-fret="0"]`,
           );
@@ -563,7 +580,8 @@ const sharpToFlatMap: Record<string, string> = {
 
     hideAccidentalsCb?.addEventListener('change', event => {
       hideAccidentals = (event.target as HTMLInputElement).checked;
-      if (persist) localStorage.setItem('v1-bfx-hide-accidentals', hideAccidentals.toString());
+      if (persist)
+        localStorage.setItem(storageKey('v1-bfx-hide-accidentals'), hideAccidentals.toString());
       if (hideAccidentals && selectedNote?.includes('#')) {
         selectedNote = null;
         saveSelectionState();
@@ -573,13 +591,13 @@ const sharpToFlatMap: Record<string, string> = {
 
     useFlatsCb?.addEventListener('change', event => {
       useFlats = (event.target as HTMLInputElement).checked;
-      if (persist) localStorage.setItem('v1-bfx-use-flats', useFlats.toString());
+      if (persist) localStorage.setItem(storageKey('v1-bfx-use-flats'), useFlats.toString());
       updateFretboardState();
     });
 
     soundModeCb?.addEventListener('change', event => {
       soundModeEnabled = (event.target as HTMLInputElement).checked;
-      if (persist) localStorage.setItem('v1-bfx-sound-mode', soundModeEnabled.toString());
+      if (persist) localStorage.setItem(storageKey('v1-bfx-sound-mode'), soundModeEnabled.toString());
       if (soundModeEnabled) void initAudio();
     });
 

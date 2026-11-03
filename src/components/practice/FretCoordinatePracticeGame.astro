@@ -6,14 +6,25 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file FretCoordinatePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.8
+ * @version 1.9
  * @description Quiz the note at a random guitar string and fret coordinate.
  */
 
 import { Icon } from 'astro-icon/components';
+
+interface Props {
+  instrument?: 'guitar' | 'ukulele';
+}
+
+const { instrument = 'guitar' } = Astro.props;
 ---
 
-<div id='game-coordinates' class='w-full flex-1 flex-col items-center' style='display: none'>
+<div
+  id='game-coordinates'
+  data-instrument={instrument}
+  class='w-full flex-1 flex-col items-center'
+  style='display: none'
+>
   <section
     class='w-full flex-1 py-6 px-4 flex flex-col rounded-xl border border-(--theme-surface-hover)/40 bg-(--theme-page)/80'
   >
@@ -318,9 +329,11 @@ import { Icon } from 'astro-icon/components';
     }
   }
 
+  const isUkulele = document.getElementById('game-coordinates')?.dataset.instrument === 'ukulele';
+  const coordinateStorageKey = (key: string) => (isUkulele ? `ukulele-${key}` : key);
   const coordinateNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-  const openStringMidi = [40, 45, 50, 55, 59, 64];
-  const stringNames = ['E', 'A', 'D', 'G', 'B', 'e'];
+  const openStringMidi = isUkulele ? [67, 60, 64, 69] : [40, 45, 50, 55, 59, 64];
+  const stringNames = isUkulele ? ['G', 'C', 'E', 'A'] : ['E', 'A', 'D', 'G', 'B', 'e'];
   const notePitchClasses: Record<string, number> = {
     C: 0,
     'C#': 1,
@@ -361,19 +374,25 @@ import { Icon } from 'astro-icon/components';
   let hasAnswered = false;
 
   function getQuestionCount(): number {
-    const savedCount = Number(localStorage.getItem('v1-bfx-coordinate-question-count') ?? 10);
+    const savedCount = Number(
+      localStorage.getItem(coordinateStorageKey('v1-bfx-coordinate-question-count')) ?? 10,
+    );
     return Number.isInteger(savedCount) ? Math.max(1, Math.min(50, savedCount)) : 10;
   }
 
   function getQuestionPool(): { stringIndex: number; fret: number; pitchClass: number }[] {
-    const maxFretValue = Number(localStorage.getItem('v1-bfx-coordinate-max-fret') ?? 24);
+    const maxFretValue = Number(
+      localStorage.getItem(coordinateStorageKey('v1-bfx-coordinate-max-fret')) ?? 24,
+    );
     const maxFret = Number.isInteger(maxFretValue) ? Math.max(0, Math.min(24, maxFretValue)) : 24;
 
     let selectedStringIndexes = openStringMidi.map((_, index) => index);
     let selectedNotes = coordinateNotes;
 
     try {
-      const savedStrings = localStorage.getItem('v1-bfx-coordinate-strings-state');
+      const savedStrings = localStorage.getItem(
+        coordinateStorageKey('v1-bfx-coordinate-strings-state'),
+      );
       if (savedStrings !== null) {
         const stringStates = JSON.parse(savedStrings) as { checked?: boolean }[];
         selectedStringIndexes = stringStates.flatMap((stringState, index) =>
@@ -381,7 +400,9 @@ import { Icon } from 'astro-icon/components';
         );
       }
 
-      const savedNotes = localStorage.getItem('v1-bfx-coordinate-notes-state');
+      const savedNotes = localStorage.getItem(
+        coordinateStorageKey('v1-bfx-coordinate-notes-state'),
+      );
       if (savedNotes !== null) {
         const noteStates = JSON.parse(savedNotes) as { label?: string; checked?: boolean }[];
         selectedNotes = noteStates
@@ -448,7 +469,8 @@ import { Icon } from 'astro-icon/components';
     progressLabel.textContent = `${answeredQuestions} of ${totalQuestions}`;
     scoreLabel.textContent = `Score ${score}`;
 
-    const quizMode = localStorage.getItem('v1-bfx-coordinate-quiz-mode') || 'random';
+    const quizMode =
+      localStorage.getItem(coordinateStorageKey('v1-bfx-coordinate-quiz-mode')) || 'random';
     const fretOnString =
       quizMode === 'fret-on-string'
         ? true
@@ -589,14 +611,12 @@ import { Icon } from 'astro-icon/components';
     { label: 'A♭', checked: true },
   ];
 
-  const defaultCoordinateStrings: StringConfig[] = [
-    { label: 'E', name: 'E', checked: true },
-    { label: 'A', name: 'A', checked: true },
-    { label: 'D', name: 'D', checked: true },
-    { label: 'G', name: 'G', checked: true },
-    { label: 'B', name: 'B', checked: true },
-    { label: 'e', name: 'e', checked: true },
-  ];
+  const isUkuleleSettings =
+    document.getElementById('game-coordinates')?.dataset.instrument === 'ukulele';
+  const coordinateSettingsKey = (key: string) => (isUkuleleSettings ? `ukulele-${key}` : key);
+  const defaultCoordinateStrings: StringConfig[] = (
+    isUkuleleSettings ? ['G', 'C', 'E', 'A'] : ['E', 'A', 'D', 'G', 'B', 'e']
+  ).map(name => ({ label: name, name, checked: true }));
 
   let coordinateNotesState: NoteConfig[] = loadCoordinateState(
     'v1-bfx-coordinate-notes-state',
@@ -611,20 +631,30 @@ import { Icon } from 'astro-icon/components';
     1,
     Math.min(
       50,
-      parseInt(localStorage.getItem('v1-bfx-coordinate-question-count') || '10', 10) || 10,
+      parseInt(
+        localStorage.getItem(coordinateSettingsKey('v1-bfx-coordinate-question-count')) || '10',
+        10,
+      ) || 10,
     ),
   );
 
   let coordinateMaxFretSetting = Math.max(
     0,
-    Math.min(24, parseInt(localStorage.getItem('v1-bfx-coordinate-max-fret') || '24', 10) || 24),
+    Math.min(
+      24,
+      parseInt(
+        localStorage.getItem(coordinateSettingsKey('v1-bfx-coordinate-max-fret')) || '24',
+        10,
+      ) || 24,
+    ),
   );
 
-  let coordinateQuizModeSetting = localStorage.getItem('v1-bfx-coordinate-quiz-mode') || 'random';
+  let coordinateQuizModeSetting =
+    localStorage.getItem(coordinateSettingsKey('v1-bfx-coordinate-quiz-mode')) || 'random';
 
   function loadCoordinateState<T>(key: string, fallback: T): T {
     try {
-      const saved = localStorage.getItem(key);
+      const saved = localStorage.getItem(coordinateSettingsKey(key));
       return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(fallback));
     } catch {
       return JSON.parse(JSON.stringify(fallback));
@@ -633,7 +663,7 @@ import { Icon } from 'astro-icon/components';
 
   function saveCoordinateState(key: string, data: unknown): void {
     try {
-      localStorage.setItem(key, JSON.stringify(data));
+      localStorage.setItem(coordinateSettingsKey(key), JSON.stringify(data));
     } catch (error) {
       console.error('Failed to save coordinate state to localStorage', error);
     }
@@ -718,7 +748,7 @@ import { Icon } from 'astro-icon/components';
     const parsed = parseInt(val, 10);
     coordinateQuestionCountSetting = Number.isNaN(parsed) ? 10 : Math.max(1, Math.min(50, parsed));
     localStorage.setItem(
-      'v1-bfx-coordinate-question-count',
+      coordinateSettingsKey('v1-bfx-coordinate-question-count'),
       coordinateQuestionCountSetting.toString(),
     );
   };
@@ -726,13 +756,19 @@ import { Icon } from 'astro-icon/components';
   window.updateCoordinateMaxFret = (val: string): void => {
     const parsed = parseInt(val, 10);
     coordinateMaxFretSetting = Number.isNaN(parsed) ? 24 : Math.max(0, Math.min(24, parsed));
-    localStorage.setItem('v1-bfx-coordinate-max-fret', coordinateMaxFretSetting.toString());
+    localStorage.setItem(
+      coordinateSettingsKey('v1-bfx-coordinate-max-fret'),
+      coordinateMaxFretSetting.toString(),
+    );
   };
 
   window.updateCoordinateQuizMode = (val: string): void => {
     const validModes = ['fret-on-string', 'string-on-fret', 'random'];
     coordinateQuizModeSetting = validModes.includes(val) ? val : 'random';
-    localStorage.setItem('v1-bfx-coordinate-quiz-mode', coordinateQuizModeSetting);
+    localStorage.setItem(
+      coordinateSettingsKey('v1-bfx-coordinate-quiz-mode'),
+      coordinateQuizModeSetting,
+    );
   };
 
   window.updateCoordinateStringState = (index: number, checked: boolean): void => {

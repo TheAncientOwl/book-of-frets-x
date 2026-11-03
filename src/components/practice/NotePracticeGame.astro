@@ -6,12 +6,18 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NotePracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.10
+ * @version 1.11
  * @description Single-note Practice game panel with completion feedback.
  */
 
 import { Icon } from 'astro-icon/components';
 import Fretboard from '#components/common/Fretboard.astro';
+
+interface Props {
+  instrument?: 'guitar' | 'ukulele';
+}
+
+const { instrument = 'guitar' } = Astro.props;
 ---
 
 <div id='game-notes' class='w-full flex-1 flex flex-col items-center'>
@@ -54,6 +60,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     <div class='w-full max-w-md flex justify-center'>
       <Fretboard
         id='interactive-game-fretboard'
+        instrument={instrument}
         showControls={false}
         compact={true}
         persist={false}

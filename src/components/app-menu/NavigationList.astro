@@ -7,11 +7,12 @@
  *
  * @file NavigationList.astro
  * @author Alexandru Delegeanu
- * @version 1.4
+ * @version 1.5
  * @description Native navigation links layer handling session storage metrics.
  */
 
 import { Icon } from 'astro-icon/components';
+import UkuleleIcon from '#components/common/UkuleleIcon.astro';
 
 interface Props {
   // Since we are transitioning to native routing, we can expose a class hook
@@ -23,116 +24,167 @@ const { id = 'main-nav-list' } = Astro.props;
 ---
 
 <nav id={id}>
-  {/* Unified routing pipeline */}
-  <ul
-    class='flex flex-col gap-[0.5em] font-bold text-center mt-[1em] text-(--theme-accent-text)/90 list-none p-0'
-  >
-    <li data-nav-item class='cursor-pointer'>
-      <a
-        href=`${import.meta.env.BASE_URL}about`
-        class='block w-full h-full hover:opacity-80 transition-opacity'
-      >
-        <span class='flex items-center justify-center gap-2'>
-          <Icon name='material-symbols:menu-book' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
-          About
-        </span>
-      </a>
+  <ul class='m-0 mt-2 flex list-none flex-col gap-3 p-0 text-(--theme-accent-text)/90'>
+    <li>
+      <ul class='m-0 grid list-none grid-cols-2 gap-2 p-0'>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}about` class='menu-link'>
+            <Icon name='material-symbols:menu-book' class='menu-icon' />
+            <span>About</span>
+          </a>
+        </li>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}themes` class='menu-link'>
+            <Icon name='material-symbols:palette-outline' class='menu-icon' />
+            <span>Themes</span>
+          </a>
+        </li>
+      </ul>
     </li>
-    <li data-nav-item class='cursor-pointer'>
+    <li>
       <a
-        href=`${import.meta.env.BASE_URL}themes`
-        class='block w-full h-full hover:opacity-80 transition-opacity'
-      >
-        <span class='flex items-center justify-center gap-2'>
-          <Icon name='material-symbols:palette-outline' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
-          Themes
-        </span>
-      </a>
-    </li>
-
-    <li data-reset-scroll class='cursor-pointer mt-4'>
-      <a
-        href=`${import.meta.env.BASE_URL}index.html`
+        data-nav-item
+        data-reset-scroll
         data-resume-home
-        class='block w-full h-full hover:opacity-80 transition-opacity'
+        href=`${import.meta.env.BASE_URL}index.html`
+        class='menu-link'
       >
-        <span class='flex items-center justify-center gap-2'>
-          <Icon
-            name='material-symbols:library-music'
-            class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
-          />
-          Songs
-        </span>
+        <Icon name='material-symbols:library-music' class='menu-icon' />
+        <span>Songs</span>
       </a>
     </li>
-    <li data-nav-item class='cursor-pointer'>
-      <a
-        href=`${import.meta.env.BASE_URL}fretboard`
-        class='block w-full h-full hover:opacity-80 transition-opacity'
-      >
-        <span class='flex items-center justify-center gap-2'>
-          <Icon name='game-icons:guitar' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
-          Fretboard
-        </span>
-      </a>
+    <li class='instrument-card'>
+      <h2 class='instrument-heading'>
+        <Icon name='game-icons:guitar' class='h-4 w-4' />
+        Guitar
+      </h2>
+      <ul class='m-0 grid list-none grid-cols-2 gap-2 p-0'>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}fretboard` class='menu-link'>
+            <Icon name='game-icons:guitar' class='menu-icon' />
+            <span>Fretboard</span>
+          </a>
+        </li>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}chords` class='menu-link'>
+            <Icon name='material-symbols:music-note' class='menu-icon' />
+            <span>Chords</span>
+          </a>
+        </li>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}tuner` class='menu-link'>
+            <Icon name='material-symbols:tune' class='menu-icon' />
+            <span>Tuner</span>
+          </a>
+        </li>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}practice` class='menu-link'>
+            <Icon name='material-symbols:track-changes' class='menu-icon' />
+            <span>Practice</span>
+          </a>
+        </li>
+      </ul>
     </li>
-    <li data-nav-item class='cursor-pointer'>
-      <a
-        href=`${import.meta.env.BASE_URL}chords`
-        class='block w-full h-full hover:opacity-80 transition-opacity'
-      >
-        <span class='flex items-center justify-center gap-2'>
-          <Icon name='material-symbols:music-note' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
-          Guitar Chords
-        </span>
-      </a>
-    </li>
-    <li data-nav-item class='cursor-pointer'>
-      <a
-        href=`${import.meta.env.BASE_URL}ukulele-chords`
-        class='block w-full h-full hover:opacity-80 transition-opacity'
-      >
-        <span class='flex items-center justify-center gap-2'>
-          <Icon name='material-symbols:music-note' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
-          Ukulele Chords
-        </span>
-      </a>
-    </li>
-
-    <!-- <li data-nav-item class='cursor-pointer'>
-      <a
-        href=`${import.meta.env.BASE_URL}scales`
-        class='block w-full h-full hover:opacity-80 transition-opacity'>🎼 Scales</a
-      >
-    </li> -->
-
-    <li data-nav-item class='cursor-pointer mt-4'>
-      <a
-        href=`${import.meta.env.BASE_URL}tuner`
-        class='block w-full h-full hover:opacity-80 transition-opacity'
-      >
-        <div class='flex justify-center items-center gap-2'>
-          <Icon name='material-symbols:tune' class='w-[22px] h-[22px] text-(--theme-accent-strong)/80' />
-          Tuner
-        </div>
-      </a>
-    </li>
-    <li data-nav-item class='cursor-pointer mt'>
-      <a
-        href=`${import.meta.env.BASE_URL}practice`
-        class='block w-full h-full hover:opacity-80 transition-opacity'
-      >
-        <span class='flex items-center justify-center gap-2'>
-          <Icon
-            name='material-symbols:track-changes'
-            class='w-[22px] h-[22px] text-(--theme-accent-strong)/80'
-          />
-          Practice
-        </span>
-      </a>
+    <li class='instrument-card'>
+      <h2 class='instrument-heading'>
+        <UkuleleIcon class='h-4 w-4' />
+        Ukulele
+      </h2>
+      <ul class='m-0 grid list-none grid-cols-2 gap-2 p-0'>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele-fretboard` class='menu-link'>
+            <UkuleleIcon class='menu-icon' />
+            <span>Fretboard</span>
+          </a>
+        </li>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele-chords` class='menu-link'>
+            <Icon name='material-symbols:music-note' class='menu-icon' />
+            <span>Chords</span>
+          </a>
+        </li>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele-tuner` class='menu-link'>
+            <Icon name='material-symbols:tune' class='menu-icon' />
+            <span>Tuner</span>
+          </a>
+        </li>
+        <li>
+          <a data-nav-item href=`${import.meta.env.BASE_URL}ukulele-practice` class='menu-link'>
+            <Icon name='material-symbols:track-changes' class='menu-icon' />
+            <span>Practice</span>
+          </a>
+        </li>
+      </ul>
     </li>
   </ul>
 </nav>
+
+<style>
+  .menu-link {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    border: 1px solid color-mix(in srgb, var(--theme-accent-strong) 18%, transparent);
+    border-radius: 0.65rem;
+    background: color-mix(in srgb, var(--theme-page) 58%, transparent);
+    padding: 0.55rem 0.7rem;
+    font-size: 0.95rem;
+    font-weight: 650;
+    line-height: 1.2;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .menu-link:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--theme-accent) 60%, transparent);
+    background: color-mix(in srgb, var(--theme-accent) 12%, var(--theme-surface));
+  }
+
+  .menu-link.is-active {
+    border-color: color-mix(in srgb, var(--theme-accent) 65%, transparent);
+    background: color-mix(in srgb, var(--theme-accent) 16%, var(--theme-surface));
+    color: var(--theme-accent);
+  }
+
+  .menu-icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    flex: none;
+    color: color-mix(in srgb, var(--theme-accent-strong) 80%, transparent);
+  }
+
+  .instrument-card {
+    border: 1px solid color-mix(in srgb, var(--theme-accent-strong) 24%, transparent);
+    border-radius: 0.9rem;
+    background: color-mix(in srgb, var(--theme-surface) 72%, var(--theme-page));
+    padding: 0.8rem;
+  }
+
+  .instrument-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 0 0.65rem;
+    color: var(--theme-muted);
+    font-size: 0.72rem;
+    font-weight: 750;
+    letter-spacing: 0.13em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .instrument-heading :global(svg) {
+    color: color-mix(in srgb, var(--theme-accent-strong) 85%, transparent);
+  }
+</style>
 
 <script>
   // Accessing the storage keys safely inline matching your application store boundaries
@@ -141,6 +193,15 @@ const { id = 'main-nav-list' } = Astro.props;
   function setupNavigationListeners() {
     const container = document.getElementById('main-nav-list');
     if (!container) return;
+
+    const normalizePath = (path: string) => path.replace(/index\.html$/, '').replace(/\/+$/, '');
+    const currentPath = normalizePath(window.location.pathname);
+    container.querySelectorAll<HTMLAnchorElement>('a[data-nav-item]').forEach(link => {
+      const isActive = normalizePath(new URL(link.href).pathname) === currentPath;
+      link.classList.toggle('is-active', isActive);
+      if (isActive) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
 
     // Elements targeted to clear out scroll position tracking metrics
     const scrollResetElements = container.querySelectorAll('[data-reset-scroll]');

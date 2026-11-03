@@ -6,15 +6,26 @@
  * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
  * @file NoteStringPracticeGame.astro
  * @author Alexandru Delegeanu
- * @version 1.9
+ * @version 1.10
  * @description Note-and-string Practice game panel with Live and Silent modes configured in Settings.
  */
 
 import { Icon } from 'astro-icon/components';
 import Fretboard from '#components/common/Fretboard.astro';
+
+interface Props {
+  instrument?: 'guitar' | 'ukulele';
+}
+
+const { instrument = 'guitar' } = Astro.props;
 ---
 
-<div id='game-strings' class='w-full flex-1 flex-col items-center' style='display: none'>
+<div
+  id='game-strings'
+  data-instrument={instrument}
+  class='w-full flex-1 flex-col items-center'
+  style='display: none'
+>
   <section
     class='w-full flex-1 bg-(--theme-page)/80 rounded-xl py-6 px-3 flex flex-col items-center border border-(--theme-surface-hover)/40 relative shadow-inner transition-all duration-300'
   >
@@ -108,6 +119,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     >
       <Fretboard
         id='strings-game-fretboard'
+        instrument={instrument}
         showControls={false}
         compact={true}
         persist={false}
@@ -388,14 +400,15 @@ import Fretboard from '#components/common/Fretboard.astro';
     { label: 'A♭', checked: true },
   ];
 
-  const defaultStrings: StringConfig[] = [
-    { label: 'E', name: 'E', checked: true },
-    { label: 'A', name: 'A', checked: true },
-    { label: 'D', name: 'D', checked: true },
-    { label: 'G', name: 'G', checked: true },
-    { label: 'B', name: 'B', checked: true },
-    { label: 'e', name: 'e', checked: true },
-  ];
+  const isUkulele = document.getElementById('game-strings')?.dataset.instrument === 'ukulele';
+  const defaultStrings: StringConfig[] = (isUkulele
+    ? ['G', 'C', 'E', 'A']
+    : ['E', 'A', 'D', 'G', 'B', 'e']
+  ).map(name => ({ label: name, name, checked: true }));
+
+  function instrumentStateKey(key: string): string {
+    return isUkulele ? `ukulele-${key}` : key;
+  }
 
   let stringNotesState: NoteConfig[] = loadState('v1-bfx-string-notes-state', defaultNotes);
   let stringsState: StringConfig[] = loadState('v1-bfx-strings-state', defaultStrings);
@@ -423,7 +436,7 @@ import Fretboard from '#components/common/Fretboard.astro';
 
   function loadState<T>(key: string, fallback: T): T {
     try {
-      const saved = localStorage.getItem(key);
+      const saved = localStorage.getItem(instrumentStateKey(key));
       return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(fallback));
     } catch {
       return JSON.parse(JSON.stringify(fallback));
@@ -432,7 +445,7 @@ import Fretboard from '#components/common/Fretboard.astro';
 
   function saveState(key: string, data: unknown): void {
     try {
-      localStorage.setItem(key, JSON.stringify(data));
+      localStorage.setItem(instrumentStateKey(key), JSON.stringify(data));
     } catch (error) {
       console.error('Failed to save state to localStorage', error);
     }
@@ -546,7 +559,7 @@ import Fretboard from '#components/common/Fretboard.astro';
     foundFret?: number;
   }
 
-  const STRING_BASE_MIDI: number[] = [40, 45, 50, 55, 59, 64];
+  const STRING_BASE_MIDI: number[] = isUkulele ? [67, 60, 64, 69] : [40, 45, 50, 55, 59, 64];
 
   const NOTE_TO_SEMITONE: Record<string, number> = {
     C: 0,
@@ -915,7 +928,7 @@ import Fretboard from '#components/common/Fretboard.astro';
           opacityClass = 'opacity-45';
         }
 
-        const stringNumber = 6 - combo.stringIndex;
+        const stringNumber = stringsState.length - combo.stringIndex;
         const hasFret = isCompleted && combo.foundFret !== undefined;
 
         return `
