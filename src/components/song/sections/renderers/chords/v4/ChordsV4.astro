@@ -1,0 +1,187 @@
+---
+/**
+ * --------------------------------------------------------------------------- *
+ *                     Copyright (c) by BookOfFretsX 2026                      *
+ * --------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/book-of-frets-x/blob/main/LICENSE
+ *
+ * @file ChordsV4.astro
+ * @author Alexandru Delegeanu
+ * @version 1.0
+ * @description Render chord bars with per-line repeats and a shared strumming pattern.
+ */
+
+import type { TChordsV4SectionData, TSongSectionLyrics, TStrummingPattern } from '#types/song';
+import type { TChord, TChordInstrument } from '#types/chord';
+import ChordV2Display from '#components/song/sections/renderers/chords/v2/Display.astro';
+import ChordsV1Lyrics from '#components/song/sections/renderers/chords/v1/Lyrics.astro';
+import ChordPopover from '#components/common/ChordPopover.astro';
+
+interface Props {
+  data: TChordsV4SectionData;
+  strummingPatterns: TStrummingPattern[];
+  showLyrics: boolean;
+  lyrics: TSongSectionLyrics;
+  chordsIndex: Record<string, TChord>;
+  chordType: TChordInstrument;
+  songSettings: {
+    display: {
+      strummingPattern: boolean;
+      chordTimes: boolean;
+      chordTimesOne: boolean;
+    };
+  };
+}
+
+const { data, strummingPatterns, showLyrics, lyrics, chordsIndex, chordType, songSettings } =
+  Astro.props;
+
+const align = data.align ?? 'center';
+const strummingPattern = strummingPatterns[data.pattern];
+if (!strummingPattern) {
+  console.error(
+    `Invalid chords-v4 strumming pattern index "${data.pattern}" (available patterns: ${strummingPatterns.length})`,
+  );
+}
+
+const rendererId = crypto.randomUUID();
+const maxBarsPerLine = Math.max(1, ...data.lines.map(line => line.length));
+---
+
+<div class='flex flex-col items-center gap-1 mt-2'>
+  <div
+    class='mx-auto grid w-fit max-w-full gap-y-3'
+    style={{ gridTemplateColumns: `repeat(${maxBarsPerLine}, max-content)` }}
+  >
+    {
+      data.lines.map((bars, lineIdx) => (
+        <div class='col-span-full grid grid-cols-subgrid items-center'>
+          {bars.map((bar, barIdx) => (
+            <div
+              class:list={[
+                'relative flex items-center gap-3 px-3 sm:gap-5 sm:px-5',
+                align === 'left' ? 'justify-start' : 'justify-center',
+                barIdx === 0 ? 'border-l-2' : '',
+                'border-r-2 border-solid border-(--theme-accent-text)/90',
+              ]}
+            >
+              {bar.map((chordId, chordIdx) => {
+                const chordConfig = chordsIndex[chordId];
+                if (!chordConfig) {
+                  console.error(`Missing chord index for ID "${chordId}" in chords-v4`);
+                }
+
+                const popoverId = `${rendererId}-line-${lineIdx}-bar-${barIdx}-chord-${chordIdx}`;
+
+                return (
+                  <div class='relative'>
+                    <button
+                      type='button'
+                      popovertarget={popoverId}
+                      aria-label={`${chordConfig?.name ?? chordId} chord`}
+                      data-song-setting-trigger='chordFingers'
+                      class='chord-v4-popover-trigger appearance-none outline-none px-1.5 py-0.5 font-bold rounded cursor-pointer whitespace-nowrap bg-(--theme-surface-hover) text-(--theme-accent-text)/90 hover:bg-(--theme-surface-hover)/70 transition-colors relative border-none'
+                    >
+                      {chordConfig ? <ChordV2Display name={chordConfig.name} /> : chordId}
+                    </button>
+
+                    {chordConfig && (
+                      <ChordPopover
+                        id={popoverId}
+                        chordConfig={chordConfig}
+                        type={chordType}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+
+              {barIdx === bars.length - 1 && (data.times[lineIdx] ?? 1) > 1 && (
+                <div
+                  data-song-setting='sectionTimes'
+                  class='absolute top-1/2 right-[-0.5rem] flex -translate-y-1/2 translate-x-full items-center justify-center text-xs font-bold text-(--theme-accent-text)/90 select-none'
+                  title={`Repeat ${data.times[lineIdx]} times`}
+                >
+                  x{data.times[lineIdx]}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+
+  {songSettings.display.strummingPattern && strummingPattern && (
+    <div
+      data-song-setting='strummingPattern'
+      class:list={[
+        'relative mt-[0.4em]',
+        align === 'left' ? 'justify-self-stretch' : 'justify-self-center',
+      ]}
+    >
+      <div
+        class:list={[
+          'flex flex-row gap-2 text-(--theme-accent-text)/90',
+          align === 'left' ? 'justify-start' : 'justify-center',
+        ]}
+      >
+        {
+          strummingPattern.map(move => {
+            if (move === '|') {
+              return (
+                <span class='h-5.5 w-0 border-l border-solid border-(--theme-accent-text)/60' aria-hidden='true' />
+              );
+            }
+
+            const isColoredStrum = move === 'Dc' || move === 'Uc';
+            const isEmphasizedStrum = move === 'De' || move === 'Ue';
+            const displayMove = isColoredStrum ? move[0] : move.replace('e', '');
+
+            return (
+              <span
+                class:list={[
+                  'font-bold',
+                  isColoredStrum ? 'text-(--theme-success)' : '',
+                  isEmphasizedStrum ? 'underline' : '',
+                ]}
+              >
+                {displayMove}
+              </span>
+            );
+          })
+        }
+      </div>
+    </div>
+  )}
+
+  <ChordsV1Lyrics visible={showLyrics} lyrics={lyrics} />
+</div>
+
+<script>
+  function setupV4PopoverAnchoring() {
+    const triggers = document.querySelectorAll<HTMLButtonElement>('.chord-v4-popover-trigger');
+
+    triggers.forEach(trigger => {
+      if (trigger.dataset.popoverAnchoringReady) return;
+      trigger.dataset.popoverAnchoringReady = 'true';
+
+      const targetId = trigger.getAttribute('popovertarget');
+      if (!targetId) return;
+
+      const popover = document.getElementById(targetId);
+      if (!popover) return;
+
+      trigger.addEventListener('click', () => {
+        requestAnimationFrame(() => {
+          const triggerRect = trigger.getBoundingClientRect();
+          popover.style.left = `${triggerRect.left + triggerRect.width / 2 - popover.offsetWidth / 2}px`;
+          popover.style.top = `${triggerRect.top - popover.offsetHeight - 12 + window.scrollY}px`;
+        });
+      });
+    });
+  }
+
+  setupV4PopoverAnchoring();
+  document.addEventListener('astro:after-swap', setupV4PopoverAnchoring);
+</script>

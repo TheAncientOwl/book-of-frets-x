@@ -6,11 +6,11 @@
  *
  * @file song.d.ts
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Song types for json mapping.
  */
 
-export type TStrummingMove = '-' | 'D' | 'U' | 'Dx' | 'Ux' | 'X' | 'De' | 'Dx';
+export type TStrummingMove = '-' | 'D' | 'U' | 'Dx' | 'Ux' | 'X' | 'De' | 'Ue' | 'Dc' | 'Uc' | '|';
 
 export type TStrummingPattern = TStrummingMove[];
 
@@ -36,10 +36,18 @@ export type TChordsV3SectionEntry = {
 };
 export type TChordsV3SectionData = TChordsV3SectionEntry;
 
+export type TChordsV4SectionData = {
+  times: number[];
+  pattern: number;
+  lines: string[][][];
+  align?: 'center' | 'left';
+};
+
 export type TSongSectionEntryRendererType =
   | 'chords-v1'
   | 'chords-v2'
   | 'chords-v3'
+  | 'chords-v4'
   | 'gtab-v1'
   | 'ukulele-tabs-v1';
 export type TSongSectionEntryData =
@@ -47,7 +55,8 @@ export type TSongSectionEntryData =
   | TGTabV1SectionData
   | TUkuleleTabsV1SectionData
   | TChordsV2SectionData
-  | TChordsV3SectionData;
+  | TChordsV3SectionData
+  | TChordsV4SectionData;
 
 export type TSongSectionEntry = {
   renderer: TSongSectionEntryRendererType;

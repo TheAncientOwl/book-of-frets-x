@@ -60,7 +60,7 @@
         "type": "array",
         "items": {
           "type": "string",
-          "enum": ["D", "U", "-", "Dx", "Ux", "X", "De", "Ue", "|"]
+          "enum": ["D", "U", "-", "Dx", "Ux", "X", "De", "Ue", "Dc", "Uc", "|"]
         },
         "minItems": 1
       }
@@ -162,6 +162,49 @@
                         }
                       },
                       "required": ["times", "items"]
+                    }
+                  },
+                  "required": ["renderer", "data"]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "renderer": { "type": "string", "enum": ["chords-v4"] },
+                    "data": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "times": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer",
+                            "minimum": 0
+                          }
+                        },
+                        "pattern": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "align": {
+                          "type": "string",
+                          "enum": ["center", "left"],
+                          "default": "center"
+                        },
+                        "lines": {
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": ["times", "pattern", "lines"]
                     }
                   },
                   "required": ["renderer", "data"]

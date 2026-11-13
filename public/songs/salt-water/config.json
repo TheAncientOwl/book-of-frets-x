@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Salt Water",
   "artists": ["Ed Sheeran"],
@@ -17,8 +17,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x4 Am 1 F 1 C 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "times": [4],
+            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+          }
         }
       ]
     },
@@ -27,8 +31,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 F 1", "> 1"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "times": [1],
+            "lines": [[["F"]]]
+          }
         }
       ]
     },
@@ -37,8 +45,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 C 1 F 1 C 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "times": [2],
+            "lines": [[["C"], ["F"], ["C"], ["G"]]]
+          }
         }
       ]
     },
@@ -47,8 +59,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 Am 1 F 1 C 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "times": [2],
+            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+          }
         }
       ]
     },
@@ -57,8 +73,15 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Dm 1 G 1 Am 1 F 1", "x1 Dm 1 G 1 C 1 F 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "times": [1, 1],
+            "lines": [
+              [["Dm"], ["G"], ["Am"], ["F"]],
+              [["Dm"], ["G"], ["C"], ["F"]]
+            ]
+          }
         }
       ]
     },
@@ -67,8 +90,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 Am 1 F 1 C 1 G 1", "> 1"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "times": [2],
+            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+          }
         }
       ]
     },

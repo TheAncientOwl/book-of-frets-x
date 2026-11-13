@@ -7,7 +7,7 @@
  *
  * @file SongSectionEntry.astro
  * @author Alexandru Delegeanu
- * @version 1.0
+ * @version 1.1
  * @description Master entry switcher routing to correct layout version renderers.
  */
 
@@ -15,6 +15,7 @@ import type {
   TChordsV1SectionEntry,
   TChordsV2SectionData,
   TChordsV3SectionData,
+  TChordsV4SectionData,
   TGTabV1SectionData,
   TUkuleleTabsV1SectionData,
   TSongSectionEntry,
@@ -26,6 +27,7 @@ import type { TChord, TChordInstrument } from '#types/chord';
 import ChordsV1Renderer from '#components/song/sections/renderers/chords/v1/ChordsV1.astro';
 import ChordsV2Renderer from '#components/song/sections/renderers/chords/v2/ChordsV2.astro';
 import ChordsV3Renderer from '#components/song/sections/renderers/chords/v3/ChordsV3.astro';
+import ChordsV4Renderer from '#components/song/sections/renderers/chords/v4/ChordsV4.astro';
 import GuitarTabsV1Renderer from '#components/song/sections/renderers/guitar-tabs/v1/GuitarTabsV1.astro';
 import UkuleleTabsV1Renderer from '#components/song/sections/renderers/ukulele-tabs/v1/UkuleleTabsV1.astro';
 
@@ -81,6 +83,18 @@ const rendererType = entry.renderer;
           return (
             <ChordsV3Renderer
               data={entry.data as TChordsV3SectionData}
+              strummingPatterns={strumms}
+              showLyrics={showLyrics}
+              lyrics={lyrics}
+              chordsIndex={chordsIndex}
+              songSettings={songSettings}
+              chordType={chordType}
+            />
+          );
+        case 'chords-v4':
+          return (
+            <ChordsV4Renderer
+              data={entry.data as TChordsV4SectionData}
               strummingPatterns={strumms}
               showLyrics={showLyrics}
               lyrics={lyrics}

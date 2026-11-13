@@ -41,9 +41,23 @@ def render_queued_strumming_patterns(
     theme: dict[str, Any],
 ) -> None:
     for pattern in render_context["pending_strum_patterns"]:
+        accent = theme["colors"]["accentText"]
+        success = theme["colors"].get("success", accent)
+        strum_markup: list[str] = []
+        for move in pattern.split():
+            if move == "|":
+                strum_markup.append(f'<font color="{accent}">|</font>')
+            elif move in {"Dc", "Uc"}:
+                strum_markup.append(
+                    f'<font color="{success}">{escape(move[0])}</font>'
+                )
+            elif move in {"De", "Ue"}:
+                strum_markup.append(f"<u>{escape(move[0])}</u>")
+            else:
+                strum_markup.append(escape(move))
         story.append(
             Paragraph(
-                f'<font name="Courier">{escape(pattern)}</font>',
+                f'<font name="Courier">{" ".join(strum_markup)}</font>',
                 styles["StrumLine"],
             )
         )

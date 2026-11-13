@@ -84,7 +84,7 @@ class SongPdfRendererTests(unittest.TestCase):
             "instrument": "guitar",
             "capo": 2,
             "notes": ["Test note"],
-            "strumms": [["D", "U"], ["D", "-", "U"]],
+            "strumms": [["D", "U"], ["D", "-", "U"], ["D", "|", "Dc", "Ue"]],
             "sections": {
                 "v1": {
                     "name": "Chords V1",
@@ -124,6 +124,25 @@ class SongPdfRendererTests(unittest.TestCase):
                         }
                     ],
                 },
+                "v4": {
+                    "name": "Chords V4",
+                    "times": 1,
+                    "entries": [
+                        {
+                            "renderer": "chords-v4",
+                            "data": {
+                                "pattern": 2,
+                                "times": [2],
+                                "align": "left",
+                                "badge": True,
+                                "lines": [
+                                    [["C"], ["G"]],
+                                    [["G", "C"], ["C"]],
+                                ],
+                            },
+                        }
+                    ],
+                },
                 "guitar": {
                     "name": "Guitar Tabs",
                     "times": 1,
@@ -145,7 +164,7 @@ class SongPdfRendererTests(unittest.TestCase):
                     ],
                 },
             },
-            "order": ["v1", "v2", "v3", "guitar", "ukulele"],
+            "order": ["v1", "v2", "v3", "v4", "guitar", "ukulele"],
         }
         for index in range(1, 11):
             section_id = f"overflow-{index}"
@@ -182,6 +201,7 @@ class SongPdfRendererTests(unittest.TestCase):
                     "chords v1",
                     "chords v2",
                     "chords v3",
+                    "chords v4",
                     "guitar tabs",
                     "ukulele tabs",
                     *(f"overflow {index}" for index in range(1, 11)),
@@ -216,6 +236,7 @@ class SongPdfRendererTests(unittest.TestCase):
                     "Chords V1",
                     "Chords V2",
                     "Chords V3",
+                    "Chords V4",
                     "Guitar Tabs",
                     "Ukulele Tabs",
                     "CAPO 2",
@@ -224,6 +245,10 @@ class SongPdfRendererTests(unittest.TestCase):
                 self.assertNotIn("STRUM", text)
                 self.assertLess(text.index("Chords V1"), text.index("Chords V2"))
                 self.assertLess(text.index("Chords V2"), text.index("Chords V3"))
+                self.assertLess(text.index("Chords V3"), text.index("Chords V4"))
+                self.assertLess(text.index("Chords V4"), text.index("Guitar Tabs"))
+                self.assertIn("×2", text)
+                self.assertIn("D | D U", text)
                 self.assertEqual(
                     section_x_positions["chords v1"],
                     section_x_positions["chords v2"],
@@ -233,8 +258,12 @@ class SongPdfRendererTests(unittest.TestCase):
                     section_x_positions["chords v3"],
                 )
                 self.assertEqual(
-                    section_x_positions["guitar tabs"],
                     section_x_positions["chords v3"],
+                    section_x_positions["chords v4"],
+                )
+                self.assertEqual(
+                    section_x_positions["guitar tabs"],
+                    section_x_positions["chords v4"],
                 )
                 self.assertEqual(
                     section_x_positions["guitar tabs"],
