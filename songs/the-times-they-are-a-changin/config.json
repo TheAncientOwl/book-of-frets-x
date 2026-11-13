@@ -1,12 +1,12 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "The Times They Are A Changin'",
   "artists": ["Bob Dylan"],
   "type": ["acoustic"],
   "notes": [],
   "capo": 3,
-  "chordIDs": ["G", "Em", "C", "Csus2", "G/B"],
+  "chordIDs": ["G", "Em", "C", "D", "Am", "Csus2", "G/B"],
   "strumms": [["D", "-", "D", "U", "D", "U"]],
   "sections": {
     "i": {
@@ -14,13 +14,13 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1 G 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1],
+            "lines": [[["G"], ["G"], ["G"]]]
+          }
         }
       ]
     },
@@ -29,24 +29,20 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "00 G 1 Em 1 C 1 D 1",
-                    "0 G 1 Em 1 C 1 G 1 G 1 G 1",
-                    "0 G 1 Am 1 D 1 D 1",
-                    "0 D 1 Csus2 1 G/B 1 D 1",
-                    "0 G 1 G 1 D 1 G 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1, 1, 1, 1, 1, 1],
+            "lines": [
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Em"], ["C"], ["D"]],
+              [["G"], ["Em"], ["C"], ["G"], ["G"], ["G"]],
+              [["G"], ["Am"], ["D"], ["D"]],
+              [["D"], ["Csus2"], ["G/B"], ["D"]],
+              [["G"], ["G"], ["D"], ["G"]]
+            ]
+          }
         }
       ]
     },
@@ -55,13 +51,16 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1 Em 1 C 1 G 1 G 1 G 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1],
+            "lines": [
+              [["G"], ["Em"], ["C"], ["G"]],
+              [["G"], ["G"], ["G"]]
+            ]
+          }
         }
       ]
     },
@@ -70,24 +69,20 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 G 1 Em 1 C 1 D 1",
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 G 1 Am 1 D 1 D 1",
-                    "0 D 1 Csus2 1 G/B 1 D 1",
-                    "0 G 1 G 1 D 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1, 1, 1, 1, 1, 1],
+            "lines": [
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Em"], ["C"], ["D"]],
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Am"], ["D"], ["D"]],
+              [["D"], ["Csus2"], ["G/B"], ["D"]],
+              [["G"], ["G"], ["D"]]
+            ]
+          }
         }
       ]
     },
@@ -96,13 +91,17 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1 Em 1 C 1 G 1 G 1", "0 D 1 Csus2 1 G/B 1 D 1", "0 D 1 D 1 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1, 1, 1],
+            "lines": [
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["D"], ["Csus2"], ["G/B"], ["D"]],
+              [["D"], ["D"], ["D"]]
+            ]
+          }
         }
       ]
     },
@@ -111,24 +110,20 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 G 1 Em 1 C 1 D 1",
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 G 1 Am 1 D 1 D 1",
-                    "0 D 1 Csus2 1 G/B 1 D 1",
-                    "0 G 1 C 1 D 1 G 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1, 1, 1, 1, 1, 1],
+            "lines": [
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Em"], ["C"], ["D"]],
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Am"], ["D"], ["D"]],
+              [["D"], ["Csus2"], ["G/B"], ["D"]],
+              [["G"], ["C"], ["D"], ["G"]]
+            ]
+          }
         }
       ]
     },
@@ -137,13 +132,13 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1 D 1 Csus2 1 D 1 G 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1],
+            "lines": [[["G"], ["D"], ["Csus2"], ["D"], ["G"], ["G"]]]
+          }
         }
       ]
     },
@@ -152,24 +147,20 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 G 1 Em 1 C 1 D 1",
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 G 1 Am 1 D 1 D 1",
-                    "0 G 1 Csus2 1 G/B 1 D 1",
-                    "0 G 1 C 1 D 1 G 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1, 1, 1, 1, 1, 1],
+            "lines": [
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Em"], ["C"], ["D"]],
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Am"], ["D"], ["D"]],
+              [["G"], ["Csus2"], ["G/B"], ["D"]],
+              [["G"], ["C"], ["D"], ["G"]]
+            ]
+          }
         }
       ]
     },
@@ -178,22 +169,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 D 1 Csus2 1 G/B 1 D 1 D 1",
-                    "0 G 1 C 1 D 1 G 1",
-                    "0 G 1 G 1 G 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1, 1, 1, 1],
+            "lines": [
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["D"], ["Csus2"], ["G/B"], ["D"], ["D"]],
+              [["G"], ["C"], ["D"], ["G"]],
+              [["G"], ["G"], ["G"]]
+            ]
+          }
         }
       ]
     },
@@ -202,24 +189,20 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 G 1 Em 1 C 1 D 1",
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 G 1 Em 1 C 1 G 1 G 1",
-                    "0 D 1 Csus2 1 G/B 1 D 1",
-                    "0 G 1 C 1 D 1 G 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1, 1, 1, 1, 1, 1],
+            "lines": [
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Em"], ["C"], ["D"]],
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["G"], ["Em"], ["C"], ["G"], ["G"]],
+              [["D"], ["Csus2"], ["G/B"], ["D"]],
+              [["G"], ["C"], ["D"], ["G"]]
+            ]
+          }
         }
       ]
     },
@@ -228,13 +211,13 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1 Em 1 C 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "align": "left",
+            "times": [1],
+            "lines": [[["G"], ["Em"], ["C"], ["G"]]]
+          }
         }
       ]
     }

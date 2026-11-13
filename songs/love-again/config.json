@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Love Again",
   "artists": ["The Kid LAROI"],
@@ -7,15 +7,28 @@
   "notes": [],
   "capo": 2,
   "chordIDs": ["Am", "C", "F", "E", "Em"],
-  "strumms": [["D", "-", "D", "-", "-", "U", "D", "U"], ["D"]],
+  "strumms": [
+    ["D", "-", "D", "-", "-", "U", "D", "U"],
+    ["D", "-", "D", "-", "-", "U", "D", "U", "|", "D", "-", "D", "-", "-", "U", "D", "U"],
+    ["D"]
+  ],
   "sections": {
     "intro": {
       "name": "intro",
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 Am 1 C 1 F 1 E 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "times": [2],
+            "lines": [
+              [
+                ["Am", "C"],
+                ["F", "E"]
+              ]
+            ]
+          }
         }
       ]
     },
@@ -24,15 +37,21 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v3",
+          "renderer": "chords-v4",
           "data": {
-            "times": 5,
-            "items": [["x1 Am 1 C 1 F 1 E 1"]]
+            "pattern": 1,
+            "times": [5, 1],
+            "lines": [
+              [
+                ["Am", "C"],
+                ["F", "E"]
+              ],
+              [
+                ["Am", "C"],
+                ["F", "-"]
+              ]
+            ]
           }
-        },
-        {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 C 1 F 1 - 1", "> 0"]
         }
       ]
     },
@@ -41,8 +60,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x4 F 2 C 2 Em 2 Am 2", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "times": [4],
+            "lines": [[["F"], ["C"], ["Em"], ["Am"]]]
+          }
         }
       ]
     },
@@ -51,8 +74,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 F 1 C 1 Em 1 Am 1", "> 1"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "times": [1],
+            "lines": [[["F"], ["C"], ["Em"], ["Am"]]]
+          }
         }
       ]
     }
