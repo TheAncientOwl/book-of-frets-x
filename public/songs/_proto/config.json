@@ -184,14 +184,7 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [0, 1],
-            "lines": [
-              [["Am"], ["Dm", "Em"]],
-              [
-                ["Am", "G"],
-                ["Dm", "Em"]
-              ]
-            ]
+            "lines": ["Am | Dm Em", "Am G | Dm Em"]
           }
         }
       ]

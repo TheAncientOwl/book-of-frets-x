@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Beautiful People",
   "artists": ["Ed Sheeran", "Khalid"],
@@ -8,9 +8,7 @@
   "capo": 3,
   "chordIDs": ["C", "Am", "F", "Em"],
   "strumms": [
-    ["D", "-", "-", "-", "D", "-", "D", "U", "-", "U", "D", "-", "D", "-", "D", "U"],
-    ["D", "-", "-", "-", "D", "-", "D", "U", "-", "U"],
-    ["D", "-", "D", "-", "D", "U"],
+    ["D", "-", "-", "-", "D", "-", "D", "U", "-", "U", "|", "D", "-", "D", "-", "D", "U"],
     ["D"]
   ],
   "sections": {
@@ -19,22 +17,25 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | C"]
+          }
         }
       ]
     },
     "m4": {
       "name": "main progression",
-      "times": 4,
+      "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 C 1 F 1", "> 0"]
-        },
-        {
-          "renderer": "chords-v2",
-          "data": ["x1 F 1 ? 0 Em 1", "> 1 2"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x4 0"],
+            "lines": ["Am | C | F | F Em"]
+          }
         }
       ]
     },
@@ -43,22 +44,32 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 C 1 ? 0 F 1", "> 0 3"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | C"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["F"]
+          }
         }
       ]
     },
     "m3": {
       "name": "main progression",
-      "times": 3,
+      "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 C 1 F 1", "> 0"]
-        },
-        {
-          "renderer": "chords-v2",
-          "data": ["x1 F 1 ? 0 Em 1", "> 1 2"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x3 0"],
+            "lines": ["Am | C | F | F Em"]
+          }
         }
       ]
     },
@@ -67,8 +78,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 C 1 F 1", "> 3"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Am | C | F"]
+          }
         }
       ]
     }

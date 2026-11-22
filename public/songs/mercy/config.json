@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Mercy",
   "artists": ["Shawn Mendes"],
@@ -18,13 +18,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Em 1 G 1 Bm 1 A 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em | G | Bm | A"]
+          }
         }
       ]
     },
@@ -33,13 +31,11 @@
       "times": 4,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Em 1 G 1 Bm 1 A 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em | G | Bm | A"]
+          }
         }
       ]
     },
@@ -48,13 +44,11 @@
       "times": 4,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 Em 1 G 1 Bm 1 A 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Em | G | Bm | A"]
+          }
         }
       ]
     },
@@ -63,17 +57,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 2,
-              "items": [[["2 G 1 Bm 1 D 1 A 1"]]]
-            },
-            {
-              "times": 2,
-              "items": [[["2 Em 1 Bm 1 D 1 A 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "repeat": ["x2 0", "x2 1"],
+            "lines": ["G | Bm | D | A", "Em | Bm | D | A"]
+          }
         }
       ]
     }

@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Birds Of A Feather (Easy)",
   "artists": ["Billie Eilish"],
@@ -14,8 +14,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 D 1 D 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["D | D"]
+          }
         }
       ]
     },
@@ -24,8 +27,11 @@
       "times": 11,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 D 1 D 1 Bm7 1 Bm7 1", "x1 Em7_v2 1 Em7_v2 1 A 1 A 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["D | D | Bm7 | Bm7", "Em7_v2 | Em7_v2 | A | A"]
+          }
         }
       ]
     }

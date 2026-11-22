@@ -21,13 +21,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 1,
-            "times": [2],
-            "lines": [
-              [
-                ["Am", "C"],
-                ["F", "E"]
-              ]
-            ]
+            "repeat": ["x2 0"],
+            "lines": ["Am C | F E"]
           }
         }
       ]
@@ -40,17 +35,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 1,
-            "times": [5, 1],
-            "lines": [
-              [
-                ["Am", "C"],
-                ["F", "E"]
-              ],
-              [
-                ["Am", "C"],
-                ["F", "-"]
-              ]
-            ]
+            "repeat": ["x5 0"],
+            "lines": ["Am C | F E", "Am C | F -"]
           }
         }
       ]
@@ -63,8 +49,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 1,
-            "times": [4],
-            "lines": [[["F"], ["C"], ["Em"], ["Am"]]]
+            "repeat": ["x4 0"],
+            "lines": ["F | C | Em | Am"]
           }
         }
       ]
@@ -77,8 +63,7 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 2,
-            "times": [1],
-            "lines": [[["F"], ["C"], ["Em"], ["Am"]]]
+            "lines": ["F | C | Em | Am"]
           }
         }
       ]

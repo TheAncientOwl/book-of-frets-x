@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Rudolph The Red Nosed Reindeer",
   "artists": ["Gene Autry"],
@@ -14,17 +14,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 2,
-              "items": [[["0 C 1 G/B 1"], ["0 Am 1 G 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["0 Em 1"], ["0 Am 1"], ["0 C 1 Am 1"], ["0 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["C | G/B | Am | G", "Em | Am | C | Am", "D"]
+          }
         }
       ]
     },
@@ -43,13 +38,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 1 G 1 G 1 D 1", "0 D 1 D 1 D 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | G | G | D", "D | D | D | G"]
+          }
         }
       ]
     },
@@ -58,13 +51,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 C 1 G 1 D7 1 G 1", "0 A7 1 A7 1"], ["0 D7 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["C | G | D7 | G", "A7 | A7"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["D7"]
+          }
         }
       ]
     },
@@ -73,13 +71,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 1 G 1 G 1 D 1", "0 D 1 D 1 D 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | G | G | D", "D | D | D | G"]
+          }
         }
       ]
     },
@@ -102,13 +98,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 1 G 1 G 1 D 1", "0 D 1 D 1 D 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | G | G | D", "D | D | D | G"]
+          }
         }
       ]
     },
@@ -117,13 +111,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 1 G 1 G 1 D 1", "0 D 1 D 1 D 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | G | G | D", "D | D | D | G"]
+          }
         }
       ]
     },
@@ -132,13 +124,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["D"]
+          }
         }
       ]
     },
@@ -157,13 +147,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G"]
+          }
         }
       ]
     }

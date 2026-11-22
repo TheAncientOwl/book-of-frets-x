@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "All I Want For Christmas Is You",
   "artists": ["Mariah Carey"],
@@ -7,20 +7,18 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["G", "Em", "C", "D", "G/B", "Cm_3fr", "B7", "D7", "E7", "Am7"],
-  "strumms": [["D"], ["D", "U"]],
+  "strumms": [["D"], ["D", "U"], ["D", "U", "D", "U", "|", "D", "U", "D", "U"]],
   "sections": {
     "ibd": {
       "name": "intro",
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1 Em 1 C 1 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G | Em | C | D"]
+          }
         }
       ]
     },
@@ -29,15 +27,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [["0 C 1 G/B 1 C 1 Cm_3fr 1", "0 G 1 B7 1 Em 1 Cm_3fr 1", "0 G 1 E7 1 Am7 1 D7 1"]]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | G/B | C | Cm_3fr", "G | B7 | Em | Cm_3fr", "G | E7 | Am7 | D7"]
+          }
         }
       ]
     },
@@ -46,13 +40,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 4 Em 4 C 4 D 4"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["G | Em | C | D"]
+          }
         }
       ]
     },
@@ -61,13 +53,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 16 C 8 Cm_3fr 8"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["G | G | G | G", "C | C | Cm_3fr | Cm_3fr"]
+          }
         }
       ]
     },
@@ -76,13 +66,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 6 B7 2 Em 6 Cm_3fr 1", "0 G 4 E7 4 Am7 4 D7 4"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["G | G B7 | Em | Em Cm_3fr", "G | E7 | Am7 | D7"]
+          }
         }
       ]
     },
@@ -91,18 +79,17 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 2,
-              "items": [[["1 B7 8 Em 8 Cm_3fr 8", "0 G 4 E7 4 Am7 8 D 8"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "repeat": ["x2 0"],
+            "lines": ["B7 | B7 | Em | Em", "Cm_3fr | Cm_3fr | G | E7", "Am7 | Am7 | D | D"]
+          }
         }
       ]
     }
   },
-  "order": ["ibd", "sv", "ibs", "v", "ibs", "v", "c", "ibs", "b", "v", "c", "ibs"],
+  "order": ["ibd", "sv", "c", "ibs", "v", "c", "ibs", "v", "c", "ibs", "b", "v", "c", "ibs"],
   "lyrics": false,
   "pdf": true,
   "res": [

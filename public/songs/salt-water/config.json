@@ -20,8 +20,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [4],
-            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+            "repeat": ["x4 0"],
+            "lines": ["Am | F | C | G"]
           }
         }
       ]
@@ -34,8 +34,7 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 1,
-            "times": [1],
-            "lines": [[["F"]]]
+            "lines": ["F"]
           }
         }
       ]
@@ -48,8 +47,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [2],
-            "lines": [[["C"], ["F"], ["C"], ["G"]]]
+            "repeat": ["x2 0"],
+            "lines": ["C | F | C | G"]
           }
         }
       ]
@@ -62,8 +61,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [2],
-            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+            "repeat": ["x2 0"],
+            "lines": ["Am | F | C | G"]
           }
         }
       ]
@@ -76,11 +75,7 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [1, 1],
-            "lines": [
-              [["Dm"], ["G"], ["Am"], ["F"]],
-              [["Dm"], ["G"], ["C"], ["F"]]
-            ]
+            "lines": ["Dm | G | Am | F", "Dm | G | C | F"]
           }
         }
       ]
@@ -93,8 +88,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 1,
-            "times": [2],
-            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+            "repeat": ["x2 0"],
+            "lines": ["Am | F | C | G"]
           }
         }
       ]

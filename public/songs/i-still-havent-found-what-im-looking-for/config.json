@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "I Still Haven't Found What I'm Looking For (Strummed)",
   "artists": ["U2"],
@@ -14,8 +14,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 C 1 C 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | C | C | C"]
+          }
         }
       ]
     },
@@ -24,8 +27,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 C 1 C 1 C 1 C 1 / 0 Fsus2_v2 1 Fsus2_v2 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 0 1"],
+            "lines": ["C | C | C | C", "Fsus2_v2 | Fsus2_v2 | C | C"]
+          }
         }
       ]
     },
@@ -34,8 +41,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 G 1 Fsus2_v2 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["G | Fsus2_v2 | C | C"]
+          }
         }
       ]
     },
@@ -44,8 +55,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 C 1 C 1 C 1 C 1 / 0 Fsus2_v2 1 Fsus2_v2 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 0 1"],
+            "lines": ["C | C | C | C", "Fsus2_v2 | Fsus2_v2 | C | C"]
+          }
         }
       ]
     },
@@ -54,8 +69,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 G 1 Fsus2_v2 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["G | Fsus2_v2 | C | C"]
+          }
         }
       ]
     },
@@ -64,8 +83,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 C 1 C 1 C 1 C 1", "x1 C 1 C 1 Fsus2_v2 1 Fsus2_v2 1", "x1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | C | C | C", "C | C | Fsus2_v2 | Fsus2_v2", "C | C"]
+          }
         }
       ]
     },
@@ -74,8 +96,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 C 1 C 1 C 1 C 1 / 0 Fsus2_v2 1 Fsus2_v2 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 0 1"],
+            "lines": ["C | C | C | C", "Fsus2_v2 | Fsus2_v2 | C | C"]
+          }
         }
       ]
     },
@@ -84,8 +110,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x4 G 1 Fsus2_v2 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x4 0"],
+            "lines": ["G | Fsus2_v2 | C | C"]
+          }
         }
       ]
     },
@@ -94,8 +124,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 C 1 C 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | C | C | C"]
+          }
         }
       ]
     }

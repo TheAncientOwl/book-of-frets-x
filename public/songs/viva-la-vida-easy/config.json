@@ -25,13 +25,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 5,
-            "times": [2],
-            "lines": [
-              [
-                ["C", "D"],
-                ["G", "Em"]
-              ]
-            ]
+            "repeat": ["x2 0"],
+            "lines": ["C D | G Em"]
           }
         }
       ]
@@ -44,13 +39,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 6,
-            "times": [8],
-            "lines": [
-              [
-                ["C", "D"],
-                ["G", "Em"]
-              ]
-            ]
+            "repeat": ["x8 0"],
+            "lines": ["C D | G Em"]
           }
         }
       ]
@@ -63,13 +53,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 6,
-            "times": [4],
-            "lines": [
-              [
-                ["C", "D"],
-                ["G", "Em"]
-              ]
-            ]
+            "repeat": ["x4 0"],
+            "lines": ["C D | G Em"]
           }
         }
       ]
@@ -82,13 +67,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 6,
-            "times": [6],
-            "lines": [
-              [
-                ["C", "D"],
-                ["G", "Em"]
-              ]
-            ]
+            "repeat": ["x6 0"],
+            "lines": ["C D | G Em"]
           }
         }
       ]
@@ -101,8 +81,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 6,
-            "times": [3, 1],
-            "lines": [[["C", "Em"]], [["D", "D"]]]
+            "repeat": ["x3 0"],
+            "lines": ["C Em", "D D"]
           }
         }
       ]
@@ -115,13 +95,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 6,
-            "times": [5],
-            "lines": [
-              [
-                ["C", "D"],
-                ["G", "Em"]
-              ]
-            ]
+            "repeat": ["x5 0"],
+            "lines": ["C D | G Em"]
           }
         }
       ]
@@ -134,13 +109,7 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 4,
-            "times": [1],
-            "lines": [
-              [
-                ["C", "D"],
-                ["G", "Em"]
-              ]
-            ]
+            "lines": ["C D | G Em"]
           }
         }
       ]

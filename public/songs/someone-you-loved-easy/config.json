@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Someone You Loved | Easy",
   "artists": ["Lewis Capaldi"],
@@ -14,13 +14,11 @@
       "times": 13,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 C 1 G 1 Am 1 F 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | G | Am | F"]
+          }
         }
       ]
     },
@@ -29,13 +27,25 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Dm 1 Am 1 G 1"], ["1 G 1 Am 1"], ["0 Dm 1 Am 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Am | G"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | Am"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Am | G"]
+          }
         }
       ]
     },
@@ -44,25 +54,26 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["2 C 1 G 1 Am 1 F 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["2 C 1 G 1"], ["0 Am 1 F 1"]]]
-            },
-            {
-              "times": 2,
-              "items": [[["0 C 1 G 1 Am 1 F 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["2 C 1 G 1 Am 1 F 1"], ["2 C 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["C | G | Am | F", "C | G"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 1"],
+            "lines": ["Am | F", "C | G | Am | F"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["C | G | Am | F", "C"]
+          }
         }
       ]
     }

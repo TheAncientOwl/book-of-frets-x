@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "The Night We Met (Strummed)",
   "artists": ["Lord Huron"],
@@ -14,8 +14,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Em 2 D 1 G 4 / 0 Em 2 G 1 C 4", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em^2 | D^1 | G^4", "Em^2 | G^1 | C^4"]
+          }
         }
       ]
     },
@@ -24,8 +27,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Em 2 D 1 G 4 / 0 Em 2 G 1 C 4", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em^2 | D^1 | G^4", "Em^2 | G^1 | C^4"]
+          }
         }
       ]
     },
@@ -34,8 +40,11 @@
       "times": 4,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Em 2 G 1 C 4", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em^2 | G^1 | C^4"]
+          }
         }
       ]
     },
@@ -44,8 +53,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Em 2 G 1 C 4", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em | G | C"]
+          }
         }
       ]
     }

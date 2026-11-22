@@ -20,8 +20,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [2],
-            "lines": [[["C"], ["G"], ["Am"], ["F"]]]
+            "repeat": ["x2 0"],
+            "lines": ["C | G | Am | F"]
           }
         }
       ]
@@ -34,8 +34,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [4],
-            "lines": [[["C"], ["G"], ["Am"], ["F"]]]
+            "repeat": ["x4 0"],
+            "lines": ["C | G | Am | F"]
           }
         }
       ]
@@ -48,24 +48,21 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [1],
-            "lines": [[["Dm"], ["F"], ["C"]]]
+            "lines": ["Dm | F | C"]
           }
         },
         {
           "renderer": "chords-v4",
           "data": {
             "pattern": 1,
-            "times": [1],
-            "lines": [[["C"], ["G"]]]
+            "lines": ["C | G"]
           }
         },
         {
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [1],
-            "lines": [[["Dm"], ["F"], ["G"], ["G"]]]
+            "lines": ["Dm | F | G | G"]
           }
         }
       ]
@@ -78,8 +75,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [4],
-            "lines": [[["C"], ["G"], ["Am"], ["F"]]]
+            "repeat": ["x4 0"],
+            "lines": ["C | G | Am | F"]
           }
         }
       ]
@@ -92,8 +89,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [2],
-            "lines": [[["C"], ["G"], ["Am"], ["F"]]]
+            "repeat": ["x2 0"],
+            "lines": ["C | G | Am | F"]
           }
         }
       ]
@@ -106,8 +103,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [5],
-            "lines": [[["C"], ["G"], ["Am"], ["F"]]]
+            "repeat": ["x5 0"],
+            "lines": ["C | G | Am | F"]
           }
         }
       ]

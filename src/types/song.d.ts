@@ -37,9 +37,9 @@ export type TChordsV3SectionEntry = {
 export type TChordsV3SectionData = TChordsV3SectionEntry;
 
 export type TChordsV4SectionData = {
-  times: number[];
+  repeat?: string[];
   pattern: number;
-  lines: string[][][];
+  lines: string[];
   align?: 'center' | 'left';
 };
 

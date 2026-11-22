@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "New Heart",
   "artists": ["Crash Adams"],
@@ -19,8 +19,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 Am 1 | 0 Dm 1 Dm 1 / 0 G 1 G 1 | 0 C 1 E 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | Am | Dm | Dm", "G | G | C | E"]
+          }
         }
       ]
     },
@@ -28,8 +31,27 @@
       "name": "verse 1",
       "times": 1,
       "entries": [
-        { "renderer": "chords-v2", "data": ["x1 Am 1 Am 1 | 0 Dm 1 Dm 1 / 0 G 1 G 1", "> 0"] },
-        { "renderer": "chords-v2", "data": ["x1 C 1 ? 0 E 1", "> 2 3"] }
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | Am | Dm | Dm", "G | G"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["C"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["E"]
+          }
+        }
       ]
     },
     "c1": {
@@ -37,10 +59,19 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 Am 1 | 0 Dm 1 Dm 1 / 0 G 1 G 1 | 0 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | Am | Dm | Dm", "G | G | C"]
+          }
         },
-        { "renderer": "chords-v2", "data": ["x1 E 1", "> 3"] }
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["E"]
+          }
+        }
       ]
     },
     "v2": {
@@ -48,16 +79,25 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x1 Am 1 Am 1 | 0 Dm 1 Dm 1 / 0 G 1 G 1 | 0 C 1 E 1",
-            "x1 Am 1 Am 1 | 0 Dm 1 Dm 1 / 0 G 1 G 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | Am | Dm | Dm", "G | G | C | E", "Am | Am | Dm | Dm", "G | G"]
+          }
         },
         {
-          "renderer": "chords-v2",
-          "data": ["x1 C 1 ? 0 E 1", "> 2 3"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["C"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["E"]
+          }
         }
       ]
     },
@@ -66,12 +106,18 @@
       "times": 3,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 Am 1 | 0 Dm 1 Dm 1 / 0 G 1 G 1 | 0 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | Am | Dm | Dm", "G | G | C"]
+          }
         },
         {
-          "renderer": "chords-v2",
-          "data": ["x1 E 1", "> 3"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["E"]
+          }
         }
       ]
     },
@@ -79,7 +125,20 @@
       "name": "post-chorus",
       "times": 1,
       "entries": [
-        { "renderer": "chords-v2", "data": ["x1 Am 1 Dm 1 G 1 C 1", "> 1", "x1 E 1", "> 3"] }
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Am | Dm | G | C"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["E"]
+          }
+        }
       ]
     },
     "o1": {
@@ -87,15 +146,33 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 Am 1 | 0 Dm 1 Dm 1 / 0 G 1 G 1 | 0 C 1", "> 0", "x1 E 1", "> 3"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | Am | Dm | Dm", "G | G | C"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["E"]
+          }
         }
       ]
     },
     "o2": {
       "name": "outro",
       "times": 1,
-      "entries": [{ "renderer": "chords-v2", "data": ["x1 Am 1", "> 1"] }]
+      "entries": [
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Am"]
+          }
+        }
+      ]
     }
   },
   "order": ["i", "v1", "c1", "v2", "c2", "pc", "o1", "o2"],

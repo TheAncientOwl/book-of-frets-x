@@ -1,5 +1,5 @@
 {
-  "version": "2.0.1",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Riptide",
   "artists": ["Vance Joy"],
@@ -14,13 +14,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 15,
-              "items": [[["0 Am 1 G 1 C 2"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x15 0"],
+            "lines": ["Am | G | C"]
+          }
         }
       ]
     },
@@ -39,13 +38,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 2,
-              "items": [[["0 Am 2 G 2 C 2 Ft 2"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 0 1"],
+            "lines": ["Am Am | G G", "C C | Ft Ft"]
+          }
         }
       ]
     },
@@ -54,13 +52,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 2,
-              "items": [[["1 Am 1 G 1 C 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "repeat": ["x2 0"],
+            "lines": ["Am | G | C"]
+          }
         }
       ]
     }

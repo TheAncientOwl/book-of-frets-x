@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "Jingle Bell Rock",
   "artists": ["Bobby Helms"],
@@ -24,22 +24,16 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 D 1 DM7 1 | 0 D6 1 D 1",
-                    "0 D6 1 D#dim7 1 | 0 Em7 1 A7 1",
-                    "0 Em7 1 A7 1 | 0 Em7 1 A7 1",
-                    "0 Em7 1 A7 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": [
+              "D | DM7 | D6 | D",
+              "D6 | D#dim7 | Em7 | A7",
+              "Em7 | A7 | Em7 | A7",
+              "Em7 | A7"
+            ]
+          }
         }
       ]
     },
@@ -48,22 +42,16 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 D 1 DM7 1 | 0 D6 1 D 1",
-                    "0 D6 1 D#dim7 1 | 0 Em7 1 A7 1",
-                    "0 Em7 1 A7 1 | 0 Em7 1 A7 1",
-                    "0 Em7 1 A7 1 | 0 D 1 D7 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": [
+              "D | DM7 | D6 | D",
+              "D6 | D#dim7 | Em7 | A7",
+              "Em7 | A7 | Em7 | A7",
+              "Em7 | A7 | D | D7"
+            ]
+          }
         }
       ]
     },
@@ -72,13 +60,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 4 G#dim7 4 D 8 E7 8"], ["2 A 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | G#dim7 | D | E7"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["A"]
+          }
         }
       ]
     },
@@ -97,15 +90,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [["0 D 1 DM7 1 | 0 D6 1 D 1", "0 D6 1 B7 1 | 0 G 1 Gm 1", "0 Em 1 A7 1 | 0 D 1"]]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["D | DM7 | D6 | D", "D6 | B7 | G | Gm", "Em | A7 | D"]
+          }
         }
       ]
     },
@@ -114,22 +103,16 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 D 1 DM7 1 | 0 D6 1 D 1",
-                    "0 D6 1 D#dim7 1 | 0 Em7 1 A7 1",
-                    "0 Em7 1 A7 1 | 0 Em7 1 A7 1",
-                    "0 Em7 1 A7 1 | 0 D 1 D7 1"
-                  ]
-                ]
-              ]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": [
+              "D | DM7 | D6 | D",
+              "D6 | D#dim7 | Em7 | A7",
+              "Em7 | A7 | Em7 | A7",
+              "Em7 | A7 | D | D7"
+            ]
+          }
         }
       ]
     },
@@ -138,26 +121,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [
-                [
-                  [
-                    "0 D 1 DM7 1 | 0 D6 1 D 1",
-                    "0 D6 1 B7 1 | 0 G 1 Gm 1",
-                    "0 Em7 1 A7 1 | 0 Em7 1 A7 1",
-                    "0 Em7 1 A7 1 | 0 D 1"
-                  ]
-                ]
-              ]
-            },
-            {
-              "times": 1,
-              "items": [[["3 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["D | DM7 | D6 | D", "D6 | B7 | G | Gm", "Em7 | A7 | Em7 | A7", "Em7 | A7 | D"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["D"]
+          }
         }
       ]
     }

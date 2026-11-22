@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "contributors": ["TheAncientOwl"],
   "title": "How Long",
   "artists": ["Charlie Puth"],
@@ -24,15 +24,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x1 Dm 1 Dm 1 | 0 Em 1 Em 1",
-            "x1 Dm 1 Dm 1 | 0 Em 1 Am 1",
-            "> 0",
-            "x1 Dm 1 - 1 | 0 Em 1 - 1",
-            "x1 F 1 - 1 | 0 Esus4 1 E 1",
-            "> 1"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Dm | Em | Em", "Dm | Dm | Em | Am"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Dm | - | Em | -", "F | - | Esus4 | E"]
+          }
         }
       ]
     },
@@ -51,8 +54,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 G 1 F 1 E 1", "x2 Am 1 G 1 F 1 G 1 / 0 Am 1 G 1 F 1 E 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 1 2"],
+            "lines": ["Am | G | F | E", "Am | G | F | G", "Am | G | F | E"]
+          }
         }
       ]
     },
@@ -61,8 +68,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 Am 1 G 1 F 1 G 1 / 0 Am 1 G 1 F 1 E 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 0 1"],
+            "lines": ["Am | G | F | G", "Am | G | F | E"]
+          }
         }
       ]
     },
@@ -71,8 +82,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1 G 1 F 1 E 1", "x3 Am 1 G 1 F 1 G 1 / 0 Am 1 G 1 F 1 E 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x3| 1 2"],
+            "lines": ["Am | G | F | E", "Am | G | F | G", "Am | G | F | E"]
+          }
         }
       ]
     },
@@ -81,14 +96,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x1 Dm 1 - 1 | 0 Em 1 - 1",
-            "x1 Dm 1 - 1 | 0 Em 1 Am 1",
-            "x1 Dm 1 - 1 | 0 Em 1 - 1",
-            "x1 F 1 - 1 | 0 Esus4 1 E 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | - | Em | -", "Dm | - | Em | Am", "Dm | - | Em | -", "F | - | Esus4 | E"]
+          }
         }
       ]
     }
