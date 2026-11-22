@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Without You",
   "artists": ["The Kid LAROI"],
@@ -8,12 +8,12 @@
   "capo": 0,
   "chordIDs": ["Am", "F", "C", "G", "E"],
   "strumms": [
-    ["Dx", "-", "Dx", "-", "Dx", "-", "Dx", "Ux"],
-    ["D", "-", "-", "-", "D", "-", "-", "U", "-", "U", "D", "-", "D", "-", "D", "U"],
-    ["D", "-", "D", "-", "D", "-", "D", "-", "D", "-", "-", "-", "Dx", "Ux", "Dx", "Ux"],
-    ["D"],
-    ["D", "-", "D", "-", "D", "-", "D", "-", "D", "-", "D", "-", "D", "-", "D", "U"],
-    ["-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "Dx", "Ux", "Dx", "Ux"]
+    "Dx - Dx - Dx - Dx Ux",
+    "D - - - D - - U - U D - D - D U",
+    "D - D - D - D - D - - - Dx Ux Dx Ux",
+    "D",
+    "D - D - D - D - D - D - D - D U",
+    "- - - - - - - - - - - - Dx Ux Dx Ux"
   ],
   "sections": {
     "i": {

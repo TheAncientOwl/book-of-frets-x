@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "New Heart",
   "artists": ["Crash Adams"],
@@ -7,12 +7,7 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["Am", "Dm", "G", "C", "E"],
-  "strumms": [
-    ["D", "U", "Dx", "U", "-", "U", "Dx", "U", "-"],
-    ["D"],
-    ["D", "-", "-", "-"],
-    ["D", "D", "D"]
-  ],
+  "strumms": ["D U Dx U - U Dx U -", "D", "D - - -", "D D D"],
   "sections": {
     "i": {
       "name": "intro",

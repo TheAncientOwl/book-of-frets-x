@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Leaving On A Jet Plane (Strummed)",
   "artists": ["John Denver"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["D", "Dsus4", "G", "Cadd9"],
-  "strumms": [["D", "U", "D", "U", "-", "U", "D", "U"], ["D"]],
+  "strumms": ["D U D U - U D U", "D"],
   "sections": {
     "i": {
       "name": "intro",

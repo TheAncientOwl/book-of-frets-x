@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Beautiful People",
   "artists": ["Ed Sheeran", "Khalid"],
@@ -7,10 +7,7 @@
   "notes": [],
   "capo": 3,
   "chordIDs": ["C", "Am", "F", "Em"],
-  "strumms": [
-    ["D", "-", "-", "-", "D", "-", "D", "U", "-", "U", "|", "D", "-", "D", "-", "D", "U"],
-    ["D"]
-  ],
+  "strumms": ["D - - - D - D U - U | D - D - D U", "D"],
   "sections": {
     "i": {
       "name": "intro",

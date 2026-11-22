@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Rudolph The Red Nosed Reindeer",
   "artists": ["Gene Autry"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["C", "G/B", "Am", "G", "Em", "D", "D7", "A7"],
-  "strumms": [["D"], ["D", "-", "D", "-", "D", "U", "D", "U"]],
+  "strumms": ["D", "D - D - D U D U"],
   "sections": {
     "i": {
       "name": "intro",

@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["C", "G", "D", "Em", "Bm"],
-  "strumms": [["D", "-", "D", "U", "U", "D", "U"], ["D"], ["D", "-", "D", "U"]],
+  "strumms": ["D - D U U D U", "D", "D - D U"],
   "sections": {
     "i": {
       "name": "intro",

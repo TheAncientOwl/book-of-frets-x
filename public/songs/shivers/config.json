@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Shivers",
   "artists": ["Ed Sheeran"],
@@ -8,11 +8,11 @@
   "capo": 0,
   "chordIDs": ["Bm", "G", "D", "A"],
   "strumms": [
-    ["D", "-", "D", "Ue", "-", "U", "D", "Ue", "-", "U", "D", "Ue", "-", "U", "D", "U"],
-    ["D", "U", "Dx", "Ux", "-", "Ux", "Dx", "Ux"],
-    ["D", "U", "D", "U", "-", "U", "D", "U", "-", "U", "D", "U", "-", "U", "D", "U"],
-    ["D", "U", "Dx", "U"],
-    ["D"]
+    "D - D Ue - U D Ue - U D Ue - U D U",
+    "D U Dx Ux - Ux Dx Ux",
+    "D U D U - U D U - U D U - U D U",
+    "D U Dx U",
+    "D"
   ],
   "sections": {
     "v": {

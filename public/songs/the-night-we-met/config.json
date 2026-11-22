@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "The Night We Met (Strummed)",
   "artists": ["Lord Huron"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 2,
   "chordIDs": ["Em", "D", "G", "C"],
-  "strumms": [["D", "-", "D", "U", "D", "-"]],
+  "strumms": ["D - D U D -"],
   "sections": {
     "i": {
       "name": "intro",

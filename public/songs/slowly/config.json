@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Slowly",
   "artists": ["Ed Sheeran"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 3,
   "chordIDs": ["C", "Am7", "E+", "F5", "Fsus2"],
-  "strumms": [["D", "-", "-", "U", "D", "U", "|", "D", "-", "U", "D", "U"], ["D"]],
+  "strumms": ["D - - U D U | D - U D U", "D"],
   "sections": {
     "v": {
       "name": "verse",

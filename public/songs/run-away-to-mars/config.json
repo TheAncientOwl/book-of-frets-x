@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Run Away To Mars",
   "artists": ["TALK"],
@@ -7,12 +7,7 @@
   "notes": [],
   "capo": 2,
   "chordIDs": ["G", "D/F#", "Em7", "Cadd9", "Am7", "D", "Dsus4"],
-  "strumms": [
-    ["D", "-", "D", "-", "D", "U", "D", "U"],
-    ["D", "-", "D"],
-    ["D", "U", "D", "U"],
-    ["D"]
-  ],
+  "strumms": ["D - D - D U D U", "D - D", "D U D U", "D"],
   "sections": {
     "i": {
       "name": "intro",

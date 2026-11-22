@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "I Wanna Be Yours (Easy)",
   "artists": ["Arctic Monkeys"],
@@ -7,11 +7,7 @@
   "notes": [],
   "capo": 3,
   "chordIDs": ["Am", "Dm", "Em", "F", "G"],
-  "strumms": [
-    ["D", "-", "D", "-", "D", "-", "D", "U"],
-    ["D"],
-    ["D", "-", "D", "-", "D", "-", "D", "U", "|", "D", "-", "D", "-", "D", "-", "D", "U"]
-  ],
+  "strumms": ["D - D - D - D U", "D", "D - D - D - D U | D - D - D - D U"],
   "sections": {
     "i": {
       "name": "intro",

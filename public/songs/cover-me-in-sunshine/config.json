@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Cover Me In Sunshine",
   "artists": ["P!nk"],
@@ -8,12 +8,12 @@
   "capo": 3,
   "chordIDs": ["Em", "G", "D", "A"],
   "strumms": [
-    ["D", "-", "D", "-", "D", "-", "D", "U", "D", "U", "|", "D", "-", "D", "-", "D", "U"],
-    ["D", "-", "D", "-", "D", "-", "D", "U", "D", "U", "|", "D", "-", "D", "-", "-", "-"],
-    ["D", "-", "D", "-", "D", "-", "D", "U", "D", "U"],
-    ["D", "-", "D", "-", "D", "U"],
-    ["D", "-", "D", "-", "-", "-"],
-    ["D", "-", "D", "-", "D", "-", "D", "U", "D", "U", "D", "-", "D", "-", "-", "-"]
+    "D - D - D - D U D U | D - D - D U",
+    "D - D - D - D U D U | D - D - - -",
+    "D - D - D - D U D U",
+    "D - D - D U",
+    "D - D - - -",
+    "D - D - D - D U D U D - D - - -"
   ],
   "sections": {
     "i": {

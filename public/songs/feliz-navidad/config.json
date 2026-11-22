@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Feliz Navidad",
   "artists": ["José Feliciano"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["G", "A7", "D", "Bm"],
-  "strumms": [["D", "-", "D", "U", "D", "U", "D", "U"], ["D"]],
+  "strumms": ["D - D U D U D U", "D"],
   "sections": {
     "i": {
       "name": "intro",

@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Flake",
   "artists": ["Jack Johnson"],
@@ -8,10 +8,10 @@
   "capo": 0,
   "chordIDs": ["Dm_5fr", "F_1fr", "Bb_6fr", "C_8fr", "C_3fr", "A_5fr", "Bb_1fr"],
   "strumms": [
-    ["D", "-", "D", "U", "Dx", "Ux", "Dx", "U", "-", "U", "-", "U", "Dx", "Ux", "Dx", "Ux"],
-    ["D"],
-    ["D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux"],
-    ["D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux"]
+    "D - D U Dx Ux Dx U - U - U Dx Ux Dx Ux",
+    "D",
+    "D Ux D Ux D Ux D Ux D Ux D Ux D Ux D Ux",
+    "D Ux D Ux D Ux D Ux"
   ],
   "sections": {
     "i": {

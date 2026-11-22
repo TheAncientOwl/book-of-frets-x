@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "All Of Me",
   "artists": ["John Legend"],
@@ -7,11 +7,7 @@
   "notes": [],
   "capo": 1,
   "chordIDs": ["Em", "C", "G", "D", "Am"],
-  "strumms": [
-    ["De", "D", "D", "De", "D", "D", "De", "D"],
-    ["D"],
-    ["D", "-", "D", "U", "D", "-", "D", "U", "-", "U", "D", "-", "D", "U", "D", "U"]
-  ],
+  "strumms": ["De D D De D D De D", "D", "D - D U D - D U - U D - D U D U"],
   "sections": {
     "i": {
       "name": "intro",

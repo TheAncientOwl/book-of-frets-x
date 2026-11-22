@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Sweater Weather",
   "artists": ["The Neighbourhood"],
@@ -7,13 +7,7 @@
   "notes": [],
   "capo": 3,
   "chordIDs": ["C", "Am", "Em", "G", "D"],
-  "strumms": [
-    ["D", "-", "D", "U", "-", "U", "D", "U"],
-    ["D", "-", "D", "U"],
-    ["D"],
-    ["D", "-", "D", "-", "-", "U", "D", "U"],
-    ["D", "-", "D", "-", "D", "U", "D", "U"]
-  ],
+  "strumms": ["D - D U - U D U", "D - D U", "D", "D - D - - U D U", "D - D - D U D U"],
   "sections": {
     "v": {
       "name": "verse",

@@ -81,7 +81,7 @@ export type TSong = {
   instrument?: 'guitar' | 'ukulele';
   capo: number;
   chordIDs: string[];
-  strumms: TStrummingPattern[];
+  strumms: string[];
   sections: Record<string, TSongSection>;
   order: string[];
   lyrics: boolean;

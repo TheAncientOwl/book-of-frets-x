@@ -18,6 +18,9 @@ This tool:
 ./project/tools/song/create/run.sh <dir-name> <cover-image-src-path>
 ```
 
+Strumming patterns in `config.json` are strings of space-separated moves, for
+example `"strumms": ["D - D U", "D | U"]`. Each string represents one pattern.
+
 ## Ukulele songs
 
 Set `"instrument": "ukulele"` in a song's `config.json` to resolve its `chordIDs`

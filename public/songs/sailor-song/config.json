@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Sailor Song",
   "artists": ["Gigi Perez"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 4,
   "chordIDs": ["CM7/G", "Em", "G"],
-  "strumms": [["D", "-", "D", "U", "D", "U", "D", "-", "D", "U", "D", "U", "D", "-", "D", "U"]],
+  "strumms": ["D - D U D U D - D U D U D - D U"],
   "sections": {
     "i": {
       "name": "intro",

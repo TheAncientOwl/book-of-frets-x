@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "How Long",
   "artists": ["Charlie Puth"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 5,
   "chordIDs": ["Dm", "Em", "Am", "Esus4", "E"],
-  "strumms": [["D", "-", "D", "-", "D", "U"], ["D"]],
+  "strumms": ["D - D - D U", "D"],
   "sections": {
     "vr": {
       "name": "verse riff",

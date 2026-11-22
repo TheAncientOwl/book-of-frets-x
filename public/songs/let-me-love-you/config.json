@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Let Me Love You",
   "artists": ["DJ Snake", "Justin Bieber"],
@@ -8,13 +8,13 @@
   "capo": 3,
   "chordIDs": ["Am", "C", "Em", "F", "G", "Dm"],
   "strumms": [
-    ["D"],
-    ["D", "-", "-", "-", "|", "U", "Dx", "-", "D", "-", "U", "D", "U", "D", "-", "D", "U"],
-    ["D", "-", "-"],
-    ["-", "U", "X", "-", "D", "-", "U", "D", "U", "D", "-", "D", "U"],
-    ["D", "-", "U", "D", "U", "D", "-", "U", "D", "U", "D", "-", "D", "U"],
-    ["D", "-", "D", "U", "X", "-", "D", "-", "D", "-", "D", "U", "X", "-", "D", "U"],
-    ["D", "-", "-", "|", "-", "U", "Dx", "-", "D", "-", "U", "D", "U", "D", "-", "D", "U"]
+    "D",
+    "D - - - | U Dx - D - U D U D - D U",
+    "D - -",
+    "- U X - D - U D U D - D U",
+    "D - U D U D - U D U D - D U",
+    "D - D U X - D - D - D U X - D U",
+    "D - - | - U Dx - D - U D U D - D U"
   ],
   "sections": {
     "v": {

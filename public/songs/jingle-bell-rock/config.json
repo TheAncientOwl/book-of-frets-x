@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Jingle Bell Rock",
   "artists": ["Bobby Helms"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["D", "DM7", "D6", "D#dim7", "Em7", "A7", "D7", "G#dim7", "E7", "A", "G", "Gm"],
-  "strumms": [["D", "U", "D", "U"], ["D", "U"], ["D"], ["D", "U", "D", "U", "-", "-", "D", "-"]],
+  "strumms": ["D U D U", "D U", "D", "D U D U - - D -"],
   "sections": {
     "i": {
       "name": "intro",

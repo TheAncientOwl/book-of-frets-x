@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Choosin' Texas (Standard Tuning)",
   "artists": ["Ella Langley"],
@@ -7,11 +7,7 @@
   "notes": [],
   "capo": 1,
   "chordIDs": ["Dm", "C", "F", "Am"],
-  "strumms": [
-    ["D", "U", "D", "U", "D", "U", "D", "U"],
-    ["D"],
-    ["D", "D", "D", "D", "D", "D", "D", "D"]
-  ],
+  "strumms": ["D U D U D U D U", "D", "D D D D D D D D"],
   "sections": {
     "i": {
       "name": "intro",

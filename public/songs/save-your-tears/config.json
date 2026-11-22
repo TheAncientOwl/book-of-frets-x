@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Save Your Tears",
   "artists": ["The Weekend", "Ariana Grande"],
@@ -8,12 +8,12 @@
   "capo": 0,
   "chordIDs": ["C", "Am", "Em", "G", "Ft"],
   "strumms": [
-    ["D", "-", "D", "-", "De", "-", "D", "-", "D", "-", "D", "-", "De", "-", "D", "-"],
-    ["D", "D"],
-    ["D", "U", "D", "U", "D", "U", "D", "U"],
-    ["D", "U", "D", "U", "D", "-", "-", "-"],
-    ["D", "-", "D", "-", "D", "-", "D", "-"],
-    ["D"]
+    "D - D - De - D - D - D - De - D -",
+    "D D",
+    "D U D U D U D U",
+    "D U D U D - - -",
+    "D - D - D - D -",
+    "D"
   ],
   "sections": {
     "i": {

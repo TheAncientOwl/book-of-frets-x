@@ -57,12 +57,9 @@
     "strumms": {
       "type": "array",
       "items": {
-        "type": "array",
-        "items": {
-          "type": "string",
-          "enum": ["D", "U", "-", "Dx", "Ux", "X", "De", "Ue", "Dc", "Uc", "|"]
-        },
-        "minItems": 1
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^(D|U|-|Dx|Ux|X|De|Ue|Dc|Uc|\\|)( (D|U|-|Dx|Ux|X|De|Ue|Dc|Uc|\\|))*$"
       }
     },
     "sections": {

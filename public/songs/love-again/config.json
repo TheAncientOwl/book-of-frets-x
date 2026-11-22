@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Love Again",
   "artists": ["The Kid LAROI"],
@@ -7,11 +7,7 @@
   "notes": [],
   "capo": 2,
   "chordIDs": ["Am", "C", "F", "E", "Em"],
-  "strumms": [
-    ["D", "-", "D", "-", "-", "U", "D", "U"],
-    ["D", "-", "D", "-", "-", "U", "D", "U", "|", "D", "-", "D", "-", "-", "U", "D", "U"],
-    ["D"]
-  ],
+  "strumms": ["D - D - - U D U", "D - D - - U D U | D - D - - U D U", "D"],
   "sections": {
     "intro": {
       "name": "intro",

@@ -11,7 +11,7 @@
  * @description Song renderer.
  */
 
-import type { TSong } from '#types/song';
+import type { TSong, TStrummingMove, TStrummingPattern } from '#types/song';
 
 import SongHeader from '#components/song/Header.astro';
 import SongNotes from './Notes.astro';
@@ -24,6 +24,29 @@ interface Props extends TSong {
 }
 
 const props = Astro.props;
+const strummingMoves = new Set<string>([
+  'D',
+  'U',
+  '-',
+  'Dx',
+  'Ux',
+  'X',
+  'De',
+  'Ue',
+  'Dc',
+  'Uc',
+  '|',
+]);
+const isStrummingMove = (move: string): move is TStrummingMove => strummingMoves.has(move);
+const strumms: TStrummingPattern[] = props.strumms.map((pattern, patternIndex) =>
+  pattern.split(' ').map(move => {
+    if (!isStrummingMove(move)) {
+      throw new Error(`Invalid strumming move "${move}" in pattern ${patternIndex}`);
+    }
+
+    return move;
+  }),
+);
 
 import type { TChord } from '#types/chord';
 import guitarChordsIndexData from '#public/chords/index.json';
@@ -85,7 +108,7 @@ const chordsIndex = (
           }}
           sections={props.sections}
           order={props.order}
-          strumms={props.strumms}
+          strumms={strumms}
           showLyrics={false}
           lyrics={[]}
         />

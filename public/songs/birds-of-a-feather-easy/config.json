@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Birds Of A Feather (Easy)",
   "artists": ["Billie Eilish"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["D", "Em7_v2", "Bm7", "A"],
-  "strumms": [["D", "-", "-", "U", "D", "U", "D", "-", "-", "U", "D", "U", "D", "-", "D", "U"]],
+  "strumms": ["D - - U D U D - - U D U D - D U"],
   "sections": {
     "i": {
       "name": "intro",

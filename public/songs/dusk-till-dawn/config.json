@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Dusk Till Dawn",
   "artists": ["Zayn", "Sia"],
@@ -7,12 +7,7 @@
   "notes": [],
   "capo": 2,
   "chordIDs": ["Am", "Ft", "C", "G/B", "Em", "C/E"],
-  "strumms": [
-    ["D"],
-    ["D", "D", "D", "D", "De", "D", "D", "D"],
-    ["D", "-", "-", "-", "D", "-", "D", "U"],
-    ["D", "-", "D", "-", "D", "-", "D", "U"]
-  ],
+  "strumms": ["D", "D D D D De D D D", "D - - - D - D U", "D - D - D - D U"],
   "sections": {
     "vpi": {
       "name": "verse / prechorus",

@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Salt Water",
   "artists": ["Ed Sheeran"],
@@ -7,10 +7,7 @@
   "notes": [],
   "capo": 4,
   "chordIDs": ["Am", "F", "C", "G", "Dm"],
-  "strumms": [
-    ["D", "-", "-", "-", "D", "-", "D", "U", "-", "U", "D", "U", "D", "U", "D", "U"],
-    ["D"]
-  ],
+  "strumms": ["D - - - D - D U - U D U D U D U", "D"],
   "sections": {
     "v1": {
       "name": "verse 1",

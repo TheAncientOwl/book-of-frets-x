@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Issues",
   "artists": ["Julia Michaels"],
@@ -7,12 +7,7 @@
   "notes": [],
   "capo": 1,
   "chordIDs": ["C", "D", "G/B", "C", "D/F#", "Em"],
-  "strumms": [
-    ["D", "-", "D", "U", "De", "-", "D", "U"],
-    ["D", "-", "D", "U", "D", "U"],
-    ["D", "U"],
-    ["D"]
-  ],
+  "strumms": ["D - D U De - D U", "D - D U D U", "D U", "D"],
   "sections": {
     "v1": {
       "name": "verse",

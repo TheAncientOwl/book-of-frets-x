@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "California Dreamin'",
   "artists": ["The Mamas & The Papas"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 4,
   "chordIDs": ["Am", "C", "F", "G", "E7", "E7sus4"],
-  "strumms": [["D", "U", "D", "U"], ["D"]],
+  "strumms": ["D U D U", "D"],
   "sections": {
     "i1": {
       "name": "intro guitar 1",

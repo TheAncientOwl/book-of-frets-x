@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "What I've Done",
   "artists": ["Linkin Park"],
@@ -8,14 +8,14 @@
   "capo": 3,
   "chordIDs": ["Em", "G", "D", "Asus2", "Dadd11_3fr", "G/B"],
   "strumms": [
-    ["D", "U", "D", "U", "D", "U", "D", "U"],
-    ["D", "U", "D", "U", "-", "U", "D", "U"],
-    ["D", "U", "D", "U"],
-    ["D", "D", "D", "D", "D", "D", "D", "D"],
-    ["D", "D", "D", "D", "D", "D", "-", "-"],
-    ["D", "-", "-", "-"],
-    ["Dx", "Ux", "Dx", "Ux"],
-    ["D"]
+    "D U D U D U D U",
+    "D U D U - U D U",
+    "D U D U",
+    "D D D D D D D D",
+    "D D D D D D - -",
+    "D - - -",
+    "Dx Ux Dx Ux",
+    "D"
   ],
   "sections": {
     "i": {

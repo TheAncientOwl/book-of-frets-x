@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Just the Two of Us | Lvl 1",
   "artists": ["Grover Washington Jr."],
@@ -8,10 +8,10 @@
   "capo": 1,
   "chordIDs": ["CM7", "B7", "Em", "Dm7", "G7"],
   "strumms": [
-    ["D", "-", "D", "U", "-", "U", "D", "U"],
-    ["D", "-", "D", "U"],
-    ["D", "-", "-", "U", "D", "U", "D", "-", "-", "U", "D", "U", "D", "-", "D", "U"],
-    ["D", "-", "D", "U", "-", "U", "D", "U", "|", "D", "-", "D", "U", "|", "D", "-", "D", "U"]
+    "D - D U - U D U",
+    "D - D U",
+    "D - - U D U D - - U D U D - D U",
+    "D - D U - U D U | D - D U | D - D U"
   ],
   "sections": {
     "m": {

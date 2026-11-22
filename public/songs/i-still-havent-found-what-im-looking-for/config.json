@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "I Still Haven't Found What I'm Looking For (Strummed)",
   "artists": ["U2"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 1,
   "chordIDs": ["C", "Fsus2_v2", "G"],
-  "strumms": [["D", "-", "D", "-", "D", "-", "D", "U", "-", "U", "D", "-", "D", "-", "D", "U"]],
+  "strumms": ["D - D - D - D U - U D - D - D U"],
   "sections": {
     "i": {
       "name": "intro",
