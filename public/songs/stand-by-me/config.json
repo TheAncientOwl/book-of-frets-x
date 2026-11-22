@@ -1,0 +1,42 @@
+{
+  "version": "2.0.0",
+  "contributors": ["TheAncientOwl"],
+  "title": "Stand By Me",
+  "artists": ["Ben E. King"],
+  "type": ["acoustic"],
+  "instrument": "guitar",
+  "notes": [],
+  "capo": 2,
+  "chordIDs": ["G", "Em", "C", "D"],
+  "strumms": ["D - X D - - D U"],
+  "sections": {
+    "mp": {
+      "name": "main progression",
+      "times": 11,
+      "entries": [
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G | G | Em | Em", "C | D | G | G"]
+          }
+        }
+      ]
+    }
+  },
+  "order": ["mp"],
+  "lyrics": false,
+  "pdf": false,
+  "res": [
+    {
+      "alias": "Stand By Me Guitar Lesson 🎸 Ben E King Easy Beginners Guitar Tutorial",
+      "author": "GuitarZero2Hero ~ YouTube",
+      "link": "https://www.youtube.com/watch?v=6Nwfdn2kSfs"
+    },
+    {
+      "alias": "Stand By Me Guitar Cover Ben E. King 🎸|Tabs + Chords|",
+      "author": "GuitarZero2Hero Express ~ YouTube",
+      "link": "https://www.youtube.com/watch?v=FRNNMNbLcvc"
+    }
+  ]
+}
