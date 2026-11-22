@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Slowly",
   "artists": ["Ed Sheeran"],
@@ -7,15 +7,19 @@
   "notes": [],
   "capo": 3,
   "chordIDs": ["C", "Am7", "E+", "F5", "Fsus2"],
-  "strumms": [["D", "-", "-", "U", "D", "U", "|", "D", "-", "U", "D", "U"], ["D"]],
+  "strumms": ["D - - U D U | D - U D U", "D"],
   "sections": {
     "v": {
       "name": "verse",
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 C 1 C 1 Am7 1 Am7 1 / 0 E+ 1 F5 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 0 1"],
+            "lines": ["C | C | Am7 | Am7", "E+ | F5 | C | C"]
+          }
         }
       ]
     },
@@ -24,8 +28,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Dm 1 Fsus2 1 Dm 1 ? 0 Fsus2 1", "> 0 1"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Fsus2 | Dm"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Fsus2"]
+          }
         }
       ]
     },
@@ -34,8 +48,12 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 C 1 C 1 Am7 1 Am7 1 / 0 E+ 1 F5 1 C 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0", "x2 1"],
+            "lines": ["C | C | Am7 | Am7", "E+ | F5 | C | G"]
+          }
         }
       ]
     },
@@ -44,8 +62,12 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 C 1 C 1 Am7 1 Am7 1 / 0 E+ 1 F5 1 C 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 0 1"],
+            "lines": ["C | C | Am7 | Am7", "E+ | F5 | C | G"]
+          }
         }
       ]
     },
@@ -54,8 +76,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 C 1 C 1 Am7 1 Am7 1 / 0 E+ 1 F5 1 C 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | C | Am7 | Am7", "E+ | F5 | C | G"]
+          }
         }
       ]
     },
@@ -64,8 +89,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 C 1 - 1 Am7 1 - 1 / 0 E+ 1 F5 1 C 1", "> 1"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["C | - | Am7 | -", "E+ | F5 | C"]
+          }
         }
       ]
     }

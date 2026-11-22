@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "What I've Done",
   "artists": ["Linkin Park"],
@@ -8,14 +8,14 @@
   "capo": 3,
   "chordIDs": ["Em", "G", "D", "Asus2", "Dadd11_3fr", "G/B"],
   "strumms": [
-    ["D", "U", "D", "U", "D", "U", "D", "U"],
-    ["D", "U", "D", "U", "-", "U", "D", "U"],
-    ["D", "U", "D", "U"],
-    ["D", "D", "D", "D", "D", "D", "D", "D"],
-    ["D", "D", "D", "D", "D", "D", "-", "-"],
-    ["D", "-", "-", "-"],
-    ["Dx", "Ux", "Dx", "Ux"],
-    ["D"]
+    "D U D U D U D U",
+    "D U D U - U D U",
+    "D U D U",
+    "D D D D D D D D",
+    "D D D D D D - -",
+    "D - - -",
+    "Dx Ux Dx Ux",
+    "D"
   ],
   "sections": {
     "i": {
@@ -23,13 +23,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Em 1 G 1 D 1 Asus2 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em | G | D | Asus2"]
+          }
         }
       ]
     },
@@ -38,13 +36,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 Em 1 Em 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Em | Em"]
+          }
         }
       ]
     },
@@ -53,13 +49,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 Em 1 G 1 D 1 Asus2 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Em | G | D | Asus2"]
+          }
         }
       ]
     },
@@ -68,13 +62,25 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 C 1 C 1 Dadd11_3fr 1"], ["5 Dadd11_3fr 1"], ["6 Dadd11_3fr 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["C | C | Dadd11_3fr"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 5,
+            "lines": ["Dadd11_3fr"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 6,
+            "lines": ["Dadd11_3fr"]
+          }
         }
       ]
     },
@@ -83,13 +89,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Em 1 G 1 D 1 Asus2 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em | G | D | Asus2"]
+          }
         }
       ]
     },
@@ -98,13 +102,18 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Em 1 G 1 D 1 Asus2 1", "0 Em 1 G 1 D 1"], ["2 Asus2 1 G/B 1 C 1 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em | G | D | Asus2", "Em | G | D"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["Asus2 | G/B | C | D"]
+          }
         }
       ]
     },
@@ -113,17 +122,18 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["3 Em 1 G 1 D 1 Asus2 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["4 Asus2 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["Em | G | D | Asus2"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 4,
+            "lines": ["Asus2"]
+          }
         }
       ]
     },
@@ -132,13 +142,11 @@
       "times": 4,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Em 1 G 1 D 1 Asus2 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em | G | D | Asus2"]
+          }
         }
       ]
     },
@@ -147,13 +155,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["7 Em 1 G 1 D 1 Asus2 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 7,
+            "lines": ["Em | G | D | Asus2"]
+          }
         }
       ]
     }

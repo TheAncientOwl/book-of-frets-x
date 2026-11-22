@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Just the Two of Us | Lvl 1",
   "artists": ["Grover Washington Jr."],
@@ -8,9 +8,10 @@
   "capo": 1,
   "chordIDs": ["CM7", "B7", "Em", "Dm7", "G7"],
   "strumms": [
-    ["D", "-", "D", "U", "-", "U", "D", "U"],
-    ["D", "-", "D", "U"],
-    ["D", "-", "-", "U", "D", "U", "D", "-", "-", "U", "D", "U", "D", "-", "D", "U"]
+    "D - D U - U D U",
+    "D - D U",
+    "D - - U D U D - - U D U D - D U",
+    "D - D U - U D U | D - D U | D - D U"
   ],
   "sections": {
     "m": {
@@ -18,25 +19,18 @@
       "times": 404,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 CM7 1"], ["1 B7 2"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["0 Em 1"], ["1 Dm7 1 G7 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["0 CM7 1"], ["1 B7 2"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["2 Em 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["CM7 B7 | Em Dm7 G7", "CM7 B7"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["Em"]
+          }
         }
       ]
     }
@@ -54,16 +48,6 @@
       "alias": "Just The Two Of Us Guitar Cover Grover Washington Jr 🎸|Tabs + Chords|",
       "author": "GuitarZero2Hero Express ~ YouTube",
       "link": "https://youtu.be/E65OP4e2bwU"
-    },
-    {
-      "alias": "Book Of Frets ~ Just the Two of Us | Lvl 1",
-      "author": "-",
-      "link": "{book-of-frets}#/just-the-two-of-us-lvl1"
-    },
-    {
-      "alias": "Book Of Frets ~ Just the Two of Us | Lvl 2",
-      "author": "-",
-      "link": "{book-of-frets}#/just-the-two-of-us-lvl2"
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Salt Water",
   "artists": ["Ed Sheeran"],
@@ -7,10 +7,7 @@
   "notes": [],
   "capo": 4,
   "chordIDs": ["Am", "F", "C", "G", "Dm"],
-  "strumms": [
-    ["D", "-", "-", "-", "D", "-", "D", "U", "-", "U", "D", "U", "D", "U", "D", "U"],
-    ["D"]
-  ],
+  "strumms": ["D - - - D - D U - U D U D U D U", "D"],
   "sections": {
     "v1": {
       "name": "verse 1",
@@ -20,8 +17,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [4],
-            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+            "repeat": ["x4 0"],
+            "lines": ["Am | F | C | G"]
           }
         }
       ]
@@ -34,8 +31,7 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 1,
-            "times": [1],
-            "lines": [[["F"]]]
+            "lines": ["F"]
           }
         }
       ]
@@ -48,8 +44,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [2],
-            "lines": [[["C"], ["F"], ["C"], ["G"]]]
+            "repeat": ["x2 0"],
+            "lines": ["C | F | C | G"]
           }
         }
       ]
@@ -62,8 +58,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [2],
-            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+            "repeat": ["x2 0"],
+            "lines": ["Am | F | C | G"]
           }
         }
       ]
@@ -76,11 +72,7 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 0,
-            "times": [1, 1],
-            "lines": [
-              [["Dm"], ["G"], ["Am"], ["F"]],
-              [["Dm"], ["G"], ["C"], ["F"]]
-            ]
+            "lines": ["Dm | G | Am | F", "Dm | G | C | F"]
           }
         }
       ]
@@ -93,8 +85,8 @@
           "renderer": "chords-v4",
           "data": {
             "pattern": 1,
-            "times": [2],
-            "lines": [[["Am"], ["F"], ["C"], ["G"]]]
+            "repeat": ["x2 0"],
+            "lines": ["Am | F | C | G"]
           }
         }
       ]

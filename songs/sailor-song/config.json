@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Sailor Song",
   "artists": ["Gigi Perez"],
@@ -7,15 +7,19 @@
   "notes": [],
   "capo": 4,
   "chordIDs": ["CM7/G", "Em", "G"],
-  "strumms": [["D", "-", "D", "U", "D", "U", "D", "-", "D", "U", "D", "U", "D", "-", "D", "U"]],
+  "strumms": ["D - D U D U D - D U D U D - D U"],
   "sections": {
     "i": {
       "name": "intro",
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 CM7/G 1 CM7/G 1 Em 1 Em 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["CM7/G | CM7/G | Em | Em"]
+          }
         }
       ]
     },
@@ -24,8 +28,11 @@
       "times": 19,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 CM7/G 1 Em 1 G 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["CM7/G | Em | G | G"]
+          }
         }
       ]
     }

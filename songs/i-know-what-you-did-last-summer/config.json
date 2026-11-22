@@ -8,15 +8,15 @@
   "capo": 0,
   "chordIDs": ["F", "G", "C", "Am", "E", "Em"],
   "strumms": [
-    ["D", "-", "U", "D", "U", "D", "-", "U", "D", "U", "D", "-", "D", "U"],
-    ["D", "-", "U", "D", "U"],
-    ["D", "-", "U", "D", "U", "D", "-", "D", "U"],
-    ["D", "-", "-", "U", "Dx", "Ux", "Dx", "Ux", "Dx", "Ux", "D", "-", "Dx", "U", "Dx", "Ux"],
-    ["De", "-", "D", "-", "D", "-", "De", "-", "D", "-", "D", "-", "De", "-", "D", "-"],
-    ["D", "-"],
-    ["D", "-", "-", "U", "Dx", "Ux", "Dx"],
-    ["U", "Dx", "U", "D", "-", "Dx", "Ux", "Dx", "Ux"],
-    ["D"]
+    "D - U D U D - U D U D - D U",
+    "D - U D U",
+    "D - U D U D - D U",
+    "D - - U Dx Ux Dx Ux Dx Ux D - Dx U Dx Ux",
+    "De - D - D - De - D - D - De - D -",
+    "D -",
+    "D - - U Dx Ux Dx",
+    "U Dx U D - Dx Ux Dx Ux",
+    "D"
   ],
   "sections": {
     "i": {

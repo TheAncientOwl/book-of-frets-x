@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Choosin' Texas (Standard Tuning)",
   "artists": ["Ella Langley"],
@@ -7,19 +7,18 @@
   "notes": [],
   "capo": 1,
   "chordIDs": ["Dm", "C", "F", "Am"],
-  "strumms": [
-    ["D", "U", "D", "U", "D", "U", "D", "U"],
-    ["D"],
-    ["D", "D", "D", "D", "D", "D", "D", "D"]
-  ],
+  "strumms": ["D U D U D U D U", "D", "D D D D D D D D"],
   "sections": {
     "i": {
       "name": "intro",
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Dm 1 Dm 1 C 1 C 1", "x1 Dm 1 F 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Dm | C | C", "Dm | F | C | C"]
+          }
         }
       ]
     },
@@ -28,8 +27,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 Dm 1 Dm 1 C 1 C 1", "x1 F 1 F 1 G 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["Dm | Dm | C | C", "F | F | G | G"]
+          }
         }
       ]
     },
@@ -38,16 +41,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x1 F 1 F 1 C 1 C 1",
-            "x1 Dm 1 Dm 1 G 1 G 1",
-            "x1 F 1 F 1 Am 1 Am 1",
-            "x1 F 1",
-            "> 0",
-            "x1 G 1 C 1",
-            "> 1"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["F | F | C | C", "Dm | Dm | G | G", "F | F | Am | Am", "F"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | C"]
+          }
         }
       ]
     },
@@ -56,8 +61,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Dm 1 Dm 1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Dm | C | C"]
+          }
         }
       ]
     },
@@ -66,8 +74,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 Dm 1 Dm 1 C 1 C 1", "x1 F 1 F 1 G 1 G 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["Dm | Dm | C | C", "F | F | G | G"]
+          }
         }
       ]
     },
@@ -76,14 +88,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x1 F 1 F 1 C 1 C 1",
-            "x1 Dm 1 Dm 1 G 1 G 1",
-            "x1 F 1 F 1 Am 1 Am 1",
-            "x1 F 1 G 1 C 1 C 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["F | F | C | C", "Dm | Dm | G | G", "F | F | Am | Am", "F | G | C | C"]
+          }
         }
       ]
     },
@@ -92,8 +101,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 F 1 G 1 Am 1", "x1 F 1 G 1 Dm 1", "> 0", "x1 G 1 - 1 - 1", "> 1"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["F | G | Am", "F | G | Dm"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | - | -"]
+          }
         }
       ]
     },
@@ -102,22 +121,39 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x1 F 1 F 1 C 1 C 1",
-            "x1 Dm 1 Dm 1 G 1 G 1",
-            "> 2",
-            "x1 F 1 F 1 Am 1 Am 1",
-            "x1 F 1 G 1 Am 1 Dm 1",
-            "x1 F 1",
-            "> 0",
-            "x1 G 1",
-            "> 1",
-            "x1 C 1",
-            "> 0",
-            "x1 C 1",
-            "> 1"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["F | F | C | C", "Dm | Dm | G | G"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["F | F | Am | Am", "F | G | Am | Dm", "F"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["C"]
+          }
         }
       ]
     },
@@ -126,8 +162,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Dm 1 Dm 1 C 1 C 1", "x1 Dm 1 F 1", "> 0", "x1 C 1", "> 1"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Dm | C | C", "Dm | F"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["C"]
+          }
         }
       ]
     }

@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Dusk Till Dawn",
   "artists": ["Zayn", "Sia"],
@@ -7,27 +7,34 @@
   "notes": [],
   "capo": 2,
   "chordIDs": ["Am", "Ft", "C", "G/B", "Em", "C/E"],
-  "strumms": [
-    ["D"],
-    ["D", "D", "D", "D", "De", "D", "D", "D"],
-    ["D", "-", "-", "-", "D", "-", "D", "U"],
-    ["D", "-", "D", "-", "D", "-", "D", "U"]
-  ],
+  "strumms": ["D", "D D D D De D D D", "D - - - D - D U", "D - D - D - D U"],
   "sections": {
     "vpi": {
       "name": "verse / prechorus",
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x3 Am 1 F 1 C 1 G/B 1",
-            "> 0",
-            "x1 Am 1 F 1 C 1 G/B 1",
-            "> 1",
-            "x2 Am 1 F 1 C 1 G/B 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x3 0"],
+            "lines": ["Am | F | C | G/B"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Am | F | C | G/B"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["Am | F | C | G/B"]
+          }
         }
       ]
     },
@@ -36,8 +43,19 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1", "> 2", "x4 Am 2 F 2 C 2 Em 2", "> 3"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["Am"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "repeat": ["x4 0"],
+            "lines": ["Am | F | C | Em"]
+          }
         }
       ]
     },
@@ -46,8 +64,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Am 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am"]
+          }
         }
       ]
     },
@@ -56,8 +77,20 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x3 Am 1 F 1 C 1 G/B 1", "> 1", "x2 Am 1 F 1 C 1 G/B 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "repeat": ["x3 0"],
+            "lines": ["Am | F | C | G/B"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["Am | F | C | G/B"]
+          }
         }
       ]
     },
@@ -66,12 +99,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x1 F 1 | 0 F 1 C 1 | 0 C 1 G 1 | 0 G 1 C/E 1",
-            "x1 F 1 | 0 F 1 C 1 | 0 C 1 G 1 | 0 G 1 G 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["F | F C | C G | G C/E", "F | F C | C G | G G"]
+          }
         }
       ]
     }

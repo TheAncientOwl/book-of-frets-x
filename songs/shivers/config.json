@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Shivers",
   "artists": ["Ed Sheeran"],
@@ -8,11 +8,11 @@
   "capo": 0,
   "chordIDs": ["Bm", "G", "D", "A"],
   "strumms": [
-    ["D", "-", "D", "Ue", "-", "U", "D", "Ue", "-", "U", "D", "Ue", "-", "U", "D", "U"],
-    ["D", "U", "Dx", "Ux", "-", "Ux", "Dx", "Ux"],
-    ["D", "U", "D", "U", "-", "U", "D", "U", "-", "U", "D", "U", "-", "U", "D", "U"],
-    ["D", "U", "Dx", "U"],
-    ["D"]
+    "D - D Ue - U D Ue - U D Ue - U D U",
+    "D U Dx Ux - Ux Dx Ux",
+    "D U D U - U D U - U D U - U D U",
+    "D U Dx U",
+    "D"
   ],
   "sections": {
     "v": {
@@ -20,13 +20,11 @@
       "times": 3,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Bm 1 G 1 D 1 A 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Bm | G | D | A"]
+          }
         }
       ]
     },
@@ -35,13 +33,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 Bm 2 G 2 D 2 A 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["Bm | G | D | A"]
+          }
         }
       ]
     },
@@ -50,17 +46,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["2 Bm 1 G 1 D 1 A 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["3 Bm 4 G 4 D 4 A 4"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["Bm | G | D | A"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["Bm | G | D | A"]
+          }
         }
       ]
     },
@@ -69,17 +66,18 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["4 Bm 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["1 G 2 D 2 A 1", "1 Bm 2 G 2 D 2 A 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 4,
+            "lines": ["Bm"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | D | A", "Bm | G | D | A"]
+          }
         }
       ]
     }

@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "As It Was",
   "artists": ["Harry Styles"],
@@ -7,15 +7,18 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["Dsus2", "Bm7", "E", "A"],
-  "strumms": [["D", "-", "D", "-", "D", "U", "D", "U", "-", "U", "D", "-", "D", "U", "D", "U"]],
+  "strumms": ["D - D - D U D U - U D - D U D U"],
   "sections": {
     "m": {
       "name": "main progression",
       "times": 404,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 Dsus2 1 Bm7 1 E 1 A 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dsus2 | Bm7 | E | A"]
+          }
         }
       ]
     }

@@ -8,13 +8,13 @@
   "capo": 0,
   "chordIDs": ["D", "Dsus4", "G", "C", "Bb", "E", "A"],
   "strumms": [
-    ["D", "U", "D", "U", "-", "U", "D", "U"],
-    ["D", "U", "D", "U"],
-    ["D", "-", "D", "-", "D", "U", "D", "-"],
-    ["D", "U", "D", "U", "D", "U", "D", "U"],
-    ["D", "-", "D", "U", "D", "U", "D", "U"],
-    ["D", "-", "D"],
-    ["D"]
+    "D U D U - U D U",
+    "D U D U",
+    "D - D - D U D -",
+    "D U D U D U D U",
+    "D - D U D U D U",
+    "D - D",
+    "D"
   ],
   "sections": {
     "i": {

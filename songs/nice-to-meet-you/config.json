@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 1,
   "chordIDs": ["Em", "C", "G", "D"],
-  "strumms": [["D", "-", "D", "-", "U", "D", "U"], ["D"]],
+  "strumms": ["D - D - U D U", "D"],
   "sections": {
     "v": {
       "name": "verse",

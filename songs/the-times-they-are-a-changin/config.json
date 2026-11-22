@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "The Times They Are A Changin'",
   "artists": ["Bob Dylan"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 3,
   "chordIDs": ["G", "Em", "C", "D", "Am", "Csus2", "G/B"],
-  "strumms": [["D", "-", "D", "U", "D", "U"]],
+  "strumms": ["D - D U D U"],
   "sections": {
     "i": {
       "name": "intro",
@@ -18,8 +18,7 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1],
-            "lines": [[["G"], ["G"], ["G"]]]
+            "lines": ["G | G | G"]
           }
         }
       ]
@@ -33,14 +32,13 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1, 1, 1, 1, 1, 1],
             "lines": [
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Em"], ["C"], ["D"]],
-              [["G"], ["Em"], ["C"], ["G"], ["G"], ["G"]],
-              [["G"], ["Am"], ["D"], ["D"]],
-              [["D"], ["Csus2"], ["G/B"], ["D"]],
-              [["G"], ["G"], ["D"], ["G"]]
+              "G | Em | C | G | G",
+              "G | Em | C | D",
+              "G | Em | C | G | G | G",
+              "G | Am | D | D",
+              "D | Csus2 | G/B | D",
+              "G | G | D | G"
             ]
           }
         }
@@ -55,11 +53,7 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1],
-            "lines": [
-              [["G"], ["Em"], ["C"], ["G"]],
-              [["G"], ["G"], ["G"]]
-            ]
+            "lines": ["G | Em | C | G", "G | G | G"]
           }
         }
       ]
@@ -73,14 +67,13 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1, 1, 1, 1, 1, 1],
             "lines": [
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Em"], ["C"], ["D"]],
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Am"], ["D"], ["D"]],
-              [["D"], ["Csus2"], ["G/B"], ["D"]],
-              [["G"], ["G"], ["D"]]
+              "G | Em | C | G | G",
+              "G | Em | C | D",
+              "G | Em | C | G | G",
+              "G | Am | D | D",
+              "D | Csus2 | G/B | D",
+              "G | G | D"
             ]
           }
         }
@@ -95,12 +88,7 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1, 1, 1],
-            "lines": [
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["D"], ["Csus2"], ["G/B"], ["D"]],
-              [["D"], ["D"], ["D"]]
-            ]
+            "lines": ["G | Em | C | G | G", "D | Csus2 | G/B | D", "D | D | D"]
           }
         }
       ]
@@ -114,14 +102,13 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1, 1, 1, 1, 1, 1],
             "lines": [
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Em"], ["C"], ["D"]],
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Am"], ["D"], ["D"]],
-              [["D"], ["Csus2"], ["G/B"], ["D"]],
-              [["G"], ["C"], ["D"], ["G"]]
+              "G | Em | C | G | G",
+              "G | Em | C | D",
+              "G | Em | C | G | G",
+              "G | Am | D | D",
+              "D | Csus2 | G/B | D",
+              "G | C | D | G"
             ]
           }
         }
@@ -136,8 +123,7 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1],
-            "lines": [[["G"], ["D"], ["Csus2"], ["D"], ["G"], ["G"]]]
+            "lines": ["G | D | Csus2 | D | G | G"]
           }
         }
       ]
@@ -151,14 +137,13 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1, 1, 1, 1, 1, 1],
             "lines": [
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Em"], ["C"], ["D"]],
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Am"], ["D"], ["D"]],
-              [["G"], ["Csus2"], ["G/B"], ["D"]],
-              [["G"], ["C"], ["D"], ["G"]]
+              "G | Em | C | G | G",
+              "G | Em | C | D",
+              "G | Em | C | G | G",
+              "G | Am | D | D",
+              "G | Csus2 | G/B | D",
+              "G | C | D | G"
             ]
           }
         }
@@ -173,13 +158,7 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1, 1, 1, 1],
-            "lines": [
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["D"], ["Csus2"], ["G/B"], ["D"], ["D"]],
-              [["G"], ["C"], ["D"], ["G"]],
-              [["G"], ["G"], ["G"]]
-            ]
+            "lines": ["G | Em | C | G | G", "D | Csus2 | G/B | D | D", "G | C | D | G", "G | G | G"]
           }
         }
       ]
@@ -193,14 +172,13 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1, 1, 1, 1, 1, 1],
             "lines": [
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Em"], ["C"], ["D"]],
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["G"], ["Em"], ["C"], ["G"], ["G"]],
-              [["D"], ["Csus2"], ["G/B"], ["D"]],
-              [["G"], ["C"], ["D"], ["G"]]
+              "G | Em | C | G | G",
+              "G | Em | C | D",
+              "G | Em | C | G | G",
+              "G | Em | C | G | G",
+              "D | Csus2 | G/B | D",
+              "G | C | D | G"
             ]
           }
         }
@@ -215,8 +193,7 @@
           "data": {
             "pattern": 0,
             "align": "left",
-            "times": [1],
-            "lines": [[["G"], ["Em"], ["C"], ["G"]]]
+            "lines": ["G | Em | C | G"]
           }
         }
       ]

@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Flake",
   "artists": ["Jack Johnson"],
@@ -8,10 +8,10 @@
   "capo": 0,
   "chordIDs": ["Dm_5fr", "F_1fr", "Bb_6fr", "C_8fr", "C_3fr", "A_5fr", "Bb_1fr"],
   "strumms": [
-    ["D", "-", "D", "U", "Dx", "Ux", "Dx", "U", "-", "U", "-", "U", "Dx", "Ux", "Dx", "Ux"],
-    ["D"],
-    ["D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux"],
-    ["D", "Ux", "D", "Ux", "D", "Ux", "D", "Ux"]
+    "D - D U Dx Ux Dx U - U - U Dx Ux Dx Ux",
+    "D",
+    "D Ux D Ux D Ux D Ux D Ux D Ux D Ux D Ux",
+    "D Ux D Ux D Ux D Ux"
   ],
   "sections": {
     "i": {
@@ -19,8 +19,12 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x2 Dm_5fr 1 F_1fr 1 Bb_6fr 1 F_1fr 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2 0"],
+            "lines": ["Dm_5fr | F_1fr | Bb_6fr | F_1fr"]
+          }
         }
       ]
     },
@@ -29,12 +33,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x3 Dm_5fr 1 F_1fr 1 Bb_6fr 1 F_1fr 1",
-            "x1 Dm_5fr 1 F_1fr 1 Bb_6fr 1 C_8fr 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x3 0"],
+            "lines": ["Dm_5fr | F_1fr | Bb_6fr | F_1fr", "Dm_5fr | F_1fr | Bb_6fr | C_8fr"]
+          }
         }
       ]
     },
@@ -43,11 +47,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x2 F_1fr 1 C_3fr 1 Dm_5fr 1 A_5fr 1 / 0 Bb_6fr 1 C_8fr 1 F_1fr 1 C_8fr 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x2| 0 1"],
+            "lines": ["F_1fr | C_3fr | Dm_5fr | A_5fr", "Bb_6fr | C_8fr | F_1fr | C_8fr"]
+          }
         }
       ]
     },
@@ -56,14 +61,19 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x2 Dm_5fr 1 F_1fr 1 Bb_6fr 1 F_1fr 1",
-            "> 1",
-            "x1 Dm_5fr 1 F_1fr 1 Bb_6fr 1 F_1fr 1",
-            "x1 Dm_5fr 1 F_1fr 1 Bb_6fr 1 C_8fr 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "repeat": ["x2 0"],
+            "lines": ["Dm_5fr | F_1fr | Bb_6fr | F_1fr"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm_5fr | F_1fr | Bb_6fr | F_1fr", "Dm_5fr | F_1fr | Bb_6fr | C_8fr"]
+          }
         }
       ]
     },
@@ -72,11 +82,12 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x3 F_1fr 1 C_3fr 1 Dm_5fr 1 A_5fr 1 / 0 Bb_6fr 1 C_8fr 1 F_1fr 1 C_8fr 1",
-            "> 0"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "repeat": ["x3| 0 1"],
+            "lines": ["F_1fr | C_3fr | Dm_5fr | A_5fr", "Bb_6fr | C_8fr | F_1fr | C_8fr"]
+          }
         }
       ]
     },
@@ -85,8 +96,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 F_1fr 8", "> 2"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["F_1fr | F_1fr | F_1fr | F_1fr", "F_1fr | F_1fr | F_1fr | F_1fr"]
+          }
         }
       ]
     },
@@ -95,15 +109,25 @@
       "times": 3,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": [
-            "x1 F_1fr 1 Bb_1fr 1 F_1fr 1 C_3fr 1 / 0 F_1fr 1 Bb_1fr 1",
-            "> 2",
-            "x1 C_3fr 1 Bb_1fr 1",
-            "> 3",
-            "x1 F_1fr 1",
-            "> 2"
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["F_1fr | Bb_1fr | F_1fr | C_3fr", "F_1fr | Bb_1fr"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["C_3fr | Bb_1fr"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["F_1fr"]
+          }
         }
       ]
     }

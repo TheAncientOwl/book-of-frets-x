@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Glimpse Of Us",
   "artists": ["Joji"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 1,
   "chordIDs": ["Am", "D7", "G", "Em", "D/F#"],
-  "strumms": [["D"]],
+  "strumms": ["D"],
   "sections": {
     "i": {
       "name": "intro",
@@ -62,13 +62,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Am 1 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | D"]
+          }
         }
       ]
     },
@@ -123,13 +121,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Am 1 D7 1 G 1 D/F# 1 Em 1", "0 Am 1 D7 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Am | D7 | G | D/F# | Em", "Am | D7"]
+          }
         }
       ]
     }

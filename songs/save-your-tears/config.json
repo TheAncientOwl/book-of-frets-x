@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Save Your Tears",
   "artists": ["The Weekend", "Ariana Grande"],
@@ -8,12 +8,12 @@
   "capo": 0,
   "chordIDs": ["C", "Am", "Em", "G", "Ft"],
   "strumms": [
-    ["D", "-", "D", "-", "De", "-", "D", "-", "D", "-", "D", "-", "De", "-", "D", "-"],
-    ["D", "D"],
-    ["D", "U", "D", "U", "D", "U", "D", "U"],
-    ["D", "U", "D", "U", "D", "-", "-", "-"],
-    ["D", "-", "D", "-", "D", "-", "D", "-"],
-    ["D"]
+    "D - D - De - D - D - D - De - D -",
+    "D D",
+    "D U D U D U D U",
+    "D U D U D - - -",
+    "D - D - D - D -",
+    "D"
   ],
   "sections": {
     "i": {
@@ -21,13 +21,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 C 4"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | C | C | C"]
+          }
         }
       ]
     },
@@ -36,13 +34,11 @@
       "times": 8,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 C 1 Am 1 Em 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | Am | Em | G"]
+          }
         }
       ]
     },
@@ -51,13 +47,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Dm 1 Am 1 Ft 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Am | Ft | G"]
+          }
         }
       ]
     },
@@ -66,17 +60,39 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 C 1 Am 1"], ["2 Em 1 G 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["1 C 1 Am 1"], ["2 Em 1"], ["3 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["C | Am"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["Em | G"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["C | Am"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["Em"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["G"]
+          }
         }
       ]
     },
@@ -85,13 +101,11 @@
       "times": 4,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 C 1 Am 1 Em 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["C | Am | Em | G"]
+          }
         }
       ]
     },
@@ -100,21 +114,25 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 Dm 1 Am 1 Ft 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["4 F 1 G 1"]]]
-            },
-            {
-              "times": 1,
-              "items": [[["0 Dm 1 Am 1 Ft 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Am | Ft"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 4,
+            "lines": ["F | G"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Dm | Am | Ft | G"]
+          }
         }
       ]
     },
@@ -123,13 +141,11 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["5 C 1 Am 1 Em 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 5,
+            "lines": ["C | Am | Em | G"]
+          }
         }
       ]
     },
@@ -138,13 +154,11 @@
       "times": 4,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["2 C 1 Am 1 Em 1 G 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 2,
+            "lines": ["C | Am | Em | G"]
+          }
         }
       ]
     }

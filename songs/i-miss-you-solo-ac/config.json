@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "I Miss You (Solo Acoustic)",
   "artists": ["Blink-182"],
@@ -7,65 +7,109 @@
   "notes": [],
   "capo": 4,
   "chordIDs": ["G", "G/F#", "Em7", "A7sus4", "C", "Dsus2"],
-  "strumms": [
-    ["D", "-", "D", "-", "D", "-", "D", "U", "-", "U", "D", "-", "D", "-", "D", "U"],
-    ["D", "-", "D", "-", "D", "-", "D"],
-    ["U", "-", "U", "D", "-", "D", "-", "D", "U"],
-    ["D"]
-  ],
+  "strumms": ["D - D - D - D | U - U D - D - D U", "D - D - D - D", "U - U D - D - D U", "D"],
   "sections": {
     "i": {
       "name": "intro",
       "times": 2,
-      "entries": [{ "renderer": "chords-v2", "data": ["x1 G 1 G/F# 1 Em7 1 G/F# 1", "> 0"] }]
+      "entries": [
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G | G/F# | Em7 | G/F#"]
+          }
+        }
+      ]
     },
     "v1": {
       "name": "verse 1",
       "times": 3,
-      "entries": [{ "renderer": "chords-v2", "data": ["x1 G 1 G/F# 1 Em7 1 G/F# 1", "> 0"] }]
+      "entries": [
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G | G/F# | Em7 | G/F#"]
+          }
+        }
+      ]
     },
     "c": {
       "name": "chorus",
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 G 1 ? 0 A7sus4 1", "x1 G/B 1 ? 0 Dsus2 1", "> 1 2"]
-        },
-        { "renderer": "chords-v2", "data": ["x1 C 1 C 1", "> 0"] }
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G A7sus4 | G/B Dsus2 | C | C"]
+          }
+        }
       ]
     },
     "b1": {
       "name": "break 1",
       "times": 1,
-      "entries": [{ "renderer": "chords-v2", "data": ["x1 G 1 - 1", "> 3"] }]
+      "entries": [
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 3,
+            "lines": ["G | -"]
+          }
+        }
+      ]
     },
     "v2": {
       "name": "verse 2",
       "times": 4,
-      "entries": [{ "renderer": "chords-v2", "data": ["x1 G 1 G/F# 1 Em7 1 G/F# 1", "> 0"] }]
+      "entries": [
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G | G/F# | Em7 | G/F#"]
+          }
+        }
+      ]
     },
     "b2": {
       "name": "break 2",
       "times": 1,
-      "entries": [{ "renderer": "chords-v2", "data": ["x1 G 1 G 1", "> 0"] }]
+      "entries": [
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G | G"]
+          }
+        }
+      ]
     },
     "bg": {
       "name": "bridge",
       "times": 2,
-      "entries": [{ "renderer": "chords-v2", "data": ["x1 Em7 1 G/F# 1 G 1 G/F# 1", "> 0"] }]
+      "entries": [
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["Em7 | G/F# | G | G/F#"]
+          }
+        }
+      ]
     },
     "cf": {
       "name": "chorus",
       "times": 6,
       "entries": [
         {
-          "renderer": "chords-v2",
-          "data": ["x1 G 1 ? 0 A7sus4 1", "x1 G/B 1 ? 0 Dsus2 1", "> 1 2"]
-        },
-        {
-          "renderer": "chords-v2",
-          "data": ["x1 C 1 C 1", "> 0"]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G A7sus4 | G/B Dsus2 | C | C"]
+          }
         }
       ]
     }

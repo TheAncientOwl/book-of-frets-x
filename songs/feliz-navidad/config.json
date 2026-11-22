@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.1.0",
   "contributors": ["TheAncientOwl"],
   "title": "Feliz Navidad",
   "artists": ["José Feliciano"],
@@ -7,7 +7,7 @@
   "notes": [],
   "capo": 0,
   "chordIDs": ["G", "A7", "D", "Bm"],
-  "strumms": [["D", "-", "D", "U", "D", "U", "D", "U"], ["D"]],
+  "strumms": ["D - D U D U D U", "D"],
   "sections": {
     "i": {
       "name": "intro",
@@ -28,13 +28,18 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1 A7 1 D 1 D 1"], ["0 G 1 A7 1 D 1"], ["1 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G | A7 | D | D", "G | A7 | D"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["D"]
+          }
         }
       ]
     },
@@ -43,13 +48,18 @@
       "times": 2,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["0 G 1 A7 1 D 1 Bm 1"], ["0 G 1 A7 1 D 1"], ["1 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 0,
+            "lines": ["G | A7 | D | Bm", "G | A7 | D"]
+          }
+        },
+        {
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["D"]
+          }
         }
       ]
     },
@@ -86,13 +96,11 @@
       "times": 1,
       "entries": [
         {
-          "renderer": "chords-v1",
-          "data": [
-            {
-              "times": 1,
-              "items": [[["1 G 1 A7 1 D 1 - 1", "1 G 1 A7 1 D 1 D 1"]]]
-            }
-          ]
+          "renderer": "chords-v4",
+          "data": {
+            "pattern": 1,
+            "lines": ["G | A7 | D | -", "G | A7 | D | D"]
+          }
         }
       ]
     }
